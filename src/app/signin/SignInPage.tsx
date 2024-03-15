@@ -1,3 +1,5 @@
+"use client"
+
 import { useAuthState } from "@/lib/firebase";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { useForm } from "react-hook-form";
