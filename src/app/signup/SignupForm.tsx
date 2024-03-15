@@ -1,5 +1,6 @@
 "use client"
 
+import { redirect } from "next/navigation"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 
@@ -35,7 +36,8 @@ export const SignupForm = () => {
         }).then(res => res.status)
 
         if (resp === 201) {
-            toast.success("登録しました")
+            toast.success("ユーザ登録が完了しました。ログインしてください。")
+            redirect("/signin")
         }
     }
 

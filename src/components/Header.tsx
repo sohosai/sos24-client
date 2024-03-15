@@ -4,13 +4,20 @@ import { useAuthState } from "@/lib/firebase";
 import { css } from "@styled-system/css";
 import { getAuth, signOut } from "firebase/auth";
 import { FC } from "react";
+import toast from "react-hot-toast";
 
 export const Header: FC = () => {
     const { user, isLoading } = useAuthState()
     const auth = getAuth()
 
     const handleSignOut = async () => {
-        await signOut(auth)
+        try {
+            await signOut(auth)
+        } catch (error) {
+            toast.error("サインアウトできませんでした")
+        }
+
+        toast.success("サインアウトしました")
     }
 
     return (
