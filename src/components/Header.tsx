@@ -25,6 +25,8 @@ export const Header: FC = () => {
             display: "flex",
             justifyContent: "space-between",
             padding: 5,
+            borderBottom: "solid 1px",
+            borderColor: "gray.200",
         })}>
             <h1>雙峰祭オンラインシステム</h1>
             {isLoading ? (

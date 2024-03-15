@@ -1,5 +1,5 @@
 
-export const fetcherWithToken = async (url: string, token?: string) => {
+export const fetcherWithToken = async (url: string, token?: string, init?: RequestInit) => {
     if (!token) {
         throw new Error("Unauthorized")
     }
