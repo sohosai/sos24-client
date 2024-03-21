@@ -4,7 +4,7 @@ import { AuthProvider } from "@/lib/auth";
 import { Header } from "@/components/Header";
 
 import "./globals.css";
-import '@radix-ui/themes/styles.css';
+import "@radix-ui/themes/styles.css";
 
 export const metadata: Metadata = {
   title: "Create Next App",
