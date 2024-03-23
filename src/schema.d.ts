@@ -3,7 +3,6 @@
  * Do not make direct changes to the file.
  */
 
-
 export interface paths {
   "/projects": {
     /** 企画一覧の取得 */
@@ -1165,7 +1164,14 @@ export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
     /** @enum {string} */
-    ProjectCategory: "general" | "foods_with_kitchen" | "foods_without_kitchen" | "foods_without_cooking" | "stage_1a" | "stage_university_hall" | "stage_united";
+    ProjectCategory:
+      | "general"
+      | "foods_with_kitchen"
+      | "foods_without_kitchen"
+      | "foods_without_cooking"
+      | "stage_1a"
+      | "stage_university_hall"
+      | "stage_united";
     /** @enum {string} */
     ProjectAttribute: "academic" | "art" | "official" | "inside" | "outside";
     Project: {
