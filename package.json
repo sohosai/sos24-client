@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier ./**/* panda.config.ts --write"
+    "format": "prettier ./**/* panda.config.ts --write",
+    "gen": "openapi-typescript schema.yml -o src/schema.d.ts"
   },
   "dependencies": {
     "@radix-ui/themes": "^2.0.3",
@@ -16,6 +17,8 @@
     "firebase": "^10.9.0",
     "jotai": "^2.7.1",
     "next": "14.1.3",
+    "openapi-fetch": "^0.9.3",
+    "openapi-typescript-helpers": "^0.0.7",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.0",
@@ -29,6 +32,7 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.1.3",
+    "openapi-typescript": "^6.7.5",
     "prettier": "^3.2.5",
     "typescript": "^5"
   }
