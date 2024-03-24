@@ -7,5 +7,14 @@ export const fetcherWithToken = async (url: string, token?: string, init?: Reque
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  }).then((res) => res.json());
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(String(res.status));
+      }
+      return res.json();
+    })
+    .catch((error) => {
+      throw new Error(error);
+    });
 };
