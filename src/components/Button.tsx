@@ -1,13 +1,13 @@
 import { cva } from "@styled-system/css";
-import { FC } from "react";
+import { ButtonHTMLAttributes, FC } from "react";
 
-type Props = {
-  color: "primary" | "secondary"| "blue";
-  size: "medium" | "big";
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+  color: "primary" | "secondary" | "blue";
+  size?: "medium" | "big";
   children: React.ReactNode;
-};
+}
 
-export const Button: FC<Props> = ({ color, size, children }: Props) => {
+export const Button: FC<Props> = ({ color, size = "medium", children, ...props }: Props) => {
   const button = cva({
     base: {
       borderRadius: "sm",
@@ -34,18 +34,18 @@ export const Button: FC<Props> = ({ color, size, children }: Props) => {
           borderStyle: "solid",
           borderColor: "primary",
         },
-        blue:{
-            backgroundColor: "white",
-            color: "sohosai.blue",
-            _hover: {
-              opacity: "75%",
-            },
+        blue: {
+          backgroundColor: "white",
+          color: "sohosai.blue",
+          _hover: {
+            opacity: "75%",
+          },
 
-            borderWidth: 2,
-            borderStyle: "solid",
-            borderColor: "sohosai.blue",
-            boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)"
-            }
+          borderWidth: 2,
+          borderStyle: "solid",
+          borderColor: "sohosai.blue",
+          boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+        },
       },
       size: {
         medium: { paddingInline: 9, paddingBlock: 1 },
@@ -54,5 +54,9 @@ export const Button: FC<Props> = ({ color, size, children }: Props) => {
     },
   });
 
-  return <button className={button({ color, size })}>{children}</button>;
+  return (
+    <button className={button({ color, size })} {...props}>
+      {children}
+    </button>
+  );
 };
