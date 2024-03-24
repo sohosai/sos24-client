@@ -48,8 +48,8 @@ export const Button: FC<Props> = ({ color, size, children }: Props) => {
             }
       },
       size: {
-        medium: { paddingInline: 3, paddingBlock: 1 },
-        big: { paddingInline: 6, paddingBlock: 3 },
+        medium: { paddingInline: 9, paddingBlock: 1 },
+        big: { paddingInline: 12, paddingBlock: 2 },
       },
     },
   });
