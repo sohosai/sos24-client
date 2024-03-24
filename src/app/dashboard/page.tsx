@@ -9,10 +9,7 @@ import { css } from "@styled-system/css";
 
 const DashboardPage: NextPage = () => {
   const { data: newsRes, error: newsErr } = useSWR("/news", fetcherWithToken);
-  console.log(newsErr);
   const news = newsRes ? assignType("/news", newsRes) : undefined;
-
-  news?.map((n) => console.log(n));
 
   return (
     <div
