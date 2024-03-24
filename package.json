@@ -10,6 +10,7 @@
     "lint": "next lint",
     "format": "prettier ./**/* panda.config.ts --write",
     "gen": "openapi-typescript schema.yml -o src/schema.d.ts"
+  },
   "dependencies": {
     "@radix-ui/themes": "^2.0.3",
     "dayjs": "^1.11.10",
