@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier ./**/* --write"
+    "format": "prettier ./**/* panda.config.ts --write"
   },
   "dependencies": {
     "@radix-ui/themes": "^2.0.3",
