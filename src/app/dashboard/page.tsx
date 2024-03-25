@@ -8,16 +8,16 @@ import { NewsList } from "./NewsList";
 import { css } from "@styled-system/css";
 
 const DashboardPage: NextPage = () => {
-  const { data: newsRes, error: newsErr } = useSWR("/news", fetcherWithToken);
-  const news = newsRes ? assignType("/news", newsRes) : undefined;
+  const { data: newsRes, error: newsLoading } = useSWR("/news", fetcherWithToken);
+  const news = newsRes ? assignType("/news", newsRes.json) : undefined;
 
   return (
     <div
       className={css({
         padding: 5,
       })}>
-      {newsErr ? (
-        <p>お知らせの取得中にエラーが発生しました({String(newsErr)})</p>
+      {!newsRes?.ok ? (
+        <p>お知らせの取得中にエラーが発生しました(エラー: {String(newsRes?.statusCode)})</p>
       ) : (
         <NewsList
           newsList={[
