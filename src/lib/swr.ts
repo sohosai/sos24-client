@@ -1,6 +1,6 @@
 export const fetcherWithToken = async (url: string, token?: string, init?: RequestInit) => {
   if (!token) {
-    throw new Error("Unauthorized");
+    return {ok: false, statusCode: 401, json: ""}
   }
 
   return await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}${url}`, {
@@ -8,11 +8,8 @@ export const fetcherWithToken = async (url: string, token?: string, init?: Reque
       Authorization: `Bearer ${token}`,
     },
   })
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error(String(res.status));
-      }
-      return res.json();
+    .then(async (res) => {
+      return {ok: res.ok, statusCode: res.status, json: await res.json()}
     })
     .catch((error) => {
       throw new Error(error);
