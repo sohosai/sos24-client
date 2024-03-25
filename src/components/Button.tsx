@@ -13,6 +13,8 @@ export const Button: FC<Props> = ({ color, size = "medium", children, ...props }
       borderRadius: "sm",
       display: "block",
       cursor: "pointer",
+      borderWidth: 2,
+      borderStyle: "solid",
     },
     variants: {
       color: {
@@ -22,6 +24,8 @@ export const Button: FC<Props> = ({ color, size = "medium", children, ...props }
           _hover: {
             opacity: "90%",
           },
+
+          borderColor: "primary",
         },
         secondary: {
           backgroundColor: "white",
@@ -30,8 +34,6 @@ export const Button: FC<Props> = ({ color, size = "medium", children, ...props }
             opacity: "75%",
           },
 
-          borderWidth: 2,
-          borderStyle: "solid",
           borderColor: "primary",
         },
         blue: {
@@ -41,8 +43,6 @@ export const Button: FC<Props> = ({ color, size = "medium", children, ...props }
             opacity: "75%",
           },
 
-          borderWidth: 2,
-          borderStyle: "solid",
           borderColor: "sohosai.blue",
           boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
         },
