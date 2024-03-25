@@ -21,15 +21,33 @@ const DashboardPage: NextPage = () => {
   const { data: answersRes, error: answersErr } = useSWR(`/form-answers?project_id=${projectId}`, fetcherWithToken);
   const answers = answersRes ? assignType("/form-answers", answersRes) : undefined;
 
+  const notification = forms && answers ? forms.length - answers.length : 0;
+
   const [filterUnsubmitted, setFilterUnsubmitted] = useState(false);
 
+  const notificationStyle = css({
+    _after: {
+      content: `"${notification}"`,
+      display: "inline-block",
+      position: "relative",
+      top: -5,
+      backgroundColor: "red.500",
+      color: "white",
+      height: 7,
+      width: 7,
+      textAlign: "center",
+      verticalAlign: "middle",
+      fontWeight: "bold",
+      borderRadius: "50%",
+    },
+  });
   return (
     <>
       <div
         className={css({
           padding: 5,
         })}>
-        <h2>申請一覧</h2>
+        <h2 className={notification >= 1 ? notificationStyle : ""}>申請一覧</h2>
 
         <div
           className={css({
