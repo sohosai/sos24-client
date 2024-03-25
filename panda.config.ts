@@ -12,7 +12,18 @@ export default defineConfig({
 
   // Useful for theme customization
   theme: {
-    extend: {},
+    extend: {
+      semanticTokens: {
+        colors: {
+          primary: { value: "{colors.violet.800}" },
+          error: { value: "{colors.red.600}" },
+          sohosai: {
+            blue: { value: "#1eb8cb" },
+            orange: { value: "#ed6d1f" },
+          },
+        },
+      },
+    },
   },
 
   // The output directory for your css system
