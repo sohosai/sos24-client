@@ -2,12 +2,9 @@ import { FC } from "react";
 import { RequiredBadge } from "./RequiredBadge";
 import { css, cx } from "@styled-system/css";
 import { basicFormStyle } from "./styles";
+import { basicFormProps } from "./types";
 
-interface Props {
-  id: number | string;
-  name: string;
-  description: string;
-  required: boolean;
+interface Props extends basicFormProps {
   min: number | null;
   max: number | null;
 }
