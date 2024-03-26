@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { RequiredBadge } from "./RequiredBadge";
 import { css, cx } from "@styled-system/css";
-import { basicFormStyle } from "./styles";
+import { basicFormLabelStyle, basicFormStyle } from "./styles";
 import { basicFormProps } from "./types";
 
 interface Props extends basicFormProps {
@@ -11,19 +11,12 @@ interface Props extends basicFormProps {
 export const DropdownForm: FC<Props> = (props: Props) => {
   return (
     <>
-      <label
-        className={css({
-          marginBlock: 2,
-          fontSize: "lg",
-          fontWeight: "bold",
-          display: "block",
-        })}
-        htmlFor={props.id}>
+      <label className={basicFormLabelStyle} htmlFor={props.id}>
         {props.name}
         <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
       </label>
       <select
-      id={props.id}
+        id={props.id}
         name={props.id}
         required={props.required}
         className={cx(
