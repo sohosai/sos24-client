@@ -25,10 +25,11 @@ export const StringForm: FC<Props> = (props: Props) => {
         <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
       </label>
       {props.allowNewline ? (
-        <textarea name={props.id} rows={5} className={basicFormStyle}></textarea>
+        <textarea id={props.id} name={props.id} rows={5} className={basicFormStyle}></textarea>
       ) : (
         <input
           type="text"
+          id={props.id}
           name={props.id}
           minLength={props.minLength ?? undefined}
           maxLength={props.maxLength ?? undefined}

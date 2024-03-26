@@ -23,6 +23,7 @@ export const DropdownForm: FC<Props> = (props: Props) => {
         <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
       </label>
       <select
+      id={props.id}
         name={props.id}
         required={props.required}
         className={cx(

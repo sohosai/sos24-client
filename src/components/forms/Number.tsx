@@ -25,6 +25,7 @@ export const NumberForm: FC<Props> = (props: Props) => {
       </label>
       <input
         type="number"
+        id={props.id}
         name={props.id}
         min={props.min ?? undefined}
         max={props.max ?? undefined}
