@@ -13,8 +13,8 @@ tags:
     description: ユーザー関連の操作
   - name: news
     description: ニュース関連の操作
-  - name: attachments
-    description: 添付ファイル関連の操作
+  - name: files
+    description: ファイル関連の操作
   - name: forms
     description: 申請関連の操作
   - name: form-answers
@@ -38,7 +38,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Project'
+                  $ref: '#/components/schemas/ProjectSummary'
         '401':
           description: Unauthorized
         '403':
@@ -453,21 +453,15 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-  /attachments:
+  /files:
     get:
-      summary: 添付ファイル一覧の取得
+      summary: ニュースの添付ファイル一覧の取得
       tags:
-        - attachments
+        - files
         - committee
       responses:
         '200':
           description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Attachment'
         '401':
           description: Unauthorized
         '403':
@@ -475,16 +469,16 @@ paths:
         '500':
           description: Internal Server Error
     post:
-      summary: 添付ファイルの作成
+      summary: ファイルの作成
       tags:
-        - attachments
+        - files
         - committee
       requestBody:
         required: true
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/CreateAttachment'
+              $ref: '#/components/schemas/CreateFile'
       responses:
         '201':
           description: Created
@@ -498,13 +492,13 @@ paths:
           description: Unprocessable Entity
         '500':
           description: Internal Server Error
-  /attachments/{attachment_id}:
+  /files/{file_id}:
     get:
-      summary: 特定のIDの添付ファイルの取得
+      summary: 特定のIDのファイルの取得
       tags:
-        - attachments
+        - files
       parameters:
-        - name: attachment_id
+        - name: file_id
           in: path
           required: true
           schema:
@@ -515,7 +509,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Attachment'
+                $ref: '#/components/schemas/File'
         '401':
           description: Unauthorized
         '403':
@@ -523,12 +517,12 @@ paths:
         '500':
           description: Internal Server Error
     delete:
-      summary: 特定のIDの添付ファイルの削除
+      summary: 特定のIDのファイルの削除
       tags:
-        - attachments
+        - files
         - committee
       parameters:
-        - name: attachment_id
+        - name: file_id
           in: path
           required: true
           schema:
@@ -934,6 +928,45 @@ components:
         - official
         - inside
         - outside
+    ProjectSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        index:
+          type: integer
+          example: 0
+        title:
+          type: string
+          example: そぽたん焼き
+        category:
+          $ref: '#/components/schemas/ProjectCategory'
+        attribute:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectAttribute'
+    CreateProject:
+      type: object
+      properties:
+        title:
+          type: string
+          example: そぽたん焼き
+        kana_title:
+          type: string
+          example: そぽたんやき
+        group_name:
+          type: string
+          example: そぽたん愛好会
+        kana_group_name:
+          type: string
+          example: そぽたんあいこうかい
+        category:
+          $ref: '#/components/schemas/ProjectCategory'
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectAttribute'
     Project:
       type: object
       properties:
@@ -958,13 +991,25 @@ components:
         category:
           $ref: '#/components/schemas/ProjectCategory'
         attributes:
-          $ref: '#/components/schemas/ProjectAttribute'
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectAttribute'
         owner_id:
           type: string
           format: uuid
+        owner_name:
+          type: string
+        owner_email:
+          type: string
         sub_owner_id:
           type: string
           format: uuid
+          nullable: true
+        sub_owner_name:
+          type: string
+          nullable: true
+        sub_owner_email:
+          type: string
           nullable: true
         remarks:
           type: string
@@ -978,25 +1023,6 @@ components:
           type: string
           format: date-time
           nullable: true
-    CreateProject:
-      type: object
-      properties:
-        title:
-          type: string
-          example: そぽたん焼き
-        kana_title:
-          type: string
-          example: そぽたんやき
-        group_name:
-          type: string
-          example: そぽたん愛好会
-        kana_group_name:
-          type: string
-          example: そぽたんあいこうかい
-        category:
-          $ref: '#/components/schemas/ProjectCategory'
-        attributes:
-          type: integer
     UpdateProject:
       type: object
       properties:
@@ -1016,7 +1042,9 @@ components:
           $ref: '#/components/schemas/ProjectCategory'
           example: foods_with_kitchen
         attributes:
-          type: integer
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectAttribute'
         remarks:
           type: string
     UserRole:
@@ -1118,11 +1146,6 @@ components:
           type: string
         body:
           type: string
-        attachments:
-          type: array
-          items:
-            type: string
-            format: uuid
         categories:
           type: array
           items:
@@ -1141,11 +1164,6 @@ components:
           type: string
         body:
           type: string
-        attachments:
-          type: array
-          items:
-            type: string
-            format: uuid
         categories:
           type: array
           items:
@@ -1171,11 +1189,6 @@ components:
           type: string
         body:
           type: string
-        attachments:
-          type: array
-          items:
-            type: string
-            format: uuid
         categories:
           type: array
           items:
@@ -1184,17 +1197,23 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ProjectAttribute'
-    Attachment:
+    CreateFile:
+      type: object
+      properties:
+        filename:
+          type: string
+        file:
+          type: string
+          format: binary
+    File:
       type: object
       properties:
         id:
           type: string
           format: uuid
-        filename:
+        name:
           type: string
-        file_url:
-          type: string
-        created_by:
+        url:
           type: string
         created_at:
           type: string
@@ -1206,14 +1225,6 @@ components:
           type: string
           format: date-time
           nullable: true
-    CreateAttachment:
-      type: object
-      properties:
-        filename:
-          type: string
-        file:
-          type: string
-          format: binary
     Invitation:
       type: object
       properties:
