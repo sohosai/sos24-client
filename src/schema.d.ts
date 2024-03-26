@@ -11,7 +11,7 @@ export interface paths {
         /** @description OK */
         200: {
           content: {
-            "application/json": components["schemas"]["Project"][];
+            "application/json": components["schemas"]["ProjectSummary"][];
           };
         };
         /** @description Unauthorized */
@@ -566,15 +566,13 @@ export interface paths {
       };
     };
   };
-  "/attachments": {
-    /** 添付ファイル一覧の取得 */
+  "/files": {
+    /** ニュースの添付ファイル一覧の取得 */
     get: {
       responses: {
         /** @description OK */
         200: {
-          content: {
-            "application/json": components["schemas"]["Attachment"][];
-          };
+          content: never;
         };
         /** @description Unauthorized */
         401: {
@@ -590,11 +588,11 @@ export interface paths {
         };
       };
     };
-    /** 添付ファイルの作成 */
+    /** ファイルの作成 */
     post: {
       requestBody: {
         content: {
-          "multipart/form-data": components["schemas"]["CreateAttachment"];
+          "multipart/form-data": components["schemas"]["CreateFile"];
         };
       };
       responses: {
@@ -625,19 +623,19 @@ export interface paths {
       };
     };
   };
-  "/attachments/{attachment_id}": {
-    /** 特定のIDの添付ファイルの取得 */
+  "/files/{file_id}": {
+    /** 特定のIDのファイルの取得 */
     get: {
       parameters: {
         path: {
-          attachment_id: string;
+          file_id: string;
         };
       };
       responses: {
         /** @description OK */
         200: {
           content: {
-            "application/json": components["schemas"]["Attachment"];
+            "application/json": components["schemas"]["File"];
           };
         };
         /** @description Unauthorized */
@@ -654,11 +652,11 @@ export interface paths {
         };
       };
     };
-    /** 特定のIDの添付ファイルの削除 */
+    /** 特定のIDのファイルの削除 */
     delete: {
       parameters: {
         path: {
-          attachment_id: string;
+          file_id: string;
         };
       };
       responses: {
@@ -1174,6 +1172,28 @@ export interface components {
       | "stage_united";
     /** @enum {string} */
     ProjectAttribute: "academic" | "art" | "official" | "inside" | "outside";
+    ProjectSummary: {
+      /** Format: uuid */
+      id?: string;
+      /** @example 0 */
+      index?: number;
+      /** @example そぽたん焼き */
+      title?: string;
+      category?: components["schemas"]["ProjectCategory"];
+      attribute?: components["schemas"]["ProjectAttribute"][];
+    };
+    CreateProject: {
+      /** @example そぽたん焼き */
+      title?: string;
+      /** @example そぽたんやき */
+      kana_title?: string;
+      /** @example そぽたん愛好会 */
+      group_name?: string;
+      /** @example そぽたんあいこうかい */
+      kana_group_name?: string;
+      category?: components["schemas"]["ProjectCategory"];
+      attributes?: components["schemas"]["ProjectAttribute"][];
+    };
     Project: {
       /** Format: uuid */
       id?: string;
@@ -1188,11 +1208,15 @@ export interface components {
       /** @example そぽたんあいこうかい */
       kana_group_name?: string;
       category?: components["schemas"]["ProjectCategory"];
-      attributes?: components["schemas"]["ProjectAttribute"];
+      attributes?: components["schemas"]["ProjectAttribute"][];
       /** Format: uuid */
       owner_id?: string;
+      owner_name?: string;
+      owner_email?: string;
       /** Format: uuid */
       sub_owner_id?: string | null;
+      sub_owner_name?: string | null;
+      sub_owner_email?: string | null;
       remarks?: string;
       /** Format: date-time */
       created_at?: string;
@@ -1200,18 +1224,6 @@ export interface components {
       updated_at?: string;
       /** Format: date-time */
       deleted_at?: string | null;
-    };
-    CreateProject: {
-      /** @example そぽたん焼き */
-      title?: string;
-      /** @example そぽたんやき */
-      kana_title?: string;
-      /** @example そぽたん愛好会 */
-      group_name?: string;
-      /** @example そぽたんあいこうかい */
-      kana_group_name?: string;
-      category?: components["schemas"]["ProjectCategory"];
-      attributes?: number;
     };
     UpdateProject: {
       /** @example そぽたん焼き */
@@ -1224,7 +1236,7 @@ export interface components {
       kana_group_name?: string;
       /** @example foods_with_kitchen */
       category?: components["schemas"]["ProjectCategory"];
-      attributes?: number;
+      attributes?: components["schemas"]["ProjectAttribute"][];
       remarks?: string;
     };
     /** @enum {string} */
@@ -1280,7 +1292,6 @@ export interface components {
     CreateNews: {
       title?: string;
       body?: string;
-      attachments?: string[];
       categories?: components["schemas"]["ProjectCategory"][];
       attributes?: components["schemas"]["ProjectAttribute"][];
     };
@@ -1289,7 +1300,6 @@ export interface components {
       id?: string;
       title?: string;
       body?: string;
-      attachments?: string[];
       categories?: components["schemas"]["ProjectCategory"][];
       attributes?: components["schemas"]["ProjectAttribute"][];
       /** Format: date-time */
@@ -1302,27 +1312,25 @@ export interface components {
     UpdateNews: {
       title?: string;
       body?: string;
-      attachments?: string[];
       categories?: components["schemas"]["ProjectCategory"][];
       attributes?: components["schemas"]["ProjectAttribute"][];
     };
-    Attachment: {
+    CreateFile: {
+      filename?: string;
+      /** Format: binary */
+      file?: string;
+    };
+    File: {
       /** Format: uuid */
       id?: string;
-      filename?: string;
-      file_url?: string;
-      created_by?: string;
+      name?: string;
+      url?: string;
       /** Format: date-time */
       created_at?: string;
       /** Format: date-time */
       updated_at?: string;
       /** Format: date-time */
       deleted_at?: string | null;
-    };
-    CreateAttachment: {
-      filename?: string;
-      /** Format: binary */
-      file?: string;
     };
     Invitation: {
       /** Format: uuid */
