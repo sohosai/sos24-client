@@ -10,3 +10,11 @@ export const basicFormStyle = css({
   borderStyle: "solid",
   borderColor: "gray.400",
 });
+
+export const basicFormLabelStyle = css({
+  marginBlock: 2,
+  fontSize: "lg",
+  fontWeight: "bold",
+  display: "block",
+  width: "fit-content",
+});
