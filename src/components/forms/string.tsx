@@ -20,16 +20,16 @@ export const StringForm: FC<Props> = (props: Props) => {
           fontWeight: "bold",
           display: "block",
         })}
-        htmlFor={`formitem-${props.id}`}>
+        htmlFor={props.id}>
         {props.name}
         <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
       </label>
       {props.allowNewline ? (
-        <textarea name={`formitem-${props.id}`} rows={5} className={basicFormStyle}></textarea>
+        <textarea name={props.id} rows={5} className={basicFormStyle}></textarea>
       ) : (
         <input
           type="text"
-          name={`formitem-${props.id}`}
+          name={props.id}
           minLength={props.minLength ?? undefined}
           maxLength={props.maxLength ?? undefined}
           required={props.required}
