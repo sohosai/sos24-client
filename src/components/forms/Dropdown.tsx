@@ -18,12 +18,12 @@ export const DropdownForm: FC<Props> = (props: Props) => {
           fontWeight: "bold",
           display: "block",
         })}
-        htmlFor={`formitem-${props.id}`}>
+        htmlFor={props.id}>
         {props.name}
         <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
       </label>
       <select
-        name={`formitem-${props.id}`}
+        name={props.id}
         required={props.required}
         className={cx(
           basicFormStyle,

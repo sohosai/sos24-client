@@ -1,5 +1,5 @@
 export type basicFormProps = {
-  id: number | string;
+  id: string;
   name: string;
   description: string;
   required: boolean;

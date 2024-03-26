@@ -19,13 +19,13 @@ export const NumberForm: FC<Props> = (props: Props) => {
           fontWeight: "bold",
           display: "block",
         })}
-        htmlFor={`formitem-${props.id}`}>
+        htmlFor={props.id}>
         {props.name}
         <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
       </label>
       <input
         type="number"
-        name={`formitem-${props.id}`}
+        name={props.id}
         min={props.min ?? undefined}
         max={props.max ?? undefined}
         required={props.required}
