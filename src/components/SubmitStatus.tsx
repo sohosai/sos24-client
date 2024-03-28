@@ -1,12 +1,13 @@
-import { cva } from "@styled-system/css";
+import { cva, cx } from "@styled-system/css";
 
 export type submitStatus = "未提出" | "提出済み" | "遅延提出";
 
 type Props = {
   status: submitStatus;
+  className?: string;
 };
 
-export const SubmitStatus = ({ status }: Props) => {
+export const SubmitStatus = ({ status, className }: Props) => {
   const submitStatus = cva({
     base: {
       borderRadius: "md",
@@ -33,5 +34,5 @@ export const SubmitStatus = ({ status }: Props) => {
     },
   });
 
-  return <span className={submitStatus({ status })}>{status}</span>;
+  return <span className={cx(submitStatus({ status }), className)}>{status}</span>;
 };

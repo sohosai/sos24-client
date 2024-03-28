@@ -5,22 +5,10 @@ import { FC } from "react";
 import { components } from "@/schema";
 
 import { SubmitStatus } from "@/components/SubmitStatus";
-import type { submitStatus } from "@/components/SubmitStatus";
+import { getSubmitStatus, getTimeLeft, getTimeLeftText } from "@/lib/formHelpers";
 
 type Form = components["schemas"]["FormSummary"];
 type Answer = components["schemas"]["FormAnswerSummary"];
-
-const getStatus = (deadline: dayjs.Dayjs, answer: Answer | undefined): submitStatus => {
-  if (!answer) {
-    return "未提出";
-  }
-
-  if (dayjs(answer.updated_at).isBefore(deadline)) {
-    return "提出済み";
-  } else {
-    return "遅延提出";
-  }
-};
 
 export const FormsList: FC<{
   forms: Form[] | undefined;
@@ -61,11 +49,10 @@ export const FormsList: FC<{
               ans.id === form.id;
             });
             const endsAt = dayjs(form.ends_at);
-            const status = getStatus(endsAt, answer);
+            const status = getSubmitStatus(endsAt, answer);
             if (filterUnsubmitted && status !== "未提出") {
               return;
             }
-            const diff = endsAt.diff(dayjs(), "d");
             return (
               <a
                 key={form.id}
@@ -79,7 +66,7 @@ export const FormsList: FC<{
                 <div>{dayjs(form.starts_at).format("YYYY/MM/DD")}</div>
                 <div>{endsAt.format("YYYY/MM/DD")}</div>
                 <div>{form.title}</div>
-                <div>{status === "未提出" ? (diff >= 0 ? `（残り${diff}日）` : "締切を過ぎています") : ""}</div>
+                <div>{getTimeLeftText(dayjs(), endsAt, status)}</div>
               </a>
             );
           })}
