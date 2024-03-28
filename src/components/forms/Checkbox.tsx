@@ -1,9 +1,8 @@
 import { FC } from "react";
 import { RequiredBadge } from "./RequiredBadge";
-import { css, cx } from "@styled-system/css";
+import { css } from "@styled-system/css";
 import { basicFormProps } from "./types";
 import { basicFormLabelStyle } from "./styles";
-import { getApp } from "firebase/app";
 
 interface Props extends basicFormProps {
   options: string[];
