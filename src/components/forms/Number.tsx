@@ -11,7 +11,7 @@ interface Props extends basicFormProps {
 
 export const NumberForm: FC<Props> = (props: Props) => {
   return (
-    <>
+    <div>
       <label className={basicFormLabelStyle} htmlFor={props.id}>
         {props.name}
         <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
@@ -25,6 +25,6 @@ export const NumberForm: FC<Props> = (props: Props) => {
         required={props.required}
         className={cx(basicFormStyle, css({ height: 9, width: 24 }))}
       />
-    </>
+    </div>
   );
 };

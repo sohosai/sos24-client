@@ -10,7 +10,7 @@ interface Props extends basicFormProps {
 
 export const DropdownForm: FC<Props> = (props: Props) => {
   return (
-    <>
+    <div>
       <label className={basicFormLabelStyle} htmlFor={props.id}>
         {props.name}
         <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
@@ -48,6 +48,6 @@ export const DropdownForm: FC<Props> = (props: Props) => {
           );
         })}
       </select>
-    </>
+    </div>
   );
 };
