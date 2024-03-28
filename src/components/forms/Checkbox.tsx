@@ -10,7 +10,7 @@ interface Props extends basicFormProps {
 
 export const CheckboxForm: FC<Props> = (props: Props) => {
   return (
-    <>
+    <div>
       <fieldset>
         <legend className={basicFormLabelStyle}>
           {props.name}
@@ -72,6 +72,6 @@ export const CheckboxForm: FC<Props> = (props: Props) => {
           })}
         </div>
       </fieldset>
-    </>
+    </div>
   );
 };

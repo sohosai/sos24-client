@@ -34,7 +34,7 @@ export const FilesForm: FC<Props> = (props: Props) => {
 
   const addFile = (oldFiles: FileList, newFiles: FileList) => {
     setFileIds(fileIds.concat([...Array(newFiles.length)].map((_, i) => i + maxFiles)));
-   setMaxFiles(maxFiles + newFiles.length);
+    setMaxFiles(maxFiles + newFiles.length);
 
     const newDataTransfer = new DataTransfer();
     for (let i = 0; i < oldFiles.length; i++) {
@@ -82,10 +82,10 @@ export const FilesForm: FC<Props> = (props: Props) => {
 
   const files = filesDOM.current?.files;
   return (
-    <>
+    <div>
       <span className={basicFormLabelStyle}>
         {props.name}
-        <RequiredBadge isRequired={props.required} className={css({marginInline: 2})}/>
+        <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
       </span>
       <div
         id="drop_area"
@@ -127,22 +127,18 @@ export const FilesForm: FC<Props> = (props: Props) => {
                 marginBlock: 2,
               },
               variants: {
-                  isDragged: {
-                      true: {
-                      backgroundColor: "gray.100",
-                      color: "gray.600",
-
-                      },
-                      false: {
-                      backgroundColor: "gray.600",
-                      color: "white",
-
-                      }
-
-                  }
-
-              }
-            })({isDragged})}>
+                isDragged: {
+                  true: {
+                    backgroundColor: "gray.100",
+                    color: "gray.600",
+                  },
+                  false: {
+                    backgroundColor: "gray.600",
+                    color: "white",
+                  },
+                },
+              },
+            })({ isDragged })}>
             ファイル
           </span>
           <div
@@ -153,7 +149,6 @@ export const FilesForm: FC<Props> = (props: Props) => {
             <Image src={clickIcon} alt="クリック" className={css({ height: 7, width: 7 })} />
             <span className={css({ paddingInline: 2, color: "white", paddingBottom: 1 })}>or</span>
             <Image src={driveIcon} alt="ファイルをドロップ" className={css({ height: 6, width: 6, marginInline: 1 })} />
-
           </div>
         </div>
       </div>
@@ -198,6 +193,6 @@ export const FilesForm: FC<Props> = (props: Props) => {
             );
           })}
       </div>
-    </>
+    </div>
   );
 };
