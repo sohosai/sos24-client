@@ -1,7 +1,7 @@
-import { FC } from "react";
+import { FC, useRef, useState } from "react";
 import { RequiredBadge } from "./RequiredBadge";
 import { css, cx } from "@styled-system/css";
-import { basicFormLabelStyle, basicFormStyle } from "./styles";
+import { basicFormLabelStyle, basicFormStyle, basicErrorMessageStyle } from "./styles";
 import { basicFormProps } from "./types";
 
 interface Props extends basicFormProps {
@@ -10,6 +10,8 @@ interface Props extends basicFormProps {
 }
 
 export const NumberForm: FC<Props> = (props: Props) => {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const ref = useRef<HTMLInputElement>(null);
   return (
     <div>
       <label className={basicFormLabelStyle} htmlFor={props.id}>
@@ -23,8 +25,19 @@ export const NumberForm: FC<Props> = (props: Props) => {
         min={props.min ?? undefined}
         max={props.max ?? undefined}
         required={props.required}
-        className={cx(basicFormStyle, css({ height: 9, width: 24 }))}
+        ref={ref}
+        onBlur={(e) => {
+          e.preventDefault();
+          const isValid = ref.current?.checkValidity();
+          if (!isValid) {
+            setErrorMessage(ref.current?.validationMessage ?? "");
+          } else {
+            setErrorMessage(null);
+          }
+        }}
+        className={cx(basicFormStyle({ isInvarid: errorMessage ? true : false }), css({ height: 9, width: 24 }))}
       />
+      <span className={basicErrorMessageStyle}>{errorMessage}</span>
     </div>
   );
 };

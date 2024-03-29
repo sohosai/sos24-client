@@ -20,7 +20,7 @@ export const DropdownForm: FC<Props> = (props: Props) => {
         name={props.id}
         required={props.required}
         className={cx(
-          basicFormStyle,
+          basicFormStyle(),
           css({
             height: 12,
             width: "auto",
