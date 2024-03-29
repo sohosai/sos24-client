@@ -5,7 +5,7 @@ import { css, cva } from "@styled-system/css";
 import type { DragEvent } from "react";
 import { basicFormProps } from "./types";
 
-import { basicFormLabelStyle } from "./styles";
+import { basicErrorMessageStyle, basicFormLabelStyle } from "./styles";
 
 import { RequiredBadge } from "./RequiredBadge";
 import { FileView } from "@/components/FileView";
@@ -23,6 +23,31 @@ export const FilesForm: FC<Props> = (props: Props) => {
   const [fileIds, setFileIds] = useState<number[]>([]);
   const filesDOM = useRef<HTMLInputElement>(null);
   const [isDragged, setIsDragged] = useState(false);
+
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const validateFiles = () => {
+    filesDOM.current?.setCustomValidity("");
+    const isValid = filesDOM.current?.checkValidity();
+
+    if (isValid) {
+      const fileNumber = filesDOM.current?.files?.length;
+      if (props.limit && fileNumber && fileNumber > props.limit) {
+        filesDOM.current?.setCustomValidity(`ファイルは${props.limit}個までしかアップロードできません`);
+      } else {
+        filesDOM.current?.setCustomValidity("");
+      }
+    } else {
+      console.log(filesDOM.current?.validationMessage);
+    }
+
+    const isValid2 = filesDOM.current?.checkValidity();
+
+    if (!(isValid && isValid2)) {
+      setErrorMessage(filesDOM.current?.validationMessage ?? "");
+    } else {
+      setErrorMessage(null);
+    }
+  };
 
   const getFiles = (event: DragEvent<HTMLDivElement>) => {
     setIsDragged(false);
@@ -100,6 +125,7 @@ export const FilesForm: FC<Props> = (props: Props) => {
         onDrop={(e) => {
           e.preventDefault();
           getFiles(e);
+          validateFiles();
         }}
         className={dropAreaStyle({ isDragged })}>
         <button
@@ -161,11 +187,17 @@ export const FilesForm: FC<Props> = (props: Props) => {
         className={css({
           display: "none",
         })}
-        onChange={() => {
-          // 適当にstateを更新して再レンダリングさせる
+        onChange={(e) => {
+          e.preventDefault();
+          console.log("test");
+          console.log(filesDOM.current?.files);
+          validateFiles();
+
+          // 毎回確実にstateを更新して再レンダリングさせる
           setUpdateFile(!updateFile);
         }}
       />
+      <span className={basicErrorMessageStyle}>{errorMessage}</span>
       <div
         className={css({
           display: "flex",
@@ -188,6 +220,7 @@ export const FilesForm: FC<Props> = (props: Props) => {
                   }
 
                   filesDOM.current.files = deleteFile(files, i);
+                  validateFiles();
                 }}
               />
             );

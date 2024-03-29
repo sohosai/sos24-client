@@ -50,7 +50,7 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
             <>
               <h2>{form.title}</h2>
               <p>
-                <span className={css({ fontSize: 18 })}>
+                <span>
                   {dayjs(form.ends_at).format("YYYY/MM/DD")} ({getTimeLeftText(dayjs(), dayjs(form.ends_at), status)})
                 </span>
                 <SubmitStatus status={status} className={css({ marginInline: 3 })} />
@@ -62,7 +62,9 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
                 })}>
                 {form.description}
               </p>
-              <form className={css({ marginBlock: 10, display: "flex", flexDirection: "column", rowGap: 3 })}>
+              <form
+                noValidate
+                className={css({ marginBlock: 10, display: "flex", flexDirection: "column", rowGap: 3 })}>
                 <FormItems items={form.items} />
               </form>
             </>
