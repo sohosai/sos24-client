@@ -40,7 +40,7 @@ export const StringForm: FC<Props> = (props: Props) => {
                 setErrorMessage(null);
               }
             }}
-            className={cx(basicFormStyle({ isInvarid: errorMessage ? true : false }), css({ height: 9 }))}
+            className={cx(basicFormStyle({ isInvalid: errorMessage ? true : false }), css({ height: 9 }))}
           />
           <span className={basicErrorMessageStyle}>{errorMessage}</span>
         </>

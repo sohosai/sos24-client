@@ -13,14 +13,14 @@ export const basicFormStyle = cva({
     borderColor: "gray.400",
   },
   variants: {
-    isInvarid: {
+    isInvalid: {
       true: {
         borderColor: "error",
       },
     },
   },
   defaultVariants: {
-    isInvarid: false,
+    isInvalid: false,
   },
 });
 
@@ -34,4 +34,5 @@ export const basicFormLabelStyle = css({
 
 export const basicErrorMessageStyle = css({
   color: "error",
+  fontSize: "sm"
 });
