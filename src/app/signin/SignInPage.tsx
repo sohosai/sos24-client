@@ -4,51 +4,73 @@ import { useAuthState } from "@/lib/firebase";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { getAuth } from "firebase/auth";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { FirebaseError } from "firebase/app";
 import { redirect } from "next/navigation";
+import { css, cx } from "@styled-system/css";
+import { basicErrorMessageStyle, basicFormStyle } from "@/components/forms/styles";
+import { Button } from "@/components/Button";
 
-type SigninInput = { email: string; password: string };
+type SignInInput = { email: string; password: string };
+
+let labelAndInputStyle = css({ display: "flex", flexDir: "column", gap: "6px" });
 
 export const SigninForm: React.FC = () => {
-  const { user, isLoading } = useAuthState();
-  const { register, handleSubmit, reset } = useForm<SigninInput>();
+    const { user, isLoading } = useAuthState();
+    const {
+      register,
+      handleSubmit,
+      reset,
+      formState: { errors }
+    } = useForm<SignInInput>();
 
-  const onSubmit = async (data: SigninInput) => {
-    const auth = getAuth();
-    try {
-      const credentials = await signInWithEmailAndPassword(auth, data.email, data.password);
-      reset();
-      if (credentials.user.emailVerified) {
-        toast("サインインしました");
-      } else {
-        toast.error("メールアドレスが認証されていません");
-        await signOut(auth);
-        throw new Error("EMAIL NOT VERIFIED");
+    const onSubmit = async (data: SignInInput) => {
+      const auth = getAuth();
+      try {
+        const credentials = await signInWithEmailAndPassword(auth, data.email, data.password);
+        reset();
+      } catch (e) {
+        if (e instanceof FirebaseError) {
+          toast.error("サインインできませんでした");
+          return;
+        }
       }
-    } catch (e) {
-      if (e instanceof FirebaseError) {
-        toast.error("サインインできませんでした");
-        return;
-      }
+    };
+
+    if (user && !isLoading) {
+      redirect("/");
     }
-  };
 
-  if (user && !isLoading) {
-    redirect("/");
+    return (
+      <>
+        <Toaster />
+        <form onSubmit={handleSubmit(onSubmit)}
+              className={css({ display: "flex", flexDir: "column", gap: 8, width: 72 })}>
+          <div className={labelAndInputStyle}>
+            <label htmlFor="email" className={css({ fontWeight: "bold" })}>メールアドレス</label>
+            <input type="email" id="email" {...register("email", {
+              required: "メールアドレスを入力してください",
+              pattern: { value: /.*@.*\.tsukuba\.ac\.jp$/, message: "筑波大学のメールアドレスを入力してください" }
+            })}
+                   className={cx(basicFormStyle({ isInvalid: !!errors.email }),
+                     css())}
+                   aria-invalid={errors.email ? "true" : "false"}
+                   placeholder="xxxxxx@xxxx.tsukuba.ac.jp" />
+            {errors.email && <span className={basicErrorMessageStyle}>{errors.email.message}</span>}
+          </div>
+          <div className={labelAndInputStyle}>
+            <label htmlFor="password" className={css({ fontWeight: "bold" })}>パスワード</label>
+            <input type="password" id="password"
+                   aria-invalid={errors.password ? "true" : "false"} {...register("password", { required: "パスワードを入力してください" })}
+                   className={cx(basicFormStyle({ isInvalid: !!errors.password }))} />
+            {errors.password &&
+              <span className={basicErrorMessageStyle}>{errors.password.message}</span>}
+          </div>
+          <Button type="submit" color="primary" className={css({ flexGrow: 0, alignSelf: "center" })}>送信</Button>
+        </form>
+      </>
+    );
   }
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label htmlFor="email">メールアドレス</label>
-        <input type="email" id="email" {...register("email")} />
-      </div>
-      <div>
-        <label htmlFor="password">パスワード</label>
-        <input type="password" id="password" {...register("password")} />
-      </div>
-      <button type="submit">ログイン</button>
-    </form>
-  );
-};
+;
+;
+;
