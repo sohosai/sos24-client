@@ -1,13 +1,14 @@
-import { cva } from "@styled-system/css";
+import { cva, cx } from "@styled-system/css";
 import { ButtonHTMLAttributes, FC } from "react";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   color: "primary" | "secondary" | "blue";
   size?: "medium" | "big";
+  className?: string;
   children: React.ReactNode;
 }
 
-export const Button: FC<Props> = ({ color, size = "medium", children, ...props }: Props) => {
+export const Button: FC<Props> = ({ color, size = "medium", className, children, ...props }: Props) => {
   const button = cva({
     base: {
       borderRadius: "sm",
@@ -55,7 +56,7 @@ export const Button: FC<Props> = ({ color, size = "medium", children, ...props }
   });
 
   return (
-    <button className={button({ color, size })} {...props}>
+    <button className={cx(button({ color, size }), className)} {...props}>
       {children}
     </button>
   );
