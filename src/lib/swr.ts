@@ -1,5 +1,4 @@
 export const fetcherWithToken = async (url: string, token?: string, init?: RequestInit) => {
-  console.log(token)
   if (!token) {
     return {ok: false, statusCode: 401, json: ""}
   }

@@ -12,7 +12,6 @@ export const AuthProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
 
   const { mutate } = useSWRConfig();
   useEffect(() => {
-    console.log("authState changed", authState.user?.idToken);
     mutate(() => true);
   }, [authState]);
 
