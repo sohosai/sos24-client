@@ -82,7 +82,7 @@ export const Header: FC = () => {
                   })}>
                   サインアウト
                 </button>
-                {userInfo?.role !== "general" && (
+                {["committee", "committee_operator", "administrator"].includes(userInfo?.role ?? "") && (
                   <Link href={path.startsWith("/committee") ? "/dashboard" : "/committee/dashboard"}>
                     <button
                       className={css({
