@@ -2,15 +2,17 @@
 
 import { NextPage } from "next";
 import { SignupForm } from "./SignupForm";
-import NextLink from "next/link";
 import { useAuthState } from "@/lib/firebase";
 import { redirect } from "next/navigation";
 import { css } from "@styled-system/css";
 import Image from "next/image";
-import Triangle from "@/app/signin/Triangle.svg";
+import Triangle from "@/components/assets/Triangle.svg";
+import { authModeAtom } from "@/components/auth/Auth";
+import { useSetAtom } from "jotai";
 
 const SignupPage: NextPage = () => {
   const { user, isLoading } = useAuthState();
+  const setAuthMode = useSetAtom(authModeAtom);
 
   if (!isLoading && user) {
     redirect("/dashboard");
@@ -36,11 +38,14 @@ const SignupPage: NextPage = () => {
           <SignupForm />
           <div className={css({ marginTop: 4, display: "flex", gap: 3.5 })}>
             <Image src={Triangle} alt={"三角形のアイコン"} />
-            <NextLink href="/signup"
-                      className={css({
-                        textDecoration: "underline",
-                        fontWeight: "bold"
-                      })}>新規アカウント登録はこちら</NextLink>
+            <button
+              onClick={() => setAuthMode("signIn")}
+              className={css({
+                textDecoration: "underline",
+                fontWeight: "bold",
+                cursor: "pointer"
+              })}>新規アカウント登録はこちら
+            </button>
           </div>
         </>
       )}

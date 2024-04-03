@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { atom, useAtomValue } from "jotai";
-import { getAuth, User } from "firebase/auth";
-import { useSWRConfig } from "swr";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
