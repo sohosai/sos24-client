@@ -1,17 +1,25 @@
-import React, { useState } from "react";
+import React, { FC, PropsWithChildren, useState } from "react";
 import { Header } from "@/components/Header";
 import SigninPage from "@/components/auth/signin/page";
 import SignupPage from "@/components/auth/signup/page";
 import { atom, useAtomValue } from "jotai";
+import { useAuthState } from "@/lib/firebase";
+import { Loading } from "@/components/Loading";
+import { css } from "@styled-system/css";
 
 export const authModeAtom = atom<"signIn" | "signUp">("signIn");
 
-export default function Auth() {
+export const Auth: FC<PropsWithChildren> = ({ children }) => {
   const authMode = useAtomValue(authModeAtom);
+  const authState = useAuthState();
   return (
     <>
       <Header />
-      {authMode === "signIn" ? <SigninPage /> : <SignupPage />}
+      {authState.isLoading ? <div className={css({
+        height: "calc(100vh - token(spacing.20))"
+      })}><Loading /></div> : (authState.user ? children : <>
+        {authMode === "signIn" ? <SigninPage /> : <SignupPage />}
+      </>)}
     </>
   );
-}
+};

@@ -22,7 +22,6 @@ export default function RootLayout({
     <html lang="ja">
     <body>
     <AuthProvider>
-      <Header />
       {children}
     </AuthProvider>
     </body>
