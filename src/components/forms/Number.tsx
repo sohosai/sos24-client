@@ -1,7 +1,7 @@
 import { FC, useRef, useState } from "react";
 import { RequiredBadge } from "./RequiredBadge";
 import { css, cx } from "@styled-system/css";
-import { basicFormLabelStyle, basicFormStyle, basicErrorMessageStyle } from "./styles";
+import { basicErrorMessageStyle, basicFormLabelStyle, basicFormStyle } from "./styles";
 import { basicFormProps } from "./types";
 
 interface Props extends basicFormProps {
@@ -35,7 +35,7 @@ export const NumberForm: FC<Props> = (props: Props) => {
             setErrorMessage(null);
           }
         }}
-        className={cx(basicFormStyle({ isInvarid: errorMessage ? true : false }), css({ height: 9, width: 24 }))}
+        className={cx(basicFormStyle({ isInvalid: errorMessage ? true : false }), css({ height: 9, width: 24 }))}
       />
       <span className={basicErrorMessageStyle}>{errorMessage}</span>
     </div>

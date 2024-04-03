@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
 
 import { components } from "@/schema";
+import type { submitStatus } from "@/components/SubmitStatus";
 
 type Answer = components["schemas"]["FormAnswerSummary"];
-import type { submitStatus } from "@/components/FormStatus";
 
 export type formStatus = "開始前" | "受付中" | "受付終了" | "不明";
 
