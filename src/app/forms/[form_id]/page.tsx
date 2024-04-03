@@ -8,8 +8,7 @@ import { css } from "@styled-system/css";
 import { FormItems } from "./FormItems";
 import dayjs from "dayjs";
 import { getTimeLeftText } from "@/lib/formHelpers";
-import { submitStatus } from "@/components/FormStatus";
-import { SubmitStatus } from "@/components/SubmitStatus";
+import { submitStatus, SubmitStatus } from "@/components/SubmitStatus";
 
 const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
   const id = params.form_id;
@@ -31,12 +30,12 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
     <>
       <div
         className={css({
-          padding: 5,
+          padding: 5
         })}>
         <div
           className={css({
             maxWidth: "2xl",
-            marginInline: "auto",
+            marginInline: "auto"
           })}>
           {(projectRes && !projectRes.ok) || (formRes && !formRes?.ok) || (answersRes && !answersRes?.ok) ? (
             <p>
@@ -58,7 +57,7 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
               <p
                 className={css({
                   marginBlock: 4,
-                  whiteSpace: "pre-wrap",
+                  whiteSpace: "pre-wrap"
                 })}>
                 {form.description}
               </p>
