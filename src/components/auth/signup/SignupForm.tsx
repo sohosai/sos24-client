@@ -7,6 +7,8 @@ import { css, cx } from "@styled-system/css";
 import { basicErrorMessageStyle, basicFormStyle, checkboxFormStyle } from "@/components/forms/styles";
 import { Button } from "@/components/Button";
 import { CheckboxForm } from "@/components/forms/Checkbox";
+import { useSetAtom } from "jotai";
+import { authModeAtom } from "@/components/auth/Auth";
 
 type CreateUserInput = {
   name: string;
@@ -23,10 +25,11 @@ type CreateUserInput = {
 let labelAndInputStyle = css({ display: "flex", flexDir: "column", gap: "6px", width: "100%" });
 export const SignupForm = () => {
   const { register, handleSubmit, formState: { errors }, setError } = useForm<CreateUserInput>();
+  const setAuthMode = useSetAtom(authModeAtom);
 
   const onSubmit = async (data: CreateUserInput) => {
     if (!data.agreement) {
-      toast.error("利用規約に同意してください");
+      setError("agreement", { message: "利用規約に同意してください" })
       return;
     }
     const resp = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/users`, {
@@ -41,11 +44,15 @@ export const SignupForm = () => {
         email: data.email,
         password: data.password
       })
-    }).then((res) => res.status);
+    })
 
-    if (resp === 201) {
+    if (resp.status === 201) {
       toast.success("ユーザ登録が完了しました。ログインしてください。");
-      redirect("/signin");
+      setAuthMode("signIn");
+    } else {
+      setError("root", { message: "ユーザ登録に失敗しました" });
+      toast.error("ユーザ登録に失敗しました");
+      console.error(resp)
     }
   };
 
@@ -97,6 +104,7 @@ export const SignupForm = () => {
           htmlFor="agreement">利用規約に同意する</label>
       </div>
       {errors.agreement && <span className={basicErrorMessageStyle}>{errors.agreement.message}</span>}
+      {errors.root&& <span className={basicErrorMessageStyle}>{errors.root.message}</span>}
       <Button color="primary" className={css({ alignSelf: "center" })} type="submit">送信
       </Button>
     </form>

@@ -12,7 +12,7 @@ import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useRouter } from "next/router";
+import MenuButton from "./assets/MenuButton.svg";
 
 export const Header: FC = () => {
   const { user, isLoading } = useAuthState();
@@ -35,16 +35,33 @@ export const Header: FC = () => {
       <Toaster />
       <header
         className={css({
-          display: "flex",
-          justifyContent: "space-between",
+          display: { sm: "flex", base: "grid" },
+          gridTemplateColumns: "1fr 5fr 1fr",
+          justifyContent: { base: "space-around", sm: "space-between" },
           alignItems: "center",
-          paddingLeft: 5,
           borderBottom: "solid 1px",
           borderColor: "gray.200",
-          height: 20, fontWeight: "bold"
+          background: "white",
+          position: "sticky",
+          top: 0,
+          left: 0,
+          height: 20, fontWeight: "bold",
+          paddingX: 2
         })}>
-        <div className={css({ display: "flex", alignItems: "center", gap: 5, fontSize: "2xl" })}>
-          <Image src={logo} alt="雙峰祭ロゴマーク" className={css({ width: 10 })} />
+        <button className={css({ sm: { display: "none" } })}>
+          <Image src={MenuButton} alt="ハンバーガーメニュー" />
+        </button>
+        <div className={css({
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: { sm: 5, base: 2 },
+          fontSize: { base: "lg", sm: "2xl" },
+          sm: {
+            paddingLeft: 5
+          }
+        })}>
+          <Image src={logo} alt="雙峰祭ロゴマーク" className={css({ width: { sm: 10, base: 8 } })} />
           <h1>雙峰祭オンラインシステム</h1>
           <a href="https://www.sakura.ad.jp/" target="_blank" rel="noreferrer" className={css({
             position: "relative",
@@ -54,57 +71,68 @@ export const Header: FC = () => {
               top: "-100%",
               left: "-10%"
             },
+            display: {
+              base: "none",
+              sm: "block"
+            },
             fontSize: "xs",
             color: "gray.500",
             marginLeft: "10px"
           })}><img
-            src="https://www.sakura.ad.jp/brand-assets/images/logo-3.png" className={css({ height: 6 })} /></a>
+            src="https://www.sakura.ad.jp/brand-assets/images/logo-3.png" alt="さくらインターネットのロゴ"
+            className={css({ height: 6 })} /></a>
         </div>
-        {isLoading ? (
+        {(isLoading || !user) ? (
           <></>
         ) : (
           <nav
             className={css({
               display: "flex",
               alignItems: "stretch",
-              height: "100%"
+              height: "100%",
+              justifyContent: "center"
             })}>
-            {user ? (
-              <>
+            <button
+              onClick={handleSignOut}
+              className={css({
+                cursor: "pointer",
+                fontSize: "sm",
+                px: 5,
+                height: "100%",
+                borderX: "solid 1px token(colors.gray.200)",
+                display: { base: "none", sm: "block" }
+              })}>
+              サインアウト
+            </button>
+            {["committee", "committee_operator", "administrator"].includes(userInfo?.role ?? "") && (
+              <Link href={path.startsWith("/committee") ? "/dashboard" : "/committee/dashboard"}>
                 <button
-                  onClick={handleSignOut}
                   className={css({
                     cursor: "pointer",
                     fontSize: "sm",
-                    px: 5,
+                    px: { sm: 5, base: 0 },
                     height: "100%",
-                    borderX: "solid 1px token(colors.gray.200)"
+                    display: "flex",
+                    flexDir: { base: "column", sm: "row" },
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: { sm: 2, base: 0 },
+                    textDecoration: "underline"
                   })}>
-                  サインアウト
-                </button>
-                {["committee", "committee_operator", "administrator"].includes(userInfo?.role ?? "") && (
-                  <Link href={path.startsWith("/committee") ? "/dashboard" : "/committee/dashboard"}>
-                    <button
-                      className={css({
-                        cursor: "pointer",
-                        fontSize: "sm",
-                        px: 5,
-                        height: "100%",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 2,
-                        textDecoration: "underline"
-                      })}>
-                      <Image src={ModeSwitch} alt="人のアイコンの周囲に矢印"
-                             className={css({ filter: "drop-shadow(0 0 5px rgb(0 0 0 / 0.1))" })} />
-                      {path.startsWith("/committee") ? "一般" : "実委人"}
+                  <Image src={ModeSwitch} alt="人のアイコンの周囲に矢印"
+                         className={css({
+                           filter: "drop-shadow(0 0 5px rgb(0 0 0 / 0.1))",
+                           height: { base: 6, sm: 10 }
+                         })} />
+                  <span>
+                      <span className={css({ display: { base: "none", sm: "inline" } })}>
+                        {path.startsWith("/committee") ? "一般" : "実委人"}
+                      </span>
                       切り替え
-                    </button>
-                  </Link>
-                )}
-
-              </>
-            ) : <></>}
+                    </span>
+                </button>
+              </Link>
+            )}
           </nav>
         )}
       </header>

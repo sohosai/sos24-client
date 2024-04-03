@@ -20,17 +20,18 @@ const SigninPage: NextPage = () => {
   return (
     <div className={css({
       display: "flex", justifyContent: "center", alignItems: "center", width: "100%",
-      height: "calc(100vh - token(spacing.20))"
+      minHeight: "calc(100vh - token(spacing.20))"
     })}>
       <div className={css({
         display: "flex",
         flexDir: "column",
         alignItems: "center",
-        boxShadow: "token(shadows.lg)",
+        boxShadow: "token(shadows.md)",
         paddingY: 11,
         paddingX: 20,
         borderRadius: "token(xl)",
-        width: "fit-content"
+        width: "fit-content",
+        maxWidth: "90%"
       })}>
         <h1 className={css({ fontSize: "2xl", fontWeight: "bold", marginBottom: 8 })}>ログイン</h1>
         {isLoading ? (
@@ -45,8 +46,11 @@ const SigninPage: NextPage = () => {
                 className={css({
                   textDecoration: "underline",
                   fontWeight: "bold",
-                  cursor: "pointer"
-                })}>新規アカウント登録はこちら
+                  cursor: "pointer",
+                  wordBreak: "auto-phrase"
+                })}>新規アカウント登録
+                <wbr />
+                はこちら
               </button>
             </div>
           </>
