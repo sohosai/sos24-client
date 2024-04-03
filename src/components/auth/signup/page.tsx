@@ -44,7 +44,7 @@ const SignupPage: NextPage = () => {
                 textDecoration: "underline",
                 fontWeight: "bold",
                 cursor: "pointer"
-              })}>新規アカウント登録はこちら
+              })}>アカウントを既にお持ちの場合はサインイン
             </button>
           </div>
         </>
