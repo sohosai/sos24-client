@@ -39,7 +39,9 @@ export interface paths {
       responses: {
         /** @description Created */
         201: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["CreatedProject"];
+          };
         };
         /** @description Bad Request */
         400: {
@@ -243,7 +245,9 @@ export interface paths {
       responses: {
         /** @description Created */
         201: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["CreatedUser"];
+          };
         };
         /** @description Bad Request */
         400: {
@@ -439,7 +443,9 @@ export interface paths {
       responses: {
         /** @description Created */
         201: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["CreatedNews"];
+          };
         };
         /** @description Bad Request */
         400: {
@@ -573,7 +579,9 @@ export interface paths {
       responses: {
         /** @description OK */
         200: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["FileInfo"][];
+          };
         };
         /** @description Unauthorized */
         401: {
@@ -591,6 +599,11 @@ export interface paths {
     };
     /** ファイルの作成 */
     post: {
+      parameters: {
+        query?: {
+          visibility?: "private" | "public";
+        };
+      };
       requestBody: {
         content: {
           "multipart/form-data": components["schemas"]["CreateFile"];
@@ -599,7 +612,9 @@ export interface paths {
       responses: {
         /** @description Created */
         201: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["CreatedFile"];
+          };
         };
         /** @description Bad Request */
         400: {
@@ -715,7 +730,7 @@ export interface paths {
         /** @description Created */
         201: {
           content: {
-            "application/json": components["schemas"]["Invitation"];
+            "application/json": components["schemas"]["CreatedInvitation"];
           };
         };
         /** @description Bad Request */
@@ -878,7 +893,9 @@ export interface paths {
       responses: {
         /** @description Created */
         201: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["CreatedForm"];
+          };
         };
         /** @description Bad Request */
         400: {
@@ -1050,7 +1067,9 @@ export interface paths {
       responses: {
         /** @description Created */
         201: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["CreatedFormAnswer"];
+          };
         };
         /** @description Bad Request */
         400: {
@@ -1168,216 +1187,298 @@ export interface components {
     ProjectAttribute: "academic" | "art" | "official" | "inside" | "outside";
     ProjectSummary: {
       /** Format: uuid */
-      id?: string;
+      id: string;
       /** @example 0 */
-      index?: number;
+      index: number;
       /** @example そぽたん焼き */
-      title?: string;
-      category?: components["schemas"]["ProjectCategory"];
-      attribute?: components["schemas"]["ProjectAttribute"][];
+      title: string;
+      category: components["schemas"]["ProjectCategory"];
+      attribute: components["schemas"]["ProjectAttribute"][];
     };
     CreateProject: {
       /** @example そぽたん焼き */
-      title?: string;
+      title: string;
       /** @example そぽたんやき */
-      kana_title?: string;
+      kana_title: string;
       /** @example そぽたん愛好会 */
-      group_name?: string;
+      group_name: string;
       /** @example そぽたんあいこうかい */
-      kana_group_name?: string;
-      category?: components["schemas"]["ProjectCategory"];
-      attributes?: components["schemas"]["ProjectAttribute"][];
+      kana_group_name: string;
+      category: components["schemas"]["ProjectCategory"];
+      attributes: components["schemas"]["ProjectAttribute"][];
+    };
+    CreatedProject: {
+      /** Format: uuid */
+      id: string;
     };
     Project: {
       /** Format: uuid */
-      id?: string;
+      id: string;
       /** @example 0 */
-      index?: number;
+      index: number;
       /** @example そぽたん焼き */
-      title?: string;
+      title: string;
       /** @example そぽたんやき */
-      kana_title?: string;
+      kana_title: string;
       /** @example そぽたん愛好会 */
-      group_name?: string;
+      group_name: string;
       /** @example そぽたんあいこうかい */
-      kana_group_name?: string;
-      category?: components["schemas"]["ProjectCategory"];
-      attributes?: components["schemas"]["ProjectAttribute"][];
+      kana_group_name: string;
+      category: components["schemas"]["ProjectCategory"];
+      attributes: components["schemas"]["ProjectAttribute"][];
       /** Format: uuid */
-      owner_id?: string;
-      owner_name?: string;
-      owner_email?: string;
+      owner_id: string;
+      owner_name: string;
+      owner_email: string;
       /** Format: uuid */
       sub_owner_id?: string | null;
       sub_owner_name?: string | null;
       sub_owner_email?: string | null;
-      remarks?: string;
+      remarks?: string | null;
       /** Format: date-time */
-      created_at?: string;
+      created_at: string;
       /** Format: date-time */
-      updated_at?: string;
+      updated_at: string;
       /** Format: date-time */
       deleted_at?: string | null;
     };
     UpdateProject: {
       /** @example そぽたん焼き */
-      title?: string;
+      title: string;
       /** @example そぽたんやき */
-      kana_title?: string;
+      kana_title: string;
       /** @example そぽたん愛好会 */
-      group_name?: string;
+      group_name: string;
       /** @example そぽたんあいこうかい */
-      kana_group_name?: string;
+      kana_group_name: string;
       /** @example foods_with_kitchen */
-      category?: components["schemas"]["ProjectCategory"];
-      attributes?: components["schemas"]["ProjectAttribute"][];
-      remarks?: string;
+      category: components["schemas"]["ProjectCategory"];
+      attributes: components["schemas"]["ProjectAttribute"][];
+      remarks?: string | null;
     };
     /** @enum {string} */
     UserRole: "administrator" | "committee_operator" | "committee" | "general";
     UserSummary: {
-      id?: string;
-      name?: string;
+      id: string;
+      name: string;
       /** Format: email */
-      email?: string;
-      role?: components["schemas"]["UserRole"];
+      email: string;
+      role: components["schemas"]["UserRole"];
     };
     CreateUser: {
-      name?: string;
-      kana_name?: string;
+      name: string;
+      kana_name: string;
       /** Format: email */
-      email?: string;
+      email: string;
       /** Format: password */
-      password?: string;
-      phone_number?: string;
+      password: string;
+      phone_number: string;
+    };
+    CreatedUser: {
+      id: string;
     };
     User: {
-      id?: string;
-      name?: string;
-      kana_name?: string;
+      id: string;
+      name: string;
+      kana_name: string;
       /** Format: email */
-      email?: string;
-      phone_number?: string;
-      role?: components["schemas"]["UserRole"];
+      email: string;
+      phone_number: string;
+      role: components["schemas"]["UserRole"];
       /** Format: date-time */
-      created_at?: string;
+      created_at: string;
       /** Format: date-time */
-      updated_at?: string;
+      updated_at: string;
       /** Format: date-time */
-      deleted_at?: string;
+      deleted_at?: string | null;
     };
     UpdateUser: {
-      name?: string;
-      kana_name?: string;
+      name: string;
+      kana_name: string;
       /** Format: email */
-      email?: string;
-      phone_number?: string;
-      role?: components["schemas"]["UserRole"];
+      email: string;
+      phone_number: string;
+      role: components["schemas"]["UserRole"];
     };
     NewsSummary: {
       /** Format: uuid */
-      id?: string;
-      title?: string;
-      categories?: components["schemas"]["ProjectCategory"][];
-      attributes?: components["schemas"]["ProjectAttribute"][];
+      id: string;
+      title: string;
+      categories: components["schemas"]["ProjectCategory"][];
+      attributes: components["schemas"]["ProjectAttribute"][];
       /** Format: date-time */
-      updated_at?: string;
+      updated_at: string;
     };
     CreateNews: {
-      title?: string;
-      body?: string;
-      categories?: components["schemas"]["ProjectCategory"][];
-      attributes?: components["schemas"]["ProjectAttribute"][];
+      title: string;
+      body: string;
+      attachments: string[];
+      categories: components["schemas"]["ProjectCategory"][];
+      attributes: components["schemas"]["ProjectAttribute"][];
+    };
+    CreatedNews: {
+      /** Format: uuid */
+      id: string;
     };
     News: {
       /** Format: uuid */
-      id?: string;
-      title?: string;
-      body?: string;
-      categories?: components["schemas"]["ProjectCategory"][];
-      attributes?: components["schemas"]["ProjectAttribute"][];
+      id: string;
+      title: string;
+      body: string;
+      attachments: string[];
+      categories: components["schemas"]["ProjectCategory"][];
+      attributes: components["schemas"]["ProjectAttribute"][];
       /** Format: date-time */
-      created_at?: string;
+      created_at: string;
       /** Format: date-time */
-      updated_at?: string;
+      updated_at: string;
       /** Format: date-time */
       deleted_at?: string | null;
     };
     UpdateNews: {
-      title?: string;
-      body?: string;
-      categories?: components["schemas"]["ProjectCategory"][];
-      attributes?: components["schemas"]["ProjectAttribute"][];
+      title: string;
+      body: string;
+      attachments: string[];
+      categories: components["schemas"]["ProjectCategory"][];
+      attributes: components["schemas"]["ProjectAttribute"][];
+    };
+    FileInfo: {
+      /** Format: uuid */
+      id: string;
+      name: string;
+      /** Format: date-time */
+      created_at: string;
+      /** Format: date-time */
+      updated_at: string;
+      /** Format: date-time */
+      deleted_at?: string | null;
     };
     CreateFile: {
-      filename?: string;
       /** Format: binary */
-      file?: string;
+      file: string;
+    };
+    CreatedFile: {
+      ids?: string[];
+      required?: [ids];
     };
     File: {
       /** Format: uuid */
-      id?: string;
-      name?: string;
-      url?: string;
+      id: string;
+      name: string;
+      url: string;
       /** Format: date-time */
-      created_at?: string;
+      created_at: string;
       /** Format: date-time */
-      updated_at?: string;
+      updated_at: string;
       /** Format: date-time */
       deleted_at?: string | null;
     };
     Invitation: {
       /** Format: uuid */
-      id?: string;
+      id: string;
+      inviter: string;
+      inviter_name: string;
       /** Format: uuid */
-      project_id?: string;
+      project_id: string;
+      project_title: string;
       /** @enum {string} */
-      position?: "owner" | "sub_owner";
+      position: "owner" | "sub_owner";
+      used_by?: string | null;
       /** Format: date-time */
-      created_at?: string;
+      created_at: string;
       /** Format: date-time */
-      updated_at?: string;
+      updated_at: string;
       /** Format: date-time */
       deleted_at?: string | null;
     };
     CreateInvitation: {
       /** Format: uuid */
-      project_id?: string;
+      project_id: string;
       /** @enum {string} */
-      position?: "owner" | "sub_owner";
+      position: "owner" | "sub_owner";
+    };
+    CreatedInvitation: {
+      /** Format: uuid */
+      id: string;
     };
     FormSummary: {
       /**
        * Format: uuid
        * @example 123e4567-e89b-12d3-a456-426614174000
        */
-      id?: string;
+      id: string;
       /** @example マイフォーム */
-      title?: string;
+      title: string;
       /** @example これはフォームです */
-      description?: string;
+      description: string;
       /**
        * Format: date-time
        * @example 2024-03-16T09:00:00Z
        */
-      starts_at?: string;
+      starts_at: string;
       /**
        * Format: date-time
        * @example 2024-03-20T18:00:00Z
        */
-      ends_at?: string;
+      ends_at: string;
+      /** @description 対象となる企画区分 */
+      categories: components["schemas"]["ProjectCategory"][];
+      /** @description 対象となる企画属性 */
+      attributes: components["schemas"]["ProjectAttribute"][];
+      /** Format: uuid */
+      answer_id?: string | null;
+      /** Format: date-time */
+      answered_at?: string | null;
       /**
        * Format: date-time
        * @example 2024-03-15T14:45:00Z
        */
-      updated_at?: string;
-      /** @description 対象となる企画区分 */
-      categories?: components["schemas"]["ProjectCategory"][];
-      /** @description 対象となる企画属性 */
-      attributes?: components["schemas"]["ProjectAttribute"][];
+      updated_at: string;
     };
     /** @enum {string} */
     FormItemType: "string" | "int" | "choose_one" | "choose_many" | "file";
+    NewFormItem: {
+      name: string;
+      description: string;
+      required: boolean;
+      type: components["schemas"]["FormItemType"];
+      min?: number | null;
+      max?: number | null;
+      min_length?: number | null;
+      max_length?: number | null;
+      min_selection?: number | null;
+      max_selection?: number | null;
+      /** @example false */
+      allow_newline?: boolean | null;
+      options?: string[] | null;
+      extensions?: string[] | null;
+      /** @example 100 */
+      limit?: number | null;
+    };
+    CreateForm: {
+      /** @example 新しいフォーム */
+      title: string;
+      /** @example これは新しいフォームです */
+      description: string;
+      /**
+       * Format: date-time
+       * @example 2024-03-16T09:00:00Z
+       */
+      starts_at: string;
+      /**
+       * Format: date-time
+       * @example 2024-03-20T18:00:00Z
+       */
+      ends_at: string;
+      categories: components["schemas"]["ProjectCategory"][];
+      attributes: components["schemas"]["ProjectAttribute"][];
+      items: components["schemas"]["NewFormItem"][];
+      attachments: string[];
+    };
+    CreatedForm: {
+      /** Format: uuid */
+      id: string;
+    };
     /**
      * @example {
      *   "string": {
@@ -1436,11 +1537,11 @@ export interface components {
      */
     FormItem: {
       /** Format: uuid */
-      id?: string;
-      name?: string;
-      description?: string;
-      required?: boolean;
-      type?: components["schemas"]["FormItemType"];
+      id: string;
+      name: string;
+      description: string;
+      required: boolean;
+      type: components["schemas"]["FormItemType"];
       min?: number | null;
       max?: number | null;
       min_length?: number | null;
@@ -1454,123 +1555,112 @@ export interface components {
       /** @example 100 */
       limit?: number | null;
     };
-    CreateForm: {
-      /** @example 新しいフォーム */
-      title?: string;
-      /** @example これは新しいフォームです */
-      description?: string;
-      /**
-       * Format: date-time
-       * @example 2024-03-16T09:00:00Z
-       */
-      starts_at?: string;
-      /**
-       * Format: date-time
-       * @example 2024-03-20T18:00:00Z
-       */
-      ends_at?: string;
-      categories?: components["schemas"]["ProjectCategory"][];
-      attributes?: components["schemas"]["ProjectAttribute"][];
-      items?: components["schemas"]["FormItem"][];
-    };
     Form: {
       /**
        * Format: uuid
        * @example 123e4567-e89b-12d3-a456-426614174000
        */
-      id?: string;
+      id: string;
       /** @example マイフォーム */
-      title?: string;
+      title: string;
       /** @example これはフォームです */
-      description?: string;
+      description: string;
       /**
        * Format: date-time
        * @example 2024-03-16T09:00:00Z
        */
-      starts_at?: string;
+      starts_at: string;
       /**
        * Format: date-time
        * @example 2024-03-20T18:00:00Z
        */
-      ends_at?: string;
+      ends_at: string;
+      categories: components["schemas"]["ProjectCategory"][];
+      attributes: components["schemas"]["ProjectAttribute"][];
+      items: components["schemas"]["FormItem"][];
+      attachments: string[];
       /**
        * Format: date-time
        * @example 2024-03-15T10:30:00Z
        */
-      created_at?: string;
+      created_at: string;
       /**
        * Format: date-time
        * @example 2024-03-15T14:45:00Z
        */
-      updated_at?: string;
+      updated_at: string;
       /**
        * Format: date-time
        * @example null
        */
       deleted_at?: string | null;
-      categories?: components["schemas"]["ProjectCategory"][];
-      attributes?: components["schemas"]["ProjectAttribute"][];
-      items?: components["schemas"]["FormItem"][];
     };
     UpdateForm: {
       /** @example 更新されたフォーム */
-      title?: string;
+      title: string;
       /** @example これは更新されたフォームです */
-      description?: string;
+      description: string;
       /**
        * Format: date-time
        * @example 2024-03-16T09:00:00Z
        */
-      starts_at?: string;
+      starts_at: string;
       /**
        * Format: date-time
        * @example 2024-03-20T18:00:00Z
        */
-      ends_at?: string;
-      categories?: components["schemas"]["ProjectCategory"][];
-      attributes?: components["schemas"]["ProjectAttribute"][];
-      items?: components["schemas"]["FormItem"][];
+      ends_at: string;
+      categories: components["schemas"]["ProjectCategory"][];
+      attributes: components["schemas"]["ProjectAttribute"][];
+      items: components["schemas"]["NewFormItem"][];
+      attachments: string[];
     };
     FormAnswerSummary: {
       /** Format: uuid */
-      id?: string;
+      id: string;
       /** Format: uuid */
-      form_id?: string;
+      form_id: string;
+      form_title: string;
       /** Format: uuid */
-      project_id?: string;
+      project_id: string;
+      project_title: string;
       /** Format: date-time */
-      updated_at?: string;
+      updated_at: string;
     };
     FormAnswerItem: {
       /** Format: uuid */
-      id?: string;
-      type?: components["schemas"]["FormItemType"];
-      value?: string;
+      item_id: string;
+      type: components["schemas"]["FormItemType"];
+      value: unknown;
     };
     CreateFormAnswer: {
       /** Format: uuid */
-      form_id?: string;
-      items?: components["schemas"]["FormAnswerItem"];
+      form_id: string;
+      items: components["schemas"]["FormAnswerItem"];
+    };
+    CreatedFormAnswer: {
+      /** Format: uuid */
+      id: string;
     };
     FormAnswer: {
       /** Format: uuid */
-      id?: string;
+      id: string;
       /** Format: uuid */
-      project_id?: string;
+      project_id: string;
+      project_title: string;
       /** Format: uuid */
-      form_id?: string;
+      form_id: string;
+      form_title: string;
+      items: components["schemas"]["FormAnswerItem"];
       /** Format: date-time */
-      created_at?: string;
+      created_at: string;
       /** Format: date-time */
-      updated_at?: string;
+      updated_at: string;
       /** Format: date-time */
       deleted_at?: string | null;
-      items?: components["schemas"]["FormAnswerItem"];
     };
     UpdateFormAnswer: {
-      /** Format: uuid */
-      form_id?: string;
-      items?: components["schemas"]["FormAnswerItem"];
+      items: components["schemas"]["FormAnswerItem"];
     };
   };
   responses: never;
