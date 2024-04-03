@@ -2,10 +2,9 @@
 
 import { FC, PropsWithChildren, useEffect, useState } from "react";
 import { SWRConfig, useSWRConfig } from "swr";
-import { useAtom } from "jotai";
-import { authStateAtom, useAuthState } from "./firebase";
-import { Provider } from "jotai/react";
+import { useAuthState } from "./firebase";
 import { fetcherWithToken } from "@/lib/swr";
+import Auth from "@/components/auth/Auth";
 
 export const AuthProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   const authState = useAuthState();
@@ -21,7 +20,7 @@ export const AuthProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
         fetcher: async (url) => fetcherWithToken(url, authState.user?.idToken),
         errorRetryCount: 2
       }}>
-      {children}
+      {authState.isLoading ? "Loading..." : (authState.user ? children : <> <Auth /></>)}
     </SWRConfig>
   );
 };
