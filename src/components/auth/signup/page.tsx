@@ -25,7 +25,7 @@ const SignupPage: NextPage = () => {
       alignItems: "center",
       flexDir: "column",
       width: "100%",
-      height: "calc(100vh - token(spacing.20))"
+      minHeight: "calc(100vh - token(spacing.20))",
     })}>
       <h1 className={css({
         fontSize: "2xl",

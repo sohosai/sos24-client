@@ -12,7 +12,7 @@ export const AuthProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   const { mutate } = useSWRConfig();
   useEffect(() => {
     mutate(() => true);
-  }, [authState]);
+  }, [authState, mutate]);
 
   return (
     <SWRConfig

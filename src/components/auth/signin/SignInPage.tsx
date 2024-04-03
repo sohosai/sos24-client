@@ -21,7 +21,8 @@ export const SigninForm: React.FC = () => {
       register,
       handleSubmit,
       reset,
-      formState: { errors }
+      formState: { errors },
+      setError
     } = useForm<SignInInput>();
 
     const onSubmit = async (data: SignInInput) => {
@@ -31,6 +32,7 @@ export const SigninForm: React.FC = () => {
         reset();
       } catch (e) {
         if (e instanceof FirebaseError) {
+          setError("root", { message: "サインインできませんでした" });
           toast.error("サインインできませんでした");
           return;
         }
@@ -65,6 +67,8 @@ export const SigninForm: React.FC = () => {
                    className={cx(basicFormStyle({ isInvalid: !!errors.password }))} />
             {errors.password &&
               <span className={basicErrorMessageStyle}>{errors.password.message}</span>}
+            {errors.root &&
+              <span className={basicErrorMessageStyle}>{errors.root.message}</span>}
           </div>
           <Button type="submit" color="primary" className={css({ flexGrow: 0, alignSelf: "center" })}>送信</Button>
         </form>
