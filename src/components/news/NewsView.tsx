@@ -60,7 +60,7 @@ export const NewsView = () => {
   const filteredNewsList = filterNews(selectedCategory, project, newsList);
 
   return (
-    <div className={stack({ gap: 2 })}>
+    <div className={stack({ gap: 2, width: "full" })}>
       <ProjectCategorySelector
         selected={selectedCategory}
         setSelected={(category) => {
