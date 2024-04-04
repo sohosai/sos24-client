@@ -1,0 +1,74 @@
+import { stack } from "@styled-system/patterns";
+import { ProjectCategorySelector, SelectedCategoryType } from "@/components/news/ProjectCategorySelector";
+import { NewsList } from "@/components/news/NewsList";
+import useSWR from "swr";
+import { assignType } from "@/lib/openapi";
+import { useCallback, useState } from "react";
+import { components } from "@/schema";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
+// 対象の企画であるかを確認する
+const isTargetProject = (
+  myProject: components["schemas"]["Project"],
+  targetCategories: components["schemas"]["ProjectCategory"][],
+  targetAttributes: components["schemas"]["ProjectAttribute"][],
+): boolean => {
+  const doesCategoryMatch = targetCategories.includes(myProject.category);
+  const doesAttributeMatch = targetAttributes.some((targetAttribute) => myProject.attributes.includes(targetAttribute));
+  return doesCategoryMatch && doesAttributeMatch;
+};
+
+// 特定の企画向けのお知らせのみを抽出する
+const filterNews = (
+  selectedCategory: SelectedCategoryType,
+  myProject: components["schemas"]["Project"],
+  newsList: components["schemas"]["NewsSummary"][],
+): components["schemas"]["NewsSummary"][] => {
+  switch (selectedCategory) {
+    case "me":
+      return newsList.filter((news) => isTargetProject(myProject, news.categories, news.attributes));
+    case "all":
+      return newsList;
+  }
+};
+
+export const NewsView = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+      return params.toString();
+    },
+    [searchParams],
+  );
+
+  const defaultCategory = (searchParams.get("category") as SelectedCategoryType) ?? "me";
+  const [selectedCategory, setSelectedCategory] = useState<SelectedCategoryType>(defaultCategory);
+
+  const { data: newsData, isLoading: isLoadingNews } = useSWR("/news");
+  const { data: projectData, isLoading: isLoadingProject } = useSWR("/projects/me");
+  if (isLoadingNews || isLoadingProject) {
+    return;
+  }
+
+  const project = assignType("/projects/me", projectData.json);
+  const newsList = assignType("/news", newsData.json);
+
+  const filteredNewsList = filterNews(selectedCategory, project, newsList);
+
+  return (
+    <div className={stack({ gap: 2 })}>
+      <ProjectCategorySelector
+        selected={selectedCategory}
+        setSelected={(category) => {
+          setSelectedCategory(category);
+          router.push(pathname + "?" + createQueryString("category", category));
+        }}
+      />
+      <NewsList newsList={filteredNewsList} />
+    </div>
+  );
+};
