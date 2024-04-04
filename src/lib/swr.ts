@@ -1,6 +1,6 @@
 export const fetcherWithToken = async (url: string, token?: string, init?: RequestInit) => {
   if (!token) {
-    return {ok: false, statusCode: 401, json: ""}
+    return { ok: false, statusCode: 401, json: "" };
   }
 
   return await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}${url}`, {
@@ -9,7 +9,7 @@ export const fetcherWithToken = async (url: string, token?: string, init?: Reque
     },
   })
     .then(async (res) => {
-      return {ok: res.ok, statusCode: res.status, json: await res.json()}
+      return { ok: res.ok, statusCode: res.status, json: await res.json() };
     })
     .catch((error) => {
       throw new Error(error);

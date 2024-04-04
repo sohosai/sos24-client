@@ -34,7 +34,7 @@ export const basicFormLabelStyle = css({
 
 export const basicErrorMessageStyle = css({
   color: "error",
-  fontSize: "sm"
+  fontSize: "sm",
 });
 
 export const checkboxFormStyle = css({
