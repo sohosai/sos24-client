@@ -8,10 +8,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { FirebaseError } from "firebase/app";
 import { redirect } from "next/navigation";
 import { css, cx } from "@styled-system/css";
-import {
-  basicErrorMessageStyle,
-  basicFormStyle,
-} from "@/components/forms/styles";
+import { basicErrorMessageStyle, basicFormStyle } from "@/components/forms/styles";
 import { Button } from "@/components/Button";
 
 type SignInInput = { email: string; password: string };
@@ -35,11 +32,7 @@ export const SigninForm: React.FC = () => {
   const onSubmit = async (data: SignInInput) => {
     const auth = getAuth();
     try {
-      await signInWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password,
-      );
+      await signInWithEmailAndPassword(auth, data.email, data.password);
       reset();
     } catch (e) {
       if (e instanceof FirebaseError) {
@@ -64,8 +57,7 @@ export const SigninForm: React.FC = () => {
           flexDir: "column",
           gap: 8,
           width: 72,
-        })}
-      >
+        })}>
         <div className={labelAndInputStyle}>
           <label htmlFor="email" className={css({ fontWeight: "bold" })}>
             メールアドレス
@@ -84,11 +76,7 @@ export const SigninForm: React.FC = () => {
             aria-invalid={errors.email ? "true" : "false"}
             placeholder="xxxxxx@xxxx.tsukuba.ac.jp"
           />
-          {errors.email && (
-            <span className={basicErrorMessageStyle}>
-              {errors.email.message}
-            </span>
-          )}
+          {errors.email && <span className={basicErrorMessageStyle}>{errors.email.message}</span>}
         </div>
         <div className={labelAndInputStyle}>
           <label htmlFor="password" className={css({ fontWeight: "bold" })}>
@@ -103,22 +91,10 @@ export const SigninForm: React.FC = () => {
             })}
             className={cx(basicFormStyle({ isInvalid: !!errors.password }))}
           />
-          {errors.password && (
-            <span className={basicErrorMessageStyle}>
-              {errors.password.message}
-            </span>
-          )}
-          {errors.root && (
-            <span className={basicErrorMessageStyle}>
-              {errors.root.message}
-            </span>
-          )}
+          {errors.password && <span className={basicErrorMessageStyle}>{errors.password.message}</span>}
+          {errors.root && <span className={basicErrorMessageStyle}>{errors.root.message}</span>}
         </div>
-        <Button
-          type="submit"
-          color="primary"
-          className={css({ flexGrow: 0, alignSelf: "center" })}
-        >
+        <Button type="submit" color="primary" className={css({ flexGrow: 0, alignSelf: "center" })}>
           送信
         </Button>
       </form>

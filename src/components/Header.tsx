@@ -30,29 +30,19 @@ const HeaderNavigation: FC<{ isCommittee: boolean }> = ({ isCommittee }) => {
         gridTemplateColumns: "repeat(3, 1fr)",
         textAlign: "center",
         sm: { display: "none" },
-      })}
-    >
+      })}>
       <li>
-        <Link
-          href={`${isCommittee ? "/committee" : ""}/dashboard`}
-          className={commonItemStyle}
-        >
+        <Link href={`${isCommittee ? "/committee" : ""}/dashboard`} className={commonItemStyle}>
           企画情報
         </Link>
       </li>
       <li>
-        <Link
-          href={`${isCommittee ? "/committee" : ""}/forms`}
-          className={commonItemStyle}
-        >
+        <Link href={`${isCommittee ? "/committee" : ""}/forms`} className={commonItemStyle}>
           申請
         </Link>
       </li>
       <li>
-        <Link
-          href={`${isCommittee ? "/committee" : ""}/news`}
-          className={commonItemStyle}
-        >
+        <Link href={`${isCommittee ? "/committee" : ""}/news`} className={commonItemStyle}>
           お知らせ
         </Link>
       </li>
@@ -60,9 +50,7 @@ const HeaderNavigation: FC<{ isCommittee: boolean }> = ({ isCommittee }) => {
   );
 };
 
-const SwitchModeButton: FC<
-  { isCommitteeMode: boolean; showMobileMenu: boolean }
-> = ({
+const SwitchModeButton: FC<{ isCommitteeMode: boolean; showMobileMenu: boolean }> = ({
   isCommitteeMode,
   showMobileMenu,
 }) => (
@@ -80,8 +68,7 @@ const SwitchModeButton: FC<
         gap: { sm: 2, base: 0 },
         textDecoration: "underline",
         color: showMobileMenu ? "white" : "black",
-      })}
-    >
+      })}>
       <Image
         src={showMobileMenu ? ModeSwitchWhite : ModeSwitch}
         alt="人のアイコンの周囲に矢印"
@@ -92,9 +79,7 @@ const SwitchModeButton: FC<
         })}
       />
       <span>
-        <span className={css({ display: { base: "none", sm: "inline" } })}>
-          {isCommitteeMode ? "一般" : "実委人"}
-        </span>
+        <span className={css({ display: { base: "none", sm: "inline" } })}>{isCommitteeMode ? "一般" : "実委人"}</span>
         切り替え
       </span>
     </button>
@@ -114,36 +99,36 @@ const MobileMenu: FC<{
   signOutFunc: () => void;
 }> = ({ isCommittee, isCommitteeMode, show, signOutFunc }) => (
   <nav
-    className={show
-      ? css({
-        display: "flex",
-        justifyContent: "center",
-        flexDir: "column",
-        alignItems: "center",
-        textAlign: "center",
-        position: "fixed",
-        color: "white",
-        top: 0,
-        left: 0,
-        background: "neutral.700",
-        fontSize: "2xl",
-        width: "100vw",
-        height: "100vh",
-        gap: "12",
-        sm: {
-          display: "none",
-        },
-      })
-      : visuallyHidden()}
-  >
+    className={
+      show
+        ? css({
+            display: "flex",
+            justifyContent: "center",
+            flexDir: "column",
+            alignItems: "center",
+            textAlign: "center",
+            position: "fixed",
+            color: "white",
+            top: 0,
+            left: 0,
+            background: "neutral.700",
+            fontSize: "2xl",
+            width: "100vw",
+            height: "100vh",
+            gap: "12",
+            sm: {
+              display: "none",
+            },
+          })
+        : visuallyHidden()
+    }>
     <ul
       className={css({
         display: "flex",
         flexDir: "column",
         gap: 12,
         paddingY: 20,
-      })}
-    >
+      })}>
       <li className={MobileMenuItemStyle}>
         <Link href={"./dashboard"}>企画情報</Link>
       </li>
@@ -155,17 +140,11 @@ const MobileMenu: FC<{
       </li>
     </ul>
     {isCommittee && (
-      <Link
-        className={MobileMenuItemStyle}
-        href={`${isCommitteeMode ? "" : "/committee"}/dashboard`}
-      >
+      <Link className={MobileMenuItemStyle} href={`${isCommitteeMode ? "" : "/committee"}/dashboard`}>
         {isCommitteeMode ? "一般" : "実委人"}ページへ
       </Link>
     )}
-    <button
-      className={css({ border: "2px solid", paddingX: 10, paddingY: 2 })}
-      onClick={signOutFunc}
-    >
+    <button className={css({ border: "2px solid", paddingX: 10, paddingY: 2 })} onClick={signOutFunc}>
       ログアウト
     </button>
   </nav>
@@ -212,13 +191,11 @@ export const Header: FC = () => {
           paddingY: 0,
           display: "block",
         },
-      })}
-    >
+      })}>
       <Toaster />
       {showMobileMenu && (
         <MobileMenu
-          isCommittee={["committee", "committee_operator", "administrator"]
-            .includes(userInfo?.role ?? "")}
+          isCommittee={["committee", "committee_operator", "administrator"].includes(userInfo?.role ?? "")}
           show={showMobileMenu}
           signOutFunc={handleSignOut}
           isCommitteeMode={path.startsWith("/committee")}
@@ -235,24 +212,24 @@ export const Header: FC = () => {
           sm: {
             height: "100%",
           },
-        })}
-      >
-        {user
-          ? (
-            <button
-              className={css({
-                display: "flex",
-                justifyContent: "center",
-                sm: { display: "none" },
-              })}
-              onClick={() => setShowMobileMenu((e) => !e)}
-            >
-              {showMobileMenu
-                ? <Image src={CloseButton} alt={"バツボタン"} />
-                : <Image src={MenuButton} alt="ハンバーガーメニュー" />}
-            </button>
-          )
-          : <div className={css({ sm: { display: "none" } })} />}
+        })}>
+        {user ? (
+          <button
+            className={css({
+              display: "flex",
+              justifyContent: "center",
+              sm: { display: "none" },
+            })}
+            onClick={() => setShowMobileMenu((e) => !e)}>
+            {showMobileMenu ? (
+              <Image src={CloseButton} alt={"バツボタン"} />
+            ) : (
+              <Image src={MenuButton} alt="ハンバーガーメニュー" />
+            )}
+          </button>
+        ) : (
+          <div className={css({ sm: { display: "none" } })} />
+        )}
 
         <div
           className={css({
@@ -264,16 +241,9 @@ export const Header: FC = () => {
             sm: {
               paddingLeft: 5,
             },
-          })}
-        >
-          <Image
-            src={logo}
-            alt="雙峰祭ロゴマーク"
-            className={css({ width: { sm: 10, base: 8 } })}
-          />
-          <h1 className={css({ color: showMobileMenu ? "white" : "black" })}>
-            雙峰祭オンラインシステム
-          </h1>
+          })}>
+          <Image src={logo} alt="雙峰祭ロゴマーク" className={css({ width: { sm: 10, base: 8 } })} />
+          <h1 className={css({ color: showMobileMenu ? "white" : "black" })}>雙峰祭オンラインシステム</h1>
           <a
             href="https://www.sakura.ad.jp/"
             target="_blank"
@@ -293,8 +263,7 @@ export const Header: FC = () => {
               fontSize: "xs",
               color: "gray.500",
               marginLeft: "10px",
-            })}
-          >
+            })}>
             <img
               src="https://www.sakura.ad.jp/brand-assets/images/logo-3.png"
               alt="さくらインターネットのロゴ"
@@ -302,15 +271,16 @@ export const Header: FC = () => {
             />
           </a>
         </div>
-        {isLoading || !user ? <></> : (
+        {isLoading || !user ? (
+          <></>
+        ) : (
           <nav
             className={css({
               display: "flex",
               alignItems: "stretch",
               height: "100%",
               justifyContent: "center",
-            })}
-          >
+            })}>
             <button
               onClick={handleSignOut}
               className={css({
@@ -320,17 +290,11 @@ export const Header: FC = () => {
                 height: "100%",
                 borderX: "solid 1px token(colors.gray.200)",
                 display: { base: "none", sm: "block" },
-              })}
-            >
+              })}>
               サインアウト
             </button>
-            {["committee", "committee_operator", "administrator"].includes(
-              userInfo?.role ?? "",
-            ) && (
-              <SwitchModeButton
-                isCommitteeMode={path.startsWith("/committee")}
-                showMobileMenu={showMobileMenu}
-              />
+            {["committee", "committee_operator", "administrator"].includes(userInfo?.role ?? "") && (
+              <SwitchModeButton isCommitteeMode={path.startsWith("/committee")} showMobileMenu={showMobileMenu} />
             )}
           </nav>
         )}

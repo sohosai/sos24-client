@@ -26,8 +26,7 @@ export const FormsList: FC<{
             pr: 4,
             lineHeight: 2,
           },
-        })}
-      >
+        })}>
         <div
           className={css({
             display: "contents",
@@ -36,8 +35,7 @@ export const FormsList: FC<{
               borderColor: "gray.500",
               borderBottom: "1px solid",
             },
-          })}
-        >
+          })}>
           <div>状態</div>
           <div>配信日</div>
           <div>締切日</div>
@@ -61,8 +59,7 @@ export const FormsList: FC<{
                 href={`/forms/${form.id}`}
                 className={css({
                   display: "contents",
-                })}
-              >
+                })}>
                 <div className={css({ paddingBlock: 2 })}>
                   <SubmitStatus status={status} />
                 </div>
@@ -74,11 +71,7 @@ export const FormsList: FC<{
             );
           })}
       </div>
-      {(!forms || !answers) && (
-        <p className={css({ width: "100%", textAlign: "center" })}>
-          読み込み中です……
-        </p>
-      )}
+      {(!forms || !answers) && <p className={css({ width: "100%", textAlign: "center" })}>読み込み中です……</p>}
     </div>
   );
 };
