@@ -8,27 +8,30 @@ import { RegistrationProgress } from "@/components/RegistrationProgress";
 
 const RegisterPage = () => {
   return (
-    <div className={container({
-      maxWidth: "4xl"
-    })}>
-      <div className={stack({
-        alignItems: "center",
-        gap: 8,
-        marginY: 8
+    <div
+      className={container({
+        maxWidth: "4xl",
       })}>
-        <Title>企画登録</Title>
-        <div className={css({
-          backgroundColor: "gray.700",
-          textAlign: "center",
-          width: "full",
-          paddingY: 2
+      <div
+        className={stack({
+          alignItems: "center",
+          gap: 8,
+          marginY: 8,
         })}>
-          <p className={css({
+        <Title>企画登録</Title>
+        <div
+          className={css({
+            backgroundColor: "gray.700",
+            textAlign: "center",
+            width: "full",
+            paddingY: 2,
+          })}>
+          <p
+            className={css({
               fontSize: "sm",
               fontWeight: "bold",
-              color: "white"
-            }
-          )}>
+              color: "white",
+            })}>
             企画応募はすべて企画責任者が行ってください。副責任者が代理で行うことができません。
           </p>
         </div>
