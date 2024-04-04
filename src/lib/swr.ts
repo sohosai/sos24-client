@@ -1,4 +1,4 @@
-export const fetcherWithToken = async (url: string, token?: string, init?: RequestInit) => {
+export const fetcherWithToken = async (url: string, token?: string, _init?: RequestInit) => {
   if (!token) {
     return { ok: false, statusCode: 401, json: "" };
   }

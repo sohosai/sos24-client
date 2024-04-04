@@ -21,7 +21,7 @@ const authMiddleware: Middleware = {
     const accessToken = await user.getIdToken();
     req.headers.set("Authorization", `Bearer ${accessToken}`);
     return req;
-  }
+  },
 };
 
 export const client = createClient<paths>({ baseUrl: "http://localhost:8080" });

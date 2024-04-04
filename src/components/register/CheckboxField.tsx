@@ -13,15 +13,20 @@ interface CheckboxFieldProps {
 export const CheckboxField = ({ id, label, register, error }: CheckboxFieldProps) => {
   return (
     <div>
-      <div className={flex({
-        alignItems: "center"
-      })}>
+      <div
+        className={flex({
+          alignItems: "center",
+        })}>
         <input type="checkbox" id={id} {...register} className={checkboxFormStyle} />
-        <label htmlFor={id} className={css({
-          paddingInline: 2,
-          fontSize: "sm",
-          cursor: "pointer"
-        })}>{label}</label>
+        <label
+          htmlFor={id}
+          className={css({
+            paddingInline: 2,
+            fontSize: "sm",
+            cursor: "pointer",
+          })}>
+          {label}
+        </label>
       </div>
       {error && <span className={basicErrorMessageStyle}>{error}</span>}
     </div>
