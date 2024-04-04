@@ -14,16 +14,12 @@ const DashboardPage: NextPage = () => {
     <div
       className={css({
         padding: 5,
-      })}
-    >
-      {!newsRes?.ok
-        ? (
-          <p>
-            お知らせの取得中にエラーが発生しました(エラー:{" "}
-            {String(newsRes?.statusCode)})
-          </p>
-        )
-        : <NewsList newsList={news ?? []} />}
+      })}>
+      {!newsRes?.ok ? (
+        <p>お知らせの取得中にエラーが発生しました(エラー: {String(newsRes?.statusCode)})</p>
+      ) : (
+        <NewsList newsList={news ?? []} />
+      )}
     </div>
   );
 };
