@@ -46,7 +46,7 @@ export const FormsList: FC<{
         </div>
 
         {!(!forms || !answers) &&
-          forms.map((form, index) => {
+          forms.map((form) => {
             const answer = answers.find((ans) => {
               ans.id === form.id;
             });
