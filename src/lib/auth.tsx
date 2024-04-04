@@ -1,45 +1,29 @@
 "use client";
 
-import { FC, PropsWithChildren, useEffect } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { SWRConfig } from "swr";
-import { useAtom } from "jotai";
-import { authStateAtom } from "./firebase";
+import { FC, PropsWithChildren, useEffect, useState } from "react";
+import { SWRConfig, useSWRConfig } from "swr";
+import { useAuthState } from "./firebase";
+import { fetcherWithToken } from "@/lib/swr";
+import { AuthUI } from "@/components/auth/AuthUI";
+import { Header } from "@/components/Header";
 
 export const AuthProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
-  const [authState, setAuthState] = useAtom(authStateAtom);
+  const authState = useAuthState();
 
+  const { mutate } = useSWRConfig();
   useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setAuthState({
-        user: user
-          ? {
-              id: user.uid,
-              idToken: await user.getIdToken(),
-            }
-          : null,
-        isLoading: false,
-      });
-    });
-    return unsubscribe;
-  }, [setAuthState]);
+    mutate(() => true);
+  }, [authState, mutate]);
 
   return (
-    <div>
-      <SWRConfig
-        value={{
-          fetcher: async (resource) => {
-            const headers = authState.user ? { Authorization: `Bearer ${authState?.user.idToken}` } : undefined;
-            const resp = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}${resource}`, { headers }).then((res) =>
-              res.json(),
-            );
-
-            return resp;
-          },
-        }}>
+    <SWRConfig
+      value={{
+        fetcher: async (url) => fetcherWithToken(url, authState.user?.idToken),
+        errorRetryCount: 2
+      }}>
+      <AuthUI>
         {children}
-      </SWRConfig>
-    </div>
+      </AuthUI>
+    </SWRConfig>
   );
 };
