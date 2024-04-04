@@ -20,12 +20,13 @@ export default defineConfig({
           sohosai: {
             blue: { value: "#1eb8cb" },
             orange: { value: "#ed6d1f" },
-          },
-        },
-      },
-    },
+            purple: { value: "#60C" }
+          }
+        }
+      }
+    }
   },
 
   // The output directory for your css system
-  outdir: "styled-system",
+  outdir: "styled-system"
 });

@@ -5,7 +5,7 @@ info:
 servers:
   - url: http://localhost:3000
 security:
-  - Bearer: []
+  - Bearer: [ ]
 tags:
   - name: projects
     description: 企画関連の操作
@@ -13,8 +13,8 @@ tags:
     description: ユーザー関連の操作
   - name: news
     description: ニュース関連の操作
-  - name: attachments
-    description: 添付ファイル関連の操作
+  - name: files
+    description: ファイル関連の操作
   - name: forms
     description: 申請関連の操作
   - name: form-answers
@@ -38,7 +38,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Project'
+                  $ref: '#/components/schemas/ProjectSummary'
         '401':
           description: Unauthorized
         '403':
@@ -58,6 +58,10 @@ paths:
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedProject'
         '400':
           description: Bad Request
         '422':
@@ -213,6 +217,10 @@ paths:
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedUser'
         '400':
           description: Bad Request
         '422':
@@ -365,6 +373,10 @@ paths:
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedNews'
         '400':
           description: Bad Request
         '401':
@@ -453,11 +465,11 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-  /attachments:
+  /files:
     get:
-      summary: 添付ファイル一覧の取得
+      summary: ニュースの添付ファイル一覧の取得
       tags:
-        - attachments
+        - files
         - committee
       responses:
         '200':
@@ -467,7 +479,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Attachment'
+                  $ref: '#/components/schemas/FileInfo'
         '401':
           description: Unauthorized
         '403':
@@ -475,19 +487,31 @@ paths:
         '500':
           description: Internal Server Error
     post:
-      summary: 添付ファイルの作成
+      summary: ファイルの作成
       tags:
-        - attachments
+        - files
         - committee
+      parameters:
+        - in: query
+          name: visibility
+          schema:
+            type: string
+            enum:
+              - private
+              - public
       requestBody:
         required: true
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/CreateAttachment'
+              $ref: '#/components/schemas/CreateFile'
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedFile'
         '400':
           description: Bad Request
         '401':
@@ -498,13 +522,13 @@ paths:
           description: Unprocessable Entity
         '500':
           description: Internal Server Error
-  /attachments/{attachment_id}:
+  /files/{file_id}:
     get:
-      summary: 特定のIDの添付ファイルの取得
+      summary: 特定のIDのファイルの取得
       tags:
-        - attachments
+        - files
       parameters:
-        - name: attachment_id
+        - name: file_id
           in: path
           required: true
           schema:
@@ -515,7 +539,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Attachment'
+                $ref: '#/components/schemas/File'
         '401':
           description: Unauthorized
         '403':
@@ -523,12 +547,12 @@ paths:
         '500':
           description: Internal Server Error
     delete:
-      summary: 特定のIDの添付ファイルの削除
+      summary: 特定のIDのファイルの削除
       tags:
-        - attachments
+        - files
         - committee
       parameters:
-        - name: attachment_id
+        - name: file_id
           in: path
           required: true
           schema:
@@ -580,7 +604,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Invitation'
+                $ref: '#/components/schemas/CreatedInvitation'
         '400':
           description: Bad Request
         '401':
@@ -703,6 +727,10 @@ paths:
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedForm'
         '400':
           description: Bad Request
         '401':
@@ -837,6 +865,10 @@ paths:
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedFormAnswer'
         '400':
           description: Bad Request
         '401':
@@ -934,6 +966,66 @@ components:
         - official
         - inside
         - outside
+    ProjectSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        index:
+          type: integer
+          example: 0
+        title:
+          type: string
+          example: そぽたん焼き
+        category:
+          $ref: '#/components/schemas/ProjectCategory'
+        attribute:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectAttribute'
+      required:
+        - id
+        - index
+        - title
+        - category
+        - attribute
+    CreateProject:
+      type: object
+      properties:
+        title:
+          type: string
+          example: そぽたん焼き
+        kana_title:
+          type: string
+          example: そぽたんやき
+        group_name:
+          type: string
+          example: そぽたん愛好会
+        kana_group_name:
+          type: string
+          example: そぽたんあいこうかい
+        category:
+          $ref: '#/components/schemas/ProjectCategory'
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectAttribute'
+      required:
+        - title
+        - kana_title
+        - group_name
+        - kana_group_name
+        - category
+        - attributes
+    CreatedProject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+      required:
+        - id
     Project:
       type: object
       properties:
@@ -958,16 +1050,29 @@ components:
         category:
           $ref: '#/components/schemas/ProjectCategory'
         attributes:
-          $ref: '#/components/schemas/ProjectAttribute'
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectAttribute'
         owner_id:
           type: string
           format: uuid
+        owner_name:
+          type: string
+        owner_email:
+          type: string
         sub_owner_id:
           type: string
           format: uuid
           nullable: true
+        sub_owner_name:
+          type: string
+          nullable: true
+        sub_owner_email:
+          type: string
+          nullable: true
         remarks:
           type: string
+          nullable: true
         created_at:
           type: string
           format: date-time
@@ -978,25 +1083,20 @@ components:
           type: string
           format: date-time
           nullable: true
-    CreateProject:
-      type: object
-      properties:
-        title:
-          type: string
-          example: そぽたん焼き
-        kana_title:
-          type: string
-          example: そぽたんやき
-        group_name:
-          type: string
-          example: そぽたん愛好会
-        kana_group_name:
-          type: string
-          example: そぽたんあいこうかい
-        category:
-          $ref: '#/components/schemas/ProjectCategory'
-        attributes:
-          type: integer
+      required:
+        - id
+        - index
+        - title
+        - kana_title
+        - group_name
+        - kana_group_name
+        - category
+        - attributes
+        - owner_id
+        - owner_name
+        - owner_email
+        - created_at
+        - updated_at
     UpdateProject:
       type: object
       properties:
@@ -1016,9 +1116,19 @@ components:
           $ref: '#/components/schemas/ProjectCategory'
           example: foods_with_kitchen
         attributes:
-          type: integer
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectAttribute'
         remarks:
           type: string
+          nullable: true
+      required:
+        - title
+        - kana_title
+        - group_name
+        - kana_group_name
+        - category
+        - attributes
     UserRole:
       type: string
       enum:
@@ -1038,6 +1148,11 @@ components:
           format: email
         role:
           $ref: '#/components/schemas/UserRole'
+      required:
+        - id
+        - name
+        - email
+        - role
     CreateUser:
       type: object
       properties:
@@ -1053,6 +1168,19 @@ components:
           format: password
         phone_number:
           type: string
+      required:
+        - name
+        - kana_name
+        - email
+        - password
+        - phone_number
+    CreatedUser:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+        - id
     User:
       type: object
       properties:
@@ -1078,6 +1206,16 @@ components:
         deleted_at:
           type: string
           format: date-time
+          nullable: true
+      required:
+        - id
+        - name
+        - kana_name
+        - email
+        - phone_number
+        - role
+        - created_at
+        - updated_at
     UpdateUser:
       type: object
       properties:
@@ -1092,6 +1230,12 @@ components:
           type: string
         role:
           $ref: '#/components/schemas/UserRole'
+      required:
+        - name
+        - kana_name
+        - email
+        - phone_number
+        - role
     NewsSummary:
       type: object
       properties:
@@ -1111,6 +1255,12 @@ components:
         updated_at:
           type: string
           format: date-time
+      required:
+        - id
+        - title
+        - categories
+        - attributes
+        - updated_at
     CreateNews:
       type: object
       properties:
@@ -1131,6 +1281,20 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ProjectAttribute'
+      required:
+        - title
+        - body
+        - attachments
+        - categories
+        - attributes
+    CreatedNews:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+      required:
+        - id
     News:
       type: object
       properties:
@@ -1164,6 +1328,15 @@ components:
           type: string
           format: date-time
           nullable: true
+      required:
+        - id
+        - title
+        - body
+        - attachments
+        - categories
+        - attributes
+        - created_at
+        - updated_at
     UpdateNews:
       type: object
       properties:
@@ -1184,17 +1357,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ProjectAttribute'
-    Attachment:
+      required:
+        - title
+        - body
+        - attachments
+        - categories
+        - attributes
+    FileInfo:
       type: object
       properties:
         id:
           type: string
           format: uuid
-        filename:
-          type: string
-        file_url:
-          type: string
-        created_by:
+        name:
           type: string
         created_at:
           type: string
@@ -1206,28 +1381,78 @@ components:
           type: string
           format: date-time
           nullable: true
-    CreateAttachment:
+      required:
+        - id
+        - name
+        - created_at
+        - updated_at
+    CreateFile:
       type: object
       properties:
-        filename:
-          type: string
         file:
           type: string
           format: binary
+      required:
+        - file
+    CreatedFile:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+        required:
+          - ids
+    File:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        url:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+        - id
+        - name
+        - url
+        - created_at
+        - updated_at
     Invitation:
       type: object
       properties:
         id:
           type: string
           format: uuid
+        inviter:
+          type: string
+        inviter_name:
+          type: string
         project_id:
           type: string
           format: uuid
+        project_title:
+          type: string
         position:
           type: string
           enum:
             - owner
             - sub_owner
+        used_by:
+          type: string
+          nullable: true
         created_at:
           type: string
           format: date-time
@@ -1238,6 +1463,15 @@ components:
           type: string
           format: date-time
           nullable: true
+      required:
+        - id
+        - inviter
+        - inviter_name
+        - project_id
+        - project_title
+        - position
+        - created_at
+        - updated_at
     CreateInvitation:
       type: object
       properties:
@@ -1249,6 +1483,17 @@ components:
           enum:
             - owner
             - sub_owner
+      required:
+        - project_id
+        - position
+    CreatedInvitation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+      required:
+        - id
     FormSummary:
       type: object
       properties:
@@ -1270,10 +1515,6 @@ components:
           type: string
           format: date-time
           example: '2024-03-20T18:00:00Z'
-        updated_at:
-          type: string
-          format: date-time
-          example: '2024-03-15T14:45:00Z'
         categories:
           type: array
           description: 対象となる企画区分
@@ -1284,6 +1525,27 @@ components:
           description: 対象となる企画属性
           items:
             $ref: '#/components/schemas/ProjectAttribute'
+        answer_id:
+          type: string
+          format: uuid
+          nullable: true
+        answered_at:
+          type: string
+          format: date-time
+          nullable: true
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-03-15T14:45:00Z'
+      required:
+        - id
+        - title
+        - description
+        - starts_at
+        - ends_at
+        - categories
+        - attributes
+        - updated_at
     FormItemType:
       type: string
       enum:
@@ -1292,7 +1554,7 @@ components:
         - choose_one
         - choose_many
         - file
-    FormItem:
+    NewFormItem:
       type: object
       properties:
         name:
@@ -1339,6 +1601,118 @@ components:
           type: integer
           example: 100
           nullable: true
+      required:
+        - name
+        - description
+        - required
+        - type
+    CreateForm:
+      type: object
+      properties:
+        title:
+          type: string
+          example: 新しいフォーム
+        description:
+          type: string
+          example: これは新しいフォームです
+        starts_at:
+          type: string
+          format: date-time
+          example: '2024-03-16T09:00:00Z'
+        ends_at:
+          type: string
+          format: date-time
+          example: '2024-03-20T18:00:00Z'
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectCategory'
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectAttribute'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewFormItem'
+        attachments:
+          type: array
+          items:
+            type: string
+            format: uuid
+      required:
+        - title
+        - description
+        - starts_at
+        - ends_at
+        - categories
+        - attributes
+        - items
+        - attachments
+    CreatedForm:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+      required:
+        - id
+    FormItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        required:
+          type: boolean
+        type:
+          $ref: '#/components/schemas/FormItemType'
+        min:
+          type: integer
+          nullable: true
+        max:
+          type: integer
+          nullable: true
+        min_length:
+          type: integer
+          nullable: true
+        max_length:
+          type: integer
+          nullable: true
+        min_selection:
+          type: integer
+          nullable: true
+        max_selection:
+          type: integer
+          nullable: true
+        allow_newline:
+          type: boolean
+          example: false
+          nullable: true
+        options:
+          type: array
+          items:
+            type: string
+          nullable: true
+        extensions:
+          type: array
+          items:
+            type: string
+          nullable: true
+        limit:
+          type: integer
+          example: 100
+          nullable: true
+      required:
+        - id
+        - name
+        - description
+        - required
+        - type
       example:
         string:
           name: 項目1
@@ -1384,35 +1758,6 @@ components:
             - .jpg
             - .png
           limit: 2
-    CreateForm:
-      type: object
-      properties:
-        title:
-          type: string
-          example: 新しいフォーム
-        description:
-          type: string
-          example: これは新しいフォームです
-        starts_at:
-          type: string
-          format: date-time
-          example: '2024-03-16T09:00:00Z'
-        ends_at:
-          type: string
-          format: date-time
-          example: '2024-03-20T18:00:00Z'
-        categories:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProjectCategory'
-        attributes:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProjectAttribute'
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormItem'
     Form:
       type: object
       properties:
@@ -1434,6 +1779,23 @@ components:
           type: string
           format: date-time
           example: '2024-03-20T18:00:00Z'
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectCategory'
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectAttribute'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormItem'
+        attachments:
+          type: array
+          items:
+            type: string
+            format: uuid
         created_at:
           type: string
           format: date-time
@@ -1447,18 +1809,18 @@ components:
           format: date-time
           nullable: true
           example: null
-        categories:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProjectCategory'
-        attributes:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProjectAttribute'
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormItem'
+      required:
+        - id
+        - title
+        - description
+        - starts_at
+        - ends_at
+        - categories
+        - attributes
+        - items
+        - attachments
+        - created_at
+        - updated_at
     UpdateForm:
       type: object
       properties:
@@ -1487,7 +1849,21 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/FormItem'
+            $ref: '#/components/schemas/NewFormItem'
+        attachments:
+          type: array
+          items:
+            type: string
+            format: uuid
+      required:
+        - title
+        - description
+        - starts_at
+        - ends_at
+        - categories
+        - attributes
+        - items
+        - attachments
     FormAnswerSummary:
       type: object
       properties:
@@ -1497,22 +1873,36 @@ components:
         form_id:
           type: string
           format: uuid
+        form_title:
+          type: string
         project_id:
           type: string
           format: uuid
+        project_title:
+          type: string
         updated_at:
           type: string
           format: date-time
+      required:
+        - id
+        - form_id
+        - form_title
+        - project_id
+        - project_title
+        - updated_at
     FormAnswerItem:
       type: object
       properties:
-        id:
+        item_id:
           type: string
           format: uuid
         type:
           $ref: '#/components/schemas/FormItemType'
-        value:
-          type: string
+        value: { }
+      required:
+        - item_id
+        - type
+        - value
     CreateFormAnswer:
       type: object
       properties:
@@ -1521,6 +1911,17 @@ components:
           format: uuid
         items:
           $ref: '#/components/schemas/FormAnswerItem'
+      required:
+        - form_id
+        - items
+    CreatedFormAnswer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+      required:
+        - id
     FormAnswer:
       type: object
       properties:
@@ -1530,9 +1931,15 @@ components:
         project_id:
           type: string
           format: uuid
+        project_title:
+          type: string
         form_id:
           type: string
           format: uuid
+        form_title:
+          type: string
+        items:
+          $ref: '#/components/schemas/FormAnswerItem'
         created_at:
           type: string
           format: date-time
@@ -1543,13 +1950,19 @@ components:
           type: string
           format: date-time
           nullable: true
-        items:
-          $ref: '#/components/schemas/FormAnswerItem'
+      required:
+        - id
+        - project_id
+        - project_title
+        - form_id
+        - form_title
+        - items
+        - created_at
+        - updated_at
     UpdateFormAnswer:
       type: object
       properties:
-        form_id:
-          type: string
-          format: uuid
         items:
           $ref: '#/components/schemas/FormAnswerItem'
+      required:
+        - items

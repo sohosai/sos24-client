@@ -12,6 +12,7 @@
     "gen": "openapi-typescript schema.yml -o src/schema.d.ts"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
     "@radix-ui/themes": "^2.0.3",
     "dayjs": "^1.11.10",
     "firebase": "^10.9.0",
@@ -23,7 +24,8 @@
     "react-dom": "^18",
     "react-hook-form": "^7.51.0",
     "react-hot-toast": "^2.4.1",
-    "swr": "^2.2.5"
+    "swr": "^2.2.5",
+    "valibot": "^0.30.0"
   },
   "devDependencies": {
     "@pandacss/dev": "^0.35.0",
