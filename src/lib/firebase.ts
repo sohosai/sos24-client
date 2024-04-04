@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { atom, useAtomValue } from "jotai";
-import { getAuth } from "firebase/auth";
+import { getAuth, User } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -14,10 +14,7 @@ const firebaseConfig = {
 export const firebaseApp = initializeApp(firebaseConfig);
 
 export const authStateAtom = atom<{
-  user: {
-    id: string;
-    idToken: string;
-  } | null;
+  user: User | null;
   isLoading: boolean;
 }>({
   user: null,
@@ -29,12 +26,7 @@ authStateAtom.onMount = (setAtom) => {
   // このstateはDOMの描画と直接的には関係ないのでmount時にsubscribeする
   auth.onAuthStateChanged(async (user) => {
     setAtom({
-      user: user
-        ? {
-            id: user.uid,
-            idToken: await user.getIdToken(),
-          }
-        : null,
+      user: user,
       isLoading: false,
     });
   });
