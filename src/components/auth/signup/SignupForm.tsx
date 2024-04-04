@@ -8,7 +8,7 @@ import { basicErrorMessageStyle, basicFormStyle, checkboxFormStyle } from "@/com
 import { Button } from "@/components/Button";
 import { CheckboxForm } from "@/components/forms/Checkbox";
 import { useSetAtom } from "jotai";
-import { authModeAtom } from "@/components/auth/Auth";
+import { authModeAtom } from "@/components/auth/AuthUI";
 
 type CreateUserInput = {
   name: string;

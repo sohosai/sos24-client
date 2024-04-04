@@ -7,7 +7,7 @@ import { useAuthState } from "@/lib/firebase";
 import { css } from "@styled-system/css";
 import Image from "next/image";
 import Triangle from "../../assets/Triangle.svg";
-import { authModeAtom } from "@/components/auth/Auth";
+import { authModeAtom } from "@/components/auth/AuthUI";
 import { useSetAtom } from "jotai";
 
 const SigninPage: NextPage = () => {
