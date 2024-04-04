@@ -35,7 +35,7 @@ export const SigninForm: React.FC = () => {
   const onSubmit = async (data: SignInInput) => {
     const auth = getAuth();
     try {
-      const credentials = await signInWithEmailAndPassword(
+      await signInWithEmailAndPassword(
         auth,
         data.email,
         data.password,
