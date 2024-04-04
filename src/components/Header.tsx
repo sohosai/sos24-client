@@ -150,6 +150,31 @@ const MobileMenu: FC<{
   </nav>
 );
 
+const HeaderMenuItemStyle = css({ height: "100%", alignItems: "center", display: "flex" });
+const HeaderMenuItemLinkStyle = css({ display: "block", paddingX: 5, lineHeight: 5 });
+
+const HeaderMenuItems = () => {
+  return (
+    <ul className={css({ display: "flex", paddingX: 5, height: "100%" })}>
+      <li className={HeaderMenuItemStyle}>
+        <Link href="/dashboard" className={HeaderMenuItemLinkStyle}>
+          企画情報
+        </Link>
+      </li>
+      <li className={HeaderMenuItemStyle}>
+        <Link href="/forms" className={HeaderMenuItemLinkStyle}>
+          申請
+        </Link>
+      </li>
+      <li className={HeaderMenuItemStyle}>
+        <Link href="/news" className={HeaderMenuItemLinkStyle}>
+          お知らせ
+        </Link>
+      </li>
+    </ul>
+  );
+};
+
 export const Header: FC = () => {
   const { user, isLoading } = useAuthState();
   const auth = getAuth();
@@ -237,13 +262,19 @@ export const Header: FC = () => {
             alignItems: "center",
             justifyContent: "center",
             gap: { sm: 5, base: 2 },
-            fontSize: { base: "lg", sm: "2xl" },
             sm: {
               paddingLeft: 5,
+              height: "100%",
             },
           })}>
           <Image src={logo} alt="雙峰祭ロゴマーク" className={css({ width: { sm: 10, base: 8 } })} />
-          <h1 className={css({ color: showMobileMenu ? "white" : "black" })}>雙峰祭オンラインシステム</h1>
+          <h1
+            className={css({
+              color: showMobileMenu ? "white" : "black",
+              fontSize: { base: "lg", sm: "2xl" },
+            })}>
+            雙峰祭オンラインシステム
+          </h1>
           <a
             href="https://www.sakura.ad.jp/"
             target="_blank"
@@ -270,6 +301,7 @@ export const Header: FC = () => {
               className={css({ height: 6 })}
             />
           </a>
+          {((!projectIsLoading && !projectErr) || path.startsWith("/committee")) && <HeaderMenuItems />}
         </div>
         {isLoading || !user ? (
           <></>
@@ -284,19 +316,28 @@ export const Header: FC = () => {
             <button
               onClick={handleSignOut}
               className={css({
-                cursor: "pointer",
-                fontSize: "sm",
-                px: 5,
+                display: "flex",
+                alignItems: "stretch",
                 height: "100%",
-                borderX: "solid 1px token(colors.gray.200)",
-                display: { base: "none", sm: "block" },
+                justifyContent: "center",
               })}>
-              サインアウト
-            </button>
-            {["committee", "committee_operator", "administrator"].includes(userInfo?.role ?? "") && (
-              <SwitchModeButton isCommitteeMode={path.startsWith("/committee")} showMobileMenu={showMobileMenu} />
-            )}
-          </nav>
+              <button
+                onClick={handleSignOut}
+                className={css({
+                  cursor: "pointer",
+                  fontSize: "sm",
+                  px: 5,
+                  height: "100%",
+                  borderX: "solid 1px token(colors.gray.200)",
+                  display: { base: "none", sm: "block" },
+                })}>
+                サインアウト
+              </button>
+              {["committee", "committee_operator", "administrator"].includes(userInfo?.role ?? "") && (
+                <SwitchModeButton isCommitteeMode={path.startsWith("/committee")} showMobileMenu={showMobileMenu} />
+              )}
+            </nav>
+          </>
         )}
       </div>
       {user && <HeaderNavigation isCommittee={path.startsWith("/committee")} />}
