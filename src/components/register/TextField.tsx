@@ -16,16 +16,26 @@ interface TextFieldProps {
 export const TextField = ({ type, id, label, placeholder, description, error, register }: TextFieldProps) => {
   return (
     <div>
-      <label htmlFor={id} className={basicFormLabelStyle}>{label}</label>
+      <label htmlFor={id} className={basicFormLabelStyle}>
+        {label}
+      </label>
       <div className={center()}>
         <div className={css({ width: "90%" })}>
-          <input type={type} id={id} placeholder={placeholder}  {...register}
-                 className={basicFormStyle({ isInvalid: !!error })} />
+          <input
+            type={type}
+            id={id}
+            placeholder={placeholder}
+            {...register}
+            className={basicFormStyle({ isInvalid: !!error })}
+          />
           <div className={css({ marginLeft: 3 })}>
-            <p className={css({
-              fontSize: "sm",
-              color: "gray.500"
-            })}>{description}</p>
+            <p
+              className={css({
+                fontSize: "sm",
+                color: "gray.500",
+              })}>
+              {description}
+            </p>
             {error && <span className={basicErrorMessageStyle}>{error}</span>}
           </div>
         </div>
