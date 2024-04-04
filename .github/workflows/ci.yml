@@ -3,15 +3,38 @@ on:
   pull_request:
     branches:
       - main
+
 jobs:
-  ci:
-    name: CI
+  prettier:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Install packages
-        run: npm ci
-      - name: Prettier
-        run: npm run format
-      - name: Lint
-        run: npm run lint
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline
+
+      - name: Check
+        run: npm run format:check
+        env:
+          CI: true
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline
+
+      - name: Check
+        run: npm run lint:check
+        env:
+          CI: true
