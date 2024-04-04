@@ -10,9 +10,7 @@ import dayjs from "dayjs";
 import { getTimeLeftText } from "@/lib/formHelpers";
 import { SubmitStatus, submitStatus } from "@/components/SubmitStatus";
 
-export const config = {
-  runtime: "edge",
-};
+export const runtime = "edge";
 
 const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
   const id = params.form_id;
