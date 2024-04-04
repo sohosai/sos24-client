@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:check": "next lint",
     "format": "prettier ./**/* panda.config.ts --write",
+    "format:check": "prettier ./**/* panda.config.ts --check",
     "gen": "openapi-typescript schema.yml -o src/schema.d.ts"
   },
   "dependencies": {
