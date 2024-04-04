@@ -17,7 +17,7 @@ export const fetcherWithToken = async (url: string, token?: string, _init?: Requ
         error.message = resObject.message;
         throw error;
       }
-      return { ok: res.ok, statusCode: res.status, json: await resObject };
+      return resObject;
     })
     .catch((error) => {
       throw new Error(error);

@@ -16,24 +16,15 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
   const id = params.form_id;
 
   const { data: projectRes } = useSWR("/projects/me", fetcherWithToken);
-  const project = projectRes
-    ? assignType("/projects/me", projectRes.json)
-    : undefined;
+  const project = projectRes ? assignType("/projects/me", projectRes) : undefined;
 
   const projectId = project?.id;
 
   const { data: formRes } = useSWR(`/forms/${id}/`, fetcherWithToken);
-  const form = formRes
-    ? assignType("/forms/{form_id}", formRes.json)
-    : undefined;
+  const form = formRes ? assignType("/forms/{form_id}", formRes) : undefined;
 
-  const { data: answersRes } = useSWR(
-    `/form-answers?project_id=${projectId}`,
-    fetcherWithToken,
-  );
-  const _answers = answersRes
-    ? assignType("/form-answers", answersRes.json)
-    : undefined;
+  const { data: answersRes } = useSWR(`/form-answers?project_id=${projectId}`, fetcherWithToken);
+  const _answers = answersRes ? assignType("/form-answers", answersRes) : undefined;
 
   const status: submitStatus = "未提出";
 
