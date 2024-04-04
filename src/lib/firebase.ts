@@ -8,7 +8,7 @@ const firebaseConfig = {
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 export const firebaseApp = initializeApp(firebaseConfig);
@@ -21,7 +21,7 @@ export const authStateAtom = atom<{
   isLoading: boolean;
 }>({
   user: null,
-  isLoading: true
+  isLoading: true,
 });
 
 authStateAtom.onMount = (setAtom) => {
@@ -31,11 +31,11 @@ authStateAtom.onMount = (setAtom) => {
     setAtom({
       user: user
         ? {
-          id: user.uid,
-          idToken: await user.getIdToken()
-        }
+            id: user.uid,
+            idToken: await user.getIdToken(),
+          }
         : null,
-      isLoading: false
+      isLoading: false,
     });
   });
 };

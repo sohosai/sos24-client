@@ -38,14 +38,16 @@ interface PlaceFieldProps {
 
 export const PlaceField = ({ categoryType, register, error }: PlaceFieldProps) => {
   return (
-    <fieldset className={stack({
-      gap: 1
-    })}>
-      <legend className={basicFormLabelStyle}>企画実施場所</legend>
-      <div className={flex({
-        justifyContent: "space-around",
-        gap: 4
+    <fieldset
+      className={stack({
+        gap: 1,
       })}>
+      <legend className={basicFormLabelStyle}>企画実施場所</legend>
+      <div
+        className={flex({
+          justifyContent: "space-around",
+          gap: 4,
+        })}>
         <PlaceFieldItem
           value="outside"
           label="屋外"
@@ -60,12 +62,7 @@ export const PlaceField = ({ categoryType, register, error }: PlaceFieldProps) =
           register={register}
           disabled={categoryType === "stage"}
         />
-        <PlaceFieldItem
-          value="stage"
-          label="ステージ"
-          register={register}
-          disabled={categoryType === "general"}
-        />
+        <PlaceFieldItem value="stage" label="ステージ" register={register} disabled={categoryType === "general"} />
       </div>
       {error && <span className={basicErrorMessageStyle}>{error}</span>}
     </fieldset>
@@ -82,46 +79,50 @@ interface PlaceFieldItemProps {
 
 const PlaceFieldItem = ({ label, value, caption, register, disabled }: PlaceFieldItemProps) => {
   return (
-    <div key={value} className={stack({
-      flex: 1,
-      alignItems: "center"
-    })}>
-      <label className={hstack({
-        width: "full",
-        gap: 4,
-        borderWidth: 3,
-        borderStyle: "solid",
-        borderRadius: 9,
-        paddingX: 4,
-        paddingY: 4,
-
-        cursor: "pointer",
-        borderColor: "gray.400",
-        "&:has(> input:checked)": {
-          borderColor: "sohosai.purple"
-        },
-        "&:has(> input:disabled)": {
-          backgroundColor: "gray.300",
-          cursor: "not-allowed"
-        }
+    <div
+      key={value}
+      className={stack({
+        flex: 1,
+        alignItems: "center",
       })}>
-        <input
-          type="radio"
-          value={value} {...register}
-          disabled={disabled}
-          className={visuallyHidden()} />
+      <label
+        className={hstack({
+          width: "full",
+          gap: 4,
+          borderWidth: 3,
+          borderStyle: "solid",
+          borderRadius: 9,
+          paddingX: 4,
+          paddingY: 4,
+
+          cursor: "pointer",
+          borderColor: "gray.400",
+          "&:has(> input:checked)": {
+            borderColor: "sohosai.purple",
+          },
+          "&:has(> input:disabled)": {
+            backgroundColor: "gray.300",
+            cursor: "not-allowed",
+          },
+        })}>
+        <input type="radio" value={value} {...register} disabled={disabled} className={visuallyHidden()} />
         <Image src={categoryIcon} alt={`${label}のアイコン`} />
-        <span className={css({
-          fontSize: "md",
-          fontWeight: "bold"
-        })}>{label}</span>
+        <span
+          className={css({
+            fontSize: "md",
+            fontWeight: "bold",
+          })}>
+          {label}
+        </span>
       </label>
-      <pre className={css({
-        color: "gray.400",
-        fontSize: "sm",
-        fontWeight: "bold"
-      })}>{caption}</pre>
+      <pre
+        className={css({
+          color: "gray.400",
+          fontSize: "sm",
+          fontWeight: "bold",
+        })}>
+        {caption}
+      </pre>
     </div>
   );
-
 };
