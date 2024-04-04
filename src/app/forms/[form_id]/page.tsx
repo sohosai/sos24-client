@@ -31,7 +31,7 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
     `/form-answers?project_id=${projectId}`,
     fetcherWithToken,
   );
-  const answers = answersRes
+  const _answers = answersRes
     ? assignType("/form-answers", answersRes.json)
     : undefined;
 
