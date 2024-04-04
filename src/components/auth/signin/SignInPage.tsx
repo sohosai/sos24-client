@@ -1,19 +1,26 @@
 "use client";
 
 import { useAuthState } from "@/lib/firebase";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { getAuth } from "firebase/auth";
 import toast, { Toaster } from "react-hot-toast";
 import { FirebaseError } from "firebase/app";
 import { redirect } from "next/navigation";
 import { css, cx } from "@styled-system/css";
-import { basicErrorMessageStyle, basicFormStyle } from "@/components/forms/styles";
+import {
+  basicErrorMessageStyle,
+  basicFormStyle,
+} from "@/components/forms/styles";
 import { Button } from "@/components/Button";
 
 type SignInInput = { email: string; password: string };
 
-let labelAndInputStyle = css({ display: "flex", flexDir: "column", gap: "6px" });
+let labelAndInputStyle = css({
+  display: "flex",
+  flexDir: "column",
+  gap: "6px",
+});
 
 export const SigninForm: React.FC = () => {
   const { user, isLoading } = useAuthState();
@@ -28,7 +35,11 @@ export const SigninForm: React.FC = () => {
   const onSubmit = async (data: SignInInput) => {
     const auth = getAuth();
     try {
-      const credentials = await signInWithEmailAndPassword(auth, data.email, data.password);
+      const credentials = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password,
+      );
       reset();
     } catch (e) {
       if (e instanceof FirebaseError) {
@@ -48,7 +59,13 @@ export const SigninForm: React.FC = () => {
       <Toaster />
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className={css({ display: "flex", flexDir: "column", gap: 8, width: 72 })}>
+        className={css({
+          display: "flex",
+          flexDir: "column",
+          gap: 8,
+          width: 72,
+        })}
+      >
         <div className={labelAndInputStyle}>
           <label htmlFor="email" className={css({ fontWeight: "bold" })}>
             メールアドレス
@@ -58,13 +75,20 @@ export const SigninForm: React.FC = () => {
             id="email"
             {...register("email", {
               required: "メールアドレスを入力してください",
-              pattern: { value: /.*@.*\.tsukuba\.ac\.jp$/, message: "筑波大学のメールアドレスを入力してください" },
+              pattern: {
+                value: /.*@.*\.tsukuba\.ac\.jp$/,
+                message: "筑波大学のメールアドレスを入力してください",
+              },
             })}
             className={cx(basicFormStyle({ isInvalid: !!errors.email }), css())}
             aria-invalid={errors.email ? "true" : "false"}
             placeholder="xxxxxx@xxxx.tsukuba.ac.jp"
           />
-          {errors.email && <span className={basicErrorMessageStyle}>{errors.email.message}</span>}
+          {errors.email && (
+            <span className={basicErrorMessageStyle}>
+              {errors.email.message}
+            </span>
+          )}
         </div>
         <div className={labelAndInputStyle}>
           <label htmlFor="password" className={css({ fontWeight: "bold" })}>
@@ -74,13 +98,27 @@ export const SigninForm: React.FC = () => {
             type="password"
             id="password"
             aria-invalid={errors.password ? "true" : "false"}
-            {...register("password", { required: "パスワードを入力してください" })}
+            {...register("password", {
+              required: "パスワードを入力してください",
+            })}
             className={cx(basicFormStyle({ isInvalid: !!errors.password }))}
           />
-          {errors.password && <span className={basicErrorMessageStyle}>{errors.password.message}</span>}
-          {errors.root && <span className={basicErrorMessageStyle}>{errors.root.message}</span>}
+          {errors.password && (
+            <span className={basicErrorMessageStyle}>
+              {errors.password.message}
+            </span>
+          )}
+          {errors.root && (
+            <span className={basicErrorMessageStyle}>
+              {errors.root.message}
+            </span>
+          )}
         </div>
-        <Button type="submit" color="primary" className={css({ flexGrow: 0, alignSelf: "center" })}>
+        <Button
+          type="submit"
+          color="primary"
+          className={css({ flexGrow: 0, alignSelf: "center" })}
+        >
           送信
         </Button>
       </form>
