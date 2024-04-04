@@ -8,7 +8,7 @@ import { css } from "@styled-system/css";
 
 const DashboardPage: NextPage = () => {
   const { data: newsRes } = useSWR("/news");
-  const news = newsRes ? assignType("/news", newsRes.json) : undefined;
+  const news = newsRes ? assignType("/news", newsRes) : undefined;
 
   return (
     <div
