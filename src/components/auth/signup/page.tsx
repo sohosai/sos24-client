@@ -19,18 +19,22 @@ const SignupPage: NextPage = () => {
   }
 
   return (
-    <div className={css({
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      flexDir: "column",
-      width: "100%",
-      minHeight: "calc(100vh - token(spacing.20))",
-    })}>
-      <h1 className={css({
-        fontSize: "2xl",
-        fontWeight: "bold"
-      })}>新規登録</h1>
+    <div
+      className={css({
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDir: "column",
+        width: "100%",
+        minHeight: "calc(100vh - token(spacing.20))",
+      })}>
+      <h1
+        className={css({
+          fontSize: "2xl",
+          fontWeight: "bold",
+        })}>
+        新規登録
+      </h1>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
@@ -43,8 +47,9 @@ const SignupPage: NextPage = () => {
               className={css({
                 textDecoration: "underline",
                 fontWeight: "bold",
-                cursor: "pointer"
-              })}>アカウントを既にお持ちの場合はサインイン
+                cursor: "pointer",
+              })}>
+              アカウントを既にお持ちの場合はサインイン
             </button>
           </div>
         </>

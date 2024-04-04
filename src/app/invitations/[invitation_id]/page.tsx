@@ -21,7 +21,7 @@ const InvitationPage = ({ params }: { params: { invitation_id: string } }) => {
 
   const onClick = async () => {
     const resp = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/invitations/${params.invitation_id}`, {
-      method: "POST"
+      method: "POST",
     })
       .then((res) => res.status)
       .catch((err) => console.error(err));
@@ -40,9 +40,7 @@ const InvitationPage = ({ params }: { params: { invitation_id: string } }) => {
         {invitation && <PositionFormatter position={invitation.position} />}
         に招待しています。
       </p>
-      <button onClick={onClick}>
-        承諾する
-      </button>
+      <button onClick={onClick}>承諾する</button>
     </div>
   );
 };
