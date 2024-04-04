@@ -5,9 +5,7 @@ import { assignType } from "@/lib/openapi";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
 
-export const config = {
-  runtime: "edge",
-};
+export const runtime = "edge";
 
 const PositionFormatter = (
   { position }: { position: "owner" | "sub_owner" },
