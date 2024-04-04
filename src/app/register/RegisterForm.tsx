@@ -1,9 +1,11 @@
 "use client";
 
 import { useForm, useWatch } from "react-hook-form";
-import { useAuthState } from "@/lib/firebase";
 import { css } from "@styled-system/css";
-import { RegisterProjectSchema, RegisterProjectSchemaType } from "@/lib/valibot";
+import {
+  RegisterProjectSchema,
+  RegisterProjectSchemaType,
+} from "@/lib/valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { Button } from "@/components/Button";
 import { TextField } from "@/components/register/TextField";
@@ -52,11 +54,15 @@ const categoryItems = [
       { label: "調理", allowed: false },
     ],
   },
-  { value: "stage_united", label: "ステージ企画", hasTopSpacer: true, badges: [] },
+  {
+    value: "stage_united",
+    label: "ステージ企画",
+    hasTopSpacer: true,
+    badges: [],
+  },
 ];
 
 export const RegisterForm = () => {
-  const { user, isLoading } = useAuthState();
   const {
     register,
     control,
@@ -134,7 +140,8 @@ export const RegisterForm = () => {
       onSubmit={handleSubmit(onSubmit)}
       className={stack({
         gap: 8,
-      })}>
+      })}
+    >
       <TextField
         type="text"
         id="title"
@@ -167,8 +174,16 @@ export const RegisterForm = () => {
         register={register("kana_group_name")}
         error={errors.kana_group_name?.message}
       />
-      <CategoryField items={categoryItems} register={register("category")} error={errors.category?.message} />
-      <PlaceField categoryType={categoryType} register={register("place")} error={errors.place?.message} />
+      <CategoryField
+        items={categoryItems}
+        register={register("category")}
+        error={errors.category?.message}
+      />
+      <PlaceField
+        categoryType={categoryType}
+        register={register("place")}
+        error={errors.place?.message}
+      />
       <CheckboxField
         id="agreement1"
         label="あなたは、別の企画団体の企画責任者または副企画責任者になることはできません。"
@@ -181,7 +196,11 @@ export const RegisterForm = () => {
         register={register("agreement2")}
         error={errors.agreement2?.message}
       />
-      <Button type="submit" color="primary" className={css({ flexGrow: 0, alignSelf: "center" })}>
+      <Button
+        type="submit"
+        color="primary"
+        className={css({ flexGrow: 0, alignSelf: "center" })}
+      >
         次へ
       </Button>
     </form>
