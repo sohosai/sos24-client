@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { css } from "@styled-system/css";
 import Image from "next/image";
 import Triangle from "@/components/assets/Triangle.svg";
-import { authModeAtom } from "@/components/auth/Auth";
+import { authModeAtom } from "@/components/auth/AuthUI";
 import { useSetAtom } from "jotai";
 
 const SignupPage: NextPage = () => {

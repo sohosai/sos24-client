@@ -9,7 +9,7 @@ import { css } from "@styled-system/css";
 
 export const authModeAtom = atom<"signIn" | "signUp">("signIn");
 
-export const Auth: FC<PropsWithChildren> = ({ children }) => {
+export const AuthUI: FC<PropsWithChildren> = ({ children }) => {
   const authMode = useAtomValue(authModeAtom);
   const authState = useAuthState();
   return (

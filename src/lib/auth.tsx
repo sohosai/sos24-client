@@ -4,7 +4,8 @@ import { FC, PropsWithChildren, useEffect, useState } from "react";
 import { SWRConfig, useSWRConfig } from "swr";
 import { useAuthState } from "./firebase";
 import { fetcherWithToken } from "@/lib/swr";
-import { Auth } from "@/components/auth/Auth";
+import { AuthUI } from "@/components/auth/AuthUI";
+import { Header } from "@/components/Header";
 
 export const AuthProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   const authState = useAuthState();
@@ -20,9 +21,9 @@ export const AuthProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
         fetcher: async (url) => fetcherWithToken(url, authState.user?.idToken),
         errorRetryCount: 2
       }}>
-      <Auth>
+      <AuthUI>
         {children}
-      </Auth>
+      </AuthUI>
     </SWRConfig>
   );
 };
