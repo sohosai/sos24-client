@@ -16,10 +16,10 @@ const DashboardPage: NextPage = () => {
 
   const projectId = project?.id;
   const { data: formsRes } = useSWR(`/forms?project_id=${projectId}`, fetcherWithToken);
-  const forms = formsRes ? assignType("/forms", formsRes.json) : undefined;
+  const forms = formsRes ? assignType("/forms", formsRes) : undefined;
 
   const { data: answersRes } = useSWR(`/form-answers?project_id=${projectId}`, fetcherWithToken);
-  const answers = answersRes ? assignType("/form-answers", answersRes.json) : undefined;
+  const answers = answersRes ? assignType("/form-answers", answersRes) : undefined;
 
   const notification = forms && answers ? forms.length - answers.length : 0;
 

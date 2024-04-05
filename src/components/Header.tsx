@@ -154,7 +154,7 @@ export const Header: FC = () => {
   const { user, isLoading } = useAuthState();
   const auth = getAuth();
   const { data: userRes } = useSWR("/users/me");
-  const userInfo = userRes ? assignType("/users/me", userRes.json) : undefined;
+  const userInfo = userRes ? assignType("/users/me", userRes) : undefined;
   const path = usePathname();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
