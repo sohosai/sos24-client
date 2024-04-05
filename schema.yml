@@ -5,7 +5,7 @@ info:
 servers:
   - url: http://localhost:3000
 security:
-  - Bearer: [ ]
+  - Bearer: []
 tags:
   - name: projects
     description: 企画関連の操作
@@ -1796,6 +1796,14 @@ components:
           items:
             type: string
             format: uuid
+        answer_id:
+          type: string
+          format: uuid
+          nullable: true
+        answered_at:
+          type: string
+          format: date-time
+          nullable: true
         created_at:
           type: string
           format: date-time
@@ -1898,7 +1906,7 @@ components:
           format: uuid
         type:
           $ref: '#/components/schemas/FormItemType'
-        value: { }
+        value: {}
       required:
         - item_id
         - type
