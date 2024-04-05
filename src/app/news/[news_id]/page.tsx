@@ -19,7 +19,7 @@ const NewsDetailsPage = ({ params }: { params: { news_id: string } }) => {
     return;
   }
 
-  const news = assignType("/news/{news_id}", data.json);
+  const news = assignType("/news/{news_id}", data);
 
   return (
     <div className={container({ maxWidth: "4xl" })}>
