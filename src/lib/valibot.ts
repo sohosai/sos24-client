@@ -43,32 +43,27 @@ const projectKanaGroupName = string([
   custom((value) => isHiragana(value), "ひらがなで入力してください"),
 ]);
 
-export type ProjectCategory =
-  | "general"
-  | "foods_with_kitchen"
-  | "foods_without_kitchen"
-  | "foods_without_cooking"
-  | "stage_1a"
-  | "stage_united"
-  | "stage_university_hall";
+export const projectCategories = [
+  "general",
+  "foods_with_kitchen",
+  "foods_without_kitchen",
+  "foods_without_cooking",
+  "stage_1a",
+  "stage_university_hall",
+  "stage_united",
+];
+export type ProjectCategory = (typeof projectCategories)[number];
 
 const projectCategorySchema = union(
-  [
-    literal("general"),
-    literal("foods_with_kitchen"),
-    literal("foods_without_kitchen"),
-    literal("foods_without_cooking"),
-    literal("stage_1a"),
-    literal("stage_united"),
-    literal("stage_university_hall"),
-  ],
+  projectCategories.map((it) => literal(it)),
   "いずれかの企画区分を選択してください",
 );
 
-export type ProjectPlace = "outside" | "inside" | "stage";
+export const projectPlaces = ["outside", "inside", "stage"];
+export type ProjectPlace = (typeof projectPlaces)[number];
 
 const projectPlaceSchema = union(
-  [literal("outside"), literal("inside"), literal("stage")],
+  projectPlaces.map((it) => literal(it)),
   "いずれかの企画実施場所を選択してください",
 );
 
