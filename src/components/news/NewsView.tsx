@@ -46,7 +46,7 @@ export const NewsView = () => {
     [searchParams],
   );
 
-  const defaultCategory = (searchParams.get("newsCategory") as SelectedCategoryType) ?? "me";
+  const defaultCategory = (searchParams.get("news_category") as SelectedCategoryType) ?? "me";
   const [selectedCategory, setSelectedCategory] = useState<SelectedCategoryType>(defaultCategory);
 
   const { data: newsData, isLoading: isLoadingNews } = useSWR("/news");
@@ -66,7 +66,7 @@ export const NewsView = () => {
         selected={selectedCategory}
         setSelected={(category) => {
           setSelectedCategory(category);
-          router.push((pathname + "?" + createQueryString("newsCategory", category)) as Route);
+          router.push((pathname + "?" + createQueryString("news_category", category)) as Route);
         }}
       />
       <NewsList newsList={filteredNewsList} />
