@@ -1,12 +1,9 @@
 "use client";
 
-import { useAuthState } from "@/lib/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
-import { getAuth } from "firebase/auth";
 import toast, { Toaster } from "react-hot-toast";
 import { FirebaseError } from "firebase/app";
-import { redirect } from "next/navigation";
 import { css, cx } from "@styled-system/css";
 import { basicErrorMessageStyle, basicFormStyle } from "@/components/forms/styles";
 import { Button } from "@/components/Button";
@@ -20,7 +17,6 @@ let labelAndInputStyle = css({
 });
 
 export const SigninForm: React.FC = () => {
-  const { user, isLoading } = useAuthState();
   const {
     register,
     handleSubmit,
@@ -42,10 +38,6 @@ export const SigninForm: React.FC = () => {
       }
     }
   };
-
-  if (user && !isLoading) {
-    redirect("/");
-  }
 
   return (
     <>
