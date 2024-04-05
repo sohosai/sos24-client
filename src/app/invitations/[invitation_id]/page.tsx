@@ -29,7 +29,7 @@ const InvitationPage = ({ params }: { params: { invitation_id: string } }) => {
     return <p>招待の読み込みに失敗しました: {error}</p>;
   }
 
-  const invitation = assignType("/invitations/{invitation_id}", data.json);
+  const invitation = assignType("/invitations/{invitation_id}", data);
 
   const onClick = async () => {
     const { error } = await client.POST("/invitations/{invitation_id}", {
