@@ -10,8 +10,6 @@ import Image from "next/image";
 import pulldownIcon from "../../components/assets/Pulldown.svg";
 import { css } from "@styled-system/css";
 import { ProjectView } from "@/app/dashboard/ProjectView";
-import { Title } from "@/components/Title";
-import { container } from "@styled-system/patterns";
 
 const DashboardPage: NextPage = () => {
   return (
@@ -44,8 +42,9 @@ const DashboardPage: NextPage = () => {
           </div>
           <NewsView />
         </div>
-      <Title>企画情報</Title>
-      <ProjectView />
+        <Title>企画情報</Title>
+        <ProjectView />
+      </div>
     </div>
   );
 };
