@@ -11,6 +11,8 @@ import triangleIcon from "../../../components/assets/Triangle.svg";
 import { css } from "@styled-system/css";
 import { FileItem } from "@/components/news/FileItem";
 
+export const runtime = 'edge';
+
 const NewsDetailsPage = ({ params }: { params: { news_id: string } }) => {
   const { data, isLoading } = useSWR(`/news/${params.news_id}`);
   if (isLoading) {
