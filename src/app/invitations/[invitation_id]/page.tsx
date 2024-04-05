@@ -1,13 +1,13 @@
 "use client";
 
 import useSWR from "swr";
-import {assignType} from "@/lib/openapi";
+import { assignType } from "@/lib/openapi";
 import toast from "react-hot-toast";
-import {redirect} from "next/navigation";
+import { redirect } from "next/navigation";
 
 export const runtime = "edge";
 
-const PositionFormatter = ({position}: { position: "owner" | "sub_owner" }) => {
+const PositionFormatter = ({ position }: { position: "owner" | "sub_owner" }) => {
   switch (position) {
     case "owner":
       return <>企画責任者</>;
@@ -16,15 +16,14 @@ const PositionFormatter = ({position}: { position: "owner" | "sub_owner" }) => {
   }
 };
 
-const InvitationPage = ({params}: { params: { invitation_id: string } }) => {
-  const {data} = useSWR(`/invitations/${params.invitation_id}`);
+const InvitationPage = ({ params }: { params: { invitation_id: string } }) => {
+  const { data } = useSWR(`/invitations/${params.invitation_id}`);
   const invitation = data ? assignType("/invitations/{invitation_id}", data) : undefined;
 
   const onClick = async () => {
     const resp = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/invitations/${params.invitation_id}`, {
       method: "POST",
-    })
-      .then((res) => res.status);
+    }).then((res) => res.status);
 
     if (resp == 200) {
       toast.success("企画に招待されました");
@@ -37,7 +36,7 @@ const InvitationPage = ({params}: { params: { invitation_id: string } }) => {
       <h1></h1>
       <p>
         {invitation?.inviter_name}さんがあなたを企画「{invitation?.project_title}」の
-        {invitation && <PositionFormatter position={invitation.position}/>}
+        {invitation && <PositionFormatter position={invitation.position} />}
         に招待しています。
       </p>
       <button onClick={onClick}>承諾する</button>

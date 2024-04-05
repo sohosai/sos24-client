@@ -6,11 +6,11 @@ export const fetcherWithToken = async (url: string, token?: string, _init?: Requ
 
   return await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}${url}`, {
     headers: {
-      Authorization: `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   })
     .then(async (res) => {
-      const resObject  = await res.json();
+      const resObject = await res.json();
       if (!res.ok) {
         const error = new Error(res.statusText);
         error.name = resObject.code;

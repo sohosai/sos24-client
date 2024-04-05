@@ -1,18 +1,18 @@
-import {FC} from "react";
+import { FC } from "react";
 
-import {StringForm} from "@/components/forms/String";
-import {NumberForm} from "@/components/forms/Number";
-import {DropdownForm} from "@/components/forms/Dropdown";
-import {CheckboxForm} from "@/components/forms/Checkbox";
+import { StringForm } from "@/components/forms/String";
+import { NumberForm } from "@/components/forms/Number";
+import { DropdownForm } from "@/components/forms/Dropdown";
+import { CheckboxForm } from "@/components/forms/Checkbox";
 
-import {components} from "@/schema";
-import {FilesForm} from "@/components/forms/Files";
+import { components } from "@/schema";
+import { FilesForm } from "@/components/forms/Files";
 
 type FormItem = components["schemas"]["FormItem"];
 
 export const FormItems: FC<{
   items: FormItem[] | undefined;
-}> = ({items}) => {
+}> = ({ items }) => {
   if (!items) {
     return <p>申請項目の読み込みに失敗しました</p>;
   }
