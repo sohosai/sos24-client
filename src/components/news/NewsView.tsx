@@ -49,10 +49,16 @@ export const NewsView = () => {
   const defaultCategory = (searchParams.get("news_category") as SelectedCategoryType) ?? "me";
   const [selectedCategory, setSelectedCategory] = useState<SelectedCategoryType>(defaultCategory);
 
-  const { data: newsData, isLoading: isLoadingNews } = useSWR("/news");
-  const { data: projectData, isLoading: isLoadingProject } = useSWR("/projects/me");
+  const { data: newsData, error: newsError, isLoading: isLoadingNews } = useSWR("/news");
+  const { data: projectData, error: projectError, isLoading: isLoadingProject } = useSWR("/projects/me");
   if (isLoadingNews || isLoadingProject) {
     return;
+  }
+  if (newsError) {
+    return <p>お知らせの読み込み中に不明なエラーが発生しました。</p>;
+  }
+  if (projectError) {
+    return <p>企画の読み込み中に不明なエラーが発生しました。</p>;
   }
 
   const project = assignType("/projects/me", projectData);
