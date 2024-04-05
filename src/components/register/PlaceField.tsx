@@ -41,6 +41,7 @@ export const PlaceField = ({ categoryType, register, error }: PlaceFieldProps) =
         className={flex({
           justifyContent: "space-around",
           gap: 4,
+          direction: { base: "column", md: "row" },
         })}>
         <PlaceFieldItem
           value="outside"
@@ -77,7 +78,10 @@ const PlaceFieldItem = ({ label, value, caption, register, disabled }: PlaceFiel
       key={value}
       className={stack({
         flex: 1,
-        alignItems: "center",
+        gap: 2,
+        md: {
+          alignItems: "center",
+        },
       })}>
       <label
         className={hstack({
