@@ -10,12 +10,17 @@ import Image from "next/image";
 import triangleIcon from "../../../components/assets/Triangle.svg";
 import { css } from "@styled-system/css";
 import { FileItem } from "@/components/news/FileItem";
+import toast from "react-hot-toast";
 
 export const runtime = "edge";
 
 const NewsDetailsPage = ({ params }: { params: { news_id: string } }) => {
-  const { data, isLoading } = useSWR(`/news/${params.news_id}`);
+  const { data, error, isLoading } = useSWR(`/news/${params.news_id}`);
   if (isLoading) {
+    return;
+  }
+  if (error) {
+    toast.error(`お知らせの読み込みに失敗しました: ${error}`)
     return;
   }
 
