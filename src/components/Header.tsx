@@ -150,11 +150,37 @@ const MobileMenu: FC<{
   </nav>
 );
 
+const HeaderMenuItemStyle = css({ height: "100%", alignItems: "center", display: "flex" });
+const HeaderMenuItemLinkStyle = css({ display: "block", paddingX: 5, lineHeight: 5 });
+
+const HeaderMenuItems: FC<{ isCommitteeMode: boolean }> = ({ isCommitteeMode }) => {
+  return (
+    <ul className={css({ display: "flex", paddingX: 5, height: "100%" })}>
+      <li className={HeaderMenuItemStyle}>
+        <Link href={`${isCommitteeMode ? "/committee" : ""}/dashboard`} className={HeaderMenuItemLinkStyle}>
+          企画情報
+        </Link>
+      </li>
+      <li className={HeaderMenuItemStyle}>
+        <Link href={`${isCommitteeMode ? "/committee" : ""}/forms`} className={HeaderMenuItemLinkStyle}>
+          申請
+        </Link>
+      </li>
+      <li className={HeaderMenuItemStyle}>
+        <Link href={`${isCommitteeMode ? "/committee" : ""}/news`} className={HeaderMenuItemLinkStyle}>
+          お知らせ
+        </Link>
+      </li>
+    </ul>
+  );
+};
+
 export const Header: FC = () => {
   const { user, isLoading } = useAuthState();
   const auth = getAuth();
   const { data: userRes } = useSWR("/users/me");
   const userInfo = userRes ? assignType("/users/me", userRes) : undefined;
+  const { error: projectErr, isLoading: projectIsLoading } = useSWR("/projects/me");
   const path = usePathname();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
@@ -186,6 +212,7 @@ export const Header: FC = () => {
         gap: 4,
         paddingY: 4,
         gridTemplateRows: "1fr, 1fr",
+        zIndex: 2,
         sm: {
           height: 20,
           paddingY: 0,
@@ -237,13 +264,19 @@ export const Header: FC = () => {
             alignItems: "center",
             justifyContent: "center",
             gap: { sm: 5, base: 2 },
-            fontSize: { base: "lg", sm: "2xl" },
             sm: {
               paddingLeft: 5,
+              height: "100%",
             },
           })}>
           <Image src={logo} alt="雙峰祭ロゴマーク" className={css({ width: { sm: 10, base: 8 } })} />
-          <h1 className={css({ color: showMobileMenu ? "white" : "black" })}>雙峰祭オンラインシステム</h1>
+          <h1
+            className={css({
+              color: showMobileMenu ? "white" : "black",
+              fontSize: { base: "lg", sm: "2xl" },
+            })}>
+            雙峰祭オンラインシステム
+          </h1>
           <a
             href="https://www.sakura.ad.jp/"
             target="_blank"
@@ -270,6 +303,9 @@ export const Header: FC = () => {
               className={css({ height: 6 })}
             />
           </a>
+          {((!projectIsLoading && !projectErr) || path.startsWith("/committee")) && (
+            <HeaderMenuItems isCommitteeMode={path.startsWith("/committee")} />
+          )}
         </div>
         {isLoading || !user ? (
           <></>

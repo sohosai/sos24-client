@@ -112,7 +112,7 @@ export const RegisterForm = () => {
           kana_title: data.kana_title,
           group_name: data.group_name,
           kana_group_name: data.kana_group_name,
-          category: data.category,
+          category: data.category as components["schemas"]["ProjectCategory"],
           attributes: attributes,
         },
       })
