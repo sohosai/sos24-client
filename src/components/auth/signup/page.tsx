@@ -7,18 +7,15 @@ import Image from "next/image";
 import Triangle from "@/components/assets/Triangle.svg";
 import { authModeAtom } from "@/components/auth/AuthUI";
 import { useSetAtom } from "jotai";
+import { center } from "@styled-system/patterns";
 
 const SignupPage: NextPage = () => {
   const setAuthMode = useSetAtom(authModeAtom);
 
   return (
     <div
-      className={css({
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
+      className={center({
         flexDir: "column",
-        width: "100%",
         minHeight: "calc(100vh - token(spacing.20))",
       })}>
       <h1

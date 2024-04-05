@@ -7,17 +7,14 @@ import Image from "next/image";
 import Triangle from "../../assets/Triangle.svg";
 import { authModeAtom } from "@/components/auth/AuthUI";
 import { useSetAtom } from "jotai";
+import { center } from "@styled-system/patterns";
 
 const SigninPage: NextPage = () => {
   const setAuthMode = useSetAtom(authModeAtom);
 
   return (
     <div
-      className={css({
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
+      className={center({
         minHeight: "calc(100vh - token(spacing.20))",
       })}>
       <div
