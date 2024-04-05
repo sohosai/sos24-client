@@ -26,8 +26,12 @@ const InvitationPage = ({ params }: { params: { invitation_id: string } }) => {
     return;
   }
   if (error) {
-    toast.error(`招待の読み込みに失敗しました: ${error}`);
-    return;
+    switch (error.name) {
+      case "invitation/not-found":
+        return <p>この招待リンクは存在しません。</p>;
+      default:
+        return <p>招待の読み込み中に不明なエラーが発生しました。</p>;
+    }
   }
 
   const invitation = assignType("/invitations/{invitation_id}", data);
@@ -37,7 +41,14 @@ const InvitationPage = ({ params }: { params: { invitation_id: string } }) => {
       params: { path: { invitation_id: params.invitation_id } },
     });
     if (error) {
-      toast.error(`承諾に失敗しました: ${error.message}`);
+      switch (error.code) {
+        case "invitation/already-owner-or-subowner":
+          toast.error("すでに企画責任者または副企画責任者のため、招待を受けることができません。");
+          break;
+        default:
+          toast.error("招待の承諾中に不明なエラーが発生しました。");
+          break;
+      }
     } else {
       toast.success("企画に招待されました");
       router.push("/dashboard");
