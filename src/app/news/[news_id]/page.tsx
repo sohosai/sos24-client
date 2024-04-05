@@ -20,7 +20,7 @@ const NewsDetailsPage = ({ params }: { params: { news_id: string } }) => {
     return;
   }
   if (error) {
-    toast.error(`お知らせの読み込みに失敗しました: ${error}`)
+    toast.error(`お知らせの読み込みに失敗しました: ${error}`);
     return;
   }
 

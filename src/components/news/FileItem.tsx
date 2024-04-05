@@ -16,7 +16,7 @@ export const FileItem = ({ file_id }: FileItemProps) => {
     return;
   }
   if (error) {
-    toast.error(`ファイルの読み込みに失敗しました: ${error}`)
+    toast.error(`ファイルの読み込みに失敗しました: ${error}`);
     return;
   }
 
