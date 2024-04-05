@@ -20,8 +20,12 @@ const NewsDetailsPage = ({ params }: { params: { news_id: string } }) => {
     return;
   }
   if (error) {
-    toast.error(`お知らせの読み込みに失敗しました: ${error}`);
-    return;
+    switch (error.name) {
+      case "news/not-found":
+        return <p>このお知らせは存在しません。</p>;
+      default:
+        return <p>招待の読み込み中に不明なエラーが発生しました。</p>;
+    }
   }
 
   const news = assignType("/news/{news_id}", data);
