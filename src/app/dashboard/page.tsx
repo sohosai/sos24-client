@@ -1,25 +1,47 @@
 "use client";
 
 import { NextPage } from "next";
-import useSWR from "swr";
-import { assignType } from "@/lib/openapi";
-import { NewsList } from "./NewsList";
+import { NewsView } from "@/components/news/NewsView";
+import { container, flex, stack } from "@styled-system/patterns";
+import { Title } from "@/components/Title";
+import Link from "next/link";
+import Image from "next/image";
+
+import pulldownIcon from "../../components/assets/Pulldown.svg";
 import { css } from "@styled-system/css";
 
 const DashboardPage: NextPage = () => {
-  const { data: newsRes } = useSWR("/news");
-  const news = newsRes ? assignType("/news", newsRes) : undefined;
-
   return (
-    <div
-      className={css({
-        padding: 5,
-      })}>
-      {!newsRes?.ok ? (
-        <p>お知らせの取得中にエラーが発生しました(エラー: {String(newsRes?.statusCode)})</p>
-      ) : (
-        <NewsList newsList={news ?? []} />
-      )}
+    <div className={container()}>
+      <div className={stack({ gap: 8, marginY: 8 })}>
+        <div className={stack({ gap: 6, alignItems: "center" })}>
+          <div>
+            <Title>お知らせ</Title>
+          </div>
+          <div className={flex({ position: "absolute", top: 24, justifyContent: "flex-end", width: "90%" })}>
+            <Link
+              href="/news"
+              className={flex({
+                backgroundColor: "sohosai.purple",
+                borderRadius: 2,
+                paddingX: 4,
+                paddingY: 1,
+                gap: 2,
+              })}>
+              <Image src={pulldownIcon} alt="" />
+              <span
+                className={css({
+                  color: "white",
+                  fontSize: "xs",
+                  fontWeight: "bold",
+                })}>
+                お知らせ一覧へ
+              </span>
+            </Link>
+          </div>
+          <NewsView />
+        </div>
+      </div>
     </div>
   );
 };
