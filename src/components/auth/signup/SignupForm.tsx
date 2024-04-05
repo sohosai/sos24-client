@@ -1,12 +1,12 @@
 "use client";
 
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import {css, cx} from "@styled-system/css";
-import {basicErrorMessageStyle, basicFormStyle, checkboxFormStyle} from "@/components/forms/styles";
-import {Button} from "@/components/Button";
-import {useSetAtom} from "jotai";
-import {authModeAtom} from "@/components/auth/AuthUI";
+import { css, cx } from "@styled-system/css";
+import { basicErrorMessageStyle, basicFormStyle, checkboxFormStyle } from "@/components/forms/styles";
+import { Button } from "@/components/Button";
+import { useSetAtom } from "jotai";
+import { authModeAtom } from "@/components/auth/AuthUI";
 
 type CreateUserInput = {
   name: string;
@@ -30,14 +30,14 @@ export const SignupForm = () => {
   const {
     register,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setError,
   } = useForm<CreateUserInput>();
   const setAuthMode = useSetAtom(authModeAtom);
 
   const onSubmit = async (data: CreateUserInput) => {
     if (!data.agreement) {
-      setError("agreement", {message: "利用規約に同意してください"});
+      setError("agreement", { message: "利用規約に同意してください" });
       return;
     }
     const resp = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/users`, {
@@ -58,7 +58,7 @@ export const SignupForm = () => {
       toast.success("ユーザ登録が完了しました。ログインしてください。");
       setAuthMode("signIn");
     } else {
-      setError("root", {message: "ユーザ登録に失敗しました"});
+      setError("root", { message: "ユーザ登録に失敗しました" });
       toast.error("ユーザ登録に失敗しました");
     }
   };
@@ -74,7 +74,7 @@ export const SignupForm = () => {
         width: 80,
       })}>
       <div className={labelAndInputStyle}>
-        <label htmlFor="name" className={css({fontWeight: "bold"})}>
+        <label htmlFor="name" className={css({ fontWeight: "bold" })}>
           名前
         </label>
         <input
@@ -89,7 +89,7 @@ export const SignupForm = () => {
         {errors.name && <span className={basicErrorMessageStyle}>{errors.name.message}</span>}
       </div>
       <div className={labelAndInputStyle}>
-        <label htmlFor="kana_name" className={css({fontWeight: "bold"})}>
+        <label htmlFor="kana_name" className={css({ fontWeight: "bold" })}>
           なまえ
         </label>
         <input
@@ -108,7 +108,7 @@ export const SignupForm = () => {
         {errors.kana_name && <span className={basicErrorMessageStyle}>{errors.kana_name.message}</span>}
       </div>
       <div className={labelAndInputStyle}>
-        <label htmlFor="email" className={css({fontWeight: "bold"})}>
+        <label htmlFor="email" className={css({ fontWeight: "bold" })}>
           メールアドレス
         </label>
         <input
@@ -124,11 +124,11 @@ export const SignupForm = () => {
             },
           })}
         />
-        <span className={css({fontSize: "sm", color: "gray.600"})}>tsukuba.ac.jpで終わるものを入力してください</span>
+        <span className={css({ fontSize: "sm", color: "gray.600" })}>tsukuba.ac.jpで終わるものを入力してください</span>
         {errors.email && <span className={basicErrorMessageStyle}>{errors.email.message}</span>}
       </div>
       <div className={labelAndInputStyle}>
-        <label htmlFor="password" className={css({fontWeight: "bold"})}>
+        <label htmlFor="password" className={css({ fontWeight: "bold" })}>
           パスワード
         </label>
         <input
@@ -142,7 +142,7 @@ export const SignupForm = () => {
         {errors.password && <span className={basicErrorMessageStyle}>{errors.password.message}</span>}
       </div>
       <div className={labelAndInputStyle}>
-        <label htmlFor="phone_number" className={css({fontWeight: "bold"})}>
+        <label htmlFor="phone_number" className={css({ fontWeight: "bold" })}>
           電話番号
         </label>
         <input
@@ -155,18 +155,18 @@ export const SignupForm = () => {
         />
         {errors.phone_number && <span className={basicErrorMessageStyle}>{errors.phone_number.message}</span>}
       </div>
-      <div className={css({display: "flex", alignItems: "center", gap: 3})}>
+      <div className={css({ display: "flex", alignItems: "center", gap: 3 })}>
         <input
           type="checkbox"
           id="agreement"
           className={checkboxFormStyle}
-          {...register("agreement", {required: "利用規約に同意してください"})}
+          {...register("agreement", { required: "利用規約に同意してください" })}
         />
         <label htmlFor="agreement">利用規約に同意する</label>
       </div>
       {errors.agreement && <span className={basicErrorMessageStyle}>{errors.agreement.message}</span>}
       {errors.root && <span className={basicErrorMessageStyle}>{errors.root.message}</span>}
-      <Button color="primary" className={css({alignSelf: "center"})} type="submit">
+      <Button color="primary" className={css({ alignSelf: "center" })} type="submit">
         送信
       </Button>
     </form>

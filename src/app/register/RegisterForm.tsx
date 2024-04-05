@@ -1,19 +1,19 @@
 "use client";
 
-import {useForm, useWatch} from "react-hook-form";
-import {css} from "@styled-system/css";
-import {RegisterProjectSchema, RegisterProjectSchemaType} from "@/lib/valibot";
-import {valibotResolver} from "@hookform/resolvers/valibot";
-import {Button} from "@/components/Button";
-import {TextField} from "@/components/register/TextField";
-import {CategoryField} from "@/components/register/CategoryField";
-import {category_to_type, PlaceField} from "@/components/register/PlaceField";
-import {CheckboxField} from "@/components/register/CheckboxField";
-import {stack} from "@styled-system/patterns";
-import {client} from "@/lib/openapi";
-import {components} from "@/schema";
+import { useForm, useWatch } from "react-hook-form";
+import { css } from "@styled-system/css";
+import { RegisterProjectSchema, RegisterProjectSchemaType } from "@/lib/valibot";
+import { valibotResolver } from "@hookform/resolvers/valibot";
+import { Button } from "@/components/Button";
+import { TextField } from "@/components/register/TextField";
+import { CategoryField } from "@/components/register/CategoryField";
+import { category_to_type, PlaceField } from "@/components/register/PlaceField";
+import { CheckboxField } from "@/components/register/CheckboxField";
+import { stack } from "@styled-system/patterns";
+import { client } from "@/lib/openapi";
+import { components } from "@/schema";
 import toast from "react-hot-toast";
-import {redirect} from "next/navigation";
+import { redirect } from "next/navigation";
 
 const categoryItems = [
   {
@@ -27,9 +27,9 @@ const categoryItems = [
     label: "調理企画（仕込場必要）",
     hasTopSpacer: false,
     badges: [
-      {label: "食品取り扱い", allowed: true},
-      {label: "調理", allowed: true},
-      {label: "仕込場", allowed: true},
+      { label: "食品取り扱い", allowed: true },
+      { label: "調理", allowed: true },
+      { label: "仕込場", allowed: true },
     ],
   },
   {
@@ -37,9 +37,9 @@ const categoryItems = [
     label: "調理企画（仕込場不要）",
     hasTopSpacer: false,
     badges: [
-      {label: "食品取り扱い", allowed: true},
-      {label: "調理", allowed: true},
-      {label: "仕込場", allowed: false},
+      { label: "食品取り扱い", allowed: true },
+      { label: "調理", allowed: true },
+      { label: "仕込場", allowed: false },
     ],
   },
   {
@@ -47,8 +47,8 @@ const categoryItems = [
     label: "既製食品販売企画",
     hasTopSpacer: false,
     badges: [
-      {label: "食品取り扱い", allowed: true},
-      {label: "調理", allowed: false},
+      { label: "食品取り扱い", allowed: true },
+      { label: "調理", allowed: false },
     ],
   },
   {
@@ -64,7 +64,7 @@ export const RegisterForm = () => {
     register,
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
     resetField,
   } = useForm<RegisterProjectSchemaType>({
@@ -72,9 +72,9 @@ export const RegisterForm = () => {
     resolver: valibotResolver(RegisterProjectSchema),
   });
 
-  const selectedCategory = useWatch({control, name: "category"});
+  const selectedCategory = useWatch({ control, name: "category" });
   const categoryType = category_to_type(selectedCategory);
-  const selectedPlace = useWatch({control, name: "place"});
+  const selectedPlace = useWatch({ control, name: "place" });
   switch (categoryType) {
     case "general":
       if (selectedPlace === "stage") {
@@ -116,7 +116,7 @@ export const RegisterForm = () => {
           attributes: attributes,
         },
       })
-      .then(({error}) => {
+      .then(({ error }) => {
         if (error) {
           toast.error(`企画応募中にエラーが発生しました`);
           return;
@@ -168,8 +168,8 @@ export const RegisterForm = () => {
         register={register("kana_group_name")}
         error={errors.kana_group_name?.message}
       />
-      <CategoryField items={categoryItems} register={register("category")} error={errors.category?.message}/>
-      <PlaceField categoryType={categoryType} register={register("place")} error={errors.place?.message}/>
+      <CategoryField items={categoryItems} register={register("category")} error={errors.category?.message} />
+      <PlaceField categoryType={categoryType} register={register("place")} error={errors.place?.message} />
       <CheckboxField
         id="agreement1"
         label="あなたは、別の企画団体の企画責任者または副企画責任者になることはできません。"
@@ -182,7 +182,7 @@ export const RegisterForm = () => {
         register={register("agreement2")}
         error={errors.agreement2?.message}
       />
-      <Button type="submit" color="primary" className={css({flexGrow: 0, alignSelf: "center"})}>
+      <Button type="submit" color="primary" className={css({ flexGrow: 0, alignSelf: "center" })}>
         次へ
       </Button>
     </form>
