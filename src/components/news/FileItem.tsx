@@ -4,18 +4,23 @@ import { flex } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
+import toast from "react-hot-toast";
 
 interface FileItemProps {
   file_id: string;
 }
 
 export const FileItem = ({ file_id }: FileItemProps) => {
-  const { data, isLoading } = useSWR(`/files/${file_id}`);
+  const { data, error, isLoading } = useSWR(`/files/${file_id}`);
   if (isLoading) {
     return;
   }
+  if (error) {
+    toast.error(`ファイルの読み込みに失敗しました: ${error}`)
+    return;
+  }
 
-  const file = assignType("/files/{file_id}", data.json);
+  const file = assignType("/files/{file_id}", data);
 
   return (
     <a
