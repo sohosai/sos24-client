@@ -6,6 +6,7 @@ import { assignType } from "@/lib/openapi";
 import { useCallback, useState } from "react";
 import { components } from "@/schema";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Route } from "next";
 
 // 対象の企画であるかを確認する
 const isTargetProject = (
@@ -45,7 +46,7 @@ export const NewsView = () => {
     [searchParams],
   );
 
-  const defaultCategory = (searchParams.get("category") as SelectedCategoryType) ?? "me";
+  const defaultCategory = (searchParams.get("newsCategory") as SelectedCategoryType) ?? "me";
   const [selectedCategory, setSelectedCategory] = useState<SelectedCategoryType>(defaultCategory);
 
   const { data: newsData, isLoading: isLoadingNews } = useSWR("/news");
@@ -65,7 +66,7 @@ export const NewsView = () => {
         selected={selectedCategory}
         setSelected={(category) => {
           setSelectedCategory(category);
-          router.push(pathname + "?" + createQueryString("category", category));
+          router.push((pathname + "?" + createQueryString("newsCategory", category)) as Route);
         }}
       />
       <NewsList newsList={filteredNewsList} />
