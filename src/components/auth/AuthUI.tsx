@@ -24,7 +24,7 @@ export const AuthUI: FC<PropsWithChildren> = ({ children }) => {
           <Loading />
         </div>
       ) : authState.user ? (
-        <>{authState.user.emailVerified ? { children } : <EmailVerification />}</>
+        <>{authState.user.emailVerified ? <>{children}</> : <EmailVerification />}</>
       ) : (
         <>{authMode === "signIn" ? <SigninPage /> : <SignupPage />}</>
       )}
