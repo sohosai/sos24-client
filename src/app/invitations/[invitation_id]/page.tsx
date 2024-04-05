@@ -32,9 +32,9 @@ const InvitationPage = ({ params }: { params: { invitation_id: string } }) => {
   const invitation = assignType("/invitations/{invitation_id}", data.json);
 
   const onClick = async () => {
-    const {
-      error
-    } = await client.POST("/invitations/{invitation_id}", { params: { path: { invitation_id: params.invitation_id } } });
+    const { error } = await client.POST("/invitations/{invitation_id}", {
+      params: { path: { invitation_id: params.invitation_id } },
+    });
     if (error) {
       toast.error(`承諾に失敗しました: ${error.message}`);
     } else {
@@ -49,22 +49,25 @@ const InvitationPage = ({ params }: { params: { invitation_id: string } }) => {
         className={stack({
           alignItems: "center",
           gap: 8,
-          marginY: 8
+          marginY: 8,
         })}>
-        <Title><PositionFormatter position={invitation.position} />登録</Title>
-        {!invitation.used_by &&
+        <Title>
+          <PositionFormatter position={invitation.position} />
+          登録
+        </Title>
+        {!invitation.used_by && (
           <>
             <p>
               {invitation.inviter_name}さんがあなたを企画「{invitation.project_title}」の
               <PositionFormatter position={invitation.position} />
               に招待しています。
             </p>
-            <Button color="primary" onClick={onClick}>承諾する</Button>
+            <Button color="primary" onClick={onClick}>
+              承諾する
+            </Button>
           </>
-        }
-        {invitation.used_by &&
-          <p>この招待リンクはすでに使用されています。</p>
-        }
+        )}
+        {invitation.used_by && <p>この招待リンクはすでに使用されています。</p>}
       </div>
     </div>
   );
