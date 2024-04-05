@@ -1,14 +1,13 @@
-import { FC, useState, useRef } from "react";
+import type {DragEvent} from "react";
+import {FC, useRef, useState} from "react";
 import Image from "next/image";
-import { css, cva } from "@styled-system/css";
+import {css, cva} from "@styled-system/css";
+import {basicFormProps} from "./types";
 
-import type { DragEvent } from "react";
-import { basicFormProps } from "./types";
+import {basicErrorMessageStyle, basicFormLabelStyle} from "./styles";
 
-import { basicErrorMessageStyle, basicFormLabelStyle } from "./styles";
-
-import { RequiredBadge } from "./RequiredBadge";
-import { FileView } from "@/components/FileView";
+import {RequiredBadge} from "./RequiredBadge";
+import {FileView} from "@/components/FileView";
 
 import clickIcon from "../assets/Click.svg";
 import driveIcon from "../assets/Drive.svg";
@@ -36,8 +35,6 @@ export const FilesForm: FC<Props> = (props: Props) => {
       } else {
         filesDOM.current?.setCustomValidity("");
       }
-    } else {
-      console.log(filesDOM.current?.validationMessage);
     }
 
     const isValid2 = filesDOM.current?.checkValidity();
@@ -110,7 +107,7 @@ export const FilesForm: FC<Props> = (props: Props) => {
     <div>
       <span className={basicFormLabelStyle}>
         {props.name}
-        <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
+        <RequiredBadge isRequired={props.required} className={css({marginInline: 2})}/>
       </span>
       <div
         id="drop_area"
@@ -127,7 +124,7 @@ export const FilesForm: FC<Props> = (props: Props) => {
           getFiles(e);
           validateFiles();
         }}
-        className={dropAreaStyle({ isDragged })}>
+        className={dropAreaStyle({isDragged})}>
         <button
           onClick={() => {
             filesDOM.current?.click();
@@ -164,7 +161,7 @@ export const FilesForm: FC<Props> = (props: Props) => {
                   },
                 },
               },
-            })({ isDragged })}>
+            })({isDragged})}>
             ファイル
           </span>
           <div
@@ -172,9 +169,9 @@ export const FilesForm: FC<Props> = (props: Props) => {
               display: "flex",
               alignItems: "center",
             })}>
-            <Image src={clickIcon} alt="クリック" className={css({ height: 7, width: 7 })} />
-            <span className={css({ paddingInline: 2, color: "white", paddingBottom: 1 })}>or</span>
-            <Image src={driveIcon} alt="ファイルをドロップ" className={css({ height: 6, width: 6, marginInline: 1 })} />
+            <Image src={clickIcon} alt="クリック" className={css({height: 7, width: 7})}/>
+            <span className={css({paddingInline: 2, color: "white", paddingBottom: 1})}>or</span>
+            <Image src={driveIcon} alt="ファイルをドロップ" className={css({height: 6, width: 6, marginInline: 1})}/>
           </div>
         </div>
       </div>
@@ -189,8 +186,6 @@ export const FilesForm: FC<Props> = (props: Props) => {
         })}
         onChange={(e) => {
           e.preventDefault();
-          console.log("test");
-          console.log(filesDOM.current?.files);
           validateFiles();
 
           // 毎回確実にstateを更新して再レンダリングさせる
