@@ -19,7 +19,7 @@ const PositionFormatter = ({ position }: { position: "owner" | "sub_owner" }) =>
 const InvitationPage = ({ params }: { params: { invitation_id: string } }) => {
   const { data, error, isLoading } = useSWR(`/invitations/${params.invitation_id}`);
   console.log(data, error, isLoading);
-  const invitation = data ? assignType("/invitations/{invitation_id}", data.json) : undefined;
+  const invitation = data ? assignType("/invitations/{invitation_id}", data) : undefined;
 
   const onClick = async () => {
     const resp = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/invitations/${params.invitation_id}`, {
