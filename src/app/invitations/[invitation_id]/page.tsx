@@ -26,7 +26,8 @@ const InvitationPage = ({ params }: { params: { invitation_id: string } }) => {
     return;
   }
   if (error) {
-    return <p>招待の読み込みに失敗しました: {error}</p>;
+    toast.error(`招待の読み込みに失敗しました: ${error}`);
+    return;
   }
 
   const invitation = assignType("/invitations/{invitation_id}", data);
