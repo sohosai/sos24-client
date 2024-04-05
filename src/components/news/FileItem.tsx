@@ -12,7 +12,7 @@ interface FileItemProps {
 export const FileItem = ({ file_id }: FileItemProps) => {
   const { data, isLoading } = useSWR(`/files/${file_id}`);
   if (isLoading) {
-    return ;
+    return;
   }
 
   const file = assignType("/files/{file_id}", data.json);
