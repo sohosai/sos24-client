@@ -5,8 +5,7 @@ import toast from "react-hot-toast";
 import { css, cx } from "@styled-system/css";
 import { basicErrorMessageStyle, basicFormStyle, checkboxFormStyle } from "@/components/forms/styles";
 import { Button } from "@/components/Button";
-import { useSetAtom } from "jotai";
-import { authModeAtom } from "@/components/auth/AuthUI";
+import { getAuth, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
 
 type CreateUserInput = {
   name: string;
@@ -33,7 +32,6 @@ export const SignupForm = () => {
     formState: { errors },
     setError,
   } = useForm<CreateUserInput>();
-  const setAuthMode = useSetAtom(authModeAtom);
 
   const onSubmit = async (data: CreateUserInput) => {
     if (!data.agreement) {
@@ -55,8 +53,10 @@ export const SignupForm = () => {
     });
 
     if (resp.status === 201) {
-      toast.success("ユーザ登録が完了しました。ログインしてください。");
-      setAuthMode("signIn");
+      const auth = getAuth();
+      signInWithEmailAndPassword(auth, data.email, data.password).then(() => {
+        sendEmailVerification(auth.currentUser!);
+      });
     } else {
       setError("root", { message: "ユーザ登録に失敗しました" });
       toast.error("ユーザ登録に失敗しました");
