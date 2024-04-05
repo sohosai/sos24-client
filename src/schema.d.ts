@@ -1585,6 +1585,10 @@ export interface components {
       attributes: components["schemas"]["ProjectAttribute"][];
       items: components["schemas"]["FormItem"][];
       attachments: string[];
+      /** Format: uuid */
+      answer_id?: string | null;
+      /** Format: date-time */
+      answered_at?: string | null;
       /**
        * Format: date-time
        * @example 2024-03-15T10:30:00Z
