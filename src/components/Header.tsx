@@ -153,21 +153,21 @@ const MobileMenu: FC<{
 const HeaderMenuItemStyle = css({ height: "100%", alignItems: "center", display: "flex" });
 const HeaderMenuItemLinkStyle = css({ display: "block", paddingX: 5, lineHeight: 5 });
 
-const HeaderMenuItems = () => {
+const HeaderMenuItems: FC<{ isCommitteeMode: boolean }> = ({ isCommitteeMode }) => {
   return (
     <ul className={css({ display: "flex", paddingX: 5, height: "100%" })}>
       <li className={HeaderMenuItemStyle}>
-        <Link href="/dashboard" className={HeaderMenuItemLinkStyle}>
+        <Link href={`${isCommitteeMode ? "/committee" : ""}/dashboard`} className={HeaderMenuItemLinkStyle}>
           企画情報
         </Link>
       </li>
       <li className={HeaderMenuItemStyle}>
-        <Link href="/forms" className={HeaderMenuItemLinkStyle}>
+        <Link href={`${isCommitteeMode ? "/committee" : ""}/forms`} className={HeaderMenuItemLinkStyle}>
           申請
         </Link>
       </li>
       <li className={HeaderMenuItemStyle}>
-        <Link href="/news" className={HeaderMenuItemLinkStyle}>
+        <Link href={`${isCommitteeMode ? "/committee" : ""}/news`} className={HeaderMenuItemLinkStyle}>
           お知らせ
         </Link>
       </li>
@@ -180,6 +180,7 @@ export const Header: FC = () => {
   const auth = getAuth();
   const { data: userRes } = useSWR("/users/me");
   const userInfo = userRes ? assignType("/users/me", userRes) : undefined;
+  const { error: projectErr, isLoading: projectIsLoading } = useSWR("/projects/me");
   const path = usePathname();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
@@ -211,6 +212,7 @@ export const Header: FC = () => {
         gap: 4,
         paddingY: 4,
         gridTemplateRows: "1fr, 1fr",
+        zIndex: 2,
         sm: {
           height: 20,
           paddingY: 0,
@@ -301,7 +303,9 @@ export const Header: FC = () => {
               className={css({ height: 6 })}
             />
           </a>
-          {((!projectIsLoading && !projectErr) || path.startsWith("/committee")) && <HeaderMenuItems />}
+          {((!projectIsLoading && !projectErr) || path.startsWith("/committee")) && (
+            <HeaderMenuItems isCommitteeMode={path.startsWith("/committee")} />
+          )}
         </div>
         {isLoading || !user ? (
           <></>
@@ -316,28 +320,19 @@ export const Header: FC = () => {
             <button
               onClick={handleSignOut}
               className={css({
-                display: "flex",
-                alignItems: "stretch",
+                cursor: "pointer",
+                fontSize: "sm",
+                px: 5,
                 height: "100%",
-                justifyContent: "center",
+                borderX: "solid 1px token(colors.gray.200)",
+                display: { base: "none", sm: "block" },
               })}>
-              <button
-                onClick={handleSignOut}
-                className={css({
-                  cursor: "pointer",
-                  fontSize: "sm",
-                  px: 5,
-                  height: "100%",
-                  borderX: "solid 1px token(colors.gray.200)",
-                  display: { base: "none", sm: "block" },
-                })}>
-                サインアウト
-              </button>
-              {["committee", "committee_operator", "administrator"].includes(userInfo?.role ?? "") && (
-                <SwitchModeButton isCommitteeMode={path.startsWith("/committee")} showMobileMenu={showMobileMenu} />
-              )}
-            </nav>
-          </>
+              サインアウト
+            </button>
+            {["committee", "committee_operator", "administrator"].includes(userInfo?.role ?? "") && (
+              <SwitchModeButton isCommitteeMode={path.startsWith("/committee")} showMobileMenu={showMobileMenu} />
+            )}
+          </nav>
         )}
       </div>
       {user && <HeaderNavigation isCommittee={path.startsWith("/committee")} />}
