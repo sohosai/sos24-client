@@ -95,12 +95,22 @@ const PlaceFieldItem = ({ label, value, caption, register, disabled }: PlaceFiel
 
           cursor: "pointer",
           borderColor: "gray.400",
+          transition: "all 0.2s",
+          "&:hover": {
+            background: "gray.200",
+          },
           "&:has(> input:checked)": {
             borderColor: "sohosai.purple",
           },
           "&:has(> input:disabled)": {
             backgroundColor: "gray.300",
             cursor: "not-allowed",
+            "& img": {
+              filter: "opacity(0.3)",
+            },
+            "& span": {
+              opacity: 0.5,
+            },
           },
         })}>
         <input type="radio" value={value} {...register} disabled={disabled} className={visuallyHidden()} />

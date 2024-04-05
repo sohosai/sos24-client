@@ -61,6 +61,10 @@ const CategoryFieldItem = ({ label, value, register, badges }: CategoryFieldItem
         paddingX: 4,
         paddingY: 4,
         cursor: "pointer",
+        transition: "all 0.2s",
+        "&:hover": {
+          background: "gray.200",
+        },
         "&:has(> input:checked)": {
           borderColor: "sohosai.purple",
         },
