@@ -130,13 +130,13 @@ const MobileMenu: FC<{
         paddingY: 20,
       })}>
       <li className={MobileMenuItemStyle}>
-        <Link href={"./dashboard"}>企画情報</Link>
+        <Link href={`${isCommitteeMode ? "" : "/committee"}/dashboard`}>企画情報</Link>
       </li>
       <li className={MobileMenuItemStyle}>
-        <Link href={"./forms"}>申請一覧</Link>
+        <Link href={`${isCommitteeMode ? "" : "/committee"}/dashboard`}>申請一覧</Link>
       </li>
       <li className={MobileMenuItemStyle}>
-        <Link href={"./news"}>お知らせ一覧</Link>
+        <Link href={`${isCommitteeMode ? "" : "/committee"}/dashboard`}>お知らせ一覧</Link>
       </li>
     </ul>
     {isCommittee && (
