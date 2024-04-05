@@ -119,16 +119,14 @@ export const RegisterForm = () => {
       .then(({ error }) => {
         if (error) {
           toast.error(`企画応募中にエラーが発生しました`);
-          console.error(error);
           return;
         }
 
         toast.success("企画応募に成功しました");
         redirect("/dashboard");
       })
-      .catch((error) => {
+      .catch(() => {
         toast.error(`企画応募中にエラーが発生しました`);
-        console.error(error);
       });
   };
 

@@ -60,7 +60,6 @@ export const SignupForm = () => {
     } else {
       setError("root", { message: "ユーザ登録に失敗しました" });
       toast.error("ユーザ登録に失敗しました");
-      console.error(resp);
     }
   };
 
