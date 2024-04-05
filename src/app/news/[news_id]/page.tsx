@@ -10,7 +10,6 @@ import Image from "next/image";
 import triangleIcon from "../../../components/assets/Triangle.svg";
 import { css } from "@styled-system/css";
 import { FileItem } from "@/components/news/FileItem";
-import toast from "react-hot-toast";
 
 export const runtime = "edge";
 
