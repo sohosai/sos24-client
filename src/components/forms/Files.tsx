@@ -1,8 +1,7 @@
-import { FC, useState, useRef } from "react";
+import type { DragEvent } from "react";
+import { FC, useRef, useState } from "react";
 import Image from "next/image";
 import { css, cva } from "@styled-system/css";
-
-import type { DragEvent } from "react";
 import { basicFormProps } from "./types";
 
 import { basicErrorMessageStyle, basicFormLabelStyle } from "./styles";
@@ -36,8 +35,6 @@ export const FilesForm: FC<Props> = (props: Props) => {
       } else {
         filesDOM.current?.setCustomValidity("");
       }
-    } else {
-      console.log(filesDOM.current?.validationMessage);
     }
 
     const isValid2 = filesDOM.current?.checkValidity();
@@ -189,8 +186,6 @@ export const FilesForm: FC<Props> = (props: Props) => {
         })}
         onChange={(e) => {
           e.preventDefault();
-          console.log("test");
-          console.log(filesDOM.current?.files);
           validateFiles();
 
           // 毎回確実にstateを更新して再レンダリングさせる

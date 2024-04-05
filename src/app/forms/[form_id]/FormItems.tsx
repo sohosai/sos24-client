@@ -76,7 +76,6 @@ export const FormItems: FC<{
           />
         );
       default:
-        console.error("項目の読み込みに失敗しました: ", item);
         return <p>項目の読み込みに失敗しました</p>;
     }
   });
