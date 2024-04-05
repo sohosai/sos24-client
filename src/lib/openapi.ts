@@ -24,5 +24,5 @@ const authMiddleware: Middleware = {
   },
 };
 
-export const client = createClient<paths>({ baseUrl: "http://localhost:8080" });
+export const client = createClient<paths>({ baseUrl: process.env.NEXT_PUBLIC_API_ENDPOINT });
 client.use(authMiddleware);
