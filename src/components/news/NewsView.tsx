@@ -55,8 +55,8 @@ export const NewsView = () => {
     return;
   }
 
-  const project = assignType("/projects/me", projectData.json);
-  const newsList = assignType("/news", newsData.json);
+  const project = assignType("/projects/me", projectData);
+  const newsList = assignType("/news", newsData);
 
   const filteredNewsList = filterNews(selectedCategory, project, newsList);
 
