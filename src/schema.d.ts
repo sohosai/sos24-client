@@ -1491,7 +1491,7 @@ export interface components {
       /** @example そぽたん焼き */
       title: string;
       category: components["schemas"]["ProjectCategory"];
-      attribute: components["schemas"]["ProjectAttribute"][];
+      attribute?: components["schemas"]["ProjectAttribute"][];
     };
     Error: {
       code?: string;
