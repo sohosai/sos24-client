@@ -3,17 +3,69 @@ import { categoryToLabel } from "@/components/news/CategoryBadges";
 import { ProjectAttributesBadge } from "@/components/project/AttirbutesBadge";
 import { assignType, client } from "@/lib/openapi";
 import useSWR from "swr";
-import { TableRow, handleCopyInviteLink } from "./ProjectView";
-import { css, cx } from "@styled-system/css";
 import { useForm } from "react-hook-form";
 import { UpdateProjectSchema, UpdateProjectSchemaType } from "@/lib/valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { Button } from "@/components/Button";
-import { center, vstack } from "@styled-system/patterns";
+import { grid, vstack } from "@styled-system/patterns";
+import { css, cx } from "@styled-system/css";
+import { ReactNode } from "react";
+const TableCellStyle = css({
+  paddingX: 14,
+  paddingY: 4,
+  alignSelf: "center",
+});
 
-export const ProjectEdit: React.FC<{ isEditMode: boolean; onSubmit: () => void }> = ({ isEditMode, onSubmit }) => {
+export const TableRow = ({ label, children, formId }: { label: ReactNode; children: ReactNode; formId?: string }) => (
+  <div
+    className={grid({
+      columns: 2,
+      _even: {
+        backgroundColor: "gray.100",
+      },
+      borderRadius: "md",
+    })}>
+    <label htmlFor={formId} className={cx(TableCellStyle, css({ fontWeight: "bold" }))}>
+      {label}
+    </label>
+    <div className={TableCellStyle}>{children}</div>
+  </div>
+);
+
+export const handleCopyInviteLink = (project_id: string, position: "owner" | "sub_owner") => {
+  client
+    .POST("/invitations", {
+      body: {
+        project_id,
+        position,
+      },
+    })
+    .then((res) => {
+      const data = [
+        new ClipboardItem({
+          "text/plain": new Blob([`${document.location.origin}/invitations/${res.data?.id}`], { type: "text/plain" }),
+        }),
+      ];
+      navigator.clipboard
+        .write(data)
+        .then(() => {
+          toast.success("招待リンクをコピーしました");
+        })
+        .catch(() => {
+          toast.error("招待リンクのコピーに失敗しました");
+        });
+    })
+    .catch((e) => {
+      toast.error("招待リンクの作成に失敗しました");
+      throw new Error(e);
+    });
+};
+export const ProjectEdit: React.FC<{ isEditMode: boolean; onSubmit: () => void; hideSubOwner?: boolean }> = ({
+  isEditMode,
+  onSubmit,
+  hideSubOwner = false,
+}) => {
   const {
     data: rawProjectData,
     error: projectErr,
@@ -142,6 +194,40 @@ export const ProjectEdit: React.FC<{ isEditMode: boolean; onSubmit: () => void }
                   )}
                 </TableRow>
                 {/*企画応募画面で誓約書提出を副責任者登録より前にやってもらうため*/}
+                {hideSubOwner ? null : (
+                  <TableRow
+                    label={
+                      <span
+                        className={css(
+                          !projectData.sub_owner_name && {
+                            position: "relative",
+                            _after: {
+                              content: '""',
+                              position: "absolute",
+                              top: "-50%",
+                              right: "-20%",
+                              width: 3,
+                              height: 3,
+                              backgroundColor: "error",
+                              borderRadius: "full",
+                              display: "block",
+                            },
+                          },
+                        )}>
+                        副企画責任者
+                      </span>
+                    }
+                    children={
+                      projectData.sub_owner_name ?? (
+                        <button
+                          className={css({ color: "sohosai.purple", textDecoration: "underline", cursor: "pointer" })}
+                          onClick={() => handleCopyInviteLink(projectData.id, "sub_owner")}>
+                          招待リンクをコピー
+                        </button>
+                      )
+                    }
+                  />
+                )}
                 <TableRow label="企画区分" formId="category">
                   {categoryToLabel(projectData.category)}
                 </TableRow>
