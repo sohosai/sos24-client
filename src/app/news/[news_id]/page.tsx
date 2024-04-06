@@ -10,10 +10,11 @@ import Image from "next/image";
 import triangleIcon from "../../../components/assets/Triangle.svg";
 import { css } from "@styled-system/css";
 import { FileItem } from "@/components/news/FileItem";
+import { NextPage } from "next";
 
 export const runtime = "edge";
 
-const NewsDetailsPage = ({ params }: { params: { news_id: string } }) => {
+const NewsDetailsPage: NextPage<{ params: { news_id: string } }> = ({ params }) => {
   const { data, error, isLoading } = useSWR(`/news/${params.news_id}`);
   if (isLoading) {
     return;
