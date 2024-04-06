@@ -91,7 +91,7 @@ export const ProjectEdit: React.FC<{ isEditMode: boolean; onSubmit: () => void; 
         },
         body: { ...projectData, ...e },
       })
-      .then(({ data, error }) => {
+      .then(({ error }) => {
         if (error) {
           toast.error("企画情報が更新できませんでした");
           if (error["code"] == "bounded-string/invalid-character") {
@@ -216,17 +216,15 @@ export const ProjectEdit: React.FC<{ isEditMode: boolean; onSubmit: () => void; 
                         )}>
                         副企画責任者
                       </span>
-                    }
-                    children={
-                      projectData.sub_owner_name ?? (
-                        <button
-                          className={css({ color: "sohosai.purple", textDecoration: "underline", cursor: "pointer" })}
-                          onClick={() => handleCopyInviteLink(projectData.id, "sub_owner")}>
-                          招待リンクをコピー
-                        </button>
-                      )
-                    }
-                  />
+                    }>
+                    {projectData.sub_owner_name ?? (
+                      <button
+                        className={css({ color: "sohosai.purple", textDecoration: "underline", cursor: "pointer" })}
+                        onClick={() => handleCopyInviteLink(projectData.id, "sub_owner")}>
+                        招待リンクをコピー
+                      </button>
+                    )}
+                  </TableRow>
                 )}
                 <TableRow label="企画区分" formId="category">
                   {categoryToLabel(projectData.category)}
