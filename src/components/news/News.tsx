@@ -12,7 +12,7 @@ import { FC } from "react";
 
 export const News: FC<{
   news: components["schemas"]["News"];
-  isCommittee: boolean;
+  isCommittee?: boolean;
 }> = ({ news, isCommittee }) => {
   const router = useRouter();
 
