@@ -4,12 +4,11 @@ import RegistrationProgress3 from "./assets/RegistrationProgress/3.svg";
 import RegistrationProgress4 from "./assets/RegistrationProgress/4.svg";
 import RegistrationProgress5 from "./assets/RegistrationProgress/5.svg";
 import Image from "next/image";
+import { FC } from "react";
 
-interface RegistrationProgressProps {
+export const RegistrationProgress: FC<{
   step: 1 | 2 | 3 | 4 | 5;
-}
-
-export const RegistrationProgress = ({ step }: RegistrationProgressProps) => {
+}> = ({ step }) => {
   switch (step) {
     case 1:
       return <Image src={RegistrationProgress1} alt="Step 1" />;
