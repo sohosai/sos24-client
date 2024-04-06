@@ -20,12 +20,16 @@ export const getFormStatus = (now: dayjs.Dayjs, startsAt: dayjs.Dayjs, endsAt: d
   return "不明";
 };
 
-export const getSubmitStatus = (deadline: dayjs.Dayjs, answer: Answer | undefined): SubmitStatus => {
-  if (!answer) {
+export const getSubmitStatus = (deadline: string | undefined, answer: Answer | undefined): SubmitStatus => {
+  return getSubmitStatusFromDate(deadline, answer?.updated_at);
+};
+
+export const getSubmitStatusFromDate = (deadline: string | null | undefined, answer: string | null | undefined) => {
+  if (!answer || !deadline) {
     return "未提出";
   }
 
-  if (dayjs(answer.updated_at).isBefore(deadline)) {
+  if (dayjs(answer).isBefore(dayjs(deadline))) {
     return "提出済み";
   } else {
     return "遅延提出";
