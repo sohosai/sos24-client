@@ -6,6 +6,8 @@ import { css } from "@styled-system/css";
 import { EditNewsForm } from "@/app/committee/news/[news_id]/edit/EditNewsForm";
 import { NextPage } from "next";
 
+export const runtime = "edge";
+
 const EditNewsPage: NextPage<{ params: { news_id: string } }> = ({ params }) => {
   return (
     <div className={container({ maxWidth: "4xl" })}>
