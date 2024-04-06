@@ -3,8 +3,9 @@
 import { center, container, stack } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
 import { NewsView } from "@/components/news/NewsView";
+import { NextPage } from "next";
 
-const NewsPage = () => {
+const NewsPage: NextPage = () => {
   return (
     <div className={container()}>
       <div className={stack({ gap: 8, marginY: 8 })}>
