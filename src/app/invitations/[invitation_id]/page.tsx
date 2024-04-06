@@ -67,7 +67,9 @@ const InvitationPage = ({ params }: { params: { invitation_id: string } }) => {
           <PositionFormatter position={invitation.position} />
           登録
         </Title>
-        {!invitation.used_by && (
+        {invitation.used_by ? (
+          <p>この招待リンクはすでに使用されています。</p>
+        ) : (
           <>
             <p>
               {invitation.inviter_name}さんがあなたを企画「{invitation.project_title}」の
@@ -79,7 +81,6 @@ const InvitationPage = ({ params }: { params: { invitation_id: string } }) => {
             </Button>
           </>
         )}
-        {invitation.used_by && <p>この招待リンクはすでに使用されています。</p>}
       </div>
     </div>
   );
