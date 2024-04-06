@@ -42,8 +42,12 @@ const DashboardPage: NextPage = () => {
           </div>
           <NewsView />
         </div>
-        <Title>企画情報</Title>
-        <ProjectView />
+        <div className={stack({ gap: 6, alignItems: "center" })}>
+          <div>
+            <Title>参加企画</Title>
+          </div>
+          <ProjectView />
+        </div>
       </div>
     </div>
   );
