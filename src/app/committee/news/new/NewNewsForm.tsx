@@ -46,6 +46,9 @@ export const NewNewsForm = () => {
 
         toast.success("お知らせを作成しました");
         router.push(`/committee/news/${data.id}`);
+      })
+      .catch(() => {
+        toast.error(`お知らせ保存中にエラーが発生しました`);
       });
   };
 
