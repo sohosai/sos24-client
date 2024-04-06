@@ -5,6 +5,7 @@ import { css } from "@styled-system/css";
 import { projectCategories, ProjectCategory } from "@/lib/valibot";
 import { basicErrorMessageStyle } from "@/components/forms/styles";
 import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
+import { projectCategoryItemStyle } from "@/components/register/styles";
 
 export const ProjectCategorySelector: FC<{
   register: UseFormRegisterReturn;
@@ -41,20 +42,7 @@ const ProjectCategoryItem: FC<{
   register: UseFormRegisterReturn;
 }> = ({ value, register }) => {
   return (
-    <label
-      className={hstack({
-        paddingBlock: 1,
-        paddingInline: 4,
-        borderRadius: 10,
-        cursor: "pointer",
-
-        color: "gray.600",
-        backgroundColor: "gray.200",
-        "&:has(> input:checked)": {
-          color: "white",
-          backgroundColor: "sohosai.purple",
-        },
-      })}>
+    <label className={projectCategoryItemStyle}>
       <input type="checkbox" value={value} {...register} className={visuallyHidden()} />
       <span
         className={css({
