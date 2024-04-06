@@ -28,7 +28,7 @@ export const ProjectCategorySelector: FC<{
           flexWrap: "wrap",
         })}>
         {projectCategories.map((category) => (
-          <CategoryFieldItem key={category} value={category} register={register} />
+          <ProjectCategoryItem key={category} value={category} register={register} />
         ))}
       </div>
       {error && <span className={basicErrorMessageStyle}>{error}</span>}
@@ -36,7 +36,7 @@ export const ProjectCategorySelector: FC<{
   );
 };
 
-const CategoryFieldItem: FC<{
+const ProjectCategoryItem: FC<{
   value: ProjectCategory;
   register: UseFormRegisterReturn;
 }> = ({ value, register }) => {
