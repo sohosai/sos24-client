@@ -1,20 +1,13 @@
 import { css } from "@styled-system/css";
 import dayjs from "dayjs";
 import Link from "next/link";
-import { ProjectCategory } from "@/lib/valibot";
 import { flex } from "@styled-system/patterns";
 import { CategoryBadges } from "@/components/CategoryBadges";
 import { FC } from "react";
-
-type News = {
-  id: string;
-  title: string;
-  categories: ProjectCategory[];
-  updated_at: string;
-};
+import { components } from "@/schema";
 
 export const NewsList: FC<{
-  newsList: News[];
+  newsList: components["schemas"]["NewsSummary"][];
   isCommittee?: boolean;
 }> = ({ newsList, isCommittee }) => {
   return (
