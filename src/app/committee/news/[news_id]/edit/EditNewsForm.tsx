@@ -77,6 +77,9 @@ export const EditNewsForm: FC<{
 
         toast.success("お知らせを保存しました");
         router.push(`/committee/news/${news_id}`);
+      })
+      .catch(() => {
+        toast.error(`お知らせ保存中にエラーが発生しました`);
       });
   };
 
