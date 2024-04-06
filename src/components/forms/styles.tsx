@@ -57,3 +57,21 @@ export const checkboxFormStyle = css({
     backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' width='18' height='12' viewBox='0 0 18 12'%3e%3cpath stroke='%23FFF' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M2 5.7L7.0541 10.5L16 2'/%3e%3c/svg%3e")`,
   },
 });
+
+export const dropdownStyle = css({
+  height: 12,
+  width: "auto",
+  maxWidth: "100%",
+  padding: 0,
+  paddingLeft: 4,
+  paddingRight: 12,
+  borderStyle: "none",
+  appearance: "none",
+  //pulldown.svg
+  backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2360C' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m3 6 4 4M7 10l4-4'/%3e%3c/svg%3e")`,
+  backgroundRepeat: "no-repeat",
+  backgroundSize: "36px",
+  backgroundPositionX: "right",
+  backgroundPositionY: "10px",
+  _hover: { backgroundColor: "gray.200" },
+});
