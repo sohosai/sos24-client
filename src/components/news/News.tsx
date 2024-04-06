@@ -11,8 +11,8 @@ import { useRouter } from "next/navigation";
 import { FC } from "react";
 
 export const News: FC<{
-  news: components["schemas"]["News"],
-  isCommittee: boolean
+  news: components["schemas"]["News"];
+  isCommittee: boolean;
 }> = ({ news, isCommittee }) => {
   const router = useRouter();
 

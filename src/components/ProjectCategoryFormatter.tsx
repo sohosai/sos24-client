@@ -20,7 +20,7 @@ export const ProjectCategoryFormatter: FC<{
     case "stage_university_hall":
       return "ステージ企画（大学会館ステージ）";
   }
-  
+
   // unreachable
   return "";
 };
