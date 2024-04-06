@@ -48,11 +48,11 @@ export const FormsList: FC<{
             const answer = answers.find((ans) => {
               ans.id === form.id;
             });
-            const endsAt = dayjs(form.ends_at);
-            const status = getSubmitStatus(endsAt, answer);
+            const status = getSubmitStatus(form.ends_at, answer);
             if (filterUnsubmitted && status !== "未提出") {
               return;
             }
+            const endsAt = dayjs(form.ends_at);
             return (
               <a
                 key={form.id}

@@ -7,7 +7,7 @@ import { css } from "@styled-system/css";
 
 import { FormItems } from "./FormItems";
 import dayjs from "dayjs";
-import { getTimeLeftText } from "@/lib/formHelpers";
+import { getTimeLeftText, getSubmitStatusFromDate } from "@/lib/formHelpers";
 import { SubmitStatus, submitStatus } from "@/components/SubmitStatus";
 
 export const runtime = "edge";
@@ -26,7 +26,7 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
   const { data: answersRes } = useSWR(`/form-answers?project_id=${projectId}`, fetcherWithToken);
   const _answers = answersRes ? assignType("/form-answers", answersRes) : undefined;
 
-  const status: submitStatus = "未提出";
+  const status: submitStatus = getSubmitStatusFromDate(form?.ends_at, form?.answered_at);
 
   return (
     <>
