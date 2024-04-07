@@ -108,8 +108,12 @@ const Badge = ({ label, allowed }: BadgeProps) => {
         borderRadius: 5,
         paddingX: 2,
         paddingY: 1,
+        display: "flex",
+        flexWrap: "wrap",
+        columnGap: 2,
+        justifyContent: "center",
       })}>
-      <span className={css({ marginRight: 2 })}>{label}</span>
+      <span>{label}</span>
       <span>{allowed ? "可" : "不可"}</span>
     </span>
   );
