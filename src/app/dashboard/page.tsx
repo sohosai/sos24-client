@@ -11,7 +11,7 @@ import pulldownIcon from "../../components/assets/Pulldown.svg";
 import { css } from "@styled-system/css";
 import { useState } from "react";
 import { Button } from "@/components/Button";
-import { ProjectEdit } from "./ProjectEdit";
+import { ProjectView } from "./ProjectView";
 
 const Project: React.FC = () => {
   const [editable, setEditable] = useState(false);
@@ -24,7 +24,7 @@ const Project: React.FC = () => {
             {editable ? "保存" : "編集"}する
           </Button>
         )}
-        <ProjectEdit isEditMode={editable} onSubmit={() => setEditable(false)} />
+        <ProjectView isEditMode={editable} onSubmit={() => setEditable(false)} />
       </div>
     </>
   );
