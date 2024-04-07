@@ -7,7 +7,6 @@ import useSWR from "swr";
 const Committee: FC = () => {
   const { data: userRes } = useSWR("/users/me");
   const router = useRouter();
-  console.log(userRes);
   const user = assignType("/users/me", userRes);
   useEffect(() => {
     if (!user) return;

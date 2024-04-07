@@ -13,7 +13,7 @@ import { useEffect } from "react";
 const RegisterPage = () => {
   const { data: userRes } = useSWR("/users/me");
   const router = useRouter();
-  console.log(userRes);
+
   const user = assignType("/users/me", userRes);
   useEffect(() => {
     if (!user) return;
