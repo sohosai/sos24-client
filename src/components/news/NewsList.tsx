@@ -3,9 +3,12 @@ import dayjs from "dayjs";
 import { FC } from "react";
 import Link from "next/link";
 import { ProjectCategory } from "@/lib/valibot";
-import { flex } from "@styled-system/patterns";
+import { center, flex } from "@styled-system/patterns";
 import { CategoryBadges } from "@/components/news/CategoryBadges";
+import Image from "next/image";
 
+import SuyasuyaBellIcon from "../assets/SuyasuyaBell.png";
+import { NoResultNotice } from "../NoResultNotice";
 type News = {
   id: string;
   title: string;
@@ -14,6 +17,7 @@ type News = {
 };
 
 export const NewsList: FC<{ newsList: News[] }> = ({ newsList }) => {
+  console.log(newsList);
   return (
     <div>
       <div
@@ -38,42 +42,48 @@ export const NewsList: FC<{ newsList: News[] }> = ({ newsList }) => {
           <div className={css({ fontSize: "sm", fontWeight: "bold" })}>更新日</div>
           <div className={css({ fontSize: "sm", fontWeight: "bold" })}>タイトル</div>
         </div>
-
-        {newsList.map((news) => (
-          <Link
-            key={news.id}
-            href={`/news/${news.id}`}
-            className={css({
-              display: "contents",
-              "& > *": {
-                borderColor: "gray.200",
-                borderBottom: "1px solid",
-              },
-            })}>
-            <div
-              className={css({
-                fontSize: "sm",
-                fontWeight: "bold",
-              })}>
-              {dayjs(news.updated_at).format("YYYY/MM/DD")}
-            </div>
-            <div
-              className={flex({
-                alignItems: "center",
-                gap: 4,
-                fontSize: "sm",
-              })}>
-              <span
+        {newsList.length !== 0 ? (
+          <>
+            {newsList.map((news) => (
+              <Link
+                key={news.id}
+                href={`/news/${news.id}`}
                 className={css({
-                  verticalAlign: "middle",
+                  display: "contents",
+                  "& > *": {
+                    borderColor: "gray.200",
+                    borderBottom: "1px solid",
+                  },
                 })}>
-                {news.title}
-              </span>
-              <CategoryBadges categories={news.categories} />
-            </div>
-          </Link>
-        ))}
+                <div
+                  className={css({
+                    fontSize: "sm",
+                    fontWeight: "bold",
+                  })}>
+                  {dayjs(news.updated_at).format("YYYY/MM/DD")}
+                </div>
+                <div
+                  className={flex({
+                    alignItems: "center",
+                    gap: 4,
+                    fontSize: "sm",
+                  })}>
+                  <span
+                    className={css({
+                      verticalAlign: "middle",
+                    })}>
+                    {news.title}
+                  </span>
+                  <CategoryBadges categories={news.categories} />
+                </div>
+              </Link>
+            ))}
+          </>
+        ) : (
+          <></>
+        )}
       </div>
+      {newsList.length === 0 ? <NoResultNotice message="お知らせはありません" /> : <></>}
     </div>
   );
 };
