@@ -1,5 +1,5 @@
 import { UseFormRegisterReturn } from "react-hook-form";
-import { basicErrorMessageStyle, checkboxFormStyle } from "@/components/forms/styles";
+import { basicErrorMessageStyle, checkboxFormStyle } from "@/components/formFields/styles";
 import { css } from "@styled-system/css";
 import { flex } from "@styled-system/patterns";
 

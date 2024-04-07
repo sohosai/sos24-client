@@ -3,7 +3,7 @@ import { UseFormRegisterReturn } from "react-hook-form";
 
 import categoryIcon from "../../components/assets/CategoryIcon.svg";
 import Image from "next/image";
-import { basicErrorMessageStyle, basicFormLabelStyle } from "@/components/forms/styles";
+import { basicErrorMessageStyle, basicFormLabelStyle } from "@/components/formFields/styles";
 import { flex, stack, visuallyHidden } from "@styled-system/patterns";
 import React from "react";
 

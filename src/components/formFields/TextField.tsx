@@ -1,5 +1,5 @@
 import { css } from "@styled-system/css";
-import { basicErrorMessageStyle, basicFormLabelStyle, basicFormStyle } from "@/components/forms/styles";
+import { basicErrorMessageStyle, basicFormLabelStyle, basicFormStyle } from "@/components/formFields/styles";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { center } from "@styled-system/patterns";
 

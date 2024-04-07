@@ -1,4 +1,5 @@
 import { css, cva } from "@styled-system/css";
+import { hstack } from "@styled-system/patterns";
 
 export const basicFormStyle = cva({
   base: {
@@ -9,8 +10,7 @@ export const basicFormStyle = cva({
 
     borderRadius: "md",
     borderWidth: 2,
-    borderStyle: "solid",
-    borderColor: "gray.400",
+    borderStyle: "solid", borderColor: "gray.400",
   },
   variants: {
     isInvalid: {
@@ -75,4 +75,18 @@ export const dropdownStyle = css({
   backgroundPositionX: "right",
   backgroundPositionY: "10px",
   _hover: { backgroundColor: "gray.200" },
+});
+
+export const projectCategoryItemStyle = hstack({
+  paddingBlock: 1,
+  paddingInline: 4,
+  borderRadius: 10,
+  cursor: "pointer",
+
+  color: "gray.600",
+  backgroundColor: "gray.200",
+  "&:has(> input:checked)": {
+    color: "white",
+    backgroundColor: "sohosai.purple",
+  },
 });

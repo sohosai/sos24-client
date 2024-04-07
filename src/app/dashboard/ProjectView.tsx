@@ -1,4 +1,4 @@
-import { basicErrorMessageStyle, basicFormStyle } from "@/components/forms/styles";
+import { basicErrorMessageStyle, basicFormStyle } from "@/components/formFields/styles";
 import { ProjectAttributesBadge } from "@/components/project/AttirbutesBadge";
 import { assignType, client } from "@/lib/openapi";
 import useSWR from "swr";
