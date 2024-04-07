@@ -2,7 +2,7 @@
 
 import { container } from "@styled-system/patterns";
 import { NextPage } from "next";
-import { ProjectsView } from "./ProjectsView";
+import { ProjectsList } from "./ProjectsView";
 import { css } from "@styled-system/css";
 
 const ProjectsPage: NextPage = () => {
@@ -15,7 +15,7 @@ const ProjectsPage: NextPage = () => {
         })}>
         企画一覧
       </h2>
-      <ProjectsView />
+      <ProjectsList />
     </div>
   );
 };
