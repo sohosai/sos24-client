@@ -2,7 +2,6 @@
 import { assignType } from "@/lib/openapi";
 import { NextPage } from "next";
 import { useRouter } from "next/navigation";
-import { FC } from "react";
 import useSWR from "swr";
 
 const CommitteePage: NextPage = () => {
