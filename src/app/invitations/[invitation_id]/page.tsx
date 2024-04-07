@@ -1,9 +1,12 @@
 "use client";
 
 import useSWR from "swr";
-import { assignType } from "@/lib/openapi";
+import { assignType, client } from "@/lib/openapi";
 import toast from "react-hot-toast";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { container, stack } from "@styled-system/patterns";
+import { Title } from "@/components/Title";
+import { Button } from "@/components/Button";
 
 export const runtime = "edge";
 
@@ -17,29 +20,68 @@ const PositionFormatter = ({ position }: { position: "owner" | "sub_owner" }) =>
 };
 
 const InvitationPage = ({ params }: { params: { invitation_id: string } }) => {
-  const { data } = useSWR(`/invitations/${params.invitation_id}`);
-  const invitation = data ? assignType("/invitations/{invitation_id}", data) : undefined;
+  const router = useRouter();
+  const { data, error, isLoading } = useSWR(`/invitations/${params.invitation_id}`);
+  if (isLoading) {
+    return;
+  }
+  if (error) {
+    switch (error.name) {
+      case "invitation/not-found":
+        return <p>この招待リンクは存在しません。</p>;
+      default:
+        return <p>招待の読み込み中に不明なエラーが発生しました。</p>;
+    }
+  }
+
+  const invitation = assignType("/invitations/{invitation_id}", data);
 
   const onClick = async () => {
-    const resp = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/invitations/${params.invitation_id}`, {
-      method: "POST",
-    }).then((res) => res.status);
-
-    if (resp == 200) {
+    const { error } = await client.POST("/invitations/{invitation_id}", {
+      params: { path: { invitation_id: params.invitation_id } },
+    });
+    if (error) {
+      switch (error.code) {
+        case "invitation/already-owner-or-subowner":
+          toast.error("すでに企画責任者または副企画責任者のため、招待を受けることができません。");
+          break;
+        default:
+          toast.error("招待の承諾中に不明なエラーが発生しました。");
+          break;
+      }
+    } else {
       toast.success("企画に招待されました");
-      redirect("/dashboard");
+      router.push("/dashboard");
     }
   };
 
   return (
-    <div>
-      <h1></h1>
-      <p>
-        {invitation?.inviter_name}さんがあなたを企画「{invitation?.project_title}」の
-        {invitation && <PositionFormatter position={invitation.position} />}
-        に招待しています。
-      </p>
-      <button onClick={onClick}>承諾する</button>
+    <div className={container()}>
+      <div
+        className={stack({
+          alignItems: "center",
+          gap: 8,
+          marginY: 8,
+        })}>
+        <Title>
+          <PositionFormatter position={invitation.position} />
+          登録
+        </Title>
+        {invitation.used_by ? (
+          <p>この招待リンクはすでに使用されています。</p>
+        ) : (
+          <>
+            <p>
+              {invitation.inviter_name}さんがあなたを企画「{invitation.project_title}」の
+              <PositionFormatter position={invitation.position} />
+              に招待しています。
+            </p>
+            <Button color="primary" onClick={onClick}>
+              承諾する
+            </Button>
+          </>
+        )}
+      </div>
     </div>
   );
 };
