@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Sohosai Online System
-  version: "1.0"
+  version: '1.0'
 servers:
   - url: http://localhost:3000
 security:
@@ -24,6 +24,12 @@ tags:
   - name: committee
     description: 実委人のみが利用可能
 paths:
+  /health:
+    get:
+      summary: サーバーの状態を確認する
+      responses:
+        '200':
+          description: OK
   /projects:
     get:
       summary: 企画一覧の取得
@@ -31,32 +37,32 @@ paths:
         - projects
         - committee
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ProjectSummary"
-        "401":
+                  $ref: '#/components/schemas/ProjectSummary'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     post:
       summary: 企画の作成
       tags:
@@ -66,86 +72,86 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateProject"
+              $ref: '#/components/schemas/CreateProject'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CreatedProject"
-        "400":
+                $ref: '#/components/schemas/CreatedProject'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "422":
+                $ref: '#/components/schemas/Error'
+        '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /projects/export:
     get:
       summary: 企画一覧のエクスポート
       tags:
         - committee
       responses:
-        "200":
+        '200':
           description: OK
           content:
             text/csv:
               schema:
                 type: string
-        "401":
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /projects/me:
     get:
       summary: 自分が企画責任者・副企画責任者になっている企画の取得
       tags:
         - projects
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Project"
-        "401":
+                $ref: '#/components/schemas/Project'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /projects/{project_id}:
     get:
       summary: 特定のIDの企画の取得
@@ -159,36 +165,36 @@ paths:
             type: string
           required: true
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Project"
-        "401":
+                $ref: '#/components/schemas/Project'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     put:
       summary: 特定のIDの企画の更新
       tags:
@@ -205,46 +211,46 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateProject"
+              $ref: '#/components/schemas/UpdateProject'
       responses:
-        "200":
+        '200':
           description: OK
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "401":
+                $ref: '#/components/schemas/Error'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "422":
+                $ref: '#/components/schemas/Error'
+        '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     delete:
       summary: 特定のIDの企画の削除
       tags:
@@ -257,32 +263,32 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
-        "401":
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /users:
     get:
       summary: ユーザー一覧の取得
@@ -290,32 +296,32 @@ paths:
         - users
         - committee
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/UserSummary"
-        "401":
+                  $ref: '#/components/schemas/UserSummary'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     post:
       summary: ユーザーの作成
       tags:
@@ -325,80 +331,80 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateUser"
+              $ref: '#/components/schemas/CreateUser'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CreatedUser"
-        "400":
+                $ref: '#/components/schemas/CreatedUser'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "422":
+                $ref: '#/components/schemas/Error'
+        '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /users/export:
     get:
       summary: ユーザー一覧のエクスポート
       tags:
         - committee
       responses:
-        "200":
+        '200':
           description: OK
           content:
             text/csv:
               schema:
                 type: string
-        "401":
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /users/me:
     get:
       summary: 自分のユーザーの取得
       tags:
         - users
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
-        "401":
+                $ref: '#/components/schemas/User'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /users/{user_id}:
     get:
       summary: 特定のIDのユーザーの取得
@@ -412,36 +418,36 @@ paths:
             type: string
           required: true
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
-        "401":
+                $ref: '#/components/schemas/User'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     put:
       summary: 特定のIDのユーザーの更新
       tags:
@@ -458,46 +464,46 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateUser"
+              $ref: '#/components/schemas/UpdateUser'
       responses:
-        "200":
+        '200':
           description: OK
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "401":
+                $ref: '#/components/schemas/Error'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "422":
+                $ref: '#/components/schemas/Error'
+        '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     delete:
       summary: 特定のIDのユーザーの削除
       tags:
@@ -510,36 +516,36 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "401":
+                $ref: '#/components/schemas/Error'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /news:
     get:
       summary: ニュース一覧の取得
@@ -547,26 +553,26 @@ paths:
         - news
         - committee
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/NewsSummary"
-        "401":
+                  $ref: '#/components/schemas/NewsSummary'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     post:
       summary: ニュースの作成
       tags:
@@ -577,44 +583,44 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateNews"
+              $ref: '#/components/schemas/CreateNews'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CreatedNews"
-        "400":
+                $ref: '#/components/schemas/CreatedNews'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "401":
+                $ref: '#/components/schemas/Error'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "422":
+                $ref: '#/components/schemas/Error'
+        '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /news/{news_id}:
     get:
       summary: 特定のIDのニュースの取得
@@ -627,30 +633,30 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/News"
-        "401":
+                $ref: '#/components/schemas/News'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     put:
       summary: 特定のIDのニュースの更新
       tags:
@@ -667,46 +673,46 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateNews"
+              $ref: '#/components/schemas/UpdateNews'
       responses:
-        "200":
+        '200':
           description: OK
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "401":
+                $ref: '#/components/schemas/Error'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "422":
+                $ref: '#/components/schemas/Error'
+        '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     delete:
       summary: 特定のIDのニュースの削除
       tags:
@@ -719,32 +725,32 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
-        "401":
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /files:
     get:
       summary: ニュースの添付ファイル一覧の取得
@@ -752,32 +758,32 @@ paths:
         - files
         - committee
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/FileInfo"
-        "401":
+                  $ref: '#/components/schemas/FileInfo'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     post:
       summary: ファイルの作成
       tags:
@@ -796,44 +802,44 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: "#/components/schemas/CreateFile"
+              $ref: '#/components/schemas/CreateFile'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CreatedFile"
-        "400":
+                $ref: '#/components/schemas/CreatedFile'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "401":
+                $ref: '#/components/schemas/Error'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "422":
+                $ref: '#/components/schemas/Error'
+        '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /files/{file_id}:
     get:
       summary: 特定のIDのファイルの取得
@@ -846,30 +852,30 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/File"
-        "401":
+                $ref: '#/components/schemas/File'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     delete:
       summary: 特定のIDのファイルの削除
       tags:
@@ -882,26 +888,26 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
-        "401":
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /invitations:
     get:
       summary: 招待一覧の取得
@@ -909,32 +915,32 @@ paths:
         - invitations
         - committee
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Invitation"
-        "401":
+                  $ref: '#/components/schemas/Invitation'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     post:
       summary: 招待の作成
       tags:
@@ -945,44 +951,44 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateInvitation"
+              $ref: '#/components/schemas/CreateInvitation'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CreatedInvitation"
-        "400":
+                $ref: '#/components/schemas/CreatedInvitation'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "401":
+                $ref: '#/components/schemas/Error'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "422":
+                $ref: '#/components/schemas/Error'
+        '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /invitations/{invitation_id}:
     get:
       summary: 特定のIDの招待の取得
@@ -996,36 +1002,36 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Invitation"
-        "401":
+                $ref: '#/components/schemas/Invitation'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     post:
       summary: 特定のIDの招待の受諾
       tags:
@@ -1037,32 +1043,32 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
-        "401":
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     delete:
       summary: 招待の削除
       tags:
@@ -1075,32 +1081,32 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
-        "401":
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /forms:
     get:
       summary: 申請一覧の取得
@@ -1113,38 +1119,38 @@ paths:
             type: string
           required: false
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/FormSummary"
-        "401":
+                  $ref: '#/components/schemas/FormSummary'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     post:
       summary: 申請の作成
       tags:
@@ -1155,44 +1161,44 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateForm"
+              $ref: '#/components/schemas/CreateForm'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CreatedForm"
-        "400":
+                $ref: '#/components/schemas/CreatedForm'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "401":
+                $ref: '#/components/schemas/Error'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "422":
+                $ref: '#/components/schemas/Error'
+        '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /forms/{form_id}:
     get:
       summary: 特定のIDの申請を取得
@@ -1205,30 +1211,30 @@ paths:
             type: string
           required: true
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Form"
-        "401":
+                $ref: '#/components/schemas/Form'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     put:
       summary: 特定のIDの申請を更新
       tags:
@@ -1245,46 +1251,46 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateForm"
+              $ref: '#/components/schemas/UpdateForm'
       responses:
-        "200":
+        '200':
           description: OK
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "401":
+                $ref: '#/components/schemas/Error'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "422":
+                $ref: '#/components/schemas/Error'
+        '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     delete:
       summary: 特定のIDの申請を削除
       tags:
@@ -1297,32 +1303,32 @@ paths:
             type: string
           required: true
       responses:
-        "200":
+        '200':
           description: OK
-        "401":
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /form-answers:
     get:
       summary: 申請の回答一覧を取得
@@ -1340,38 +1346,38 @@ paths:
             type: string
           required: false
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/FormAnswerSummary"
-        "401":
+                  $ref: '#/components/schemas/FormAnswerSummary'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     post:
       summary: 申請の回答を作成
       tags:
@@ -1381,50 +1387,50 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateFormAnswer"
+              $ref: '#/components/schemas/CreateFormAnswer'
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CreatedFormAnswer"
-        "400":
+                $ref: '#/components/schemas/CreatedFormAnswer'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "401":
+                $ref: '#/components/schemas/Error'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "422":
+                $ref: '#/components/schemas/Error'
+        '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /form-answers/{form_answer_id}:
     get:
       summary: 申請の回答を取得
@@ -1437,38 +1443,38 @@ paths:
             type: string
           required: true
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/FormAnswer"
-        "401":
+                  $ref: '#/components/schemas/FormAnswer'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     put:
       summary: 申請の回答を更新
       tags:
@@ -1484,46 +1490,46 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateFormAnswer"
+              $ref: '#/components/schemas/UpdateFormAnswer'
       responses:
-        "200":
+        '200':
           description: OK
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "401":
+                $ref: '#/components/schemas/Error'
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "404":
+                $ref: '#/components/schemas/Error'
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "422":
+                $ref: '#/components/schemas/Error'
+        '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
 components:
   securitySchemes:
     Bearer:
@@ -1563,17 +1569,28 @@ components:
           type: string
           example: そぽたん焼き
         category:
-          $ref: "#/components/schemas/ProjectCategory"
+          $ref: '#/components/schemas/ProjectCategory'
         attributes:
           type: array
           items:
-            $ref: "#/components/schemas/ProjectAttribute"
+            $ref: '#/components/schemas/ProjectAttribute'
+        owner_id:
+          type: string
+          format: uuid
+        owner_name:
+          type: string
+        owner_email:
+          type: string
+          format: email
       required:
         - id
         - index
         - title
         - category
         - attributes
+        - owner_id
+        - owner_name
+        - owner_email
     Error:
       type: object
       properties:
@@ -1597,11 +1614,11 @@ components:
           type: string
           example: そぽたんあいこうかい
         category:
-          $ref: "#/components/schemas/ProjectCategory"
+          $ref: '#/components/schemas/ProjectCategory'
         attributes:
           type: array
           items:
-            $ref: "#/components/schemas/ProjectAttribute"
+            $ref: '#/components/schemas/ProjectAttribute'
       required:
         - title
         - kana_title
@@ -1639,11 +1656,11 @@ components:
           type: string
           example: そぽたんあいこうかい
         category:
-          $ref: "#/components/schemas/ProjectCategory"
+          $ref: '#/components/schemas/ProjectCategory'
         attributes:
           type: array
           items:
-            $ref: "#/components/schemas/ProjectAttribute"
+            $ref: '#/components/schemas/ProjectAttribute'
         owner_id:
           type: string
           format: uuid
@@ -1704,12 +1721,12 @@ components:
           type: string
           example: そぽたんあいこうかい
         category:
-          $ref: "#/components/schemas/ProjectCategory"
+          $ref: '#/components/schemas/ProjectCategory'
           example: foods_with_kitchen
         attributes:
           type: array
           items:
-            $ref: "#/components/schemas/ProjectAttribute"
+            $ref: '#/components/schemas/ProjectAttribute'
         remarks:
           type: string
           nullable: true
@@ -1738,7 +1755,7 @@ components:
           type: string
           format: email
         role:
-          $ref: "#/components/schemas/UserRole"
+          $ref: '#/components/schemas/UserRole'
       required:
         - id
         - name
@@ -1787,7 +1804,13 @@ components:
         phone_number:
           type: string
         role:
-          $ref: "#/components/schemas/UserRole"
+          $ref: '#/components/schemas/UserRole'
+        owned_project_id:
+          type: string
+          nullable: true
+        owned_project_name:
+          type: string
+          nullable: true
         created_at:
           type: string
           format: date-time
@@ -1820,7 +1843,7 @@ components:
         phone_number:
           type: string
         role:
-          $ref: "#/components/schemas/UserRole"
+          $ref: '#/components/schemas/UserRole'
       required:
         - name
         - kana_name
@@ -1838,11 +1861,11 @@ components:
         categories:
           type: array
           items:
-            $ref: "#/components/schemas/ProjectCategory"
+            $ref: '#/components/schemas/ProjectCategory'
         attributes:
           type: array
           items:
-            $ref: "#/components/schemas/ProjectAttribute"
+            $ref: '#/components/schemas/ProjectAttribute'
         updated_at:
           type: string
           format: date-time
@@ -1867,11 +1890,11 @@ components:
         categories:
           type: array
           items:
-            $ref: "#/components/schemas/ProjectCategory"
+            $ref: '#/components/schemas/ProjectCategory'
         attributes:
           type: array
           items:
-            $ref: "#/components/schemas/ProjectAttribute"
+            $ref: '#/components/schemas/ProjectAttribute'
       required:
         - title
         - body
@@ -1904,11 +1927,11 @@ components:
         categories:
           type: array
           items:
-            $ref: "#/components/schemas/ProjectCategory"
+            $ref: '#/components/schemas/ProjectCategory'
         attributes:
           type: array
           items:
-            $ref: "#/components/schemas/ProjectAttribute"
+            $ref: '#/components/schemas/ProjectAttribute'
         created_at:
           type: string
           format: date-time
@@ -1943,11 +1966,11 @@ components:
         categories:
           type: array
           items:
-            $ref: "#/components/schemas/ProjectCategory"
+            $ref: '#/components/schemas/ProjectCategory'
         attributes:
           type: array
           items:
-            $ref: "#/components/schemas/ProjectAttribute"
+            $ref: '#/components/schemas/ProjectAttribute'
       required:
         - title
         - body
@@ -2101,21 +2124,21 @@ components:
         starts_at:
           type: string
           format: date-time
-          example: "2024-03-16T09:00:00Z"
+          example: '2024-03-16T09:00:00Z'
         ends_at:
           type: string
           format: date-time
-          example: "2024-03-20T18:00:00Z"
+          example: '2024-03-20T18:00:00Z'
         categories:
           type: array
           description: 対象となる企画区分
           items:
-            $ref: "#/components/schemas/ProjectCategory"
+            $ref: '#/components/schemas/ProjectCategory'
         attributes:
           type: array
           description: 対象となる企画属性
           items:
-            $ref: "#/components/schemas/ProjectAttribute"
+            $ref: '#/components/schemas/ProjectAttribute'
         answer_id:
           type: string
           format: uuid
@@ -2127,7 +2150,7 @@ components:
         updated_at:
           type: string
           format: date-time
-          example: "2024-03-15T14:45:00Z"
+          example: '2024-03-15T14:45:00Z'
       required:
         - id
         - title
@@ -2155,7 +2178,7 @@ components:
         required:
           type: boolean
         type:
-          $ref: "#/components/schemas/FormItemType"
+          $ref: '#/components/schemas/FormItemType'
         min:
           type: integer
           nullable: true
@@ -2209,23 +2232,23 @@ components:
         starts_at:
           type: string
           format: date-time
-          example: "2024-03-16T09:00:00Z"
+          example: '2024-03-16T09:00:00Z'
         ends_at:
           type: string
           format: date-time
-          example: "2024-03-20T18:00:00Z"
+          example: '2024-03-20T18:00:00Z'
         categories:
           type: array
           items:
-            $ref: "#/components/schemas/ProjectCategory"
+            $ref: '#/components/schemas/ProjectCategory'
         attributes:
           type: array
           items:
-            $ref: "#/components/schemas/ProjectAttribute"
+            $ref: '#/components/schemas/ProjectAttribute'
         items:
           type: array
           items:
-            $ref: "#/components/schemas/NewFormItem"
+            $ref: '#/components/schemas/NewFormItem'
         attachments:
           type: array
           items:
@@ -2261,7 +2284,7 @@ components:
         required:
           type: boolean
         type:
-          $ref: "#/components/schemas/FormItemType"
+          $ref: '#/components/schemas/FormItemType'
         min:
           type: integer
           nullable: true
@@ -2365,23 +2388,23 @@ components:
         starts_at:
           type: string
           format: date-time
-          example: "2024-03-16T09:00:00Z"
+          example: '2024-03-16T09:00:00Z'
         ends_at:
           type: string
           format: date-time
-          example: "2024-03-20T18:00:00Z"
+          example: '2024-03-20T18:00:00Z'
         categories:
           type: array
           items:
-            $ref: "#/components/schemas/ProjectCategory"
+            $ref: '#/components/schemas/ProjectCategory'
         attributes:
           type: array
           items:
-            $ref: "#/components/schemas/ProjectAttribute"
+            $ref: '#/components/schemas/ProjectAttribute'
         items:
           type: array
           items:
-            $ref: "#/components/schemas/FormItem"
+            $ref: '#/components/schemas/FormItem'
         attachments:
           type: array
           items:
@@ -2398,11 +2421,11 @@ components:
         created_at:
           type: string
           format: date-time
-          example: "2024-03-15T10:30:00Z"
+          example: '2024-03-15T10:30:00Z'
         updated_at:
           type: string
           format: date-time
-          example: "2024-03-15T14:45:00Z"
+          example: '2024-03-15T14:45:00Z'
         deleted_at:
           type: string
           format: date-time
@@ -2432,23 +2455,23 @@ components:
         starts_at:
           type: string
           format: date-time
-          example: "2024-03-16T09:00:00Z"
+          example: '2024-03-16T09:00:00Z'
         ends_at:
           type: string
           format: date-time
-          example: "2024-03-20T18:00:00Z"
+          example: '2024-03-20T18:00:00Z'
         categories:
           type: array
           items:
-            $ref: "#/components/schemas/ProjectCategory"
+            $ref: '#/components/schemas/ProjectCategory'
         attributes:
           type: array
           items:
-            $ref: "#/components/schemas/ProjectAttribute"
+            $ref: '#/components/schemas/ProjectAttribute'
         items:
           type: array
           items:
-            $ref: "#/components/schemas/NewFormItem"
+            $ref: '#/components/schemas/NewFormItem'
         attachments:
           type: array
           items:
@@ -2496,7 +2519,7 @@ components:
           type: string
           format: uuid
         type:
-          $ref: "#/components/schemas/FormItemType"
+          $ref: '#/components/schemas/FormItemType'
         value: {}
       required:
         - item_id
@@ -2509,7 +2532,7 @@ components:
           type: string
           format: uuid
         items:
-          $ref: "#/components/schemas/FormAnswerItem"
+          $ref: '#/components/schemas/FormAnswerItem'
       required:
         - form_id
         - items
@@ -2538,7 +2561,7 @@ components:
         form_title:
           type: string
         items:
-          $ref: "#/components/schemas/FormAnswerItem"
+          $ref: '#/components/schemas/FormAnswerItem'
         created_at:
           type: string
           format: date-time
@@ -2562,6 +2585,6 @@ components:
       type: object
       properties:
         items:
-          $ref: "#/components/schemas/FormAnswerItem"
+          $ref: '#/components/schemas/FormAnswerItem'
       required:
         - items
