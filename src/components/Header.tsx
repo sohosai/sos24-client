@@ -32,7 +32,7 @@ const HeaderNavigation: FC<{ isCommittee: boolean }> = ({ isCommittee }) => {
         sm: { display: "none" },
       })}>
       <li>
-        <Link href={`${isCommittee ? "/committee" : ""}/dashboard`} className={commonItemStyle}>
+        <Link href={`${isCommittee ? "/committee/projects" : "/dashboard"}`} className={commonItemStyle}>
           企画情報
         </Link>
       </li>
@@ -54,7 +54,7 @@ const SwitchModeButton: FC<{ isCommitteeMode: boolean; showMobileMenu: boolean }
   isCommitteeMode,
   showMobileMenu,
 }) => (
-  <Link href={isCommitteeMode ? "/dashboard" : "/committee/dashboard"}>
+  <Link href={isCommitteeMode ? "/dashboard" : "/committee/projects"}>
     <button
       className={css({
         cursor: "pointer",
@@ -130,17 +130,17 @@ const MobileMenu: FC<{
         paddingY: 20,
       })}>
       <li className={MobileMenuItemStyle}>
-        <Link href={`${isCommitteeMode ? "" : "/committee"}/dashboard`}>企画情報</Link>
+        <Link href={`${isCommitteeMode ? "/dashboard" : "/committee/projects"}`}>企画情報</Link>
       </li>
       <li className={MobileMenuItemStyle}>
-        <Link href={`${isCommitteeMode ? "" : "/committee"}/dashboard`}>申請一覧</Link>
+        <Link href={`${isCommitteeMode ? "" : "/committee"}/forms`}>申請一覧</Link>
       </li>
       <li className={MobileMenuItemStyle}>
-        <Link href={`${isCommitteeMode ? "" : "/committee"}/dashboard`}>お知らせ一覧</Link>
+        <Link href={`${isCommitteeMode ? "" : "/committee"}/news`}>お知らせ一覧</Link>
       </li>
     </ul>
     {isCommittee && (
-      <Link className={MobileMenuItemStyle} href={`${isCommitteeMode ? "" : "/committee"}/dashboard`}>
+      <Link className={MobileMenuItemStyle} href={`${isCommitteeMode ? "/dashboard" : "/committee/projects"}`}>
         {isCommitteeMode ? "一般" : "実委人"}ページへ
       </Link>
     )}
@@ -157,7 +157,7 @@ const HeaderMenuItems: FC<{ isCommitteeMode: boolean }> = ({ isCommitteeMode }) 
   return (
     <ul className={css({ display: "flex", paddingX: 5, height: "100%" })}>
       <li className={HeaderMenuItemStyle}>
-        <Link href={`${isCommitteeMode ? "/committee" : ""}/dashboard`} className={HeaderMenuItemLinkStyle}>
+        <Link href={`${isCommitteeMode ? "/committee/projects" : "/dashboard"}`} className={HeaderMenuItemLinkStyle}>
           企画情報
         </Link>
       </li>
