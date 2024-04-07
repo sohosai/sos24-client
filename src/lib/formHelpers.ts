@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 
 import { components } from "@/schema";
-import type { submitStatus } from "@/components/SubmitStatus";
+import type { submitStatus } from "@/_common_components/SubmitStatus";
 
 type Answer = components["schemas"]["FormAnswerSummary"];
 

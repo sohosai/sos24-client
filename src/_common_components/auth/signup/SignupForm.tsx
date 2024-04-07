@@ -3,9 +3,17 @@
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { css, cx } from "@styled-system/css";
-import { basicErrorMessageStyle, basicFormStyle, checkboxFormStyle } from "@/components/forms/styles";
-import { Button } from "@/components/Button";
-import { getAuth, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  basicErrorMessageStyle,
+  basicFormStyle,
+  checkboxFormStyle,
+} from "@/_common_components/forms/styles";
+import { Button } from "@/_common_components/Button";
+import {
+  getAuth,
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 type CreateUserInput = {
   name: string;
@@ -72,7 +80,8 @@ export const SignupForm = () => {
         alignItems: "center",
         gap: 4,
         width: 80,
-      })}>
+      })}
+    >
       <div className={labelAndInputStyle}>
         <label htmlFor="name" className={css({ fontWeight: "bold" })}>
           名前
@@ -86,7 +95,9 @@ export const SignupForm = () => {
             required: "名前を入力してください",
           })}
         />
-        {errors.name && <span className={basicErrorMessageStyle}>{errors.name.message}</span>}
+        {errors.name && (
+          <span className={basicErrorMessageStyle}>{errors.name.message}</span>
+        )}
       </div>
       <div className={labelAndInputStyle}>
         <label htmlFor="kana_name" className={css({ fontWeight: "bold" })}>
@@ -105,7 +116,11 @@ export const SignupForm = () => {
             },
           })}
         />
-        {errors.kana_name && <span className={basicErrorMessageStyle}>{errors.kana_name.message}</span>}
+        {errors.kana_name && (
+          <span className={basicErrorMessageStyle}>
+            {errors.kana_name.message}
+          </span>
+        )}
       </div>
       <div className={labelAndInputStyle}>
         <label htmlFor="email" className={css({ fontWeight: "bold" })}>
@@ -124,8 +139,12 @@ export const SignupForm = () => {
             },
           })}
         />
-        <span className={css({ fontSize: "sm", color: "gray.600" })}>tsukuba.ac.jpで終わるものを入力してください</span>
-        {errors.email && <span className={basicErrorMessageStyle}>{errors.email.message}</span>}
+        <span className={css({ fontSize: "sm", color: "gray.600" })}>
+          tsukuba.ac.jpで終わるものを入力してください
+        </span>
+        {errors.email && (
+          <span className={basicErrorMessageStyle}>{errors.email.message}</span>
+        )}
       </div>
       <div className={labelAndInputStyle}>
         <label htmlFor="password" className={css({ fontWeight: "bold" })}>
@@ -139,7 +158,11 @@ export const SignupForm = () => {
             required: "パスワードを入力してください",
           })}
         />
-        {errors.password && <span className={basicErrorMessageStyle}>{errors.password.message}</span>}
+        {errors.password && (
+          <span className={basicErrorMessageStyle}>
+            {errors.password.message}
+          </span>
+        )}
       </div>
       <div className={labelAndInputStyle}>
         <label htmlFor="phone_number" className={css({ fontWeight: "bold" })}>
@@ -153,7 +176,11 @@ export const SignupForm = () => {
             required: "電話番号を入力してください",
           })}
         />
-        {errors.phone_number && <span className={basicErrorMessageStyle}>{errors.phone_number.message}</span>}
+        {errors.phone_number && (
+          <span className={basicErrorMessageStyle}>
+            {errors.phone_number.message}
+          </span>
+        )}
       </div>
       <div className={css({ display: "flex", alignItems: "center", gap: 3 })}>
         <input
@@ -164,9 +191,19 @@ export const SignupForm = () => {
         />
         <label htmlFor="agreement">利用規約に同意する</label>
       </div>
-      {errors.agreement && <span className={basicErrorMessageStyle}>{errors.agreement.message}</span>}
-      {errors.root && <span className={basicErrorMessageStyle}>{errors.root.message}</span>}
-      <Button color="primary" className={css({ alignSelf: "center" })} type="submit">
+      {errors.agreement && (
+        <span className={basicErrorMessageStyle}>
+          {errors.agreement.message}
+        </span>
+      )}
+      {errors.root && (
+        <span className={basicErrorMessageStyle}>{errors.root.message}</span>
+      )}
+      <Button
+        color="primary"
+        className={css({ alignSelf: "center" })}
+        type="submit"
+      >
         送信
       </Button>
     </form>

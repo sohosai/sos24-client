@@ -1,7 +1,7 @@
 import { center } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
-import { Button } from "@/components/Button";
-import SendButton from "@/components/assets/SendButton.svg";
+import { Button } from "@/_common_components/Button";
+import SendButton from "@/_common_components/assets/SendButton.svg";
 import Image from "next/image";
 import { sendEmailVerification } from "firebase/auth";
 import { useAuthState } from "@/lib/firebase";
@@ -22,7 +22,8 @@ export const EmailVerification = () => {
       className={center({
         flexDir: "column",
         minHeight: "calc(100vh - token(spacing.20))",
-      })}>
+      })}
+    >
       <div
         className={css({
           boxShadow: "token(shadows.md)",
@@ -35,12 +36,14 @@ export const EmailVerification = () => {
           display: "flex",
           flexDir: "column",
           gap: 8,
-        })}>
+        })}
+      >
         <h1
           className={css({
             fontSize: "2xl",
             fontWeight: "bold",
-          })}>
+          })}
+        >
           メールアドレスの確認をお願いします
         </h1>
         <section className={css({ color: "gray.700", textAlign: "justify" })}>
@@ -50,7 +53,9 @@ export const EmailVerification = () => {
             受信できない場合、system@sohosai.comからのメールが迷惑メールフォルダに配信されていないかご確認してください
           </p>
         </section>
-        <p className={css({ color: "gray.700" })}>再送しても届かない場合は時間を空けてからお試しください</p>
+        <p className={css({ color: "gray.700" })}>
+          再送しても届かない場合は時間を空けてからお試しください
+        </p>
         <div className={css({ display: "flex", flexDir: "column", gap: 2 })}>
           <Button
             color={"secondary"}
@@ -66,14 +71,16 @@ export const EmailVerification = () => {
               },
             })}
             onClick={handleResend}
-            disabled={isSent}>
+            disabled={isSent}
+          >
             <span>確認メールを再送する</span>
             <Image src={SendButton} alt="Send Button" width={20} height={20} />
           </Button>
           {isSent && (
             <p className={css({ color: "gray.700", fontSize: "sm" })}>
               確認メールを再送しました
-              <br /> 受け取れない場合はproject50th@sohosai.comまでご連絡ください。
+              <br />{" "}
+              受け取れない場合はproject50th@sohosai.comまでご連絡ください。
             </p>
           )}
         </div>

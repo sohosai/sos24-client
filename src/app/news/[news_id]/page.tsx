@@ -9,7 +9,7 @@ import Image from "next/image";
 
 import triangleIcon from "../../../components/assets/Triangle.svg";
 import { css } from "@styled-system/css";
-import { FileItem } from "@/components/news/FileItem";
+import { FileItem } from "@/_common_components/news/FileItem";
 
 export const runtime = "edge";
 
@@ -35,19 +35,22 @@ const NewsDetailsPage = ({ params }: { params: { news_id: string } }) => {
         className={stack({
           gap: 3,
           marginY: 8,
-        })}>
+        })}
+      >
         <Link
           href="/news"
           className={css({
             color: "sohosai.purple",
             fontSize: "xs",
-          })}>
+          })}
+        >
           ←お知らせ一覧に戻る
         </Link>
         <p
           className={css({
             fontSize: "xs",
-          })}>
+          })}
+        >
           最終更新: {news && dayjs(news.updated_at).format("YYYY/MM/DD")}
         </p>
         <h2
@@ -55,7 +58,8 @@ const NewsDetailsPage = ({ params }: { params: { news_id: string } }) => {
             fontSize: "2xl",
             fontWeight: "bold",
             marginBottom: 2,
-          })}>
+          })}
+        >
           {news?.title}
         </h2>
         <hr
@@ -67,25 +71,30 @@ const NewsDetailsPage = ({ params }: { params: { news_id: string } }) => {
         <pre
           className={css({
             fontSize: "sm",
-          })}>
+          })}
+        >
           {news?.body}
         </pre>
         <h3
           className={flex({
             marginTop: 8,
             gap: 3,
-          })}>
+          })}
+        >
           <Image src={triangleIcon} alt="" />
           <span
             className={css({
               fontSize: "md",
               fontWeight: "bold",
-            })}>
+            })}
+          >
             添付ファイル
           </span>
         </h3>
         <div className={stack({ gap: 2 })}>
-          {news?.attachments.map((file_id) => <FileItem key={file_id} file_id={file_id} />)}
+          {news?.attachments.map((file_id) => (
+            <FileItem key={file_id} file_id={file_id} />
+          ))}
         </div>
       </div>
     </div>

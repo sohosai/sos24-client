@@ -7,7 +7,7 @@ import {
   RegisterProjectSchemaType,
 } from "@/lib/valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import { Button } from "@/components/Button";
+import { Button } from "@/_common_components/Button";
 import { TextField } from "./TextField";
 import { CategoryField } from "@/app/register/CategoryField";
 import { category_to_type, PlaceField } from "./PlaceField";

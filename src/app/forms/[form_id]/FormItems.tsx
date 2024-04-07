@@ -1,12 +1,12 @@
 import { FC } from "react";
 
-import { StringForm } from "@/components/forms/String";
-import { NumberForm } from "@/components/forms/Number";
-import { DropdownForm } from "@/components/forms/Dropdown";
-import { CheckboxForm } from "@/components/forms/Checkbox";
+import { StringForm } from "@/_common_components/forms/String";
+import { NumberForm } from "@/_common_components/forms/Number";
+import { DropdownForm } from "@/_common_components/forms/Dropdown";
+import { CheckboxForm } from "@/_common_components/forms/Checkbox";
 
 import { components } from "@/schema";
-import { FilesForm } from "@/components/forms/Files";
+import { FilesForm } from "@/_common_components/forms/Files";
 
 type FormItem = components["schemas"]["FormItem"];
 

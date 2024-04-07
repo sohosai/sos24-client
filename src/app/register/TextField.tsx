@@ -1,5 +1,9 @@
 import { css } from "@styled-system/css";
-import { basicErrorMessageStyle, basicFormLabelStyle, basicFormStyle } from "@/components/forms/styles";
+import {
+  basicErrorMessageStyle,
+  basicFormLabelStyle,
+  basicFormStyle,
+} from "@/_common_components/forms/styles";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { center } from "@styled-system/patterns";
 
@@ -13,7 +17,10 @@ interface TextFieldProps {
   error?: string;
 }
 
-export const TextField = ({ type, id, label, placeholder, description, error, register }: TextFieldProps) => {
+export const TextField = (
+  { type, id, label, placeholder, description, error, register }:
+    TextFieldProps,
+) => {
   return (
     <div>
       <label htmlFor={id} className={basicFormLabelStyle}>
@@ -33,7 +40,8 @@ export const TextField = ({ type, id, label, placeholder, description, error, re
               className={css({
                 fontSize: "sm",
                 color: "gray.500",
-              })}>
+              })}
+            >
               {description}
             </p>
             {error && <span className={basicErrorMessageStyle}>{error}</span>}

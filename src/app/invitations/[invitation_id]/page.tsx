@@ -5,12 +5,14 @@ import { assignType, client } from "@/lib/openapi";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { container, stack } from "@styled-system/patterns";
-import { Title } from "@/components/Title";
-import { Button } from "@/components/Button";
+import { Title } from "@/_common_components/Title";
+import { Button } from "@/_common_components/Button";
 
 export const runtime = "edge";
 
-const PositionFormatter = ({ position }: { position: "owner" | "sub_owner" }) => {
+const PositionFormatter = (
+  { position }: { position: "owner" | "sub_owner" },
+) => {
   switch (position) {
     case "owner":
       return <>企画責任者</>;
@@ -21,7 +23,9 @@ const PositionFormatter = ({ position }: { position: "owner" | "sub_owner" }) =>
 
 const InvitationPage = ({ params }: { params: { invitation_id: string } }) => {
   const router = useRouter();
-  const { data, error, isLoading } = useSWR(`/invitations/${params.invitation_id}`);
+  const { data, error, isLoading } = useSWR(
+    `/invitations/${params.invitation_id}`,
+  );
   if (isLoading) {
     return;
   }
@@ -43,7 +47,9 @@ const InvitationPage = ({ params }: { params: { invitation_id: string } }) => {
     if (error) {
       switch (error.code) {
         case "invitation/already-owner-or-subowner":
-          toast.error("すでに企画責任者または副企画責任者のため、招待を受けることができません。");
+          toast.error(
+            "すでに企画責任者または副企画責任者のため、招待を受けることができません。",
+          );
           break;
         default:
           toast.error("招待の承諾中に不明なエラーが発生しました。");
@@ -62,25 +68,27 @@ const InvitationPage = ({ params }: { params: { invitation_id: string } }) => {
           alignItems: "center",
           gap: 8,
           marginY: 8,
-        })}>
+        })}
+      >
         <Title>
           <PositionFormatter position={invitation.position} />
           登録
         </Title>
-        {invitation.used_by ? (
-          <p>この招待リンクはすでに使用されています。</p>
-        ) : (
-          <>
-            <p>
-              {invitation.inviter_name}さんがあなたを企画「{invitation.project_title}」の
-              <PositionFormatter position={invitation.position} />
-              に招待しています。
-            </p>
-            <Button color="primary" onClick={onClick}>
-              承諾する
-            </Button>
-          </>
-        )}
+        {invitation.used_by
+          ? <p>この招待リンクはすでに使用されています。</p>
+          : (
+            <>
+              <p>
+                {invitation.inviter_name}さんがあなたを企画「{invitation
+                  .project_title}」の
+                <PositionFormatter position={invitation.position} />
+                に招待しています。
+              </p>
+              <Button color="primary" onClick={onClick}>
+                承諾する
+              </Button>
+            </>
+          )}
       </div>
     </div>
   );
