@@ -18,6 +18,17 @@ const filterToLabel = (category: NewsFilterType) => {
   }
 };
 
+export const filterSelectorStyle = css({
+  paddingX: 3,
+  paddingY: 1,
+  gap: 1,
+  cursor: "pointer",
+  backgroundColor: "gray.200",
+  fontSize: "xs",
+  fontWeight: "bold",
+  color: "gray.600",
+});
+
 export const FilterSelector: FC<{
   filter: NewsFilterType;
   setFilter: (_selected: NewsFilterType) => void;
@@ -26,17 +37,15 @@ export const FilterSelector: FC<{
     const checked = filter === value;
     return (
       <label
-        className={hstack({
-          paddingX: 3,
-          paddingY: 1,
-          gap: 1,
-          cursor: "pointer",
-
-          backgroundColor: "gray.200",
-          "&:has(> input:checked)": {
-            backgroundColor: "gray.600",
-          },
-        })}>
+        className={cx(
+          hstack(),
+          filterSelectorStyle,
+          css({
+            "&:has(> input:checked)": {
+              backgroundColor: "gray.600",
+            },
+          }),
+        )}>
         <input
           type="radio"
           value={value}
@@ -47,10 +56,6 @@ export const FilterSelector: FC<{
         {checked ? <Image src={triangleWhiteIcon} alt="" /> : <Image src={triangleBlackIcon} alt="" />}
         <span
           className={css({
-            fontSize: "xs",
-            fontWeight: "bold",
-
-            color: "gray.600",
             _peerChecked: {
               color: "white",
             },
