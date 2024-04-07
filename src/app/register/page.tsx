@@ -5,8 +5,22 @@ import { Title } from "@/components/Title";
 import { RegisterForm } from "@/app/register/RegisterForm";
 import { container, stack } from "@styled-system/patterns";
 import { RegistrationProgress } from "@/components/RegistrationProgress";
+import useSWR from "swr";
+import { useRouter } from "next/navigation";
+import { assignType } from "@/lib/openapi";
+import { useEffect } from "react";
 
 const RegisterPage = () => {
+  const { data: userRes } = useSWR("/users/me");
+  const router = useRouter();
+  console.log(userRes);
+  const user = assignType("/users/me", userRes);
+  useEffect(() => {
+    if (!user) return;
+    if (user.owned_project_id) {
+      router.push("/");
+    }
+  }, [user]);
   return (
     <div
       className={container({
