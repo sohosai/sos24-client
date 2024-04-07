@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import useSWR from "swr";
 
 export default function Home() {
-  const { data: userRes, isLoading } = useSWR("/users/me");
+  const { data: userRes, isLoading, error } = useSWR("/users/me");
   const router = useRouter();
   const user = assignType("/users/me", userRes);
   if (isLoading) return;
-  if (!user) return;
+  if (error) return <p>エラーが発生しました</p>;
   if (user.role !== "general") {
     //TODO: projectsのページにリダイレクト
     //router.push("/committee/projects");
