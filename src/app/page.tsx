@@ -8,10 +8,8 @@ import useSWR from "swr";
 export default function Home() {
   const { data: userRes } = useSWR("/users/me");
   const router = useRouter();
-  console.log(userRes);
   const user = assignType("/users/me", userRes);
   useEffect(() => {
-    console.log(user);
     if (!user) return;
     if (user.role !== "general") {
       //TODO: projectsのページにリダイレクト
