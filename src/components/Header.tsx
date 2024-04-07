@@ -15,7 +15,7 @@ import { usePathname } from "next/navigation";
 import MenuButton from "./assets/MenuButton.svg";
 import CloseButton from "./assets/CloseButton.svg";
 import ModeSwitchWhite from "./assets/SwitchModeWhite.svg";
-import { visuallyHidden } from "@styled-system/patterns";
+import { hstack, visuallyHidden } from "@styled-system/patterns";
 
 const HeaderNavigation: FC<{ isCommittee: boolean }> = ({ isCommittee }) => {
   const commonItemStyle = css({
@@ -155,7 +155,7 @@ const HeaderMenuItemLinkStyle = css({ display: "block", paddingX: 5, lineHeight:
 
 const HeaderMenuItems: FC<{ isCommitteeMode: boolean }> = ({ isCommitteeMode }) => {
   return (
-    <ul className={css({ display: "flex", paddingX: 5, height: "100%" })}>
+    <ul className={css({ sm: { display: "flex", paddingX: 5, height: "100%" }, display: "none" })}>
       <li className={HeaderMenuItemStyle}>
         <Link href={`${isCommitteeMode ? "/committee" : ""}/dashboard`} className={HeaderMenuItemLinkStyle}>
           企画情報
@@ -178,8 +178,8 @@ const HeaderMenuItems: FC<{ isCommitteeMode: boolean }> = ({ isCommitteeMode }) 
 export const Header: FC = () => {
   const { user, isLoading } = useAuthState();
   const auth = getAuth();
-  const { data: userRes } = useSWR("/users/me");
-  const userInfo = userRes ? assignType("/users/me", userRes) : undefined;
+  const { data: userRes, isLoading: userIsLoading } = useSWR("/users/me");
+  const userInfo = userIsLoading ? assignType("/users/me", userRes) : undefined;
   const { error: projectErr, isLoading: projectIsLoading } = useSWR("/projects/me");
   const path = usePathname();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -269,14 +269,16 @@ export const Header: FC = () => {
               height: "100%",
             },
           })}>
-          <Image src={logo} alt="雙峰祭ロゴマーク" className={css({ width: { sm: 10, base: 8 } })} />
-          <h1
-            className={css({
-              color: showMobileMenu ? "white" : "black",
-              fontSize: { base: "lg", sm: "2xl" },
-            })}>
-            雙峰祭オンラインシステム
-          </h1>
+          <Link className={hstack()} href="/">
+            <Image src={logo} alt="雙峰祭ロゴマーク" className={css({ width: { sm: 10, base: 8 } })} />
+            <h1
+              className={css({
+                color: showMobileMenu ? "white" : "black",
+                fontSize: { base: "lg", sm: "2xl" },
+              })}>
+              雙峰祭オンラインシステム
+            </h1>
+          </Link>
           <a
             href="https://www.sakura.ad.jp/"
             target="_blank"
