@@ -119,3 +119,21 @@ export const SignupSchema = object({
 });
 
 export type SignupSchemaType = Output<typeof SignupSchema>;
+
+export const userRoles = ["administrator", "committee_operator", "committee", "general"];
+export type UserRole = (typeof userRoles)[number];
+
+const userRoleSchema = union(
+  userRoles.map((it) => literal(it)),
+  "いずれかの権限を選択してください",
+);
+
+export const UpdateUserSchema = object({
+  name: userNameSchema,
+  kana_name: userKanaNameSchema,
+  email: userEmailSchema,
+  phone_number: userPhoneNumberSchema,
+  role: userRoleSchema,
+});
+
+export type UpdateUserSchemaType = Output<typeof UpdateUserSchema>;
