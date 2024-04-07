@@ -11,7 +11,7 @@ import { Button } from "@/components/Button";
 import { grid, vstack } from "@styled-system/patterns";
 import { css, cx } from "@styled-system/css";
 import { ReactNode } from "react";
-const TableCellStyle = css({
+const tableCellStyle = css({
   paddingX: 14,
   paddingY: 4,
   alignSelf: "center",
@@ -26,10 +26,10 @@ export const TableRow = ({ label, children, formId }: { label: ReactNode; childr
       },
       borderRadius: "md",
     })}>
-    <label htmlFor={formId} className={cx(TableCellStyle, css({ fontWeight: "bold" }))}>
+    <label htmlFor={formId} className={cx(tableCellStyle, css({ fontWeight: "bold" }))}>
       {label}
     </label>
-    <div className={TableCellStyle}>{children}</div>
+    <div className={tableCellStyle}>{children}</div>
   </div>
 );
 
@@ -61,7 +61,7 @@ export const handleCopyInviteLink = (project_id: string, position: "owner" | "su
       throw new Error(e);
     });
 };
-export const ProjectEdit: React.FC<{ isEditMode: boolean; onSubmit: () => void; hideSubOwner?: boolean }> = ({
+export const ProjectView: React.FC<{ isEditMode: boolean; onSubmit: () => void; hideSubOwner?: boolean }> = ({
   isEditMode,
   onSubmit,
   hideSubOwner = false,
