@@ -136,6 +136,7 @@ export const RegisterForm = () => {
       onSubmit={handleSubmit(onSubmit)}
       className={stack({
         gap: 8,
+        maxWidth: "100%",
       })}>
       <TextField
         type="text"
