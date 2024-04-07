@@ -92,7 +92,19 @@ export const User: FC<{
           </div>
           <div>
             {/* TODO: 企画ページが実装されたら as Routeを外す */}
-            <Link href={`/committee/projects/${user.owned_project_id}` as Route}>{user.owned_project_title}</Link>
+            {user.owned_project_id ? (
+              <Link
+                href={`/committee/projects/${user.owned_project_id}` as Route}
+                className={css({
+                  color: "sohosai.purple",
+                  fontWeight: "bold",
+                  textDecoration: "underline",
+                })}>
+                {user.owned_project_title}
+              </Link>
+            ) : (
+              "企画責任者または副企画責任者ではありません"
+            )}
           </div>
           <div>{dayjs(user.created_at).format("YYYY/MM/DD")}</div>
         </div>
