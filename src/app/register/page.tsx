@@ -13,11 +13,10 @@ const RegisterPage = () => {
   const { data: userRes, isLoading } = useSWR("/users/me");
   const router = useRouter();
   const user = assignType("/users/me", userRes);
-  if (!isLoading) {
-    if (!user) return;
-    if (user.owned_project_id) {
-      router.push("/");
-    }
+  if (isLoading) return;
+  if (!user) return;
+  if (user.owned_project_id) {
+    router.push("/");
   }
 
   return (

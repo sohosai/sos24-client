@@ -8,19 +8,18 @@ export default function Home() {
   const { data: userRes, isLoading } = useSWR("/users/me");
   const router = useRouter();
   const user = assignType("/users/me", userRes);
-  if (!isLoading) {
-    if (!user) return;
-    if (user.role !== "general") {
-      //TODO: projectsのページにリダイレクト
-      //router.push("/committee/projects");
-      return;
-    }
-    if (user.owned_project_id) {
-      router.push("/dashboard");
-      return;
-    } else {
-      router.push("/register");
-    }
+  if (isLoading) return;
+  if (!user) return;
+  if (user.role !== "general") {
+    //TODO: projectsのページにリダイレクト
+    //router.push("/committee/projects");
+    return;
+  }
+  if (user.owned_project_id) {
+    router.push("/dashboard");
+    return;
+  } else {
+    router.push("/register");
   }
 
   return (
