@@ -126,7 +126,7 @@ const PlaceFieldItem = ({ label, value, caption, register, disabled }: PlaceFiel
       <pre
         className={css({
           color: "gray.400",
-          fontSize: "sm",
+          fontSize: "min(0.875rem, 4.2vw)",
           fontWeight: "bold",
         })}>
         {caption}
