@@ -1,7 +1,7 @@
 import { components } from "@/schema";
 
-export const AttributesFormatter = ({ category }: { category: components["schemas"]["ProjectAttribute"] }) => {
-  switch (category) {
+export const AttributesFormatter = ({ attribute }: { attribute: components["schemas"]["ProjectAttribute"] }) => {
+  switch (attribute) {
     case "academic":
       return "学術認定企画";
     case "art":
