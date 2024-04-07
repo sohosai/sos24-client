@@ -3,7 +3,19 @@
  * Do not make direct changes to the file.
  */
 
+
 export interface paths {
+  "/health": {
+    /** サーバーの状態を確認する */
+    get: {
+      responses: {
+        /** @description OK */
+        200: {
+          content: never;
+        };
+      };
+    };
+  };
   "/projects": {
     /** 企画一覧の取得 */
     get: {
@@ -1473,14 +1485,7 @@ export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
     /** @enum {string} */
-    ProjectCategory:
-      | "general"
-      | "foods_with_kitchen"
-      | "foods_without_kitchen"
-      | "foods_without_cooking"
-      | "stage_1a"
-      | "stage_university_hall"
-      | "stage_united";
+    ProjectCategory: "general" | "foods_with_kitchen" | "foods_without_kitchen" | "foods_without_cooking" | "stage_1a" | "stage_university_hall" | "stage_united";
     /** @enum {string} */
     ProjectAttribute: "academic" | "art" | "official" | "inside" | "outside";
     ProjectSummary: {
@@ -1492,6 +1497,11 @@ export interface components {
       title: string;
       category: components["schemas"]["ProjectCategory"];
       attributes: components["schemas"]["ProjectAttribute"][];
+      /** Format: uuid */
+      owner_id: string;
+      owner_name: string;
+      /** Format: email */
+      owner_email: string;
     };
     Error: {
       code?: string;
@@ -1587,6 +1597,8 @@ export interface components {
       email: string;
       phone_number: string;
       role: components["schemas"]["UserRole"];
+      owned_project_id?: string | null;
+      owned_project_name?: string | null;
       /** Format: date-time */
       created_at: string;
       /** Format: date-time */
