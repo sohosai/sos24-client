@@ -16,25 +16,18 @@ export const AuthUI: FC<PropsWithChildren> = ({ children }) => {
   return (
     <>
       <Header />
-      {authState.isLoading
-        ? (
-          <div
-            className={css({
-              height: "calc(100vh - token(spacing.20))",
-            })}
-          >
-            <Loading />
-          </div>
-        )
-        : authState.user
-        ? (
-          <>
-            {authState.user.emailVerified
-              ? <>{children}</>
-              : <EmailVerification />}
-          </>
-        )
-        : <>{authMode === "signIn" ? <SigninPage /> : <SignupPage />}</>}
+      {authState.isLoading ? (
+        <div
+          className={css({
+            height: "calc(100vh - token(spacing.20))",
+          })}>
+          <Loading />
+        </div>
+      ) : authState.user ? (
+        <>{authState.user.emailVerified ? <>{children}</> : <EmailVerification />}</>
+      ) : (
+        <>{authMode === "signIn" ? <SigninPage /> : <SignupPage />}</>
+      )}
     </>
   );
 };

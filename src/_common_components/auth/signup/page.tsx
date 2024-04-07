@@ -17,14 +17,12 @@ const SignupPage: NextPage = () => {
       className={center({
         flexDir: "column",
         minHeight: "calc(100vh - token(spacing.20))",
-      })}
-    >
+      })}>
       <h1
         className={css({
           fontSize: "2xl",
           fontWeight: "bold",
-        })}
-      >
+        })}>
         新規登録
       </h1>
       <SignupForm />
@@ -36,8 +34,7 @@ const SignupPage: NextPage = () => {
             textDecoration: "underline",
             fontWeight: "bold",
             cursor: "pointer",
-          })}
-        >
+          })}>
           アカウントを既にお持ちの場合はサインイン
         </button>
       </div>

@@ -31,9 +31,7 @@ export const FilesForm: FC<Props> = (props: Props) => {
     if (isValid) {
       const fileNumber = filesDOM.current?.files?.length;
       if (props.limit && fileNumber && fileNumber > props.limit) {
-        filesDOM.current?.setCustomValidity(
-          `ファイルは${props.limit}個までしかアップロードできません`,
-        );
+        filesDOM.current?.setCustomValidity(`ファイルは${props.limit}個までしかアップロードできません`);
       } else {
         filesDOM.current?.setCustomValidity("");
       }
@@ -50,22 +48,14 @@ export const FilesForm: FC<Props> = (props: Props) => {
 
   const getFiles = (event: DragEvent<HTMLDivElement>) => {
     setIsDragged(false);
-    if (
-      filesDOM.current?.files && event.dataTransfer &&
-      event.dataTransfer.files.length > 0
-    ) {
-      filesDOM.current.files = addFile(
-        filesDOM.current.files,
-        event.dataTransfer.files,
-      );
+    if (filesDOM.current?.files && event.dataTransfer && event.dataTransfer.files.length > 0) {
+      filesDOM.current.files = addFile(filesDOM.current.files, event.dataTransfer.files);
     }
   };
   const [updateFile, setUpdateFile] = useState(false);
 
   const addFile = (oldFiles: FileList, newFiles: FileList) => {
-    setFileIds(
-      fileIds.concat([...Array(newFiles.length)].map((_, i) => i + maxFiles)),
-    );
+    setFileIds(fileIds.concat([...Array(newFiles.length)].map((_, i) => i + maxFiles)));
     setMaxFiles(maxFiles + newFiles.length);
 
     const newDataTransfer = new DataTransfer();
@@ -117,10 +107,7 @@ export const FilesForm: FC<Props> = (props: Props) => {
     <div>
       <span className={basicFormLabelStyle}>
         {props.name}
-        <RequiredBadge
-          isRequired={props.required}
-          className={css({ marginInline: 2 })}
-        />
+        <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
       </span>
       <div
         id="drop_area"
@@ -137,8 +124,7 @@ export const FilesForm: FC<Props> = (props: Props) => {
           getFiles(e);
           validateFiles();
         }}
-        className={dropAreaStyle({ isDragged })}
-      >
+        className={dropAreaStyle({ isDragged })}>
         <button
           onClick={() => {
             filesDOM.current?.click();
@@ -148,16 +134,13 @@ export const FilesForm: FC<Props> = (props: Props) => {
             height: "100%",
             width: "100%",
             cursor: "pointer",
-          })}
-        >
-        </button>
+          })}></button>
         <div
           className={css({
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-          })}
-        >
+          })}>
           <span
             className={cva({
               base: {
@@ -178,35 +161,24 @@ export const FilesForm: FC<Props> = (props: Props) => {
                   },
                 },
               },
-            })({ isDragged })}
-          >
+            })({ isDragged })}>
             ファイル
           </span>
           <div
             className={css({
               display: "flex",
               alignItems: "center",
-            })}
-          >
-            <Image
-              src={clickIcon}
-              alt="クリック"
-              className={css({ height: 7, width: 7 })}
-            />
+            })}>
+            <Image src={clickIcon} alt="クリック" className={css({ height: 7, width: 7 })} />
             <span
               className={css({
                 paddingInline: 2,
                 color: "white",
                 paddingBottom: 1,
-              })}
-            >
+              })}>
               or
             </span>
-            <Image
-              src={driveIcon}
-              alt="ファイルをドロップ"
-              className={css({ height: 6, width: 6, marginInline: 1 })}
-            />
+            <Image src={driveIcon} alt="ファイルをドロップ" className={css({ height: 6, width: 6, marginInline: 1 })} />
           </div>
         </div>
       </div>
@@ -233,8 +205,7 @@ export const FilesForm: FC<Props> = (props: Props) => {
           display: "flex",
           flexDirection: "column",
           rowGap: 2,
-        })}
-      >
+        })}>
         {files &&
           [...Array(files.length)].map((_, i) => {
             const file = files && files[i];

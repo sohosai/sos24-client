@@ -26,8 +26,7 @@ export const NewsList: FC<{ newsList: News[] }> = ({ newsList }) => {
             pr: 4,
             lineHeight: 3,
           },
-        })}
-      >
+        })}>
         <div
           className={css({
             display: "contents",
@@ -35,14 +34,9 @@ export const NewsList: FC<{ newsList: News[] }> = ({ newsList }) => {
               borderColor: "gray.500",
               borderBottom: "1px solid",
             },
-          })}
-        >
-          <div className={css({ fontSize: "sm", fontWeight: "bold" })}>
-            更新日
-          </div>
-          <div className={css({ fontSize: "sm", fontWeight: "bold" })}>
-            タイトル
-          </div>
+          })}>
+          <div className={css({ fontSize: "sm", fontWeight: "bold" })}>更新日</div>
+          <div className={css({ fontSize: "sm", fontWeight: "bold" })}>タイトル</div>
         </div>
 
         {newsList.map((news) => (
@@ -55,14 +49,12 @@ export const NewsList: FC<{ newsList: News[] }> = ({ newsList }) => {
                 borderColor: "gray.200",
                 borderBottom: "1px solid",
               },
-            })}
-          >
+            })}>
             <div
               className={css({
                 fontSize: "sm",
                 fontWeight: "bold",
-              })}
-            >
+              })}>
               {dayjs(news.updated_at).format("YYYY/MM/DD")}
             </div>
             <div
@@ -70,13 +62,11 @@ export const NewsList: FC<{ newsList: News[] }> = ({ newsList }) => {
                 alignItems: "center",
                 gap: 4,
                 fontSize: "sm",
-              })}
-            >
+              })}>
               <span
                 className={css({
                   verticalAlign: "middle",
-                })}
-              >
+                })}>
                 {news.title}
               </span>
               <CategoryBadges categories={news.categories} />
