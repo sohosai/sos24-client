@@ -2,14 +2,13 @@
 import { assignType } from "@/lib/openapi";
 import { css } from "@styled-system/css";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import useSWR from "swr";
 
 export default function Home() {
-  const { data: userRes } = useSWR("/users/me");
+  const { data: userRes, isLoading } = useSWR("/users/me");
   const router = useRouter();
   const user = assignType("/users/me", userRes);
-  useEffect(() => {
+  if (!isLoading) {
     if (!user) return;
     if (user.role !== "general") {
       //TODO: projectsのページにリダイレクト
@@ -22,7 +21,8 @@ export default function Home() {
     } else {
       router.push("/register");
     }
-  }, [user]);
+  }
+
   return (
     <div
       className={css({

@@ -8,19 +8,18 @@ import { RegistrationProgress } from "@/components/RegistrationProgress";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
 import { assignType } from "@/lib/openapi";
-import { useEffect } from "react";
 
 const RegisterPage = () => {
-  const { data: userRes } = useSWR("/users/me");
+  const { data: userRes, isLoading } = useSWR("/users/me");
   const router = useRouter();
-
   const user = assignType("/users/me", userRes);
-  useEffect(() => {
+  if (!isLoading) {
     if (!user) return;
     if (user.owned_project_id) {
       router.push("/");
     }
-  }, [user]);
+  }
+
   return (
     <div
       className={container({
