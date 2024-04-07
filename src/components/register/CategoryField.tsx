@@ -71,22 +71,36 @@ const CategoryFieldItem = ({ label, value, register, badges }: CategoryFieldItem
       })}>
       <input type="radio" value={value} {...register} className={visuallyHidden()} />
       <Image src={categoryIcon} alt={`${label}のアイコン`} />
-      <span
-        className={css({
-          flex: 1,
-          fontSize: "md",
-          fontWeight: "bold",
-        })}>
-        {label}
-      </span>
       <div
-        className={flex({
-          flex: 1,
-          gap: 2,
+        className={css({
+          base: {
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+          },
+          sm: {
+            display: "contents",
+          },
         })}>
-        {badges.map((badge) => (
-          <Badge key={badge.label} label={badge.label} allowed={badge.allowed} />
-        ))}
+        <span
+          className={css({
+            flex: 1,
+            fontSize: "md",
+            fontWeight: "bold",
+          })}>
+          {label}
+        </span>
+        <div
+          className={flex({
+            flex: 1,
+            columnGap: 2,
+            rowGap: 1,
+            flexWrap: "wrap",
+          })}>
+          {badges.map((badge) => (
+            <Badge key={badge.label} label={badge.label} allowed={badge.allowed} />
+          ))}
+        </div>
       </div>
     </label>
   );
@@ -103,7 +117,7 @@ const Badge = ({ label, allowed }: BadgeProps) => {
       className={css({
         backgroundColor: allowed ? "sohosai.blue" : "sohosai.orange",
         color: "white",
-        fontSize: "xs",
+        fontSize: { base: "2xs", sm: "xs" },
         fontWeight: "bold",
         borderRadius: 5,
         paddingX: 2,
