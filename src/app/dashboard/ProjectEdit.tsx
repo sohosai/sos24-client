@@ -123,7 +123,7 @@ export const ProjectEdit: React.FC<{ isEditMode: boolean; onSubmit: () => void; 
                         id="title"
                         placeholder="２０文字以内で入力"
                         {...register("title", {
-                          value: projectData.title,
+                          value: projectData.title ?? "",
                         })}
                         className={isEditMode ? basicFormStyle() : ""}
                       />
@@ -141,7 +141,7 @@ export const ProjectEdit: React.FC<{ isEditMode: boolean; onSubmit: () => void; 
                         id="kana_title"
                         placeholder="２０文字以内で入力"
                         {...register("kana_title", {
-                          value: projectData.kana_title,
+                          value: projectData.kana_title ?? "",
                         })}
                         className={isEditMode ? basicFormStyle() : ""}
                       />
@@ -161,7 +161,7 @@ export const ProjectEdit: React.FC<{ isEditMode: boolean; onSubmit: () => void; 
                         id="group_name"
                         placeholder="２０文字以内で入力"
                         {...register("group_name", {
-                          value: projectData.group_name,
+                          value: projectData.group_name ?? "",
                         })}
                         className={isEditMode ? basicFormStyle() : ""}
                       />
@@ -181,7 +181,7 @@ export const ProjectEdit: React.FC<{ isEditMode: boolean; onSubmit: () => void; 
                         id="kana_group_name"
                         placeholder="２０文字以内で入力"
                         {...register("kana_group_name", {
-                          value: projectData.kana_group_name,
+                          value: projectData.kana_group_name ?? "",
                         })}
                         className={isEditMode ? basicFormStyle() : ""}
                       />
