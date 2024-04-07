@@ -5,8 +5,20 @@ import { Title } from "@/components/Title";
 import { RegisterForm } from "@/app/register/RegisterForm";
 import { container, stack } from "@styled-system/patterns";
 import { RegistrationProgress } from "@/components/RegistrationProgress";
+import useSWR from "swr";
+import { useRouter } from "next/navigation";
+import { assignType } from "@/lib/openapi";
 
 const RegisterPage = () => {
+  const { data: userRes, isLoading, error } = useSWR("/users/me");
+  const router = useRouter();
+  const user = assignType("/users/me", userRes);
+  if (isLoading) return;
+  if (error) return <p>エラーが発生しました</p>;
+  if (user.owned_project_id) {
+    router.push("/dashboard");
+  }
+
   return (
     <div>
       <div
