@@ -16,7 +16,7 @@ export const NoResultNotice = (props: { message: string }) => {
       <div className={css({ pl: 0, pr: 0 })}>
         <Image
           src={SuyasuyaBellIcon}
-          alt="すやすやベル"
+          alt=""
           className={css({
             height: 24,
             width: 24,
