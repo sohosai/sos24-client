@@ -46,13 +46,15 @@ const ProjectsPage: NextPage = () => {
 
   return (
     <div className={container({ marginY: 8 })}>
-      <h2
-        className={css({
-          fontSize: "2xl",
-          fontWeight: "bold",
-        })}>
-        企画一覧
-      </h2>
+      <div className={hstack()}>
+        <h2
+          className={css({
+            fontSize: "2xl",
+            fontWeight: "bold",
+          })}>
+          企画一覧
+        </h2>
+      </div>
       <div className={hstack({ gap: 4, marginTop: 10 })}>
         <select
           onChange={(e) => setAttributesFilter(e.target.value as "" | components["schemas"]["ProjectAttribute"])}
