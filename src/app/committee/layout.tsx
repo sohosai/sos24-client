@@ -1,3 +1,4 @@
+"use client";
 import { assignType } from "@/lib/openapi";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
