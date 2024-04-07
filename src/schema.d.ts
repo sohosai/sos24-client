@@ -1604,7 +1604,7 @@ export interface components {
       phone_number: string;
       role: components["schemas"]["UserRole"];
       owned_project_id?: string | null;
-      owned_project_name?: string | null;
+      owned_project_title?: string | null;
       /** Format: date-time */
       created_at: string;
       /** Format: date-time */
