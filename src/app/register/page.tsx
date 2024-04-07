@@ -16,7 +16,7 @@ const RegisterPage = () => {
   if (isLoading) return;
   if (error) return <p>エラーが発生しました</p>;
   if (user.owned_project_id) {
-    router.push("/");
+    router.push("/dashboard");
   }
 
   return (
