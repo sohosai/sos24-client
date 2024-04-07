@@ -3,11 +3,9 @@ import dayjs from "dayjs";
 import { FC } from "react";
 import Link from "next/link";
 import { ProjectCategory } from "@/lib/valibot";
-import { center, flex } from "@styled-system/patterns";
+import { flex } from "@styled-system/patterns";
 import { CategoryBadges } from "@/components/news/CategoryBadges";
-import Image from "next/image";
 
-import SuyasuyaBellIcon from "../assets/SuyasuyaBell.png";
 import { NoResultNotice } from "../NoResultNotice";
 type News = {
   id: string;
@@ -17,7 +15,6 @@ type News = {
 };
 
 export const NewsList: FC<{ newsList: News[] }> = ({ newsList }) => {
-  console.log(newsList);
   return (
     <div>
       <div
