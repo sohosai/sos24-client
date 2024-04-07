@@ -33,33 +33,63 @@ export const TableRow = ({ label, children, formId }: { label: ReactNode; childr
   </div>
 );
 
-export const handleCopyInviteLink = (project_id: string, position: "owner" | "sub_owner") => {
-  client
-    .POST("/invitations", {
-      body: {
-        project_id,
-        position,
-      },
-    })
-    .then((res) => {
-      const data = [
-        new ClipboardItem({
-          "text/plain": new Blob([`${document.location.origin}/invitations/${res.data?.id}`], { type: "text/plain" }),
-        }),
-      ];
-      navigator.clipboard
-        .write(data)
-        .then(() => {
-          toast.success("招待リンクをコピーしました");
-        })
-        .catch(() => {
-          toast.error("招待リンクのコピーに失敗しました");
-        });
-    })
-    .catch((e) => {
-      toast.error("招待リンクの作成に失敗しました");
-      throw new Error(e);
-    });
+export const handleCopyInviteLink = async (project_id: string, position: "owner" | "sub_owner") => {
+  let data: ClipboardItem[] = [];
+  const inviteId = localStorage.getItem("invitation_id");
+  const { data: dataFromAPI, error } = await client.GET("/invitations/{invitation_id}", {
+    params: { path: { invitation_id: inviteId ?? "" } },
+  });
+
+  let idIsValid = false;
+  if (inviteId && !error) {
+    const invitation = assignType("/invitations/{invitation_id}", dataFromAPI);
+    if (!invitation.used_by) {
+      idIsValid = true;
+    }
+    data = [
+      new ClipboardItem({
+        "text/plain": new Blob([`${document.location.origin}/invitations/${inviteId}`], { type: "text/plain" }),
+      }),
+    ];
+    navigator.clipboard
+      .write(data)
+      .then(() => {
+        toast.success("招待リンクをコピーしました");
+      })
+      .catch(() => {
+        toast.error("招待リンクのコピーに失敗しました");
+      });
+    return;
+  }
+  if (!idIsValid || !inviteId) {
+    client
+      .POST("/invitations", {
+        body: {
+          project_id,
+          position,
+        },
+      })
+      .then((res) => {
+        data = [
+          new ClipboardItem({
+            "text/plain": new Blob([`${document.location.origin}/invitations/${res.data?.id}`], { type: "text/plain" }),
+          }),
+        ];
+        localStorage.setItem("invitation_id", res.data?.id ?? "");
+        navigator.clipboard
+          .write(data)
+          .then(() => {
+            toast.success("招待リンクをコピーしました");
+          })
+          .catch(() => {
+            toast.error("招待リンクのコピーに失敗しました");
+          });
+      })
+      .catch((e) => {
+        toast.error("招待リンクの作成に失敗しました");
+        throw new Error(e);
+      });
+  }
 };
 export const ProjectView: React.FC<{ isEditMode: boolean; onSubmit: () => void; hideSubOwner?: boolean }> = ({
   isEditMode,
