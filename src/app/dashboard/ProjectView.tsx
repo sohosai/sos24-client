@@ -33,32 +33,55 @@ export const TableRow = ({ label, children, formId }: { label: ReactNode; childr
   </div>
 );
 
-export const handleCopyInviteLink = (project_id: string, position: "owner" | "sub_owner") => {
-  client
-    .POST("/invitations", {
-      body: {
-        project_id,
-        position,
-      },
+export const handleCopyInviteLink = async (project_id: string, position: "owner" | "sub_owner") => {
+  let data: ClipboardItem[] = [];
+  const inviteId = localStorage.getItem("invite-id");
+  const { data: dataFromAPI, error } = await client.GET("/invitations/{invitation_id}", {
+    params: { path: { invitation_id: inviteId ?? "" } },
+  });
+
+  console.log(inviteId);
+  let idIsValid = false;
+  if (inviteId && !error) {
+    const invitation = assignType("/invitations/{invitation_id}", dataFromAPI);
+    if (!invitation.used_by) {
+      idIsValid = true;
+    }
+    data = [
+      new ClipboardItem({
+        "text/plain": new Blob([`${document.location.origin}/invitations/${inviteId}`], { type: "text/plain" }),
+      }),
+    ];
+  }
+  if (!idIsValid) {
+    client
+      .POST("/invitations", {
+        body: {
+          project_id,
+          position,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        data = [
+          new ClipboardItem({
+            "text/plain": new Blob([`${document.location.origin}/invitations/${res.data?.id}`], { type: "text/plain" }),
+          }),
+        ];
+        localStorage.setItem("invite-id", res.data?.id ?? "");
+      })
+      .catch((e) => {
+        toast.error("招待リンクの作成に失敗しました");
+        throw new Error(e);
+      });
+  }
+  navigator.clipboard
+    .write(data)
+    .then(() => {
+      toast.success("招待リンクをコピーしました");
     })
-    .then((res) => {
-      const data = [
-        new ClipboardItem({
-          "text/plain": new Blob([`${document.location.origin}/invitations/${res.data?.id}`], { type: "text/plain" }),
-        }),
-      ];
-      navigator.clipboard
-        .write(data)
-        .then(() => {
-          toast.success("招待リンクをコピーしました");
-        })
-        .catch(() => {
-          toast.error("招待リンクのコピーに失敗しました");
-        });
-    })
-    .catch((e) => {
-      toast.error("招待リンクの作成に失敗しました");
-      throw new Error(e);
+    .catch(() => {
+      toast.error("招待リンクのコピーに失敗しました");
     });
 };
 export const ProjectView: React.FC<{ isEditMode: boolean; onSubmit: () => void; hideSubOwner?: boolean }> = ({
