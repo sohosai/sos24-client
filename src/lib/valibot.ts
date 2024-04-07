@@ -80,4 +80,12 @@ export const RegisterProjectSchema = object({
   agreement2: projectAgreementSchema,
 });
 
+export const UpdateProjectSchema = object({
+  title: projectTitleSchema,
+  kana_title: projectKanaTitleSchema,
+  group_name: projectGroupName,
+  kana_group_name: projectKanaGroupName,
+});
+
 export type RegisterProjectSchemaType = Output<typeof RegisterProjectSchema>;
+export type UpdateProjectSchemaType = Output<typeof UpdateProjectSchema>;
