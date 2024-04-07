@@ -7,7 +7,7 @@ import { assignType } from "@/lib/openapi";
 import dayjs from "dayjs";
 import Image from "next/image";
 
-import triangleIcon from "../../../components/assets/Triangle.svg";
+import triangleIcon from "../@/_common_components/assets/Triangle.svg";
 import { css } from "@styled-system/css";
 import { FileItem } from "@/_common_components/news/FileItem";
 

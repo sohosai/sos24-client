@@ -1,7 +1,7 @@
 import { css } from "@styled-system/css";
 import { UseFormRegisterReturn } from "react-hook-form";
 
-import categoryIcon from "../../components/assets/CategoryIcon.svg";
+import categoryIcon from "@/_common_components/assets/CategoryIcon.svg";
 import Image from "next/image";
 import { basicErrorMessageStyle, basicFormLabelStyle } from "@/_common_components/forms/styles";
 import { flex, stack, visuallyHidden } from "@styled-system/patterns";
