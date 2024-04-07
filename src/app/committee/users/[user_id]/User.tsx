@@ -91,6 +91,7 @@ export const User: FC<{
             <UserRoleFormatter role={user.role} />
           </div>
           <div>
+            {/* TODO: 企画ページが実装されたら as Routeを外す */}
             <Link href={`/committee/projects/${user.owned_project_id}` as Route}>{user.owned_project_title}</Link>
           </div>
           <div>{dayjs(user.created_at).format("YYYY/MM/DD")}</div>
