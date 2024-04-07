@@ -1,4 +1,4 @@
-import { custom, literal, minLength, object, Output, string, union } from "valibot";
+import { custom, literal, minLength, object, Output, regex, string, union } from "valibot";
 
 /**
  * 半角・全角英数字及び半角記号を3文字でかな2文字分としてカウントする謎のやつ
@@ -80,6 +80,8 @@ export const RegisterProjectSchema = object({
   agreement2: projectAgreementSchema,
 });
 
+export type RegisterProjectSchemaType = Output<typeof RegisterProjectSchema>;
+
 export const UpdateProjectSchema = object({
   title: projectTitleSchema,
   kana_title: projectKanaTitleSchema,
@@ -87,5 +89,33 @@ export const UpdateProjectSchema = object({
   kana_group_name: projectKanaGroupName,
 });
 
-export type RegisterProjectSchemaType = Output<typeof RegisterProjectSchema>;
 export type UpdateProjectSchemaType = Output<typeof UpdateProjectSchema>;
+
+const userNameSchema = string([minLength(1, "名前を入力してください")]);
+
+const userKanaNameSchema = string([
+  minLength(1, "名前のふりがなを入力してください"),
+  regex(/^[ぁ-んー－゛゜]+$/, "ひらがなで入力してください"),
+]);
+
+const userEmailSchema = string([
+  minLength(1, "メールアドレスを入力してください"),
+  regex(/.*@.*\.tsukuba\.ac\.jp$/, "筑波大学のメールアドレスを入力してください"),
+]);
+
+const userPasswordSchema = string([minLength(1, "パスワードを入力してください")]);
+
+const userPhoneNumberSchema = string([minLength(1, "電話番号を入力してください")]);
+
+const userAgreementSchema = literal(true, "利用規約に同意してください");
+
+export const SignupSchema = object({
+  name: userNameSchema,
+  kana_name: userKanaNameSchema,
+  phone_number: userPhoneNumberSchema,
+  email: userEmailSchema,
+  password: userPasswordSchema,
+  agreement: userAgreementSchema,
+});
+
+export type SignupSchemaType = Output<typeof SignupSchema>;
