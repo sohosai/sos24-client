@@ -50,13 +50,9 @@ export const ProjectAttributesBadge: React.FC<{
     <ul className={hstack()}>
       {attrbutesData.map((e) => (
         <li
-          className={cx(
-            ItemStyle,
-            attributes.includes(e.rawString) && ActiveItemStyle,
-          )}
+          className={cx(ItemStyle, attributes.includes(e.rawString) && ActiveItemStyle)}
           title={AttributesFormatter({ category: e.rawString })}
-          key={e.rawString}
-        >
+          key={e.rawString}>
           {e.string}
         </li>
       ))}

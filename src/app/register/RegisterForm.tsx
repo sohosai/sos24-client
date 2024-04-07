@@ -2,10 +2,7 @@
 
 import { useForm, useWatch } from "react-hook-form";
 import { css } from "@styled-system/css";
-import {
-  RegisterProjectSchema,
-  RegisterProjectSchemaType,
-} from "@/lib/valibot";
+import { RegisterProjectSchema, RegisterProjectSchemaType } from "@/lib/valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { Button } from "@/_common_components/Button";
 import { TextField } from "./TextField";
@@ -140,8 +137,7 @@ export const RegisterForm = () => {
       className={stack({
         gap: 8,
         maxWidth: "100%",
-      })}
-    >
+      })}>
       <TextField
         type="text"
         id="title"
@@ -174,16 +170,8 @@ export const RegisterForm = () => {
         register={register("kana_group_name")}
         error={errors.kana_group_name?.message}
       />
-      <CategoryField
-        items={categoryItems}
-        register={register("category")}
-        error={errors.category?.message}
-      />
-      <PlaceField
-        categoryType={categoryType}
-        register={register("place")}
-        error={errors.place?.message}
-      />
+      <CategoryField items={categoryItems} register={register("category")} error={errors.category?.message} />
+      <PlaceField categoryType={categoryType} register={register("place")} error={errors.place?.message} />
       <CheckboxField
         id="agreement1"
         label="あなたは、別の企画団体の企画責任者または副企画責任者になることはできません。"
@@ -196,11 +184,7 @@ export const RegisterForm = () => {
         register={register("agreement2")}
         error={errors.agreement2?.message}
       />
-      <Button
-        type="submit"
-        color="tsukuba.purple"
-        className={css({ flexGrow: 0, alignSelf: "center" })}
-      >
+      <Button type="submit" color="tsukuba.purple" className={css({ flexGrow: 0, alignSelf: "center" })}>
         次へ
       </Button>
     </form>

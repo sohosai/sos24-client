@@ -8,9 +8,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
-export const Button: FC<Props> = (
-  { color, size = "medium", className, children, ...props }: Props,
-) => {
+export const Button: FC<Props> = ({ color, size = "medium", className, children, ...props }: Props) => {
   const button = cva({
     base: {
       borderRadius: "sm",
