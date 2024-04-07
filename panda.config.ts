@@ -20,8 +20,10 @@ export default defineConfig({
           sohosai: {
             blue: { value: "#1eb8cb" },
             orange: { value: "#ed6d1f" },
-            purple: { value: "#60C" },
           },
+          tsukuba: {
+            purple: { value: "#60C" },
+          }
         },
       },
     },

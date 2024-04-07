@@ -3,7 +3,10 @@ import { UseFormRegisterReturn } from "react-hook-form";
 
 import categoryIcon from "@/_common_components/assets/CategoryIcon.svg";
 import Image from "next/image";
-import { basicErrorMessageStyle, basicFormLabelStyle } from "@/_common_components/forms/styles";
+import {
+  basicErrorMessageStyle,
+  basicFormLabelStyle,
+} from "@/_common_components/forms/styles";
 import { flex, stack, visuallyHidden } from "@styled-system/patterns";
 import React from "react";
 
@@ -20,18 +23,26 @@ interface CategoryFieldProps {
   error?: string;
 }
 
-export const CategoryField = ({ items, register, error }: CategoryFieldProps) => {
+export const CategoryField = (
+  { items, register, error }: CategoryFieldProps,
+) => {
   return (
     <fieldset>
       <legend className={basicFormLabelStyle}>企画区分</legend>
       <div
         className={stack({
           gap: 4,
-        })}>
+        })}
+      >
         {items.map((item) => (
           <React.Fragment key={item.value}>
             {item.hasTopSpacer && <Separator />}
-            <CategoryFieldItem label={item.label} value={item.value} register={register} badges={item.badges} />
+            <CategoryFieldItem
+              label={item.label}
+              value={item.value}
+              register={register}
+              badges={item.badges}
+            />
           </React.Fragment>
         ))}
       </div>
@@ -47,7 +58,9 @@ interface CategoryFieldItemProps {
   badges: BadgeProps[];
 }
 
-const CategoryFieldItem = ({ label, value, register, badges }: CategoryFieldItemProps) => {
+const CategoryFieldItem = (
+  { label, value, register, badges }: CategoryFieldItemProps,
+) => {
   return (
     <label
       key={value}
@@ -66,10 +79,16 @@ const CategoryFieldItem = ({ label, value, register, badges }: CategoryFieldItem
           background: "gray.200",
         },
         "&:has(> input:checked)": {
-          borderColor: "sohosai.purple",
+          borderColor: "tsukuba.purple",
         },
-      })}>
-      <input type="radio" value={value} {...register} className={visuallyHidden()} />
+      })}
+    >
+      <input
+        type="radio"
+        value={value}
+        {...register}
+        className={visuallyHidden()}
+      />
       <Image src={categoryIcon} alt={`${label}のアイコン`} />
       <div
         className={css({
@@ -81,13 +100,15 @@ const CategoryFieldItem = ({ label, value, register, badges }: CategoryFieldItem
           sm: {
             display: "contents",
           },
-        })}>
+        })}
+      >
         <span
           className={css({
             flex: 1,
             fontSize: "md",
             fontWeight: "bold",
-          })}>
+          })}
+        >
           {label}
         </span>
         <div
@@ -96,9 +117,14 @@ const CategoryFieldItem = ({ label, value, register, badges }: CategoryFieldItem
             columnGap: 2,
             rowGap: 1,
             flexWrap: "wrap",
-          })}>
+          })}
+        >
           {badges.map((badge) => (
-            <Badge key={badge.label} label={badge.label} allowed={badge.allowed} />
+            <Badge
+              key={badge.label}
+              label={badge.label}
+              allowed={badge.allowed}
+            />
           ))}
         </div>
       </div>
@@ -126,7 +152,8 @@ const Badge = ({ label, allowed }: BadgeProps) => {
         flexWrap: "wrap",
         columnGap: 2,
         justifyContent: "center",
-      })}>
+      })}
+    >
       <span>{label}</span>
       <span>{allowed ? "可" : "不可"}</span>
     </span>
@@ -142,6 +169,8 @@ const Separator = () => {
         background:
           "radial-gradient(circle closest-side, var(--colors-gray-400) 98%,#0000)   50%/10px 100%," +
           "linear-gradient(90deg, var(--colors-gray-400) 50%, #0000 0)              50%/20px 100%;",
-      })}></div>
+      })}
+    >
+    </div>
   );
 };

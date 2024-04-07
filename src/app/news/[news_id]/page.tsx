@@ -40,7 +40,7 @@ const NewsDetailsPage = ({ params }: { params: { news_id: string } }) => {
         <Link
           href="/news"
           className={css({
-            color: "sohosai.purple",
+            color: "tsukuba.purple",
             fontSize: "xs",
           })}
         >

@@ -2,13 +2,15 @@ import { cva, cx } from "@styled-system/css";
 import { ButtonHTMLAttributes, FC } from "react";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  color: "primary" | "secondary" | "blue";
+  color: "tsukuba.purple" | "secondary" | "blue";
   size?: "medium" | "big";
   className?: string;
   children: React.ReactNode;
 }
 
-export const Button: FC<Props> = ({ color, size = "medium", className, children, ...props }: Props) => {
+export const Button: FC<Props> = (
+  { color, size = "medium", className, children, ...props }: Props,
+) => {
   const button = cva({
     base: {
       borderRadius: "sm",
@@ -20,22 +22,22 @@ export const Button: FC<Props> = ({ color, size = "medium", className, children,
     variants: {
       color: {
         primary: {
-          backgroundColor: "primary",
+          backgroundColor: "tsukuba.purple",
           color: "white",
           _hover: {
             opacity: "90%",
           },
 
-          borderColor: "primary",
+          borderColor: "tsukuba.purple",
         },
         secondary: {
           backgroundColor: "white",
-          color: "primary",
+          color: "tsukuba.purple",
           _hover: {
             opacity: "75%",
           },
 
-          borderColor: "primary",
+          borderColor: "tsukuba.purple",
         },
         blue: {
           backgroundColor: "white",
