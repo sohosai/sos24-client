@@ -1,17 +1,11 @@
 import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
 import { ProjectAttributesBadge } from "@/components/project/AttirbutesBadge";
 import { projectCategoryItemStyle } from "@/components/register/styles";
-import { assignType } from "@/lib/openapi";
 import { components } from "@/schema";
 import { css, cx } from "@styled-system/css";
-import { grid, hstack, vstack } from "@styled-system/patterns";
-import React, { useEffect, useState } from "react";
-import useSWR from "swr";
+import { grid, vstack } from "@styled-system/patterns";
+import React from "react";
 import Link from "next/link";
-import { basicFormStyle, dropdownStyle } from "@/components/forms/styles";
-import { filterSelectorStyle } from "@/components/news/FilterSelector";
-import { AttributesFormatter } from "@/components/project/AttributesFormatter";
-import { projectCategories } from "@/lib/valibot";
 
 const ProjectRow: React.FC<{ data: components["schemas"]["ProjectSummary"] }> = ({ data }) => {
   return (

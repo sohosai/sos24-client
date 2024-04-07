@@ -36,8 +36,11 @@ const ProjectsPage: NextPage = () => {
   const [categoryFilter, setCategoryFilter] = useState<components["schemas"]["ProjectCategory"] | "">("");
   const generatedProjectData = (() => {
     return projectsData
-      .filter((e) => attributesFilter === "" || e.attributes.includes(attributesFilter))
-      .filter((e) => categoryFilter == "" || e.category === categoryFilter)
+      .filter(
+        (e) =>
+          (attributesFilter === "" || e.attributes.includes(attributesFilter)) &&
+          (categoryFilter == "" || e.category === categoryFilter),
+      )
       .sort((big, small) => big.index - small.index);
   })();
 
