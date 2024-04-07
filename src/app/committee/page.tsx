@@ -12,7 +12,6 @@ const CommitteePage: NextPage = () => {
   if (error) return <p>エラーが発生しました</p>;
   if (user.role === "general") {
     router.push("/");
-    return;
   } else {
     //TODO: projectsのページにリダイレクト
     //router.push("/committee/projects");

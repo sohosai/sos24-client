@@ -13,11 +13,9 @@ export default function Home() {
   if (user.role !== "general") {
     //TODO: projectsのページにリダイレクト
     //router.push("/committee/projects");
-    return;
   }
   if (user.owned_project_id) {
     router.push("/dashboard");
-    return;
   } else {
     router.push("/register");
   }
