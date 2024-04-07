@@ -1573,7 +1573,7 @@ components:
         - index
         - title
         - category
-        - attribute
+        - attributes
     Error:
       type: object
       properties:
