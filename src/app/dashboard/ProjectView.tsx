@@ -40,7 +40,6 @@ export const handleCopyInviteLink = async (project_id: string, position: "owner"
     params: { path: { invitation_id: inviteId ?? "" } },
   });
 
-  console.log(inviteId);
   let idIsValid = false;
   if (inviteId && !error) {
     const invitation = assignType("/invitations/{invitation_id}", dataFromAPI);
@@ -62,7 +61,6 @@ export const handleCopyInviteLink = async (project_id: string, position: "owner"
         },
       })
       .then((res) => {
-        console.log(res);
         data = [
           new ClipboardItem({
             "text/plain": new Blob([`${document.location.origin}/invitations/${res.data?.id}`], { type: "text/plain" }),
