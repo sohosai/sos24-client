@@ -2,13 +2,16 @@
 
 import { useForm, useWatch } from "react-hook-form";
 import { css } from "@styled-system/css";
-import { RegisterProjectSchema, RegisterProjectSchemaType } from "@/lib/valibot";
+import {
+  RegisterProjectSchema,
+  RegisterProjectSchemaType,
+} from "@/lib/valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { Button } from "@/components/Button";
-import { TextField } from "@/components/register/TextField";
-import { CategoryField } from "@/components/register/CategoryField";
-import { category_to_type, PlaceField } from "@/components/register/PlaceField";
-import { CheckboxField } from "@/components/register/CheckboxField";
+import { TextField } from "./TextField";
+import { CategoryField } from "@/app/register/CategoryField";
+import { category_to_type, PlaceField } from "./PlaceField";
+import { CheckboxField } from "@/app/register/CheckboxField";
 import { stack } from "@styled-system/patterns";
 import { client } from "@/lib/openapi";
 import { components } from "@/schema";
@@ -137,7 +140,8 @@ export const RegisterForm = () => {
       className={stack({
         gap: 8,
         maxWidth: "100%",
-      })}>
+      })}
+    >
       <TextField
         type="text"
         id="title"
@@ -170,8 +174,16 @@ export const RegisterForm = () => {
         register={register("kana_group_name")}
         error={errors.kana_group_name?.message}
       />
-      <CategoryField items={categoryItems} register={register("category")} error={errors.category?.message} />
-      <PlaceField categoryType={categoryType} register={register("place")} error={errors.place?.message} />
+      <CategoryField
+        items={categoryItems}
+        register={register("category")}
+        error={errors.category?.message}
+      />
+      <PlaceField
+        categoryType={categoryType}
+        register={register("place")}
+        error={errors.place?.message}
+      />
       <CheckboxField
         id="agreement1"
         label="あなたは、別の企画団体の企画責任者または副企画責任者になることはできません。"
@@ -184,7 +196,11 @@ export const RegisterForm = () => {
         register={register("agreement2")}
         error={errors.agreement2?.message}
       />
-      <Button type="submit" color="primary" className={css({ flexGrow: 0, alignSelf: "center" })}>
+      <Button
+        type="submit"
+        color="primary"
+        className={css({ flexGrow: 0, alignSelf: "center" })}
+      >
         次へ
       </Button>
     </form>
