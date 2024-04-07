@@ -4,11 +4,9 @@ import { projectCategoryItemStyle } from "@/components/register/styles";
 import { assignType } from "@/lib/openapi";
 import { components } from "@/schema";
 import { css, cx } from "@styled-system/css";
-import { grid, hstack, vstack } from "@styled-system/patterns";
-import MailAddresIcon from "@/components/assets/MailAddress.svg";
+import { grid, vstack } from "@styled-system/patterns";
 import React from "react";
 import useSWR from "swr";
-import Image from "next/image";
 import Link from "next/link";
 
 const ProjectRow: React.FC<{ data: components["schemas"]["ProjectSummary"] }> = ({ data }) => {
@@ -63,7 +61,7 @@ export const ProjectsView: React.FC = () => {
           : error
             ? "error"
             : projectsData.map((project) => (
-                <li>
+                <li key={project.id}>
                   <ProjectRow data={project} />
                 </li>
               ))}
