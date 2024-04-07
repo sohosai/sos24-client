@@ -49,7 +49,8 @@ export const ProjectsList: React.FC = () => {
   const generatedProjectData = (() => {
     return projectsData
       .filter((e) => attributesFilter === "" || e.attributes.includes(attributesFilter))
-      .filter((e) => categoryFilter == "" || e.category === categoryFilter);
+      .filter((e) => categoryFilter == "" || e.category === categoryFilter)
+      .sort((big, small) => big.index - small.index);
   })();
   const filterStyle = css({
     position: "relative",
