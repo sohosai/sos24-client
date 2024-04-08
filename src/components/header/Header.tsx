@@ -7,18 +7,20 @@ import { FC, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
 import logo from "./assets/Logo.svg";
-import ModeSwitch from "./assets/SwitchMode.svg";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MenuButton from "./assets/MenuButton.svg";
 import CloseButton from "./assets/CloseButton.svg";
-import ModeSwitchWhite from "./assets/SwitchModeWhite.svg";
-import { hstack, visuallyHidden } from "@styled-system/patterns";
+import { hstack } from "@styled-system/patterns";
 import { Route } from "next";
+import { SwitchModeButton } from "./SwitchModeButton";
+import { MobileMenu } from "./MobileMenu";
+import { HeaderMenuItems } from "./HeaderMenuItems";
+import { HeaderNavigation } from "./HeaderNavigation";
 
-type MenuData = {
+export type MenuData = {
   path: Route;
   name: string;
 };
@@ -57,145 +59,6 @@ const committeeMenu: MenuData[] = [
     name: "ユーザ",
   },
 ];
-
-const HeaderNavigation: FC<{ menu: MenuData[] }> = ({ menu }) => {
-  const commonItemStyle = css({
-    display: "block",
-    height: "100%",
-    lineHeight: "100%",
-  });
-  return (
-    <ul
-      className={css({
-        display: "grid",
-        gridTemplateColumns: "repeat(3, 1fr)",
-        textAlign: "center",
-        sm: { display: "none" },
-      })}>
-      {menu.map((menu) => (
-        <li>
-          <Link href={menu.path} className={commonItemStyle}>
-            {menu.name}
-          </Link>
-        </li>
-      ))}
-    </ul>
-  );
-};
-
-const SwitchModeButton: FC<{ isCommitteeMode: boolean; showMobileMenu: boolean }> = ({
-  isCommitteeMode,
-  showMobileMenu,
-}) => (
-  <Link href={isCommitteeMode ? "/dashboard" : "/committee/dashboard"}>
-    <button
-      className={css({
-        cursor: "pointer",
-        fontSize: "sm",
-        px: { sm: 5, base: 0 },
-        height: "100%",
-        display: "flex",
-        flexDir: { base: "column", sm: "row" },
-        alignItems: "center",
-        justifyContent: "center",
-        gap: { sm: 2, base: 0 },
-        textDecoration: "underline",
-        color: showMobileMenu ? "white" : "black",
-      })}>
-      <Image
-        src={showMobileMenu ? ModeSwitchWhite : ModeSwitch}
-        alt="人のアイコンの周囲に矢印"
-        className={css({
-          filter: "drop-shadow(0 0 5px rgb(0 0 0 / 0.1))",
-          height: { base: 6, sm: 10 },
-          color: showMobileMenu ? "white" : "black",
-        })}
-      />
-      <span>
-        <span className={css({ display: { base: "none", sm: "inline" } })}>{isCommitteeMode ? "一般" : "実委人"}</span>
-        切り替え
-      </span>
-    </button>
-  </Link>
-);
-
-const MobileMenuItemStyle = css({
-  borderBottom: "solid 2px",
-  lineHeight: "200%",
-  paddingX: "15px",
-});
-
-const MobileMenu: FC<{
-  isCommittee: boolean;
-  isCommitteeMode: boolean;
-  menu: MenuData[];
-  show: boolean;
-  signOutFunc: () => void;
-}> = ({ isCommittee, menu, isCommitteeMode, show, signOutFunc }) => (
-  <nav
-    className={
-      show
-        ? css({
-            display: "flex",
-            justifyContent: "center",
-            flexDir: "column",
-            alignItems: "center",
-            textAlign: "center",
-            position: "fixed",
-            color: "white",
-            top: 0,
-            left: 0,
-            background: "neutral.700",
-            fontSize: "2xl",
-            width: "100vw",
-            height: "100vh",
-            gap: "12",
-            sm: {
-              display: "none",
-            },
-          })
-        : visuallyHidden()
-    }>
-    <ul
-      className={css({
-        display: "flex",
-        flexDir: "column",
-        gap: 12,
-        paddingY: 20,
-      })}>
-      {menu.map((e) => (
-        <li className={MobileMenuItemStyle}>
-          <Link href={e.path}>{e.name}</Link>
-        </li>
-      ))}
-    </ul>
-    {isCommittee && (
-      <Link className={MobileMenuItemStyle} href={`${isCommitteeMode ? "" : "/committee"}/dashboard`}>
-        {isCommitteeMode ? "一般" : "実委人"}ページへ
-      </Link>
-    )}
-    <button className={css({ border: "2px solid", paddingX: 10, paddingY: 2 })} onClick={signOutFunc}>
-      ログアウト
-    </button>
-  </nav>
-);
-
-const HeaderMenuItemStyle = css({ height: "100%", alignItems: "center", display: "flex" });
-const HeaderMenuItemLinkStyle = css({ display: "block", paddingX: 5, lineHeight: 5 });
-
-const HeaderMenuItems: FC<{ menu: MenuData[] }> = ({ menu }) => {
-  return (
-    <ul className={css({ sm: { display: "flex", paddingX: 5, height: "100%" }, display: "none" })}>
-      {menu.map((e) => (
-        <li className={HeaderMenuItemStyle}>
-          <Link href={e.path} className={HeaderMenuItemLinkStyle}>
-            {e.name}
-          </Link>
-        </li>
-      ))}
-    </ul>
-  );
-};
 
 export const Header: FC = () => {
   const { user, isLoading } = useAuthState();
