@@ -13,7 +13,7 @@ import { stack } from "@styled-system/patterns";
 import { client } from "@/lib/openapi";
 import { components } from "@/schema";
 import toast from "react-hot-toast";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const categoryItems = [
   {
@@ -60,6 +60,7 @@ const categoryItems = [
 ];
 
 export const RegisterForm = () => {
+  const router = useRouter();
   const {
     register,
     control,
@@ -123,7 +124,7 @@ export const RegisterForm = () => {
         }
 
         toast.success("企画応募に成功しました");
-        redirect("/dashboard");
+        router.push("/dashboard");
       })
       .catch(() => {
         toast.error(`企画応募中にエラーが発生しました`);
@@ -135,6 +136,7 @@ export const RegisterForm = () => {
       onSubmit={handleSubmit(onSubmit)}
       className={stack({
         gap: 8,
+        maxWidth: "100%",
       })}>
       <TextField
         type="text"
