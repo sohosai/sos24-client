@@ -1,5 +1,4 @@
 import { basicErrorMessageStyle, basicFormStyle } from "@/components/forms/styles";
-import { categoryToLabel } from "@/components/news/CategoryBadges";
 import { ProjectAttributesBadge } from "@/components/project/AttirbutesBadge";
 import { assignType, client } from "@/lib/openapi";
 import useSWR from "swr";
@@ -11,6 +10,7 @@ import { Button } from "@/components/Button";
 import { grid, vstack } from "@styled-system/patterns";
 import { css, cx } from "@styled-system/css";
 import { ReactNode } from "react";
+import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
 const tableCellStyle = css({
   paddingX: 14,
   paddingY: 4,
@@ -202,54 +202,52 @@ export const ProjectView: React.FC<{ isEditMode: boolean; onSubmit: () => void; 
                   )}
                 </>
               ) : (
-                projectData.kana_group_name
-              )}
-            </TableRow>
-            {/*企画応募画面で誓約書提出を副責任者登録より前にやってもらうため*/}
-            {hideSubOwner ? null : (
-              <TableRow
-                label={
-                  <span
-                    className={css(
-                      !projectData.sub_owner_name && {
-                        position: "relative",
-                        _after: {
-                          content: '""',
-                          position: "absolute",
-                          top: "-50%",
-                          right: "-20%",
-                          width: 3,
-                          height: 3,
-                          backgroundColor: "error",
-                          borderRadius: "full",
-                          display: "block",
-                        },
-                      },
-                    )}>
-                    副企画責任者
-                  </span>
-                }>
-                {projectData.sub_owner_name ?? (
-                  <button
-                    className={css({ color: "sohosai.purple", textDecoration: "underline", cursor: "pointer" })}
-                    onClick={() => handleCopyInviteLink(projectData.id, "sub_owner")}
-                    type="button">
-                    招待リンクをコピー
-                  </button>
+                </TableRow>
+                {/*企画応募画面で誓約書提出を副責任者登録より前にやってもらうため*/}
+                {hideSubOwner ? null : (
+                  <TableRow
+                    label={
+                      <span
+                        className={css(
+                          !projectData.sub_owner_name && {
+                            position: "relative",
+                            _after: {
+                              content: '""',
+                              position: "absolute",
+                              top: "-50%",
+                              right: "-20%",
+                              width: 3,
+                              height: 3,
+                              backgroundColor: "error",
+                              borderRadius: "full",
+                              display: "block",
+                            },
+                          },
+                        )}>
+                        副企画責任者
+                      </span>
+                    }>
+                    {projectData.sub_owner_name ?? (
+                      <button
+                        className={css({ color: "sohosai.purple", textDecoration: "underline", cursor: "pointer" })}
+                        onClick={() => handleCopyInviteLink(projectData.id, "sub_owner")}
+                        type="button">
+                        招待リンクをコピー
+                      </button>
+                    )}
+                  </TableRow>
                 )}
-              </TableRow>
-            )}
-            <TableRow label="企画区分" formId="category">
-              {categoryToLabel(projectData.category)}
-            </TableRow>
-            <TableRow label="企画属性" formId="attributes">
-              {<ProjectAttributesBadge attributes={projectData.attributes} />}
-            </TableRow>
-          </div>
-          {isEditMode && (
-            <Button type="submit" color="blue">
-              更新
-            </Button>
+                <TableRow label="企画区分" formId="category">
+                  <ProjectCategoryFormatter category={projectData.category} />
+                </TableRow>
+                <TableRow label="企画属性" formId="attributes">
+                  {<ProjectAttributesBadge attributes={projectData.attributes} />}
+                </TableRow>
+              </div>
+              {isEditMode && (
+                <Button type="submit" color="blue">
+                  更新
+                </Button
           )}
         </form>
       )}
