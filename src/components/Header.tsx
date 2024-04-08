@@ -16,8 +16,49 @@ import MenuButton from "./assets/MenuButton.svg";
 import CloseButton from "./assets/CloseButton.svg";
 import ModeSwitchWhite from "./assets/SwitchModeWhite.svg";
 import { hstack, visuallyHidden } from "@styled-system/patterns";
+import { Route } from "next";
 
-const HeaderNavigation: FC<{ isCommittee: boolean }> = ({ isCommittee }) => {
+type MenuData = {
+  path: Route;
+  name: string;
+};
+
+const generalMenu: MenuData[] = [
+  {
+    path: "/dashboard",
+    name: "企画情報",
+  },
+  {
+    path: "/forms",
+    name: "申請",
+  },
+  {
+    path: "/news",
+    name: "お知らせ",
+  },
+];
+
+const committeeMenu: MenuData[] = [
+  {
+    // ToDo: merge待ち
+    path: "/committee/projects" as Route,
+    name: "企画",
+  },
+  {
+    path: "/committee/forms",
+    name: "申請",
+  },
+  {
+    path: "/committee/news",
+    name: "お知らせ",
+  },
+  {
+    path: "/committee/users" as Route,
+    name: "ユーザ",
+  },
+];
+
+const HeaderNavigation: FC<{ menu: MenuData[] }> = ({ menu }) => {
   const commonItemStyle = css({
     display: "block",
     height: "100%",
@@ -31,21 +72,13 @@ const HeaderNavigation: FC<{ isCommittee: boolean }> = ({ isCommittee }) => {
         textAlign: "center",
         sm: { display: "none" },
       })}>
-      <li>
-        <Link href={`${isCommittee ? "/committee" : ""}/dashboard`} className={commonItemStyle}>
-          企画情報
-        </Link>
-      </li>
-      <li>
-        <Link href={`${isCommittee ? "/committee" : ""}/forms`} className={commonItemStyle}>
-          申請
-        </Link>
-      </li>
-      <li>
-        <Link href={`${isCommittee ? "/committee" : ""}/news`} className={commonItemStyle}>
-          お知らせ
-        </Link>
-      </li>
+      {menu.map((menu) => (
+        <li>
+          <Link href={menu.path} className={commonItemStyle}>
+            {menu.name}
+          </Link>
+        </li>
+      ))}
     </ul>
   );
 };
@@ -95,9 +128,10 @@ const MobileMenuItemStyle = css({
 const MobileMenu: FC<{
   isCommittee: boolean;
   isCommitteeMode: boolean;
+  menu: MenuData[];
   show: boolean;
   signOutFunc: () => void;
-}> = ({ isCommittee, isCommitteeMode, show, signOutFunc }) => (
+}> = ({ isCommittee, menu, isCommitteeMode, show, signOutFunc }) => (
   <nav
     className={
       show
@@ -129,15 +163,11 @@ const MobileMenu: FC<{
         gap: 12,
         paddingY: 20,
       })}>
-      <li className={MobileMenuItemStyle}>
-        <Link href={`${isCommitteeMode ? "" : "/committee"}/dashboard`}>企画情報</Link>
-      </li>
-      <li className={MobileMenuItemStyle}>
-        <Link href={`${isCommitteeMode ? "" : "/committee"}/dashboard`}>申請一覧</Link>
-      </li>
-      <li className={MobileMenuItemStyle}>
-        <Link href={`${isCommitteeMode ? "" : "/committee"}/dashboard`}>お知らせ一覧</Link>
-      </li>
+      {menu.map((e) => (
+        <li className={MobileMenuItemStyle}>
+          <Link href={e.path}>{e.name}</Link>
+        </li>
+      ))}
     </ul>
     {isCommittee && (
       <Link className={MobileMenuItemStyle} href={`${isCommitteeMode ? "" : "/committee"}/dashboard`}>
@@ -153,24 +183,16 @@ const MobileMenu: FC<{
 const HeaderMenuItemStyle = css({ height: "100%", alignItems: "center", display: "flex" });
 const HeaderMenuItemLinkStyle = css({ display: "block", paddingX: 5, lineHeight: 5 });
 
-const HeaderMenuItems: FC<{ isCommitteeMode: boolean }> = ({ isCommitteeMode }) => {
+const HeaderMenuItems: FC<{ menu: MenuData[] }> = ({ menu }) => {
   return (
     <ul className={css({ sm: { display: "flex", paddingX: 5, height: "100%" }, display: "none" })}>
-      <li className={HeaderMenuItemStyle}>
-        <Link href={`${isCommitteeMode ? "/committee" : ""}/dashboard`} className={HeaderMenuItemLinkStyle}>
-          企画情報
-        </Link>
-      </li>
-      <li className={HeaderMenuItemStyle}>
-        <Link href={`${isCommitteeMode ? "/committee" : ""}/forms`} className={HeaderMenuItemLinkStyle}>
-          申請
-        </Link>
-      </li>
-      <li className={HeaderMenuItemStyle}>
-        <Link href={`${isCommitteeMode ? "/committee" : ""}/news`} className={HeaderMenuItemLinkStyle}>
-          お知らせ
-        </Link>
-      </li>
+      {menu.map((e) => (
+        <li className={HeaderMenuItemStyle}>
+          <Link href={e.path} className={HeaderMenuItemLinkStyle}>
+            {e.name}
+          </Link>
+        </li>
+      ))}
     </ul>
   );
 };
@@ -179,10 +201,11 @@ export const Header: FC = () => {
   const { user, isLoading } = useAuthState();
   const auth = getAuth();
   const { data: userRes, isLoading: userIsLoading } = useSWR("/users/me");
-  const userInfo = userIsLoading ? assignType("/users/me", userRes) : undefined;
+  const userInfo = !userIsLoading ? assignType("/users/me", userRes) : undefined;
   const { error: projectErr, isLoading: projectIsLoading } = useSWR("/projects/me");
   const path = usePathname();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const menu = path.startsWith("/committee") ? committeeMenu : generalMenu;
 
   useEffect(() => {
     setShowMobileMenu(false);
@@ -222,6 +245,7 @@ export const Header: FC = () => {
       <Toaster />
       {showMobileMenu && (
         <MobileMenu
+          menu={menu}
           isCommittee={["committee", "committee_operator", "administrator"].includes(userInfo?.role ?? "")}
           show={showMobileMenu}
           signOutFunc={handleSignOut}
@@ -305,9 +329,7 @@ export const Header: FC = () => {
               className={css({ height: 6 })}
             />
           </a>
-          {((!projectIsLoading && !projectErr) || path.startsWith("/committee")) && (
-            <HeaderMenuItems isCommitteeMode={path.startsWith("/committee")} />
-          )}
+          {((!projectIsLoading && !projectErr) || path.startsWith("/committee")) && <HeaderMenuItems menu={menu} />}
         </div>
         {isLoading || !user ? (
           <></>
@@ -331,13 +353,13 @@ export const Header: FC = () => {
               })}>
               サインアウト
             </button>
-            {["committee", "committee_operator", "administrator"].includes(userInfo?.role ?? "") && (
+            {!userIsLoading && ["committee", "committee_operator", "administrator"].includes(userInfo?.role ?? "") && (
               <SwitchModeButton isCommitteeMode={path.startsWith("/committee")} showMobileMenu={showMobileMenu} />
             )}
           </nav>
         )}
       </div>
-      {user && <HeaderNavigation isCommittee={path.startsWith("/committee")} />}
+      {user && <HeaderNavigation menu={menu} />}
     </header>
   );
 };
