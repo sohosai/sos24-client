@@ -14,6 +14,13 @@ export const CategoryBadges: FC<{
     lineHeight: 1.6,
     backgroundColor: "gray.200",
     paddingX: 2,
+    display: "flex",
+    alignItems: "center",
+    smDown: {
+      gridColumn: "2/3",
+      gridRow: "1/2",
+      fontSize: "2xs",
+    },
   });
 
   const isToAllCategory = projectCategories.every((it) => categories.includes(it));
