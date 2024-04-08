@@ -3,14 +3,16 @@ import { ProjectAttributesBadge } from "@/components/project/AttirbutesBadge";
 import { projectCategoryItemStyle } from "@/components/register/styles";
 import { components } from "@/schema";
 import { css, cx } from "@styled-system/css";
-import { grid, vstack } from "@styled-system/patterns";
+import { center, grid, hstack, vstack } from "@styled-system/patterns";
+import MailAddressIcon from "@/components/assets/MailAddress.svg";
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
+import toast from "react-hot-toast";
 
 const ProjectRow: React.FC<{ data: components["schemas"]["ProjectSummary"] }> = ({ data }) => {
   return (
-    <Link
-      href={`/committee/projects/${data.id}`}
+    <div
       className={grid({
         columns: 3,
         gridTemplateColumns: "1fr 7fr 2fr",
@@ -22,7 +24,22 @@ const ProjectRow: React.FC<{ data: components["schemas"]["ProjectSummary"] }> = 
       </div>
       {/* 将来的に企画責任者名を含める? */}
       <div className={vstack({ alignItems: "start" })}>
-        <h2 className={css({ fontWeight: "bold", fontSize: "lg" })}>{data.title}</h2>
+        <Link
+          href={`/committee/projects/${data.id}`}
+          className={css({ fontWeight: "bold", fontSize: "lg", display: "block" })}>
+          {data.title}
+        </Link>
+        <div
+          className={hstack({ alignItems: "center", zIndex: 2, cursor: "pointer" })}
+          onClick={() => {
+            navigator.clipboard
+              .writeText(data.owner_email)
+              .then(() => toast.success("企画責任者のメールアドレスをコピーしました"))
+              .catch(() => toast.error("コピーに失敗しました"));
+          }}>
+          <Image src={MailAddressIcon} alt="" className={css({ height: "full" })} />
+          {data.owner_name}
+        </div>
       </div>
       <div className={vstack({ alignItems: "end" })}>
         <div
@@ -31,7 +48,7 @@ const ProjectRow: React.FC<{ data: components["schemas"]["ProjectSummary"] }> = 
         </div>
         <ProjectAttributesBadge attributes={data.attributes ?? []} />
       </div>
-    </Link>
+    </div>
   );
 };
 
