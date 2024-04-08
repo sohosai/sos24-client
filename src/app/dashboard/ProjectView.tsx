@@ -247,13 +247,14 @@ export const ProjectView: React.FC<{ isEditMode: boolean; onSubmit: () => void; 
                     )}
                   </TableRow>
                 )}
+                <TableRow label="企画区分" formId="category">
+                  <ProjectCategoryFormatter category={projectData.category} />
+                </TableRow>
                 <TableRow label="企画属性" formId="attributes">
                   {<ProjectAttributesBadge attributes={projectData.attributes} />}
                 </TableRow>
               </div>
-              <TableRow label="企画区分" formId="category">
-                <ProjectCategoryFormatter category={projectData.category} />
-              </TableRow>
+
               {isEditMode && (
                 <Button type="submit" color="blue">
                   更新
