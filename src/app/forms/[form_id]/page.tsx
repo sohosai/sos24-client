@@ -15,19 +15,19 @@ export const runtime = "edge";
 const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
   const id = params.form_id;
 
-  const { data: projectRes } = useSWR("/projects/me", fetcherWithToken);
+  const { data: projectRes, error: projectError } = useSWR("/projects/me", fetcherWithToken);
   const project = projectRes ? assignType("/projects/me", projectRes) : undefined;
 
   const projectId = project?.id;
 
-  const { data: formRes } = useSWR(`/forms/${id}/`, fetcherWithToken);
+  const { data: formRes, isLoading: formLoading, error: formError } = useSWR(`/forms/${id}/`, fetcherWithToken);
   const form = formRes ? assignType("/forms/{form_id}", formRes) : undefined;
 
-  const { data: answersRes } = useSWR(`/form-answers?project_id=${projectId}`, fetcherWithToken);
+  const { data: answersRes, error: answersError } = useSWR(`/form-answers?project_id=${projectId}`, fetcherWithToken);
   const _answers = answersRes ? assignType("/form-answers", answersRes) : undefined;
 
   const status: submitStatus = "未提出";
-
+  if (formLoading) return;
   return (
     <>
       <div
@@ -39,20 +39,20 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
             maxWidth: "2xl",
             marginInline: "auto",
           })}>
-          {(projectRes && !projectRes.ok) || (formRes && !formRes?.ok) || (answersRes && !answersRes?.ok) ? (
+          {formError || answersError || projectError ? (
             <p>
               申請の取得中にエラーが発生しました(
-              {(projectRes && !projectRes?.ok ? `Project: ${projectRes?.statusCode} ` : "") +
-                (formRes && !formRes?.ok ? `Forms: ${formRes?.statusCode} ` : "") +
-                (answersRes && !answersRes?.ok ? `Answers: ${answersRes?.statusCode}` : "")}
+              {(projectError ? `Project: ${projectRes?.statusCode} ` : "") +
+                (formError ? `Forms: ${formRes?.statusCode} ` : "") +
+                (answersError ? `Answers: ${answersRes?.statusCode}` : "")}
               )
             </p>
-          ) : form ? (
+          ) : (
             <>
-              <h2>{form.title}</h2>
+              <h2>{form?.title}</h2>
               <p>
                 <span>
-                  {dayjs(form.ends_at).format("YYYY/MM/DD")} ({getTimeLeftText(dayjs(), dayjs(form.ends_at), status)})
+                  {dayjs(form?.ends_at).format("YYYY/MM/DD")} ({getTimeLeftText(dayjs(), dayjs(form?.ends_at), status)})
                 </span>
                 <SubmitStatus status={status} className={css({ marginInline: 3 })} />
               </p>
@@ -61,7 +61,7 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
                   marginBlock: 4,
                   whiteSpace: "pre-wrap",
                 })}>
-                {form.description}
+                {form?.description}
               </p>
               <form
                 noValidate
@@ -71,11 +71,9 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
                   flexDirection: "column",
                   rowGap: 3,
                 })}>
-                <FormItems items={form.items} />
+                <FormItems items={form?.items} />
               </form>
             </>
-          ) : (
-            <p className={css({ width: "100%", textAlign: "center" })}>申請内容を読み込み中です……</p>
           )}
         </div>
       </div>

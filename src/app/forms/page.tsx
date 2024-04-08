@@ -11,14 +11,22 @@ import { Button } from "@/components/Button";
 import { FormsList } from "./FormsList";
 
 const DashboardPage: NextPage = () => {
-  const { data: projectRes } = useSWR("/projects/me", fetcherWithToken);
+  const { data: projectRes, error: projectError } = useSWR("/projects/me", fetcherWithToken);
   const project = projectRes ? assignType("/projects/me", projectRes.json) : undefined;
 
   const projectId = project?.id;
-  const { data: formsRes } = useSWR(`/forms?project_id=${projectId}`, fetcherWithToken);
+  const {
+    data: formsRes,
+    error: formsError,
+    isLoading: formsLoading,
+  } = useSWR(`/forms?project_id=${projectId}`, fetcherWithToken);
   const forms = formsRes ? assignType("/forms", formsRes) : undefined;
 
-  const { data: answersRes } = useSWR(`/form-answers?project_id=${projectId}`, fetcherWithToken);
+  const {
+    data: answersRes,
+    error: answersError,
+    isLoading: answersLoading,
+  } = useSWR(`/form-answers?project_id=${projectId}`, fetcherWithToken);
   const answers = answersRes ? assignType("/form-answers", answersRes) : undefined;
 
   const notification = forms && answers ? forms.length - answers.length : 0;
@@ -41,6 +49,7 @@ const DashboardPage: NextPage = () => {
       borderRadius: "50%",
     },
   });
+  if (formsLoading || answersLoading) return;
   return (
     <>
       <div
@@ -54,12 +63,12 @@ const DashboardPage: NextPage = () => {
             maxWidth: "900px",
             marginInline: "auto",
           })}>
-          {(projectRes && !projectRes.ok) || (formsRes && !formsRes?.ok) || (answersRes && !answersRes?.ok) ? (
+          {projectError || formsError || answersError ? (
             <p>
               フォームの取得中にエラーが発生しました(
-              {(projectRes && !projectRes?.ok ? `Project: ${projectRes?.statusCode} ` : "") +
-                (formsRes && !formsRes?.ok ? `Forms: ${formsRes?.statusCode} ` : "") +
-                (answersRes && !answersRes?.ok ? `Answers: ${answersRes?.statusCode}` : "")}
+              {(projectError ? `Project: ${projectRes?.statusCode} ` : "") +
+                (formsError ? `Forms: ${formsRes?.statusCode} ` : "") +
+                (answersError ? `Answers: ${answersRes?.statusCode}` : "")}
               )
             </p>
           ) : (
