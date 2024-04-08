@@ -1,5 +1,4 @@
 import { basicErrorMessageStyle, basicFormStyle } from "@/components/forms/styles";
-import { categoryToLabel } from "@/components/news/CategoryBadges";
 import { ProjectAttributesBadge } from "@/components/project/AttirbutesBadge";
 import { assignType, client } from "@/lib/openapi";
 import useSWR from "swr";
@@ -11,6 +10,7 @@ import { Button } from "@/components/Button";
 import { grid, vstack } from "@styled-system/patterns";
 import { css, cx } from "@styled-system/css";
 import { ReactNode } from "react";
+import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
 const tableCellStyle = css({
   paddingX: 14,
   paddingY: 4,
@@ -247,7 +247,7 @@ export const ProjectView: React.FC<{ isEditMode: boolean; onSubmit: () => void; 
                   </TableRow>
                 )}
                 <TableRow label="企画区分" formId="category">
-                  {categoryToLabel(projectData.category)}
+                  <ProjectCategoryFormatter category={projectData.category} />
                 </TableRow>
                 <TableRow label="企画属性" formId="attributes">
                   {<ProjectAttributesBadge attributes={projectData.attributes} />}
