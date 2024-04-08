@@ -19,7 +19,7 @@ export const HeaderNavigation: FC<{ menu: MenuData[] }> = ({ menu }) => {
         sm: { display: "none" },
       })}>
       {menu.map((menu) => (
-        <li>
+        <li key={menu.path}>
           <Link href={menu.path} className={commonItemStyle}>
             {menu.name}
           </Link>
