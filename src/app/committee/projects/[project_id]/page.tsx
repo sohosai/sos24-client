@@ -2,7 +2,6 @@
 
 import { container, stack } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
-import { FileItem } from "@/components/news/FileItem";
 import { assignType } from "@/lib/openapi";
 import dayjs from "dayjs";
 import Link from "next/link";
