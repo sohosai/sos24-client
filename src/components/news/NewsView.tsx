@@ -1,5 +1,5 @@
 import { flex, stack } from "@styled-system/patterns";
-import { FilterSelector, NewsFilterType } from "@/components/news/FilterSelector";
+import { FilterSelector, NewsFilterType, newsFilters } from "@/components/news/FilterSelector";
 import { NewsList } from "@/components/news/NewsList";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
@@ -52,7 +52,8 @@ export const NewsView: FC<{
     [searchParams],
   );
 
-  const defaultFilter = (searchParams.get("news_category") ?? "me") as NewsFilterType;
+  const filterParams = (searchParams.get("news_cateogry") ?? "me") as "me" | "all";
+  const defaultFilter = newsFilters.includes(filterParams) ? filterParams : "me";
   const [filter, setFilter] = useState<NewsFilterType>(defaultFilter);
 
   const { data: newsData, error: newsError, isLoading: isLoadingNews } = useSWR("/news");
