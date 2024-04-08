@@ -1,4 +1,4 @@
-import { custom, literal, minLength, object, Output, regex, string, union } from "valibot";
+import { string, minLength, custom, union, literal, object, Output, regex, array } from "valibot";
 
 /**
  * 半角・全角英数字及び半角記号を3文字でかな2文字分としてカウントする謎のやつ
@@ -58,6 +58,9 @@ const projectCategorySchema = union(
   projectCategories.map((it) => literal(it)),
   "いずれかの企画区分を選択してください",
 );
+
+export const projectAttributes = ["academic", "art", "official", "inside", "outside"];
+export type ProjectAttribute = (typeof projectAttributes)[number];
 
 export const projectPlaces = ["outside", "inside", "stage"];
 export type ProjectPlace = (typeof projectPlaces)[number];
@@ -137,3 +140,24 @@ export const UpdateUserSchema = object({
 });
 
 export type UpdateUserSchemaType = Output<typeof UpdateUserSchema>;
+const newsTitleSchema = string([minLength(1, "1文字以上で入力してください")]);
+
+const newsBodySchema = string([minLength(1, "1文字以上で入力してください")]);
+
+const newsCategories = array(projectCategorySchema);
+
+export const NewNewsSchema = object({
+  title: newsTitleSchema,
+  body: newsBodySchema,
+  categories: newsCategories,
+});
+
+export type NewNewsSchemaType = Output<typeof NewNewsSchema>;
+
+export const UpdateNewsSchema = object({
+  title: newsTitleSchema,
+  body: newsBodySchema,
+  categories: newsCategories,
+});
+
+export type UpdateNewsSchemaType = Output<typeof UpdateNewsSchema>;

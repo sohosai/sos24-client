@@ -1,14 +1,15 @@
 import { hstack, visuallyHidden } from "@styled-system/patterns";
-import { css } from "@styled-system/css";
+import { css, cx } from "@styled-system/css";
 
 import triangleBlackIcon from "../assets/TriangleDownBlack.svg";
 import triangleWhiteIcon from "../assets/TriangleDownWhite.svg";
 import Image from "next/image";
+import { FC } from "react";
 
-export const selectedCategories = ["me", "all"] as const;
-export type SelectedCategoryType = (typeof selectedCategories)[number];
+export const newsFilters = ["me", "all"] as const;
+export type NewsFilterType = (typeof newsFilters)[number];
 
-const categoryToLabel = (category: SelectedCategoryType) => {
+const filterToLabel = (category: NewsFilterType) => {
   switch (category) {
     case "me":
       return "自分の企画対象のみ";
@@ -17,14 +18,12 @@ const categoryToLabel = (category: SelectedCategoryType) => {
   }
 };
 
-interface ProjectCategorySelectorProps {
-  selected: SelectedCategoryType;
-  setSelected: (_selected: SelectedCategoryType) => void;
-}
-
-export const ProjectCategorySelector = ({ selected, setSelected }: ProjectCategorySelectorProps) => {
-  const CategoryButton = ({ value }: { value: SelectedCategoryType }) => {
-    const checked = selected === value;
+export const FilterSelector: FC<{
+  filter: NewsFilterType;
+  setFilter: (_selected: NewsFilterType) => void;
+}> = ({ filter, setFilter }) => {
+  const FilterItem = ({ value }: { value: NewsFilterType }) => {
+    const checked = filter === value;
     return (
       <label
         className={hstack({
@@ -42,11 +41,10 @@ export const ProjectCategorySelector = ({ selected, setSelected }: ProjectCatego
           type="radio"
           value={value}
           checked={checked}
-          onChange={() => setSelected(value)}
-          className={`${visuallyHidden()} peer`}
+          onChange={() => setFilter(value)}
+          className={cx(visuallyHidden(), "peer")}
         />
-        {checked && <Image src={triangleWhiteIcon} alt="" />}
-        {!checked && <Image src={triangleBlackIcon} alt="" />}
+        {checked ? <Image src={triangleWhiteIcon} alt="" /> : <Image src={triangleBlackIcon} alt="" />}
         <span
           className={css({
             fontSize: "xs",
@@ -57,7 +55,7 @@ export const ProjectCategorySelector = ({ selected, setSelected }: ProjectCatego
               color: "white",
             },
           })}>
-          {categoryToLabel(value)}
+          {filterToLabel(value)}
         </span>
       </label>
     );
@@ -65,8 +63,8 @@ export const ProjectCategorySelector = ({ selected, setSelected }: ProjectCatego
 
   return (
     <fieldset className={hstack({})}>
-      {selectedCategories.map((category) => (
-        <CategoryButton key={category} value={category} />
+      {newsFilters.map((category) => (
+        <FilterItem key={category} value={category} />
       ))}
     </fieldset>
   );

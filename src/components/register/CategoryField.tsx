@@ -61,28 +61,46 @@ const CategoryFieldItem = ({ label, value, register, badges }: CategoryFieldItem
         paddingX: 4,
         paddingY: 4,
         cursor: "pointer",
+        transition: "all 0.2s",
+        "&:hover": {
+          background: "gray.200",
+        },
         "&:has(> input:checked)": {
           borderColor: "sohosai.purple",
         },
       })}>
       <input type="radio" value={value} {...register} className={visuallyHidden()} />
       <Image src={categoryIcon} alt={`${label}のアイコン`} />
-      <span
-        className={css({
-          flex: 1,
-          fontSize: "md",
-          fontWeight: "bold",
-        })}>
-        {label}
-      </span>
       <div
-        className={flex({
-          flex: 1,
-          gap: 2,
+        className={css({
+          base: {
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+          },
+          sm: {
+            display: "contents",
+          },
         })}>
-        {badges.map((badge) => (
-          <Badge key={badge.label} label={badge.label} allowed={badge.allowed} />
-        ))}
+        <span
+          className={css({
+            flex: 1,
+            fontSize: "md",
+            fontWeight: "bold",
+          })}>
+          {label}
+        </span>
+        <div
+          className={flex({
+            flex: 1,
+            columnGap: 2,
+            rowGap: 1,
+            flexWrap: "wrap",
+          })}>
+          {badges.map((badge) => (
+            <Badge key={badge.label} label={badge.label} allowed={badge.allowed} />
+          ))}
+        </div>
       </div>
     </label>
   );
@@ -99,13 +117,17 @@ const Badge = ({ label, allowed }: BadgeProps) => {
       className={css({
         backgroundColor: allowed ? "sohosai.blue" : "sohosai.orange",
         color: "white",
-        fontSize: "xs",
+        fontSize: { base: "2xs", sm: "xs" },
         fontWeight: "bold",
         borderRadius: 5,
         paddingX: 2,
         paddingY: 1,
+        display: "flex",
+        flexWrap: "wrap",
+        columnGap: 2,
+        justifyContent: "center",
       })}>
-      <span className={css({ marginRight: 2 })}>{label}</span>
+      <span>{label}</span>
       <span>{allowed ? "可" : "不可"}</span>
     </span>
   );

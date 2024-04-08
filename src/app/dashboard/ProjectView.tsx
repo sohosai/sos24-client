@@ -1,5 +1,4 @@
 import { basicErrorMessageStyle, basicFormStyle } from "@/components/forms/styles";
-import { categoryToLabel } from "@/components/news/CategoryBadges";
 import { ProjectAttributesBadge } from "@/components/project/AttirbutesBadge";
 import { assignType, client } from "@/lib/openapi";
 import useSWR from "swr";
@@ -11,6 +10,7 @@ import { Button } from "@/components/Button";
 import { grid, vstack } from "@styled-system/patterns";
 import { css, cx } from "@styled-system/css";
 import { ReactNode } from "react";
+import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
 const tableCellStyle = css({
   paddingX: 14,
   paddingY: 4,
@@ -33,33 +33,52 @@ export const TableRow = ({ label, children, formId }: { label: ReactNode; childr
   </div>
 );
 
-export const handleCopyInviteLink = (project_id: string, position: "owner" | "sub_owner") => {
-  client
-    .POST("/invitations", {
-      body: {
-        project_id,
-        position,
-      },
-    })
-    .then((res) => {
-      const data = [
-        new ClipboardItem({
-          "text/plain": new Blob([`${document.location.origin}/invitations/${res.data?.id}`], { type: "text/plain" }),
-        }),
-      ];
-      navigator.clipboard
-        .write(data)
-        .then(() => {
-          toast.success("招待リンクをコピーしました");
-        })
-        .catch(() => {
-          toast.error("招待リンクのコピーに失敗しました");
-        });
-    })
-    .catch((e) => {
-      toast.error("招待リンクの作成に失敗しました");
-      throw new Error(e);
-    });
+export const handleCopyInviteLink = async (project_id: string, position: "owner" | "sub_owner") => {
+  const inviteId = localStorage.getItem("invitation_id");
+  const { data: dataFromAPI, error } = await client.GET("/invitations/{invitation_id}", {
+    params: { path: { invitation_id: inviteId ?? "" } },
+  });
+
+  let idIsValid = false;
+  if (inviteId && !error) {
+    const invitation = assignType("/invitations/{invitation_id}", dataFromAPI);
+    if (!invitation.used_by) {
+      idIsValid = true;
+    }
+    navigator.clipboard
+      .writeText(`${document.location.origin}/invitations/${inviteId}`)
+      .then(() => {
+        toast.success("招待リンクをコピーしました");
+      })
+      .catch(() => {
+        toast.error("招待リンクのコピーに失敗しました");
+      });
+    return;
+  }
+  if (!idIsValid || !inviteId) {
+    client
+      .POST("/invitations", {
+        body: {
+          project_id,
+          position,
+        },
+      })
+      .then((res) => {
+        localStorage.setItem("invitation_id", res.data?.id ?? "");
+        navigator.clipboard
+          .writeText(`${document.location.origin}/invitations/${res.data?.id}`)
+          .then(() => {
+            toast.success("招待リンクをコピーしました");
+          })
+          .catch(() => {
+            toast.error("招待リンクのコピーに失敗しました");
+          });
+      })
+      .catch((e) => {
+        toast.error("招待リンクの作成に失敗しました");
+        throw new Error(e);
+      });
+  }
 };
 export const ProjectView: React.FC<{ isEditMode: boolean; onSubmit: () => void; hideSubOwner?: boolean }> = ({
   isEditMode,
@@ -228,7 +247,7 @@ export const ProjectView: React.FC<{ isEditMode: boolean; onSubmit: () => void; 
                   </TableRow>
                 )}
                 <TableRow label="企画区分" formId="category">
-                  {categoryToLabel(projectData.category)}
+                  <ProjectCategoryFormatter category={projectData.category} />
                 </TableRow>
                 <TableRow label="企画属性" formId="attributes">
                   {<ProjectAttributesBadge attributes={projectData.attributes} />}
