@@ -5,6 +5,7 @@ import { flex } from "@styled-system/patterns";
 import { CategoryBadges } from "@/components/CategoryBadges";
 import { FC } from "react";
 import { Route } from "next";
+import { ProjectCategory } from "@/lib/valibot";
 
 type News = {
   id: string;
