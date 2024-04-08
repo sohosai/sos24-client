@@ -10,21 +10,19 @@ const awesomeCharacterCount = (string: string): number => {
   return string.length - specialCharacters.length / 3;
 };
 
-
 const containsEmoji = (string: string) => {
   const regex = /\p{Emoji}/gu;
   const emoji = string.match(regex);
   if (emoji) {
-    const emojiArray = emoji[0].split("")
+    const emojiArray = emoji[0].split("");
     for (let i = 0; i < emojiArray.length; i++) {
       if (!/[\u{0023}-\u{0039}]$/u.test(string)) {
-        return true
+        return true;
       }
     }
   }
-  return false
-}
-
+  return false;
+};
 
 const projectTitleSchema = string([
   minLength(1, "1文字以上で入力してください"),
