@@ -3,7 +3,7 @@ import { ProjectAttributesBadge } from "@/components/project/AttirbutesBadge";
 import { projectCategoryItemStyle } from "@/components/register/styles";
 import { components } from "@/schema";
 import { css, cx } from "@styled-system/css";
-import { center, grid, hstack, vstack } from "@styled-system/patterns";
+import { grid, hstack, vstack } from "@styled-system/patterns";
 import MailAddressIcon from "@/components/assets/MailAddress.svg";
 import React from "react";
 import Link from "next/link";

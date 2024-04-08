@@ -5,6 +5,7 @@ import { ProjectCategory } from "@/lib/valibot";
 import { flex } from "@styled-system/patterns";
 import { CategoryBadges } from "@/components/CategoryBadges";
 import { FC } from "react";
+import { Route } from "next";
 
 type News = {
   id: string;
@@ -45,7 +46,8 @@ export const NewsList: FC<{
         {newsList.map((news) => (
           <Link
             key={news.id}
-            href={isCommittee ? `/committee/news/${news.id}` : `/news/${news.id}`}
+            // ToDo asを消す
+            href={isCommittee ? (`/committee/news/${news.id}` as Route) : `/news/${news.id}`}
             className={css({
               display: "contents",
               "& > *": {
