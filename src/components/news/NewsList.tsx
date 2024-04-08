@@ -1,7 +1,6 @@
 import { css } from "@styled-system/css";
 import dayjs from "dayjs";
 import Link from "next/link";
-import { ProjectCategory } from "@/lib/valibot";
 import { flex } from "@styled-system/patterns";
 import { CategoryBadges } from "@/components/CategoryBadges";
 import { FC } from "react";

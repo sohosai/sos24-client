@@ -13,7 +13,6 @@ import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter"
 import { components } from "@/schema";
 import { TableRow } from "./TableRow";
 export const handleCopyInviteLink = async (project_id: string, position: "owner" | "sub_owner") => {
-  let data: ClipboardItem[] = [];
   const inviteId = localStorage.getItem("invitation_id");
   const { data: dataFromAPI, error } = await client.GET("/invitations/{invitation_id}", {
     params: { path: { invitation_id: inviteId ?? "" } },
@@ -25,13 +24,8 @@ export const handleCopyInviteLink = async (project_id: string, position: "owner"
     if (!invitation.used_by) {
       idIsValid = true;
     }
-    data = [
-      new ClipboardItem({
-        "text/plain": new Blob([`${document.location.origin}/invitations/${inviteId}`], { type: "text/plain" }),
-      }),
-    ];
     navigator.clipboard
-      .write(data)
+      .writeText(`${document.location.origin}/invitations/${inviteId}`)
       .then(() => {
         toast.success("招待リンクをコピーしました");
       })
@@ -49,14 +43,9 @@ export const handleCopyInviteLink = async (project_id: string, position: "owner"
         },
       })
       .then((res) => {
-        data = [
-          new ClipboardItem({
-            "text/plain": new Blob([`${document.location.origin}/invitations/${res.data?.id}`], { type: "text/plain" }),
-          }),
-        ];
         localStorage.setItem("invitation_id", res.data?.id ?? "");
         navigator.clipboard
-          .write(data)
+          .writeText(`${document.location.origin}/invitations/${res.data?.id}`)
           .then(() => {
             toast.success("招待リンクをコピーしました");
           })
