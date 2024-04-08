@@ -83,7 +83,15 @@ export const RegisterProjectSchema = object({
   agreement2: projectAgreementSchema,
 });
 
+export const UpdateProjectSchema = object({
+  title: projectTitleSchema,
+  kana_title: projectKanaTitleSchema,
+  group_name: projectGroupName,
+  kana_group_name: projectKanaGroupName,
+});
+
 export type RegisterProjectSchemaType = Output<typeof RegisterProjectSchema>;
+export type UpdateProjectSchemaType = Output<typeof UpdateProjectSchema>;
 
 const newsTitleSchema = string([minLength(1, "1文字以上で入力してください")]);
 

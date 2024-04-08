@@ -1,31 +1,22 @@
 "use client";
 import { assignType } from "@/lib/openapi";
-import { css } from "@styled-system/css";
+import { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 
-export default function Home() {
+const CommitteePage: NextPage = () => {
   const { data: userRes, isLoading, error } = useSWR("/users/me");
   const router = useRouter();
   const user = assignType("/users/me", userRes);
   if (isLoading) return;
   if (error) return <p>エラーが発生しました</p>;
-  if (user.role !== "general") {
+  if (user.role === "general") {
+    router.push("/");
+  } else {
     //TODO: projectsのページにリダイレクト
     //router.push("/committee/projects");
   }
-  if (user.owned_project_id) {
-    router.push("/dashboard");
-  } else {
-    router.push("/register");
-  }
 
-  return (
-    <div
-      className={css({
-        padding: 5,
-      })}>
-      Hello, World!
-    </div>
-  );
-}
+  return <></>;
+};
+export default CommitteePage;

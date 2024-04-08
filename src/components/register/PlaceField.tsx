@@ -41,6 +41,7 @@ export const PlaceField = ({ categoryType, register, error }: PlaceFieldProps) =
         className={flex({
           justifyContent: "space-around",
           gap: 4,
+          direction: { base: "column", md: "row" },
         })}>
         <PlaceFieldItem
           value="outside"
@@ -77,7 +78,10 @@ const PlaceFieldItem = ({ label, value, caption, register, disabled }: PlaceFiel
       key={value}
       className={stack({
         flex: 1,
-        alignItems: "center",
+        gap: 2,
+        md: {
+          alignItems: "center",
+        },
       })}>
       <label
         className={hstack({
@@ -91,12 +95,22 @@ const PlaceFieldItem = ({ label, value, caption, register, disabled }: PlaceFiel
 
           cursor: "pointer",
           borderColor: "gray.400",
+          transition: "all 0.2s",
+          "&:hover": {
+            background: "gray.200",
+          },
           "&:has(> input:checked)": {
             borderColor: "sohosai.purple",
           },
           "&:has(> input:disabled)": {
             backgroundColor: "gray.300",
             cursor: "not-allowed",
+            "& img": {
+              filter: "opacity(0.3)",
+            },
+            "& span": {
+              opacity: 0.5,
+            },
           },
         })}>
         <input type="radio" value={value} {...register} disabled={disabled} className={visuallyHidden()} />
@@ -112,7 +126,7 @@ const PlaceFieldItem = ({ label, value, caption, register, disabled }: PlaceFiel
       <pre
         className={css({
           color: "gray.400",
-          fontSize: "sm",
+          fontSize: "min(0.875rem, 4.2vw)",
           fontWeight: "bold",
         })}>
         {caption}
