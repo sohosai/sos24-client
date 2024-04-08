@@ -64,14 +64,14 @@ export const NewsView: FC<{
   if (newsError) {
     return <p>お知らせの読み込み中に不明なエラーが発生しました。</p>;
   }
-  if (projectError) {
+  if (!isCommittee && projectError) {
     return <p>企画の読み込み中に不明なエラーが発生しました。</p>;
   }
 
   const project = assignType("/projects/me", projectData);
   const newsList = assignType("/news", newsData);
 
-  const filteredNewsList = filterNews(filter, project, newsList);
+  const filteredNewsList = isCommittee ? newsList : filterNews(filter, project, newsList);
 
   return (
     <div className={stack({ gap: 2, width: "full" })}>
@@ -108,7 +108,7 @@ export const NewsView: FC<{
           </Button>
         )}
       </div>
-      <NewsList newsList={isCommittee ? newsList : filteredNewsList} isCommittee={isCommittee} />
+      <NewsList newsList={filteredNewsList} isCommittee={isCommittee} />
     </div>
   );
 };
