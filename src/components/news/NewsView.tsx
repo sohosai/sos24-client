@@ -63,7 +63,7 @@ export const NewsView: FC<{
   if (newsError) {
     return <p>お知らせの読み込み中に不明なエラーが発生しました。</p>;
   }
-  if (projectError) {
+  if (!isCommittee && projectError) {
     return <p>企画の読み込み中に不明なエラーが発生しました。</p>;
   }
 
