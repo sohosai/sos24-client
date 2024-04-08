@@ -10,6 +10,7 @@ import { Button } from "@/components/Button";
 import { grid, vstack } from "@styled-system/patterns";
 import { css, cx } from "@styled-system/css";
 import { ReactNode } from "react";
+import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
 const tableCellStyle = css({
   paddingX: 14,
   paddingY: 4,
@@ -250,6 +251,9 @@ export const ProjectView: React.FC<{ isEditMode: boolean; onSubmit: () => void; 
                   {<ProjectAttributesBadge attributes={projectData.attributes} />}
                 </TableRow>
               </div>
+              <TableRow label="企画区分" formId="category">
+                <ProjectCategoryFormatter category={projectData.category} />
+              </TableRow>
               {isEditMode && (
                 <Button type="submit" color="blue">
                   更新
