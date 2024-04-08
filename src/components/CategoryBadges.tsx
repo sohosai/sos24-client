@@ -11,7 +11,7 @@ export const CategoryBadges: FC<{
     color: "gray.600",
     fontSize: "xs",
     fontWeight: "bold",
-    lineHeight: 2,
+    lineHeight: 1.6,
     backgroundColor: "gray.200",
     paddingX: 2,
   });

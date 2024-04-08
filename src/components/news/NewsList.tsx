@@ -25,7 +25,7 @@ export const NewsList: FC<{
         })}>
         <div
           className={css({
-            display: "contents",
+            display: { sm: "contents", base: "none" },
             "& > *": {
               borderColor: "gray.500",
               borderBottom: "1px solid",
@@ -50,18 +50,24 @@ export const NewsList: FC<{
               className={css({
                 fontSize: "sm",
                 fontWeight: "bold",
+                height: "100%",
+                display: "flex",
+                alignItems: "center",
               })}>
-              {dayjs(news.updated_at).format("YYYY/MM/DD")}
+              <span>{dayjs(news.updated_at).format("YYYY/MM/DD")}</span>
             </div>
             <div
               className={flex({
                 alignItems: "center",
                 gap: 4,
                 fontSize: "sm",
+                height: "100%",
+                paddingY: 1,
               })}>
               <span
                 className={css({
                   verticalAlign: "middle",
+                  lineHeight: 1.6,
                 })}>
                 {news.title}
               </span>
