@@ -1,19 +1,15 @@
 import { css } from "@styled-system/css";
 import dayjs from "dayjs";
-import { FC } from "react";
 import Link from "next/link";
-import { ProjectCategory } from "@/lib/valibot";
 import { flex } from "@styled-system/patterns";
-import { CategoryBadges } from "@/components/news/CategoryBadges";
+import { CategoryBadges } from "@/components/CategoryBadges";
+import { FC } from "react";
+import { components } from "@/schema";
 
-type News = {
-  id: string;
-  title: string;
-  categories: ProjectCategory[];
-  updated_at: string;
-};
-
-export const NewsList: FC<{ newsList: News[] }> = ({ newsList }) => {
+export const NewsList: FC<{
+  newsList: components["schemas"]["NewsSummary"][];
+  isCommittee?: boolean;
+}> = ({ newsList, isCommittee }) => {
   return (
     <div>
       <div
@@ -42,7 +38,7 @@ export const NewsList: FC<{ newsList: News[] }> = ({ newsList }) => {
         {newsList.map((news) => (
           <Link
             key={news.id}
-            href={`/news/${news.id}`}
+            href={isCommittee ? `/committee/news/${news.id}` : `/news/${news.id}`}
             className={css({
               display: "contents",
               "& > *": {

@@ -20,7 +20,7 @@ export const TextField = ({ type, id, label, placeholder, description, error, re
         {label}
       </label>
       <div className={center()}>
-        <div className={css({ width: "90%" })}>
+        <div className={css({ width: { base: "100%", sm: "90%" } })}>
           <input
             type={type}
             id={id}
@@ -28,7 +28,7 @@ export const TextField = ({ type, id, label, placeholder, description, error, re
             {...register}
             className={basicFormStyle({ isInvalid: !!error })}
           />
-          <div className={css({ marginLeft: 3 })}>
+          <div className={css({ sm: { marginInline: 3 }, marginBlock: 1 })}>
             <p
               className={css({
                 fontSize: "sm",
