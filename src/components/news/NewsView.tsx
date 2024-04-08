@@ -76,15 +76,17 @@ export const NewsView: FC<{
     <div className={stack({ gap: 2, width: "full" })}>
       <div
         className={flex({
-          justifyContent: "space-between",
+          justifyContent: isCommittee ? "end" : "space-between",
         })}>
-        <FilterSelector
-          filter={filter}
-          setFilter={(filter) => {
-            setFilter(filter);
-            router.push((pathname + "?" + createQueryString("news_category", filter)) as Route);
-          }}
-        />
+        {!isCommittee && (
+          <FilterSelector
+            filter={filter}
+            setFilter={(filter) => {
+              setFilter(filter);
+              router.push((pathname + "?" + createQueryString("news_category", filter)) as Route);
+            }}
+          />
+        )}
         {isCommittee && (
           <Button
             color="blue"
@@ -105,7 +107,7 @@ export const NewsView: FC<{
           </Button>
         )}
       </div>
-      <NewsList newsList={filteredNewsList} isCommittee={isCommittee} />
+      <NewsList newsList={isCommittee ? newsList : filteredNewsList} isCommittee={isCommittee} />
     </div>
   );
 };
