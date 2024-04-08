@@ -7,7 +7,7 @@ import { Title } from "@/components/Title";
 import Link from "next/link";
 import Image from "next/image";
 
-import pulldownIcon from "../../components/assets/Pulldown.svg";
+import pulldownIcon from "@/components/assets/Pulldown.svg";
 import { css } from "@styled-system/css";
 import { useState } from "react";
 import { Button } from "@/components/Button";
