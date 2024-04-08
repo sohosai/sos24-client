@@ -107,7 +107,9 @@ export const FilesForm: FC<Props> = (props: Props) => {
     <div>
       <span className={basicFormLabelStyle}>
         {props.label}
-        {props.required !== undefined && <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />}
+        {props.required !== undefined && (
+          <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
+        )}
       </span>
       <div
         id="drop_area"

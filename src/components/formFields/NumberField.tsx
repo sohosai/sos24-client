@@ -18,13 +18,13 @@ export const NumberField = ({ id, label, placeholder, description, required, err
       </label>
       <div className={center()}>
         <div className={css({ width: "90%" })}>
-        <input
-          type="number"
-          id={id}
-          placeholder={placeholder}
-          {...register}
-          className={cx(basicFormStyle({ isInvalid: !!error }), css({ height: 9, width: 24 }))}
-        />
+          <input
+            type="number"
+            id={id}
+            placeholder={placeholder}
+            {...register}
+            className={cx(basicFormStyle({ isInvalid: !!error }), css({ height: 9, width: 24 }))}
+          />
 
           <div className={css({ marginLeft: 3 })}>
             <p

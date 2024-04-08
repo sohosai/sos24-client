@@ -10,7 +10,8 @@ export const basicFormStyle = cva({
 
     borderRadius: "md",
     borderWidth: 2,
-    borderStyle: "solid", borderColor: "gray.400",
+    borderStyle: "solid",
+    borderColor: "gray.400",
   },
   variants: {
     isInvalid: {

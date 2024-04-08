@@ -14,7 +14,9 @@ export const CheckboxForm: FC<Props> = (props: Props) => {
       <fieldset>
         <legend className={basicFormLabelStyle}>
           {props.label}
-          {props.required !== undefined && <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />}
+          {props.required !== undefined && (
+            <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
+          )}
         </legend>
         <div
           className={css({
