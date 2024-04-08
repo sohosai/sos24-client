@@ -4,6 +4,17 @@
  */
 
 export interface paths {
+  "/health": {
+    /** サーバーの状態を確認する */
+    get: {
+      responses: {
+        /** @description OK */
+        200: {
+          content: never;
+        };
+      };
+    };
+  };
   "/projects": {
     /** 企画一覧の取得 */
     get: {
@@ -1492,6 +1503,11 @@ export interface components {
       title: string;
       category: components["schemas"]["ProjectCategory"];
       attributes: components["schemas"]["ProjectAttribute"][];
+      /** Format: uuid */
+      owner_id: string;
+      owner_name: string;
+      /** Format: email */
+      owner_email: string;
     };
     Error: {
       code?: string;
@@ -1587,6 +1603,8 @@ export interface components {
       email: string;
       phone_number: string;
       role: components["schemas"]["UserRole"];
+      owned_project_id?: string | null;
+      owned_project_title?: string | null;
       /** Format: date-time */
       created_at: string;
       /** Format: date-time */
