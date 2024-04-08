@@ -1,33 +1,43 @@
 import { css } from "@styled-system/css";
-import { basicErrorMessageStyle, basicFormLabelStyle, basicFormStyle } from "@/components/formFields/styles";
-import { UseFormRegisterReturn } from "react-hook-form";
+import { basicErrorMessageStyle, basicFormLabelStyle, basicFormStyle } from "./styles";
 import { center } from "@styled-system/patterns";
 
-interface TextFieldProps {
-  type: "text";
-  id: string;
-  label: string;
+import { RequiredBadge } from "./_components/RequiredBadge";
+import type { basicFieldProps } from "./_components/types";
+
+interface TextFieldProps extends basicFieldProps {
+  type: "text" | "textarea";
   placeholder?: string;
-  description?: string;
-  register: UseFormRegisterReturn;
-  error?: string;
 }
 
-export const TextField = ({ type, id, label, placeholder, description, error, register }: TextFieldProps) => {
+export const TextField = ({ type, id, label, placeholder, description, required, error, register }: TextFieldProps) => {
   return (
     <div>
       <label htmlFor={id} className={basicFormLabelStyle}>
         {label}
+        {required !== undefined && <RequiredBadge isRequired={required} className={css({ marginInline: 2 })} />}
       </label>
       <div className={center()}>
         <div className={css({ width: { base: "100%", sm: "90%" } })}>
-          <input
-            type={type}
-            id={id}
-            placeholder={placeholder}
-            {...register}
-            className={basicFormStyle({ isInvalid: !!error })}
-          />
+          {type === "text" ? (
+            <input
+              type="text"
+              id={id}
+              placeholder={placeholder}
+              {...register}
+              className={basicFormStyle({ isInvalid: !!error })}
+            />
+          ) : (
+            type === "textarea" && (
+              <textarea
+                id={id}
+                rows={5}
+                placeholder={placeholder}
+                {...register}
+                className={basicFormStyle({ isInvalid: !!error })}
+              />
+            )
+          )}
           <div className={css({ sm: { marginInline: 3 }, marginBlock: 1 })}>
             <p
               className={css({

@@ -2,19 +2,19 @@ import type { DragEvent } from "react";
 import { FC, useRef, useState } from "react";
 import Image from "next/image";
 import { css, cva } from "@styled-system/css";
-import { basicFormProps } from "./types";
+import { basicFieldProps } from "./_components/types";
 
 import { basicErrorMessageStyle, basicFormLabelStyle } from "./styles";
 
-import { RequiredBadge } from "./RequiredBadge";
+import { RequiredBadge } from "./_components/RequiredBadge";
 import { FileView } from "@/components/FileView";
 
 import clickIcon from "../assets/Click.svg";
 import driveIcon from "../assets/Drive.svg";
 
-interface Props extends basicFormProps {
-  extensions: string[];
-  limit: number | null;
+interface Props extends basicFieldProps {
+  extensions?: string[];
+  limit?: number | null;
 }
 
 export const FilesForm: FC<Props> = (props: Props) => {
@@ -106,8 +106,8 @@ export const FilesForm: FC<Props> = (props: Props) => {
   return (
     <div>
       <span className={basicFormLabelStyle}>
-        {props.name}
-        <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
+        {props.label}
+        {props.required !== undefined && <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />}
       </span>
       <div
         id="drop_area"

@@ -1,6 +1,10 @@
-export type basicFormProps = {
+import { UseFormRegisterReturn } from "react-hook-form";
+
+export type basicFieldProps = {
   id: string;
-  name: string;
-  description: string;
-  required: boolean;
+  label: string;
+  description?: string;
+  required?: boolean;
+  error?: string;
+  register: UseFormRegisterReturn;
 };
