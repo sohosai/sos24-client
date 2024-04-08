@@ -1,4 +1,4 @@
-import type { paths } from "../schema";
+import type { paths } from "@/schema";
 import type { PathsWithMethod } from "openapi-typescript-helpers";
 import createClient, { Middleware } from "openapi-fetch";
 import { getAuth } from "firebase/auth";
