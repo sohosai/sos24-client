@@ -123,144 +123,136 @@ export const ProjectView: React.FC<{ isEditMode: boolean; onSubmit: () => void; 
         onSubmit();
       });
   };
+  if (projectIsLoading) return "Loading";
   return (
     <>
-      {projectIsLoading ? (
-        "Loading"
+      {projectErr ? (
+        <div className={basicErrorMessageStyle}>企画取得に失敗しました</div>
       ) : (
-        <>
-          {projectErr ? (
-            <div className={basicErrorMessageStyle}>企画取得に失敗しました</div>
-          ) : (
-            <form className={vstack({ width: "2xl" })} onSubmit={handleSubmit(submitForm)}>
-              <div>
-                <TableRow label="企画名" formId="title">
-                  {isEditMode ? (
-                    <>
-                      <input
-                        type="text"
-                        id="title"
-                        placeholder="２０文字以内で入力"
-                        {...register("title", {
-                          value: projectData.title ?? "",
-                        })}
-                        className={isEditMode ? basicFormStyle() : ""}
-                      />
-                      {errors.title && <span className={basicErrorMessageStyle}>{errors.title?.message}</span>}
-                    </>
-                  ) : (
-                    projectData.title
-                  )}
-                </TableRow>
-                <TableRow label="企画名（ふりがな）" formId="kana_title">
-                  {isEditMode ? (
-                    <>
-                      <input
-                        type="text"
-                        id="kana_title"
-                        placeholder="２０文字以内で入力"
-                        {...register("kana_title", {
-                          value: projectData.kana_title ?? "",
-                        })}
-                        className={isEditMode ? basicFormStyle() : ""}
-                      />
-                      {errors.kana_title && (
-                        <span className={basicErrorMessageStyle}>{errors.kana_title?.message}</span>
-                      )}
-                    </>
-                  ) : (
-                    projectData.kana_title
-                  )}
-                </TableRow>
-                <TableRow label="企画団体名" formId="group_name">
-                  {isEditMode ? (
-                    <>
-                      <input
-                        type="text"
-                        id="group_name"
-                        placeholder="２０文字以内で入力"
-                        {...register("group_name", {
-                          value: projectData.group_name ?? "",
-                        })}
-                        className={isEditMode ? basicFormStyle() : ""}
-                      />
-                      {errors.group_name && (
-                        <span className={basicErrorMessageStyle}>{errors.group_name?.message}</span>
-                      )}
-                    </>
-                  ) : (
-                    projectData.group_name
-                  )}
-                </TableRow>
-                <TableRow label="企画団体名（ふりがな）" formId="kana_group_name">
-                  {isEditMode ? (
-                    <>
-                      <input
-                        type="text"
-                        id="kana_group_name"
-                        placeholder="２０文字以内で入力"
-                        {...register("kana_group_name", {
-                          value: projectData.kana_group_name ?? "",
-                        })}
-                        className={isEditMode ? basicFormStyle() : ""}
-                      />
-                      {errors.kana_group_name && (
-                        <span className={basicErrorMessageStyle}>{errors.kana_group_name?.message}</span>
-                      )}
-                    </>
-                  ) : (
-                    projectData.kana_group_name
-                  )}
-                </TableRow>
-                {/*企画応募画面で誓約書提出を副責任者登録より前にやってもらうため*/}
-                {hideSubOwner ? null : (
-                  <TableRow
-                    label={
-                      <span
-                        className={css(
-                          !projectData.sub_owner_name && {
-                            position: "relative",
-                            _after: {
-                              content: '""',
-                              position: "absolute",
-                              top: "-50%",
-                              right: "-20%",
-                              width: 3,
-                              height: 3,
-                              backgroundColor: "error",
-                              borderRadius: "full",
-                              display: "block",
-                            },
-                          },
-                        )}>
-                        副企画責任者
-                      </span>
-                    }>
-                    {projectData.sub_owner_name ?? (
-                      <button
-                        className={css({ color: "sohosai.purple", textDecoration: "underline", cursor: "pointer" })}
-                        onClick={() => handleCopyInviteLink(projectData.id, "sub_owner")}
-                        type="button">
-                        招待リンクをコピー
-                      </button>
-                    )}
-                  </TableRow>
-                )}
-                <TableRow label="企画区分" formId="category">
-                  <ProjectCategoryFormatter category={projectData.category} />
-                </TableRow>
-                <TableRow label="企画属性" formId="attributes">
-                  {<ProjectAttributesBadge attributes={projectData.attributes} />}
-                </TableRow>
-              </div>
-              {isEditMode && (
-                <Button type="submit" color="blue">
-                  更新
-                </Button>
+        <form className={vstack({ width: "2xl" })} onSubmit={handleSubmit(submitForm)}>
+          <div>
+            <TableRow label="企画名" formId="title">
+              {isEditMode ? (
+                <>
+                  <input
+                    type="text"
+                    id="title"
+                    placeholder="２０文字以内で入力"
+                    {...register("title", {
+                      value: projectData.title ?? "",
+                    })}
+                    className={isEditMode ? basicFormStyle() : ""}
+                  />
+                  {errors.title && <span className={basicErrorMessageStyle}>{errors.title?.message}</span>}
+                </>
+              ) : (
+                projectData.title
               )}
-            </form>
+            </TableRow>
+            <TableRow label="企画名（ふりがな）" formId="kana_title">
+              {isEditMode ? (
+                <>
+                  <input
+                    type="text"
+                    id="kana_title"
+                    placeholder="２０文字以内で入力"
+                    {...register("kana_title", {
+                      value: projectData.kana_title ?? "",
+                    })}
+                    className={isEditMode ? basicFormStyle() : ""}
+                  />
+                  {errors.kana_title && <span className={basicErrorMessageStyle}>{errors.kana_title?.message}</span>}
+                </>
+              ) : (
+                projectData.kana_title
+              )}
+            </TableRow>
+            <TableRow label="企画団体名" formId="group_name">
+              {isEditMode ? (
+                <>
+                  <input
+                    type="text"
+                    id="group_name"
+                    placeholder="２０文字以内で入力"
+                    {...register("group_name", {
+                      value: projectData.group_name ?? "",
+                    })}
+                    className={isEditMode ? basicFormStyle() : ""}
+                  />
+                  {errors.group_name && <span className={basicErrorMessageStyle}>{errors.group_name?.message}</span>}
+                </>
+              ) : (
+                projectData.group_name
+              )}
+            </TableRow>
+            <TableRow label="企画団体名（ふりがな）" formId="kana_group_name">
+              {isEditMode ? (
+                <>
+                  <input
+                    type="text"
+                    id="kana_group_name"
+                    placeholder="２０文字以内で入力"
+                    {...register("kana_group_name", {
+                      value: projectData.kana_group_name ?? "",
+                    })}
+                    className={isEditMode ? basicFormStyle() : ""}
+                  />
+                  {errors.kana_group_name && (
+                    <span className={basicErrorMessageStyle}>{errors.kana_group_name?.message}</span>
+                  )}
+                </>
+              ) : (
+                projectData.kana_group_name
+              )}
+            </TableRow>
+            {/*企画応募画面で誓約書提出を副責任者登録より前にやってもらうため*/}
+            {hideSubOwner ? null : (
+              <TableRow
+                label={
+                  <span
+                    className={css(
+                      !projectData.sub_owner_name && {
+                        position: "relative",
+                        _after: {
+                          content: '""',
+                          position: "absolute",
+                          top: "-50%",
+                          right: "-20%",
+                          width: 3,
+                          height: 3,
+                          backgroundColor: "error",
+                          borderRadius: "full",
+                          display: "block",
+                        },
+                      },
+                    )}>
+                    副企画責任者
+                  </span>
+                }>
+                {projectData.sub_owner_name ?? (
+                  <button
+                    className={css({ color: "sohosai.purple", textDecoration: "underline", cursor: "pointer" })}
+                    onClick={() => handleCopyInviteLink(projectData.id, "sub_owner")}
+                    type="button">
+                    招待リンクをコピー
+                  </button>
+                )}
+              </TableRow>
+            )}
+            <TableRow label="企画区分" formId="category">
+              <ProjectCategoryFormatter category={projectData.category} />
+            </TableRow>
+            <TableRow label="企画属性" formId="attributes">
+              {<ProjectAttributesBadge attributes={projectData.attributes} />}
+            </TableRow>
+          </div>
+
+          {isEditMode && (
+            <Button type="submit" color="blue">
+              更新
+            </Button>
           )}
-        </>
+        </form>
       )}
     </>
   );
