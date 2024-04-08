@@ -49,7 +49,7 @@ export const MobileMenu: FC<{
         paddingY: 20,
       })}>
       {menu.map((e) => (
-        <li className={MobileMenuItemStyle}>
+        <li className={MobileMenuItemStyle} key={e.path}>
           <Link href={e.path}>{e.name}</Link>
         </li>
       ))}

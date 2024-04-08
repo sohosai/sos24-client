@@ -10,7 +10,7 @@ export const HeaderMenuItems: FC<{ menu: MenuData[] }> = ({ menu }) => {
   return (
     <ul className={css({ sm: { display: "flex", paddingX: 5, height: "100%" }, display: "none" })}>
       {menu.map((e) => (
-        <li className={HeaderMenuItemStyle}>
+        <li className={HeaderMenuItemStyle} key={e.path}>
           <Link href={e.path} className={HeaderMenuItemLinkStyle}>
             {e.name}
           </Link>
