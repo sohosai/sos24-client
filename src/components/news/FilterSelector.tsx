@@ -1,8 +1,8 @@
 import { hstack, visuallyHidden } from "@styled-system/patterns";
 import { css, cx } from "@styled-system/css";
 
-import triangleBlackIcon from "../assets/TriangleDownBlack.svg";
-import triangleWhiteIcon from "../assets/TriangleDownWhite.svg";
+import triangleBlackIcon from "@/components/assets/TriangleDownBlack.svg";
+import triangleWhiteIcon from "@/components/assets/TriangleDownWhite.svg";
 import Image from "next/image";
 import { FC } from "react";
 
