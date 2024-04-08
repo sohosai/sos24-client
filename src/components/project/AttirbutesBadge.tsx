@@ -51,7 +51,7 @@ export const ProjectAttributesBadge: React.FC<{
       {attrbutesData.map((e) => (
         <li
           className={cx(ItemStyle, attributes.includes(e.rawString) && ActiveItemStyle)}
-          title={AttributesFormatter({ category: e.rawString })}
+          title={AttributesFormatter({ attribute: e.rawString })}
           key={e.rawString}>
           {e.string}
         </li>
