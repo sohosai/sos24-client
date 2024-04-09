@@ -8,7 +8,6 @@ import { NoResultNotice } from "@/components/NoResultNotice";
 export const UserList: FC<{
   userList: components["schemas"]["UserSummary"][];
 }> = ({ userList }) => {
-  console.log(userList.length);
   return (
     <div>
       <div
