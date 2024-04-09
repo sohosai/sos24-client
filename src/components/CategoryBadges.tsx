@@ -30,7 +30,7 @@ export const CategoryBadges: FC<{
   }
 
   return (
-    <span className={flex({ gap: 2 })}>
+    <span className={flex({ gap: 2, wrap: "wrap" })}>
       {categories.map((category) => (
         <span key={category} className={badgeStyle}>
           <ProjectCategoryFormatter category={category} />
