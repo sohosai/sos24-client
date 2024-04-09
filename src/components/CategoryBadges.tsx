@@ -16,11 +16,12 @@ export const CategoryBadges: FC<{
     paddingX: 2,
     display: "flex",
     alignItems: "center",
+    alignContent: "center",
     smDown: {
       gridColumn: "2/3",
       gridRow: "1/2",
       fontSize: "2xs",
-      height: "auto",
+      height: 4,
     },
   });
 
