@@ -10,7 +10,7 @@ export const SwitchModeButton: FC<{ isCommitteeMode: boolean; showMobileMenu: bo
   isCommitteeMode,
   showMobileMenu,
 }) => (
-  <Link href={isCommitteeMode ? "/dashboard" : "/committee/dashboard"}>
+  <Link href={isCommitteeMode ? "/" : "/committee"}>
     <button
       className={css({
         cursor: "pointer",
