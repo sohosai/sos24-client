@@ -1,14 +1,13 @@
 "use client";
 
-import { container } from "@styled-system/patterns";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
+import { container } from "@styled-system/patterns";
 import { News } from "@/components/news/News";
 import { NextPage } from "next";
 
 export const runtime = "edge";
-
-const NewsDetailsPage: NextPage<{ params: { news_id: string } }> = ({ params }) => {
+const CommitteeNewsDetailsPage: NextPage<{ params: { news_id: string } }> = ({ params }) => {
   const { data, error, isLoading } = useSWR(`/news/${params.news_id}`);
   if (isLoading) {
     return;
@@ -18,7 +17,7 @@ const NewsDetailsPage: NextPage<{ params: { news_id: string } }> = ({ params }) 
       case "news/not-found":
         return <p>このお知らせは存在しません。</p>;
       default:
-        return <p>お知らせの読み込み中に不明なエラーが発生しました。</p>;
+        return <p>招待の読み込み中に不明なエラーが発生しました。</p>;
     }
   }
 
@@ -26,9 +25,9 @@ const NewsDetailsPage: NextPage<{ params: { news_id: string } }> = ({ params }) 
 
   return (
     <div className={container({ maxWidth: "4xl" })}>
-      <News news={news} />
+      <News news={news} isCommittee />
     </div>
   );
 };
 
-export default NewsDetailsPage;
+export default CommitteeNewsDetailsPage;

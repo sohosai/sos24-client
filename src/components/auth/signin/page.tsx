@@ -4,7 +4,7 @@ import { NextPage } from "next";
 import { SigninForm } from "./SignInPage";
 import { css } from "@styled-system/css";
 import Image from "next/image";
-import Triangle from "../../assets/Triangle.svg";
+import Triangle from "@/components/assets/Triangle.svg";
 import { authModeAtom } from "@/components/auth/AuthUI";
 import { useSetAtom } from "jotai";
 import { center } from "@styled-system/patterns";
@@ -32,7 +32,7 @@ const SigninPage: NextPage = () => {
         <h1 className={css({ fontSize: "2xl", fontWeight: "bold", marginBottom: 8 })}>ログイン</h1>
         <SigninForm />
         <div className={css({ marginTop: 4, display: "flex", gap: 3.5 })}>
-          <Image src={Triangle} alt={"三角形のアイコン"} />
+          <Image src={Triangle} alt="" />
           <button
             onClick={() => setAuthMode("signUp")}
             className={css({

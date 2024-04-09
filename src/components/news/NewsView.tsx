@@ -1,5 +1,5 @@
 import { flex, stack } from "@styled-system/patterns";
-import { FilterSelector, NewsFilterType } from "@/components/news/FilterSelector";
+import { FilterSelector, NewsFilterType, newsFilters } from "@/components/news/FilterSelector";
 import { NewsList } from "@/components/news/NewsList";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
@@ -52,7 +52,8 @@ export const NewsView: FC<{
     [searchParams],
   );
 
-  const defaultFilter = (searchParams.get("news_category") ?? "me") as NewsFilterType;
+  const filterParams = (searchParams.get("news_cateogry") ?? "me") as "me" | "all";
+  const defaultFilter = newsFilters.includes(filterParams) ? filterParams : "me";
   const [filter, setFilter] = useState<NewsFilterType>(defaultFilter);
 
   const { data: newsData, error: newsError, isLoading: isLoadingNews } = useSWR("/news");
@@ -63,28 +64,30 @@ export const NewsView: FC<{
   if (newsError) {
     return <p>お知らせの読み込み中に不明なエラーが発生しました。</p>;
   }
-  if (projectError) {
+  if (!isCommittee && projectError) {
     return <p>企画の読み込み中に不明なエラーが発生しました。</p>;
   }
 
   const project = assignType("/projects/me", projectData);
   const newsList = assignType("/news", newsData);
 
-  const filteredNewsList = filterNews(filter, project, newsList);
+  const filteredNewsList = isCommittee ? newsList : filterNews(filter, project, newsList);
 
   return (
     <div className={stack({ gap: 2, width: "full" })}>
       <div
         className={flex({
-          justifyContent: "space-between",
+          justifyContent: isCommittee ? "end" : "space-between",
         })}>
-        <FilterSelector
-          filter={filter}
-          setFilter={(filter) => {
-            setFilter(filter);
-            router.push((pathname + "?" + createQueryString("news_category", filter)) as Route);
-          }}
-        />
+        {!isCommittee && (
+          <FilterSelector
+            filter={filter}
+            setFilter={(filter) => {
+              setFilter(filter);
+              router.push((pathname + "?" + createQueryString("news_category", filter)) as Route);
+            }}
+          />
+        )}
         {isCommittee && (
           <Button
             color="blue"

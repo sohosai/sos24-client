@@ -1,7 +1,7 @@
 import { css } from "@styled-system/css";
 import { UseFormRegisterReturn } from "react-hook-form";
 
-import categoryIcon from "../../components/assets/CategoryIcon.svg";
+import categoryIcon from "@/components/assets/CategoryIcon.svg";
 import Image from "next/image";
 import { basicErrorMessageStyle, basicFormLabelStyle } from "@/components/forms/styles";
 import { flex, stack, visuallyHidden } from "@styled-system/patterns";
@@ -70,7 +70,7 @@ const CategoryFieldItem = ({ label, value, register, badges }: CategoryFieldItem
         },
       })}>
       <input type="radio" value={value} {...register} className={visuallyHidden()} />
-      <Image src={categoryIcon} alt={`${label}のアイコン`} />
+      <Image src={categoryIcon} alt="" />
       <div
         className={css({
           base: {
