@@ -54,7 +54,7 @@ const committeeMenu: MenuData[] = [
     name: "お知らせ",
   },
   {
-    path: "/committee/users" as Route,
+    path: "/committee/users",
     name: "ユーザ",
   },
 ];
