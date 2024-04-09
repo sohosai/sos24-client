@@ -1,9 +1,10 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 
 import SuyasuyaBellIcon from "./assets/SuyasuyaBell.png";
 import { css } from "@styled-system/css";
 import { flex } from "@styled-system/patterns";
-export const NoResultNotice = (props: { message: string }) => {
+export const NoResultNotice = (props: { message: string; type?: "notice" }) => {
+  const iconSrc: StaticImageData | null = props.type === "notice" ? SuyasuyaBellIcon : null;
   return (
     <div
       className={flex({
@@ -14,14 +15,18 @@ export const NoResultNotice = (props: { message: string }) => {
         direction: "column",
       })}>
       <div className={css({ pl: 0, pr: 0 })}>
-        <Image
-          src={SuyasuyaBellIcon}
-          alt=""
-          className={css({
-            height: 24,
-            width: 24,
-          })}
-        />
+        {iconSrc ? (
+          <Image
+            src={iconSrc}
+            alt=""
+            className={css({
+              height: 24,
+              width: 24,
+            })}
+          />
+        ) : (
+          <></>
+        )}
       </div>
       <span
         className={css({
