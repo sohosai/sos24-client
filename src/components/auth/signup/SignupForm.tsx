@@ -6,18 +6,8 @@ import { css, cx } from "@styled-system/css";
 import { basicErrorMessageStyle, basicFormStyle, checkboxFormStyle } from "@/components/formFields/styles";
 import { Button } from "@/components/Button";
 import { getAuth, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
-
-type CreateUserInput = {
-  name: string;
-  kana_name: string;
-
-  phone_number: string;
-
-  email: string;
-  password: string;
-
-  agreement: boolean;
-};
+import { SignupSchema, SignupSchemaType } from "@/lib/valibot";
+import { valibotResolver } from "@hookform/resolvers/valibot";
 
 let labelAndInputStyle = css({
   display: "flex",
@@ -25,19 +15,18 @@ let labelAndInputStyle = css({
   gap: "6px",
   width: "100%",
 });
+
 export const SignupForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm<CreateUserInput>();
+  } = useForm<SignupSchemaType>({
+    resolver: valibotResolver(SignupSchema),
+  });
 
-  const onSubmit = async (data: CreateUserInput) => {
-    if (!data.agreement) {
-      setError("agreement", { message: "利用規約に同意してください" });
-      return;
-    }
+  const onSubmit = async (data: SignupSchemaType) => {
     const resp = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/users`, {
       method: "POST",
       headers: {
@@ -77,15 +66,7 @@ export const SignupForm = () => {
         <label htmlFor="name" className={css({ fontWeight: "bold" })}>
           名前
         </label>
-        <input
-          type="text"
-          id="name"
-          placeholder="嘉納治五郎"
-          className={cx(basicFormStyle())}
-          {...register("name", {
-            required: "名前を入力してください",
-          })}
-        />
+        <input type="text" id="name" placeholder="嘉納治五郎" className={cx(basicFormStyle())} {...register("name")} />
         {errors.name && <span className={basicErrorMessageStyle}>{errors.name.message}</span>}
       </div>
       <div className={labelAndInputStyle}>
@@ -97,13 +78,7 @@ export const SignupForm = () => {
           id="kana_name"
           placeholder="かのうじごろう"
           className={cx(basicFormStyle())}
-          {...register("kana_name", {
-            required: "名前のふりがなを入力してください",
-            pattern: {
-              value: /^[ぁ-んー－゛゜]+$/,
-              message: "ひらがなで入力してください",
-            },
-          })}
+          {...register("kana_name")}
         />
         {errors.kana_name && <span className={basicErrorMessageStyle}>{errors.kana_name.message}</span>}
       </div>
@@ -116,13 +91,7 @@ export const SignupForm = () => {
           id="email"
           placeholder="xxxx@x.tsukuba.ac.jp"
           className={cx(basicFormStyle())}
-          {...register("email", {
-            required: "メールアドレスを入力してください",
-            pattern: {
-              value: /.*@.*\.tsukuba\.ac\.jp$/,
-              message: "筑波大学のメールアドレスを入力してください",
-            },
-          })}
+          {...register("email")}
         />
         <span className={css({ fontSize: "sm", color: "gray.600" })}>tsukuba.ac.jpで終わるものを入力してください</span>
         {errors.email && <span className={basicErrorMessageStyle}>{errors.email.message}</span>}
@@ -131,37 +100,18 @@ export const SignupForm = () => {
         <label htmlFor="password" className={css({ fontWeight: "bold" })}>
           パスワード
         </label>
-        <input
-          type="password"
-          id="password"
-          className={cx(basicFormStyle())}
-          {...register("password", {
-            required: "パスワードを入力してください",
-          })}
-        />
+        <input type="password" id="password" className={cx(basicFormStyle())} {...register("password")} />
         {errors.password && <span className={basicErrorMessageStyle}>{errors.password.message}</span>}
       </div>
       <div className={labelAndInputStyle}>
         <label htmlFor="phone_number" className={css({ fontWeight: "bold" })}>
           電話番号
         </label>
-        <input
-          type="tel"
-          id="phone_number"
-          className={cx(basicFormStyle())}
-          {...register("phone_number", {
-            required: "電話番号を入力してください",
-          })}
-        />
+        <input type="tel" id="phone_number" className={cx(basicFormStyle())} {...register("phone_number")} />
         {errors.phone_number && <span className={basicErrorMessageStyle}>{errors.phone_number.message}</span>}
       </div>
       <div className={css({ display: "flex", alignItems: "center", gap: 3 })}>
-        <input
-          type="checkbox"
-          id="agreement"
-          className={checkboxFormStyle}
-          {...register("agreement", { required: "利用規約に同意してください" })}
-        />
+        <input type="checkbox" id="agreement" className={checkboxFormStyle} {...register("agreement")} />
         <label htmlFor="agreement">利用規約に同意する</label>
       </div>
       {errors.agreement && <span className={basicErrorMessageStyle}>{errors.agreement.message}</span>}
