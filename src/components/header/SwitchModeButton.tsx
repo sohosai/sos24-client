@@ -27,7 +27,7 @@ export const SwitchModeButton: FC<{ isCommitteeMode: boolean; showMobileMenu: bo
       })}>
       <Image
         src={showMobileMenu ? ModeSwitchWhite : ModeSwitch}
-        alt="人のアイコンの周囲に矢印"
+        alt=""
         className={css({
           filter: "drop-shadow(0 0 5px rgb(0 0 0 / 0.1))",
           height: { base: 6, lg: 10 },

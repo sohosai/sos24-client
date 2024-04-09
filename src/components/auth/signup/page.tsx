@@ -27,7 +27,7 @@ const SignupPage: NextPage = () => {
       </h1>
       <SignupForm />
       <div className={css({ marginTop: 4, display: "flex", gap: 3.5 })}>
-        <Image src={Triangle} alt={"三角形のアイコン"} />
+        <Image src={Triangle} alt="" />
         <button
           onClick={() => setAuthMode("signIn")}
           className={css({
