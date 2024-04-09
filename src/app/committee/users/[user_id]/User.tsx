@@ -7,7 +7,6 @@ import { UserRoleFormatter } from "@/components/user/UserRoleFormatter";
 import dayjs from "dayjs";
 import { Button } from "@/components/Button";
 import { useRouter } from "next/navigation";
-import { Route } from "next";
 
 export const User: FC<{
   user: components["schemas"]["User"];
@@ -91,10 +90,9 @@ export const User: FC<{
             <UserRoleFormatter role={user.role} />
           </div>
           <div>
-            {/* TODO: 企画ページが実装されたら as Routeを外す */}
             {user.owned_project_id ? (
               <Link
-                href={`/committee/projects/${user.owned_project_id}` as Route}
+                href={`/committee/projects/${user.owned_project_id}`}
                 className={css({
                   color: "sohosai.purple",
                   fontWeight: "bold",
