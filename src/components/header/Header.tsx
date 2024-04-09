@@ -42,8 +42,7 @@ const generalMenu: MenuData[] = [
 
 const committeeMenu: MenuData[] = [
   {
-    // ToDo: merge待ち
-    path: "/committee/projects" as Route,
+    path: "/committee/projects",
     name: "企画",
   },
   {
