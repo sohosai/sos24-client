@@ -4,10 +4,13 @@ import { useState } from "react";
 import { NextPage } from "next";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
-import { css } from "@styled-system/css";
+import { css, cx } from "@styled-system/css";
 
 import { Button } from "@/components/Button";
 import { FormsList } from "./FormsList";
+import { stack } from "@styled-system/patterns";
+import { start } from "repl";
+import { NotificationBadge } from "@/components/NotificationBadge";
 
 const DashboardPage: NextPage = () => {
   const { data: projectRes, error: projectResError, isLoading: projectResIsLoading } = useSWR("/projects/me");
@@ -27,59 +30,56 @@ const DashboardPage: NextPage = () => {
   } = useSWR(() => `/form-answers?project_id=` + project?.id);
   const answers = answersRes ? assignType("/form-answers", answersRes) : undefined;
 
-  const notification = forms && answers ? forms.length - answers.length : 0;
+  const isLoading = projectResIsLoading || formsResIsLoading || answersResIsLoading;
+  const error = projectResError || formsResError || answersResError;
 
   const [filterUnsubmitted, setFilterUnsubmitted] = useState(false);
 
-  const notificationStyle = css({
-    _after: {
-      content: `"${notification}"`,
-      display: "inline-block",
-      position: "relative",
-      top: -5,
-      backgroundColor: "red.500",
-      color: "white",
-      height: 7,
-      width: 7,
-      textAlign: "center",
-      verticalAlign: "middle",
-      fontWeight: "bold",
-      borderRadius: "50%",
-    },
-  });
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error || !forms || !answers) {
+    return (
+      <p>
+        フォームの取得中にエラーが発生しました
+        <span>({String(projectResError)})</span>
+        <span>({String(formsResError)})</span>
+        <span>({String(answersResError)})</span>
+      </p>
+    );
+  }
+
+  const notifications = forms.length - answers.length;
+
   return (
     <>
       <div
         className={css({
           padding: 5,
+          maxWidth: "900px",
+          marginInline: "auto",
         })}>
-        <h2 className={notification >= 1 ? notificationStyle : ""}>申請一覧</h2>
-
-        <div
-          className={css({
-            maxWidth: "900px",
-            marginInline: "auto",
-          })}>
-          {(projectResError && !projectResIsLoading) ||
-          (formsResError && !formsResIsLoading) ||
-          (answersResError && !answersResIsLoading) ? (
-            <p>
-              フォームの取得中にエラーが発生しました
-              <span>({String(projectResError)})</span>
-              <span>({String(formsResError)})</span>
-              <span>({String(answersResError)})</span>
-            </p>
-          ) : (
-            <>
-              <Button
-                color={filterUnsubmitted ? "primary" : "secondary"}
-                onClick={() => setFilterUnsubmitted(!filterUnsubmitted)}
-                onTouchEnd={() => setFilterUnsubmitted(!filterUnsubmitted)}>
-                未提出のみ表示
-              </Button>
-              <FormsList forms={forms} answers={answers} filterUnsubmitted={filterUnsubmitted} />
-            </>
-          )}
+        <div>
+          <h2
+            className={css({
+              fontSize: "xl",
+              fontWeight: "bold",
+              display: "flex",
+              gap: 1,
+            })}>
+            申請一覧
+            {notifications > 0 && <NotificationBadge count={notifications} />}
+          </h2>
+        </div>
+        <div className={stack({ padding: 10, gap: 4, alignItems: "flex-start", width: "100%" })}>
+          <Button
+            color={filterUnsubmitted ? "primary" : "secondary"}
+            onClick={() => setFilterUnsubmitted(!filterUnsubmitted)}
+            onTouchEnd={() => setFilterUnsubmitted(!filterUnsubmitted)}>
+            未提出のみ表示
+          </Button>
+          <FormsList forms={forms} answers={answers} filterUnsubmitted={filterUnsubmitted} />
         </div>
       </div>
     </>
