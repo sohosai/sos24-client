@@ -9,8 +9,8 @@ import { getSubmitStatus, getTimeLeftText } from "@/lib/formHelpers";
 import { useAtom } from "jotai";
 import { hiddenFormIdsAtom } from "./page";
 
-import EyesOpenIcon from "@/components/assets/EyesOpen.svg"
-import EyesClosedIcon from "@/components/assets/EyesClosed.svg"
+import EyesOpenIcon from "@/components/assets/EyesOpen.svg";
+import EyesClosedIcon from "@/components/assets/EyesClosed.svg";
 import Image from "next/image";
 
 type Form = components["schemas"]["FormSummary"];
@@ -73,22 +73,18 @@ export const FormsList: FC<{
             key={form.id}
             className={css({
               display: "contents",
-            })}
-          >
-            <button onClick={() => {
-              setHiddenFormIds(prev => {
-                if (prev.includes(form.id)) {
-                  return prev.filter((i) => i != form.id)
-                } else {
-                  return [...prev, form.id]
-                }
-              })
-            }}>
-              {isShown ? (
-              <Image src={EyesClosedIcon} alt="非表示" />
-              ) : (
-              <Image src={EyesOpenIcon} alt="表示" />
-              )}
+            })}>
+            <button
+              onClick={() => {
+                setHiddenFormIds((prev) => {
+                  if (prev.includes(form.id)) {
+                    return prev.filter((i) => i != form.id);
+                  } else {
+                    return [...prev, form.id];
+                  }
+                });
+              }}>
+              {isShown ? <Image src={EyesClosedIcon} alt="非表示" /> : <Image src={EyesOpenIcon} alt="表示" />}
             </button>
             <a
               href={`/forms/${form.id}`}
