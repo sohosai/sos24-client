@@ -180,7 +180,7 @@ export const FilesForm: FC<Props> = (props: Props) => {
       <input
         type="file"
         id="userfile"
-        accept={props.extensions.join(",")}
+        accept={props.extensions ? props.extensions.join(",") : undefined}
         multiple={!props.limit || props.limit > 1}
         ref={filesDOM}
         className={css({
