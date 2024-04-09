@@ -13,11 +13,11 @@ export const DropdownForm: FC<Props> = (props: Props) => {
     <div>
       <label className={basicFormLabelStyle} htmlFor={props.id}>
         {props.label}
-        {props.required !== undefined && <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />}
+        {props.required !== undefined && (
+          <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
+        )}
       </label>
-      <select id={props.id}
-      {...props.register}
-      className={cx(basicFormStyle(), dropdownStyle)}>
+      <select id={props.id} {...props.register} className={cx(basicFormStyle(), dropdownStyle)}>
         <option value="" hidden></option>
         {props.options.map((option) => {
           return (
