@@ -5,10 +5,10 @@ import { css } from "@styled-system/css";
 import { RegisterProjectSchema, RegisterProjectSchemaType } from "@/lib/valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { Button } from "@/components/Button";
-import { TextField } from "@/components/register/TextField";
-import { CategoryField } from "@/components/register/CategoryField";
-import { category_to_type, PlaceField } from "@/components/register/PlaceField";
-import { CheckboxField } from "@/components/register/CheckboxField";
+import { TextField } from "@/components/formFields/TextField";
+import { CategoryField } from "./_components/CategoryField";
+import { category_to_type, PlaceField } from "./_components/PlaceField";
+import { SingleCheckboxField } from "@/components/formFields/SingleCheckboxField";
 import { stack } from "@styled-system/patterns";
 import { client } from "@/lib/openapi";
 import { components } from "@/schema";
@@ -172,13 +172,13 @@ export const RegisterForm = () => {
       />
       <CategoryField items={categoryItems} register={register("category")} error={errors.category?.message} />
       <PlaceField categoryType={categoryType} register={register("place")} error={errors.place?.message} />
-      <CheckboxField
+      <SingleCheckboxField
         id="agreement1"
         label="あなたは、別の企画団体の企画責任者または副企画責任者になることはできません。"
         register={register("agreement1")}
         error={errors.agreement1?.message}
       />
-      <CheckboxField
+      <SingleCheckboxField
         id="agreement2"
         label="ここで回答した内容(企画区分・企画実施場所・企画名・企画団体名)の修正・変更は簡単に行うことができません。 "
         register={register("agreement2")}
