@@ -4,12 +4,19 @@ import Link from "next/link";
 import { flex } from "@styled-system/patterns";
 import { CategoryBadges } from "@/components/CategoryBadges";
 import { FC } from "react";
-import { components } from "@/schema";
+import { ProjectCategory } from "@/lib/valibot";
+
+type News = {
+  id: string;
+  title: string;
+  categories: ProjectCategory[];
+  updated_at: string;
+};
 
 import { NoResultNotice } from "../NoResultNotice";
 
 export const NewsList: FC<{
-  newsList: components["schemas"]["NewsSummary"][];
+  newsList: News[];
   isCommittee?: boolean;
 }> = ({ newsList, isCommittee }) => {
   return (
@@ -36,43 +43,58 @@ export const NewsList: FC<{
           <div className={css({ fontSize: "sm", fontWeight: "bold" })}>更新日</div>
           <div className={css({ fontSize: "sm", fontWeight: "bold" })}>タイトル</div>
         </div>
+
         {newsList.length !== 0 ? (
-          <>
-            {newsList.map((news) => (
-              <Link
-                key={news.id}
-                href={isCommittee ? `/committee/news/${news.id}` : `/news/${news.id}`}
+          newsList.map((news) => (
+            <Link
+              key={news.id}
+              href={isCommittee ? `/committee/news/${news.id}` : `/news/${news.id}`}
+              className={css({
+                display: "contents",
+                "& > *": {
+                  borderColor: "gray.200",
+                  borderBottom: "1px solid",
+                },
+              })}>
+              <div
                 className={css({
-                  display: "contents",
-                  "& > *": {
-                    borderColor: "gray.200",
-                    borderBottom: "1px solid",
-                  },
+                  fontSize: "sm",
+                  fontWeight: "bold",
                 })}>
-                <div
+                {dayjs(news.updated_at).format("YYYY/MM/DD")}
+              </div>
+              <div
+                className={flex({
+                  alignItems: "center",
+                  gap: 4,
+                  fontSize: "sm",
+                })}>
+                <span
                   className={css({
-                    fontSize: "sm",
-                    fontWeight: "bold",
+                    display: "contents",
+                    "& > *": {
+                      borderColor: "gray.200",
+                      borderBottom: "1px solid",
+                    },
                   })}>
-                  {dayjs(news.updated_at).format("YYYY/MM/DD")}
-                </div>
-                <div
-                  className={flex({
-                    alignItems: "center",
-                    gap: 4,
-                    fontSize: "sm",
-                  })}>
-                  <span
-                    className={css({
-                      verticalAlign: "middle",
+                  <div
+                    className={flex({
+                      alignItems: "center",
+                      gap: 4,
+                      fontSize: "sm",
                     })}>
-                    {news.title}
-                  </span>
-                  <CategoryBadges categories={news.categories} />
-                </div>
-              </Link>
-            ))}
-          </>
+                    <span
+                      className={css({
+                        verticalAlign: "middle",
+                      })}>
+                      {news.title}
+                    </span>
+                    <CategoryBadges categories={news.categories} />
+                  </div>
+                </span>
+              </div>
+            </Link>
+          ))
         ) : (
           <></>
         )}
