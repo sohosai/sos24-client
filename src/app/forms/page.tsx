@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NextPage } from "next";
 import useSWR from "swr";
-import { fetcherWithToken } from "@/lib/swr";
 import { assignType } from "@/lib/openapi";
 import { css } from "@styled-system/css";
 
@@ -11,14 +10,21 @@ import { Button } from "@/components/Button";
 import { FormsList } from "./FormsList";
 
 const DashboardPage: NextPage = () => {
-  const { data: projectRes } = useSWR("/projects/me", fetcherWithToken);
-  const project = projectRes ? assignType("/projects/me", projectRes.json) : undefined;
+  const { data: projectRes, error: projectResError, isLoading: projectResIsLoading } = useSWR("/projects/me");
+  const project = projectRes ? assignType("/projects/me", projectRes) : undefined;
 
-  const projectId = project?.id;
-  const { data: formsRes } = useSWR(`/forms?project_id=${projectId}`, fetcherWithToken);
+  const {
+    data: formsRes,
+    error: formsResError,
+    isLoading: formsResIsLoading,
+  } = useSWR(() => `/forms?project_id=` + project?.id);
   const forms = formsRes ? assignType("/forms", formsRes) : undefined;
 
-  const { data: answersRes } = useSWR(`/form-answers?project_id=${projectId}`, fetcherWithToken);
+  const {
+    data: answersRes,
+    error: answersResError,
+    isLoading: answersResIsLoading,
+  } = useSWR(() => `/form-answers?project_id=` + project?.id);
   const answers = answersRes ? assignType("/form-answers", answersRes) : undefined;
 
   const notification = forms && answers ? forms.length - answers.length : 0;
@@ -54,13 +60,14 @@ const DashboardPage: NextPage = () => {
             maxWidth: "900px",
             marginInline: "auto",
           })}>
-          {(projectRes && !projectRes.ok) || (formsRes && !formsRes?.ok) || (answersRes && !answersRes?.ok) ? (
+          {(projectResError && !projectResIsLoading) ||
+          (formsResError && !formsResIsLoading) ||
+          (answersResError && !answersResIsLoading) ? (
             <p>
-              フォームの取得中にエラーが発生しました(
-              {(projectRes && !projectRes?.ok ? `Project: ${projectRes?.statusCode} ` : "") +
-                (formsRes && !formsRes?.ok ? `Forms: ${formsRes?.statusCode} ` : "") +
-                (answersRes && !answersRes?.ok ? `Answers: ${answersRes?.statusCode}` : "")}
-              )
+              フォームの取得中にエラーが発生しました
+              <span>({String(projectResError)})</span>
+              <span>({String(formsResError)})</span>
+              <span>({String(answersResError)})</span>
             </p>
           ) : (
             <>
