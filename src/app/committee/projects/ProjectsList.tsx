@@ -1,6 +1,5 @@
 import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
 import { ProjectAttributesBadge } from "@/components/project/AttirbutesBadge";
-import { projectCategoryItemStyle } from "@/components/register/styles";
 import { components } from "@/schema";
 import { css, cx } from "@styled-system/css";
 import { grid, hstack, vstack } from "@styled-system/patterns";
@@ -9,6 +8,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import toast from "react-hot-toast";
+import { projectCategoryItemStyle } from "@/components/formFields/styles";
 
 const ProjectRow: React.FC<{ data: components["schemas"]["ProjectSummary"] }> = ({ data }) => {
   return (

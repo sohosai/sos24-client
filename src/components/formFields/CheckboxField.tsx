@@ -1,10 +1,10 @@
 import { FC } from "react";
-import { RequiredBadge } from "./RequiredBadge";
+import { RequiredBadge } from "./_components/RequiredBadge";
 import { css } from "@styled-system/css";
-import { basicFormProps } from "./types";
+import { basicFieldProps } from "./_components/types";
 import { basicFormLabelStyle, checkboxFormStyle } from "./styles";
 
-interface Props extends basicFormProps {
+interface Props extends basicFieldProps {
   options: string[];
 }
 
@@ -13,8 +13,10 @@ export const CheckboxForm: FC<Props> = (props: Props) => {
     <div>
       <fieldset>
         <legend className={basicFormLabelStyle}>
-          {props.name}
-          <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
+          {props.label}
+          {props.required !== undefined && (
+            <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
+          )}
         </legend>
         <div
           className={css({

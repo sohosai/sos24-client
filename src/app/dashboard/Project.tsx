@@ -5,9 +5,9 @@ import { css } from "@styled-system/css";
 import { useState } from "react";
 import { Button } from "@/components/Button";
 import { ProjectTableView } from "./ProjectView";
-import { basicErrorMessageStyle } from "@/components/forms/styles";
 import { assignType } from "@/lib/openapi";
 import useSWR from "swr";
+import { basicErrorMessageStyle } from "@/components/formFields/styles";
 
 export const Project: React.FC = () => {
   const [editable, setEditable] = useState(false);
