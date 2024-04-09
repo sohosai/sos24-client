@@ -114,7 +114,7 @@ const PlaceFieldItem = ({ label, value, caption, register, disabled }: PlaceFiel
           },
         })}>
         <input type="radio" value={value} {...register} disabled={disabled} className={visuallyHidden()} />
-        <Image src={categoryIcon} alt={`${label}のアイコン`} />
+        <Image src={categoryIcon} alt="" />
         <span
           className={css({
             fontSize: "md",

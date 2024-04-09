@@ -135,11 +135,7 @@ export const Header: FC = () => {
               lg: { display: "none" },
             })}
             onClick={() => setShowMobileMenu((e) => !e)}>
-            {showMobileMenu ? (
-              <Image src={CloseButton} alt={"バツボタン"} />
-            ) : (
-              <Image src={MenuButton} alt="ハンバーガーメニュー" />
-            )}
+            {showMobileMenu ? <Image src={CloseButton} alt="" /> : <Image src={MenuButton} alt="" />}
           </button>
         ) : (
           <div className={css({ lg: { display: "none" } })} />
@@ -157,7 +153,7 @@ export const Header: FC = () => {
             },
           })}>
           <Link className={hstack()} href="/">
-            <Image src={logo} alt="雙峰祭ロゴマーク" className={css({ width: { lg: 10, base: 8 } })} />
+            <Image src={logo} alt="" className={css({ width: { lg: 10, base: 8 } })} />
             <h1
               className={css({
                 color: showMobileMenu ? "white" : "black",
@@ -186,11 +182,7 @@ export const Header: FC = () => {
               color: "gray.500",
               marginLeft: "10px",
             })}>
-            <img
-              src="https://www.sakura.ad.jp/brand-assets/images/logo-3.png"
-              alt="さくらインターネットのロゴ"
-              className={css({ height: 6 })}
-            />
+            <img src="https://www.sakura.ad.jp/brand-assets/images/logo-3.png" alt="" className={css({ height: 6 })} />
           </a>
           {((!projectIsLoading && !projectErr) || path.startsWith("/committee")) && <HeaderMenuItems menu={menu} />}
         </div>
