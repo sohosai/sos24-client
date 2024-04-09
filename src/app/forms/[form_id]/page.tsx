@@ -27,7 +27,7 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
   const _answers = answersRes ? assignType("/form-answers", answersRes) : undefined;
 
   const status: submitStatus = "未提出";
-  if (formLoading) return;
+  if (formLoading || answerLoading) return;
   return (
     <>
       <div
