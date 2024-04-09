@@ -1,4 +1,4 @@
-import { array, custom, literal, minLength, object, Output, string, union } from "valibot";
+import { string, minLength, custom, union, literal, object, Output, regex, array } from "valibot";
 
 /**
  * 半角・全角英数字及び半角記号を3文字でかな2文字分としてカウントする謎のやつ
@@ -83,6 +83,8 @@ export const RegisterProjectSchema = object({
   agreement2: projectAgreementSchema,
 });
 
+export type RegisterProjectSchemaType = Output<typeof RegisterProjectSchema>;
+
 export const UpdateProjectSchema = object({
   title: projectTitleSchema,
   kana_title: projectKanaTitleSchema,
@@ -90,9 +92,54 @@ export const UpdateProjectSchema = object({
   kana_group_name: projectKanaGroupName,
 });
 
-export type RegisterProjectSchemaType = Output<typeof RegisterProjectSchema>;
 export type UpdateProjectSchemaType = Output<typeof UpdateProjectSchema>;
 
+const userNameSchema = string([minLength(1, "名前を入力してください")]);
+
+const userKanaNameSchema = string([
+  minLength(1, "名前のふりがなを入力してください"),
+  regex(/^[ぁ-んー－゛゜]+$/, "ひらがなで入力してください"),
+]);
+
+const userEmailSchema = string([
+  minLength(1, "メールアドレスを入力してください"),
+  regex(/.*@.*\.tsukuba\.ac\.jp$/, "筑波大学のメールアドレスを入力してください"),
+]);
+
+const userPasswordSchema = string([minLength(1, "パスワードを入力してください")]);
+
+const userPhoneNumberSchema = string([minLength(1, "電話番号を入力してください")]);
+
+const userAgreementSchema = literal(true, "利用規約に同意してください");
+
+export const SignupSchema = object({
+  name: userNameSchema,
+  kana_name: userKanaNameSchema,
+  phone_number: userPhoneNumberSchema,
+  email: userEmailSchema,
+  password: userPasswordSchema,
+  agreement: userAgreementSchema,
+});
+
+export type SignupSchemaType = Output<typeof SignupSchema>;
+
+export const userRoles = ["administrator", "committee_operator", "committee", "general"];
+export type UserRole = (typeof userRoles)[number];
+
+const userRoleSchema = union(
+  userRoles.map((it) => literal(it)),
+  "いずれかの権限を選択してください",
+);
+
+export const UpdateUserSchema = object({
+  name: userNameSchema,
+  kana_name: userKanaNameSchema,
+  email: userEmailSchema,
+  phone_number: userPhoneNumberSchema,
+  role: userRoleSchema,
+});
+
+export type UpdateUserSchemaType = Output<typeof UpdateUserSchema>;
 const newsTitleSchema = string([minLength(1, "1文字以上で入力してください")]);
 
 const newsBodySchema = string([minLength(1, "1文字以上で入力してください")]);

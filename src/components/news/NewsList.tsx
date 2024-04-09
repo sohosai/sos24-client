@@ -3,12 +3,20 @@ import dayjs from "dayjs";
 import Link from "next/link";
 import { CategoryBadges } from "@/components/CategoryBadges";
 import { FC } from "react";
-import { components } from "@/schema";
+import { ProjectCategory } from "@/lib/valibot";
 import Image from "next/image";
 import arrowIcon from "@/components/assets/Arrow.svg";
+import { NoResultNotice } from "../NoResultNotice";
+
+type News = {
+  id: string;
+  title: string;
+  categories: ProjectCategory[];
+  updated_at: string;
+};
 
 export const NewsList: FC<{
-  newsList: components["schemas"]["NewsSummary"][];
+  newsList: News[];
   isCommittee?: boolean;
 }> = ({ newsList, isCommittee }) => {
   return (
@@ -44,80 +52,86 @@ export const NewsList: FC<{
           <div className={css({ fontSize: "sm", fontWeight: "bold" })}>タイトル</div>
         </div>
 
-        {newsList.map((news) => (
-          <Link
-            key={news.id}
-            href={isCommittee ? `/committee/news/${news.id}` : `/news/${news.id}`}
-            className={css({
-              sm: {
-                display: "contents",
-                "& > *": {
+        {newsList.length !== 0 ? (
+          newsList.map((news) => (
+            <Link
+              key={news.id}
+              href={isCommittee ? `/committee/news/${news.id}` : `/news/${news.id}`}
+              className={css({
+                sm: {
+                  display: "contents",
+                  "& > *": {
+                    borderColor: "gray.200",
+                    borderBottom: "1px solid",
+                  },
+                },
+                base: {
+                  display: "grid",
+                  gridTemplateColumns: "auto 1fr",
+                  gridTemplateRows: "auto auto",
+                  columnGap: 3,
+                  rowGap: 1,
+                  paddingY: 2,
+                  borderBlockEnd: 4,
+                  borderStyle: "dotted",
                   borderColor: "gray.200",
-                  borderBottom: "1px solid",
-                },
-              },
-              base: {
-                display: "grid",
-                gridTemplateColumns: "auto 1fr",
-                gridTemplateRows: "auto auto",
-                columnGap: 3,
-                rowGap: 1,
-                paddingY: 2,
-                borderBlockEnd: 4,
-                borderStyle: "dotted",
-                borderColor: "gray.200",
-              },
-            })}>
-            <div
-              className={css({
-                fontSize: "sm",
-                fontWeight: "bold",
-                height: "100%",
-                display: "flex",
-                alignItems: "center",
-                smDown: {
-                  gridColumn: "1/2",
-                  gridRow: "1/2",
                 },
               })}>
-              <span>{dayjs(news.updated_at).format("YYYY/MM/DD")}</span>
-            </div>
-            <div
-              className={css({
-                display: { sm: "flex", base: "contents" },
-                alignItems: "center",
-                gap: 4,
-                fontSize: "sm",
-                height: "100%",
-                paddingY: 1,
-              })}>
-              <span
+              <div
                 className={css({
-                  verticalAlign: "middle",
-                  lineHeight: 1.6,
+                  fontSize: "sm",
+                  fontWeight: "bold",
+                  height: "100%",
+                  display: "flex",
+                  alignItems: "center",
                   smDown: {
-                    display: "flex",
-                    gap: 1,
-                    gridColumn: "1/3",
-                    gridRow: "2/3",
-                    paddingY: 2,
+                    gridColumn: "1/2",
+                    gridRow: "1/2",
                   },
                 })}>
-                <Image
-                  src={arrowIcon}
-                  alt=""
+                <span>{dayjs(news.updated_at).format("YYYY/MM/DD")}</span>
+              </div>
+              <div
+                className={css({
+                  display: { sm: "flex", base: "contents" },
+                  alignItems: "center",
+                  gap: 4,
+                  fontSize: "sm",
+                  height: "100%",
+                  paddingY: 1,
+                })}>
+                <span
                   className={css({
-                    display: { base: "inline-block", sm: "none" },
-                    color: "sohosai.purple",
-                  })}
-                />
-                {news.title}
-              </span>
-              <CategoryBadges categories={news.categories} />
-            </div>
-          </Link>
-        ))}
+                    verticalAlign: "middle",
+                    lineHeight: 1.6,
+                    smDown: {
+                      display: "flex",
+                      gap: 1,
+                      gridColumn: "1/3",
+                      gridRow: "2/3",
+                      paddingY: 2,
+                    },
+                  })}>
+                  <Image
+                    src={arrowIcon}
+                    alt=""
+                    className={css({
+                      display: { base: "inline-block", sm: "none" },
+                      color: "sohosai.purple",
+                    })}
+                  />
+
+                  {news.title}
+                </span>
+                <CategoryBadges categories={news.categories} />
+              </div>
+            </Link>
+          ))
+        ) : (
+          <></>
+        )}
       </div>
+      {newsList.length === 0 ? <NoResultNotice message="お知らせはありません" type="notice" /> : <></>}
     </div>
   );
 };

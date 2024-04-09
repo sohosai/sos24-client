@@ -9,8 +9,8 @@ import { basicErrorMessageStyle, basicFormLabelStyle } from "./styles";
 import { RequiredBadge } from "./RequiredBadge";
 import { FileView } from "@/components/FileView";
 
-import clickIcon from "../assets/Click.svg";
-import driveIcon from "../assets/Drive.svg";
+import clickIcon from "@/components/assets/Click.svg";
+import driveIcon from "@/components/assets/Drive.svg";
 
 interface Props extends basicFormProps {
   extensions: string[];
