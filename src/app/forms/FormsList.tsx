@@ -7,11 +7,11 @@ import { components } from "@/schema";
 import { SubmitStatusBadge } from "@/components/SubmitStatus";
 import { getSubmitStatus, getTimeLeftText } from "@/lib/formHelpers";
 import { useAtom } from "jotai";
-import { hiddenFormIdsAtom } from "./page";
 
 import EyesOpenIcon from "@/components/assets/EyesOpen.svg";
 import EyesClosedIcon from "@/components/assets/EyesClosed.svg";
 import Image from "next/image";
+import { hiddenFormIdsAtom } from "./hiddenFormIds";
 
 type Form = components["schemas"]["FormSummary"];
 type Answer = components["schemas"]["FormAnswerSummary"];
