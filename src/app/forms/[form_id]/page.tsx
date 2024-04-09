@@ -23,7 +23,7 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
   const { data: formRes, isLoading: formLoading, error: formError } = useSWR(`/forms/${id}/`, fetcherWithToken);
   const form = formRes ? assignType("/forms/{form_id}", formRes) : undefined;
 
-  const { data: answersRes, error: answersError } = useSWR(`/form-answers?project_id=${projectId}`, fetcherWithToken);
+  const { data: answersRes, error: answersError, isLoading: answerLoading } = useSWR(`/form-answers?project_id=${projectId}`, fetcherWithToken);
   const _answers = answersRes ? assignType("/form-answers", answersRes) : undefined;
 
   const status: submitStatus = "未提出";
