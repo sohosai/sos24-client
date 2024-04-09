@@ -99,7 +99,7 @@ export const NewsList: FC<{
           <></>
         )}
       </div>
-      {newsList.length === 0 ? <NoResultNotice message="お知らせはありません" /> : <></>}
+      {newsList.length === 0 ? <NoResultNotice message="お知らせはありません" type="notice" /> : <></>}
     </div>
   );
 };
