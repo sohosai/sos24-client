@@ -11,8 +11,7 @@ export default function Home() {
   if (isLoading) return;
   if (error) return <p>エラーが発生しました</p>;
   if (user.role !== "general") {
-    //TODO: projectsのページにリダイレクト
-    //router.push("/committee/projects");
+    router.push("/committee/projects");
   }
   if (user.owned_project_id) {
     router.push("/dashboard");

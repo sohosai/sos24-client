@@ -13,8 +13,7 @@ const CommitteePage: NextPage = () => {
   if (user.role === "general") {
     router.push("/");
   } else {
-    //TODO: projectsのページにリダイレクト
-    //router.push("/committee/projects");
+    router.push("/committee/projects");
   }
 
   return <></>;
