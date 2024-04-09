@@ -55,7 +55,7 @@ export const MobileMenu: FC<{
       ))}
     </ul>
     {isCommittee && (
-      <Link className={MobileMenuItemStyle} href={`${isCommitteeMode ? "" : "/committee"}/dashboard`}>
+      <Link className={MobileMenuItemStyle} href={`${isCommitteeMode ? "/" : "/committee"}`}>
         {isCommitteeMode ? "一般" : "実委人"}ページへ
       </Link>
     )}
