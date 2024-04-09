@@ -3,10 +3,12 @@ import { FC } from "react";
 import Link from "next/link";
 import { components } from "@/schema";
 import { UserRoleFormatter } from "@/components/user/UserRoleFormatter";
+import { NoResultNotice } from "@/components/NoResultNotice";
 
 export const UserList: FC<{
   userList: components["schemas"]["UserSummary"][];
 }> = ({ userList }) => {
+  console.log(userList.length);
   return (
     <div>
       <div
@@ -32,39 +34,43 @@ export const UserList: FC<{
           <div className={css({ fontSize: "sm", fontWeight: "bold" })}>メールアドレス</div>
           <div className={css({ fontSize: "sm", fontWeight: "bold" })}>権限</div>
         </div>
-
-        {userList.map((user) => (
-          <Link
-            key={user.id}
-            href={`/committee/users/${user.id}`}
-            className={css({
-              display: "contents",
-              "& > *": {
-                borderColor: "gray.200",
-                borderBottom: "1px solid",
-              },
-            })}>
-            <div
-              className={css({
-                fontSize: "sm",
-              })}>
-              {user.name}
-            </div>
-            <div
-              className={css({
-                fontSize: "sm",
-              })}>
-              {user.email}
-            </div>
-            <div
-              className={css({
-                fontSize: "sm",
-              })}>
-              <UserRoleFormatter role={user.role} />
-            </div>
-          </Link>
-        ))}
+        {userList.length !== 0 && (
+          <>
+            {userList.map((user) => (
+              <Link
+                key={user.id}
+                href={`/committee/users/${user.id}`}
+                className={css({
+                  display: "contents",
+                  "& > *": {
+                    borderColor: "gray.200",
+                    borderBottom: "1px solid",
+                  },
+                })}>
+                <div
+                  className={css({
+                    fontSize: "sm",
+                  })}>
+                  {user.name}
+                </div>
+                <div
+                  className={css({
+                    fontSize: "sm",
+                  })}>
+                  {user.email}
+                </div>
+                <div
+                  className={css({
+                    fontSize: "sm",
+                  })}>
+                  <UserRoleFormatter role={user.role} />
+                </div>
+              </Link>
+            ))}
+          </>
+        )}
       </div>
+      {userList.length === 0 && <NoResultNotice message="ユーザーが見つかりませんでした" />}
     </div>
   );
 };
