@@ -4,10 +4,17 @@ import Link from "next/link";
 import { flex } from "@styled-system/patterns";
 import { CategoryBadges } from "@/components/CategoryBadges";
 import { FC } from "react";
-import { components } from "@/schema";
+import { ProjectCategory } from "@/lib/valibot";
+
+type News = {
+  id: string;
+  title: string;
+  categories: ProjectCategory[];
+  updated_at: string;
+};
 
 export const NewsList: FC<{
-  newsList: components["schemas"]["NewsSummary"][];
+  newsList: News[];
   isCommittee?: boolean;
 }> = ({ newsList, isCommittee }) => {
   return (
@@ -38,6 +45,7 @@ export const NewsList: FC<{
         {newsList.map((news) => (
           <Link
             key={news.id}
+            // ToDo asを消す
             href={isCommittee ? `/committee/news/${news.id}` : `/news/${news.id}`}
             className={css({
               display: "contents",
