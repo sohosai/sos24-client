@@ -87,6 +87,7 @@ export const NewsList: FC<{
                   smDown: {
                     gridColumn: "1/2",
                     gridRow: "1/2",
+                    height: "auto",
                   },
                 })}>
                 <span>{dayjs(news.updated_at).format("YYYY/MM/DD")}</span>

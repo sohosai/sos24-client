@@ -20,6 +20,7 @@ export const CategoryBadges: FC<{
       gridColumn: "2/3",
       gridRow: "1/2",
       fontSize: "2xs",
+      height: "auto",
     },
   });
 
