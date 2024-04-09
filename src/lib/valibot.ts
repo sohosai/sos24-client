@@ -1,4 +1,5 @@
-import { string, minLength, custom, union, literal, object, Output, regex, array } from "valibot";
+import { array, custom, literal, minLength, object, Output, regex, string, union } from "valibot";
+import Graphemer from "graphemer";
 
 /**
  * 半角・全角英数字及び半角記号を3文字でかな2文字分としてカウントする謎のやつ
@@ -10,8 +11,15 @@ const awesomeCharacterCount = (string: string): number => {
   return string.length - specialCharacters.length / 3;
 };
 
-const containsEmoji = (string: string): boolean => {
-  return /\p{Extended_Pictographic}/u.test(string);
+const containsEmoji = (string: string) => {
+  const splitter = new Graphemer();
+  const graphemes = splitter.splitGraphemes(string);
+  for (const grapheme of graphemes) {
+    if (!/[\u{0023}-\u{0039}]$/u.test(grapheme) && /\p{Emoji}/u.test(grapheme)) {
+      return true;
+    }
+  }
+  return false;
 };
 
 const projectTitleSchema = string([
