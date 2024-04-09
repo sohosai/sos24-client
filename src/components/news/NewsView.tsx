@@ -1,12 +1,16 @@
-import { stack } from "@styled-system/patterns";
-import { ProjectCategorySelector, SelectedCategoryType } from "@/components/news/ProjectCategorySelector";
+import { flex, stack } from "@styled-system/patterns";
+import { FilterSelector, NewsFilterType, newsFilters } from "@/components/news/FilterSelector";
 import { NewsList } from "@/components/news/NewsList";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
-import { useCallback, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import { components } from "@/schema";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Route } from "next";
+import { Button } from "@/components/Button";
+import { css } from "@styled-system/css";
+import Image from "next/image";
+import plusIcon from "@/components/assets/Plus.svg";
 
 // 対象の企画であるかを確認する
 const isTargetProject = (
@@ -21,11 +25,11 @@ const isTargetProject = (
 
 // 特定の企画向けのお知らせのみを抽出する
 const filterNews = (
-  selectedCategory: SelectedCategoryType,
+  filter: NewsFilterType,
   myProject: components["schemas"]["Project"],
   newsList: components["schemas"]["NewsSummary"][],
 ): components["schemas"]["NewsSummary"][] => {
-  switch (selectedCategory) {
+  switch (filter) {
     case "me":
       return newsList.filter((news) => isTargetProject(myProject, news.categories, news.attributes));
     case "all":
@@ -33,7 +37,9 @@ const filterNews = (
   }
 };
 
-export const NewsView = () => {
+export const NewsView: FC<{
+  isCommittee?: boolean;
+}> = ({ isCommittee }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -46,8 +52,9 @@ export const NewsView = () => {
     [searchParams],
   );
 
-  const defaultCategory = (searchParams.get("news_category") as SelectedCategoryType) ?? "me";
-  const [selectedCategory, setSelectedCategory] = useState<SelectedCategoryType>(defaultCategory);
+  const filterParams = (searchParams.get("news_cateogry") ?? "me") as "me" | "all";
+  const defaultFilter = newsFilters.includes(filterParams) ? filterParams : "me";
+  const [filter, setFilter] = useState<NewsFilterType>(defaultFilter);
 
   const { data: newsData, error: newsError, isLoading: isLoadingNews } = useSWR("/news");
   const { data: projectData, error: projectError, isLoading: isLoadingProject } = useSWR("/projects/me");
@@ -57,25 +64,51 @@ export const NewsView = () => {
   if (newsError) {
     return <p>お知らせの読み込み中に不明なエラーが発生しました。</p>;
   }
-  if (projectError) {
+  if (!isCommittee && projectError) {
     return <p>企画の読み込み中に不明なエラーが発生しました。</p>;
   }
 
   const project = assignType("/projects/me", projectData);
   const newsList = assignType("/news", newsData);
 
-  const filteredNewsList = filterNews(selectedCategory, project, newsList);
+  const filteredNewsList = isCommittee ? newsList : filterNews(filter, project, newsList);
 
   return (
     <div className={stack({ gap: 2, width: "full" })}>
-      <ProjectCategorySelector
-        selected={selectedCategory}
-        setSelected={(category) => {
-          setSelectedCategory(category);
-          router.push((pathname + "?" + createQueryString("news_category", category)) as Route);
-        }}
-      />
-      <NewsList newsList={filteredNewsList} />
+      <div
+        className={flex({
+          justifyContent: isCommittee ? "end" : "space-between",
+        })}>
+        {!isCommittee && (
+          <FilterSelector
+            filter={filter}
+            setFilter={(filter) => {
+              setFilter(filter);
+              router.push((pathname + "?" + createQueryString("news_category", filter)) as Route);
+            }}
+          />
+        )}
+        {isCommittee && (
+          <Button
+            color="blue"
+            onClick={() => router.push("/committee/news/new")}
+            className={flex({
+              alignItems: "center",
+              gap: 2,
+              paddingX: 6,
+            })}>
+            <Image src={plusIcon} alt="" />
+            <span
+              className={css({
+                fontSize: "xs",
+                fontWeight: "bold",
+              })}>
+              新規作成
+            </span>
+          </Button>
+        )}
+      </div>
+      <NewsList newsList={filteredNewsList} isCommittee={isCommittee} />
     </div>
   );
 };
