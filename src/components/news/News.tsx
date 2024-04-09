@@ -72,12 +72,13 @@ export const News: FC<{
           borderWidth: 1,
         })}
       />
-      <pre
+      <div
         className={css({
           fontSize: "sm",
+          whiteSpace: "pre-wrap",
         })}>
         {news.body}
-      </pre>
+      </div>
       <h3
         className={flex({
           marginTop: 8,
