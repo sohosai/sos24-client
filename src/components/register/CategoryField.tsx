@@ -70,7 +70,7 @@ const CategoryFieldItem = ({ label, value, register, badges }: CategoryFieldItem
         },
       })}>
       <input type="radio" value={value} {...register} className={visuallyHidden()} />
-      <Image src={categoryIcon} alt={`${label}のアイコン`} />
+      <Image src={categoryIcon} alt="" />
       <div
         className={css({
           base: {

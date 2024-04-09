@@ -40,7 +40,7 @@ export const FileItem: FC<{
         })}>
         {file.name}
       </span>
-      <Image src={downloadIcon} alt="ダウンロードボタン" />
+      <Image src={downloadIcon} alt="" />
     </a>
   );
 };

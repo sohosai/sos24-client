@@ -32,7 +32,7 @@ const SigninPage: NextPage = () => {
         <h1 className={css({ fontSize: "2xl", fontWeight: "bold", marginBottom: 8 })}>ログイン</h1>
         <SigninForm />
         <div className={css({ marginTop: 4, display: "flex", gap: 3.5 })}>
-          <Image src={Triangle} alt={"三角形のアイコン"} />
+          <Image src={Triangle} alt="" />
           <button
             onClick={() => setAuthMode("signUp")}
             className={css({

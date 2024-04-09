@@ -68,7 +68,7 @@ export const EmailVerification = () => {
             onClick={handleResend}
             disabled={isSent}>
             <span>確認メールを再送する</span>
-            <Image src={SendButton} alt="Send Button" width={20} height={20} />
+            <Image src={SendButton} alt="" width={20} height={20} />
           </Button>
           {isSent && (
             <p className={css({ color: "gray.700", fontSize: "sm" })}>

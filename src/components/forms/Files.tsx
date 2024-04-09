@@ -169,9 +169,9 @@ export const FilesForm: FC<Props> = (props: Props) => {
               display: "flex",
               alignItems: "center",
             })}>
-            <Image src={clickIcon} alt="クリック" className={css({ height: 7, width: 7 })} />
+            <Image src={clickIcon} alt="" className={css({ height: 7, width: 7 })} />
             <span className={css({ paddingInline: 2, color: "white", paddingBottom: 1 })}>or</span>
-            <Image src={driveIcon} alt="ファイルをドロップ" className={css({ height: 6, width: 6, marginInline: 1 })} />
+            <Image src={driveIcon} alt="" className={css({ height: 6, width: 6, marginInline: 1 })} />
           </div>
         </div>
       </div>
