@@ -50,7 +50,7 @@ const DashboardPage: NextPage = () => {
   }
 
   const notifications = forms.length - answers.length;
-  const toggleFilter = () => setFilterUnsubmitted(prev => !prev);
+  const toggleFilter = () => setFilterUnsubmitted((prev) => !prev);
 
   return (
     <>
@@ -73,10 +73,7 @@ const DashboardPage: NextPage = () => {
           </h2>
         </div>
         <div className={stack({ padding: 10, gap: 4, alignItems: "flex-start", width: "100%" })}>
-          <Button
-            color={filterUnsubmitted ? "primary" : "secondary"}
-            onClick={toggleFilter}
-            onTouchEnd={toggleFilter}>
+          <Button color={filterUnsubmitted ? "primary" : "secondary"} onClick={toggleFilter} onTouchEnd={toggleFilter}>
             未提出のみ表示
           </Button>
           <FormsList forms={forms} answers={answers} filterUnsubmitted={filterUnsubmitted} />
