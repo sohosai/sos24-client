@@ -1,23 +1,25 @@
-import downloadIcon from "../assets/Download.svg";
-import Image from "next/image";
-import { flex } from "@styled-system/patterns";
-import { css } from "@styled-system/css";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
-import toast from "react-hot-toast";
+import { flex } from "@styled-system/patterns";
+import { css } from "@styled-system/css";
+import downloadIcon from "@/components/assets/Download.svg";
+import Image from "next/image";
+import { FC } from "react";
 
-interface FileItemProps {
+export const FileItem: FC<{
   file_id: string;
-}
-
-export const FileItem = ({ file_id }: FileItemProps) => {
+}> = ({ file_id }) => {
   const { data, error, isLoading } = useSWR(`/files/${file_id}`);
   if (isLoading) {
     return;
   }
   if (error) {
-    toast.error(`ファイルの読み込みに失敗しました: ${error}`);
-    return;
+    switch (error.code) {
+      case "file/not-found":
+        return <p>ファイルが見つかりませんでした。</p>;
+      default:
+        return <p>ファイルの読み込み中に不明なエラーが発生しました。</p>;
+    }
   }
 
   const file = assignType("/files/{file_id}", data);
