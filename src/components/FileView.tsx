@@ -34,7 +34,7 @@ export const FileView = (props: Props) => {
           })}>
           <Image
             src={deleteIcon}
-            alt="削除"
+            alt=""
             className={css({
               height: 5,
               width: 5,

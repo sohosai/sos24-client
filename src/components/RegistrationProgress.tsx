@@ -11,14 +11,14 @@ export const RegistrationProgress: FC<{
 }> = ({ step }) => {
   switch (step) {
     case 1:
-      return <Image src={RegistrationProgress1} alt="Step 1" />;
+      return <Image src={RegistrationProgress1} alt="" />;
     case 2:
-      return <Image src={RegistrationProgress2} alt="Step 2" />;
+      return <Image src={RegistrationProgress2} alt="" />;
     case 3:
-      return <Image src={RegistrationProgress3} alt="Step 3" />;
+      return <Image src={RegistrationProgress3} alt="" />;
     case 4:
-      return <Image src={RegistrationProgress4} alt="Step 4" />;
+      return <Image src={RegistrationProgress4} alt="" />;
     case 5:
-      return <Image src={RegistrationProgress5} alt="Step 5" />;
+      return <Image src={RegistrationProgress5} alt="" />;
   }
 };
