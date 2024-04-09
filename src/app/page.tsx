@@ -11,7 +11,7 @@ export default function Home() {
   if (isLoading) return;
   if (error) return <p>エラーが発生しました</p>;
   if (user.role !== "general") {
-    router.push("/committee/projects");
+    router.push("/committee");
   }
   if (user.owned_project_id) {
     router.push("/dashboard");
