@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NextPage } from "next";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
