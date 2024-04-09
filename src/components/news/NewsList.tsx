@@ -4,6 +4,8 @@ import Link from "next/link";
 import { CategoryBadges } from "@/components/CategoryBadges";
 import { FC } from "react";
 import { components } from "@/schema";
+import Image from "next/image";
+import arrowIcon from "@/components/assets/Arrow.svg";
 
 export const NewsList: FC<{
   newsList: components["schemas"]["NewsSummary"][];
@@ -61,6 +63,9 @@ export const NewsList: FC<{
                 columnGap: 3,
                 rowGap: 1,
                 paddingY: 2,
+                borderBlockEnd: 4,
+                borderStyle: "dotted",
+                borderColor: "gray.200",
               },
             })}>
             <div
@@ -91,11 +96,21 @@ export const NewsList: FC<{
                   verticalAlign: "middle",
                   lineHeight: 1.6,
                   smDown: {
+                    display: "flex",
+                    gap: 1,
                     gridColumn: "1/3",
                     gridRow: "2/3",
                     paddingY: 2,
                   },
                 })}>
+                <Image
+                  src={arrowIcon}
+                  alt=""
+                  className={css({
+                    display: { base: "inline-block", sm: "none" },
+                    color: "sohosai.purple",
+                  })}
+                />
                 {news.title}
               </span>
               <CategoryBadges categories={news.categories} />
