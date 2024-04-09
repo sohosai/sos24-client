@@ -32,7 +32,6 @@ export const UserList: FC<{
           <div className={css({ fontSize: "sm", fontWeight: "bold" })}>メールアドレス</div>
           <div className={css({ fontSize: "sm", fontWeight: "bold" })}>権限</div>
         </div>
-
         {userList.map((user) => (
           <Link
             key={user.id}
