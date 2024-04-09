@@ -13,6 +13,8 @@ type News = {
   updated_at: string;
 };
 
+import { NoResultNotice } from "../NoResultNotice";
+
 export const NewsList: FC<{
   newsList: News[];
   isCommittee?: boolean;
@@ -42,42 +44,62 @@ export const NewsList: FC<{
           <div className={css({ fontSize: "sm", fontWeight: "bold" })}>タイトル</div>
         </div>
 
-        {newsList.map((news) => (
-          <Link
-            key={news.id}
-            // ToDo asを消す
-            href={isCommittee ? `/committee/news/${news.id}` : `/news/${news.id}`}
-            className={css({
-              display: "contents",
-              "& > *": {
-                borderColor: "gray.200",
-                borderBottom: "1px solid",
-              },
-            })}>
-            <div
+        {newsList.length !== 0 ? (
+          newsList.map((news) => (
+            <Link
+              key={news.id}
+              href={isCommittee ? `/committee/news/${news.id}` : `/news/${news.id}`}
               className={css({
-                fontSize: "sm",
-                fontWeight: "bold",
+                display: "contents",
+                "& > *": {
+                  borderColor: "gray.200",
+                  borderBottom: "1px solid",
+                },
               })}>
-              {dayjs(news.updated_at).format("YYYY/MM/DD")}
-            </div>
-            <div
-              className={flex({
-                alignItems: "center",
-                gap: 4,
-                fontSize: "sm",
-              })}>
-              <span
+              <div
                 className={css({
-                  verticalAlign: "middle",
+                  fontSize: "sm",
+                  fontWeight: "bold",
                 })}>
-                {news.title}
-              </span>
-              <CategoryBadges categories={news.categories} />
-            </div>
-          </Link>
-        ))}
+                {dayjs(news.updated_at).format("YYYY/MM/DD")}
+              </div>
+              <div
+                className={flex({
+                  alignItems: "center",
+                  gap: 4,
+                  fontSize: "sm",
+                })}>
+                <span
+                  className={css({
+                    display: "contents",
+                    "& > *": {
+                      borderColor: "gray.200",
+                      borderBottom: "1px solid",
+                    },
+                  })}>
+                  <div
+                    className={flex({
+                      alignItems: "center",
+                      gap: 4,
+                      fontSize: "sm",
+                    })}>
+                    <span
+                      className={css({
+                        verticalAlign: "middle",
+                      })}>
+                      {news.title}
+                    </span>
+                    <CategoryBadges categories={news.categories} />
+                  </div>
+                </span>
+              </div>
+            </Link>
+          ))
+        ) : (
+          <></>
+        )}
       </div>
+      {newsList.length === 0 ? <NoResultNotice message="お知らせはありません" /> : <></>}
     </div>
   );
 };
