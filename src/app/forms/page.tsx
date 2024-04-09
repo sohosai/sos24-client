@@ -49,7 +49,7 @@ const DashboardPage: NextPage = () => {
       borderRadius: "50%",
     },
   });
-  if (formsLoading || answersLoading) return;
+  if (formsLoading || answersLoading || projectLoading) return;
   return (
     <>
       <div
