@@ -3,9 +3,8 @@ import { UseFormRegisterReturn } from "react-hook-form";
 import { hstack, stack, visuallyHidden } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
 import { projectCategories, ProjectCategory } from "@/lib/valibot";
-import { basicErrorMessageStyle } from "@/components/forms/styles";
 import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
-import { projectCategoryItemStyle } from "@/components/register/styles";
+import { basicErrorMessageStyle, projectCategoryItemStyle } from "./formFields/styles";
 
 export const ProjectCategorySelector: FC<{
   register: UseFormRegisterReturn;

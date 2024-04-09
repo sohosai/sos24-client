@@ -1,12 +1,7 @@
 import { FC } from "react";
 
-import { StringForm } from "@/components/forms/String";
-import { NumberForm } from "@/components/forms/Number";
-import { DropdownForm } from "@/components/forms/Dropdown";
-import { CheckboxForm } from "@/components/forms/Checkbox";
-
 import { components } from "@/schema";
-import { FilesForm } from "@/components/forms/Files";
+import { NumberField } from "@/components/formFields/NumberField";
 
 type FormItem = components["schemas"]["FormItem"];
 
@@ -23,7 +18,7 @@ export const FormItems: FC<{
     switch (item.type) {
       case "int":
         return (
-          <NumberForm
+          <NumberField
             id={item.id ?? ""}
             name={item.name ?? ""}
             description={item.name ?? ""}
