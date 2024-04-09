@@ -11,9 +11,18 @@ export const CategoryBadges: FC<{
     color: "gray.600",
     fontSize: "xs",
     fontWeight: "bold",
-    lineHeight: 2,
+    lineHeight: 1.6,
     backgroundColor: "gray.200",
     paddingX: 2,
+    display: "flex",
+    alignItems: "center",
+    alignContent: "center",
+    smDown: {
+      gridColumn: "2/3",
+      gridRow: "1/2",
+      fontSize: "2xs",
+      height: 4,
+    },
   });
 
   const isToAllCategory = projectCategories.every((it) => categories.includes(it));
@@ -22,7 +31,7 @@ export const CategoryBadges: FC<{
   }
 
   return (
-    <span className={flex({ gap: 2 })}>
+    <span className={flex({ gap: 2, wrap: "wrap" })}>
       {categories.map((category) => (
         <span key={category} className={badgeStyle}>
           <ProjectCategoryFormatter category={category} />
