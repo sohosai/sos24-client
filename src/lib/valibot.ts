@@ -15,7 +15,7 @@ const containsEmoji = (string: string) => {
   const splitter = new Graphemer();
   const graphemes = splitter.splitGraphemes(string);
   for (const grapheme of graphemes) {
-    if (grapheme.length > 1) {
+    if (!/[\u{0023}-\u{0039}]$/u.test(grapheme) && /\p{Emoji}/u.test(grapheme)) {
       return true;
     }
   }
