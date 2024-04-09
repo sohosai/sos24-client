@@ -99,7 +99,7 @@ export const Header: FC = () => {
         paddingY: 4,
         gridTemplateRows: "1fr, 1fr",
         zIndex: 2,
-        sm: {
+        lg: {
           height: 20,
           paddingY: 0,
           display: "block",
@@ -118,12 +118,12 @@ export const Header: FC = () => {
       <div
         className={css({
           zIndex: 100,
-          display: { sm: "flex", base: "grid" },
+          display: { lg: "flex", base: "grid" },
           gridTemplateColumns: "1fr 5fr 1fr",
-          justifyContent: { base: "space-around", sm: "space-between" },
+          justifyContent: { base: "space-around", lg: "space-between" },
           alignItems: "center",
           paddingX: 2,
-          sm: {
+          lg: {
             height: "100%",
           },
         })}>
@@ -132,7 +132,7 @@ export const Header: FC = () => {
             className={css({
               display: "flex",
               justifyContent: "center",
-              sm: { display: "none" },
+              lg: { display: "none" },
             })}
             onClick={() => setShowMobileMenu((e) => !e)}>
             {showMobileMenu ? (
@@ -142,7 +142,7 @@ export const Header: FC = () => {
             )}
           </button>
         ) : (
-          <div className={css({ sm: { display: "none" } })} />
+          <div className={css({ lg: { display: "none" } })} />
         )}
 
         <div
@@ -150,18 +150,18 @@ export const Header: FC = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: { sm: 5, base: 2 },
-            sm: {
+            gap: { lg: 5, base: 2 },
+            lg: {
               paddingLeft: 5,
               height: "100%",
             },
           })}>
           <Link className={hstack()} href="/">
-            <Image src={logo} alt="雙峰祭ロゴマーク" className={css({ width: { sm: 10, base: 8 } })} />
+            <Image src={logo} alt="雙峰祭ロゴマーク" className={css({ width: { lg: 10, base: 8 } })} />
             <h1
               className={css({
                 color: showMobileMenu ? "white" : "black",
-                fontSize: { base: "lg", sm: "2xl" },
+                fontSize: { base: "lg", lg: "2xl" },
               })}>
               雙峰祭オンラインシステム
             </h1>
@@ -180,7 +180,7 @@ export const Header: FC = () => {
               },
               display: {
                 base: "none",
-                sm: "block",
+                lg: "block",
               },
               fontSize: "xs",
               color: "gray.500",
@@ -212,7 +212,7 @@ export const Header: FC = () => {
                 px: 5,
                 height: "100%",
                 borderX: "solid 1px token(colors.gray.200)",
-                display: { base: "none", sm: "block" },
+                display: { base: "none", lg: "block" },
               })}>
               サインアウト
             </button>

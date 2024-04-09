@@ -35,7 +35,7 @@ export const MobileMenu: FC<{
             width: "100vw",
             height: "100vh",
             gap: "12",
-            sm: {
+            lg: {
               display: "none",
             },
           })

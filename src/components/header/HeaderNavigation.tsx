@@ -3,6 +3,7 @@ import { css } from "@styled-system/css";
 import { FC } from "react";
 import Link from "next/link";
 import { MenuData } from "./Header";
+import { hstack } from "@styled-system/patterns";
 
 export const HeaderNavigation: FC<{ menu: MenuData[] }> = ({ menu }) => {
   const commonItemStyle = css({
@@ -12,11 +13,12 @@ export const HeaderNavigation: FC<{ menu: MenuData[] }> = ({ menu }) => {
   });
   return (
     <ul
-      className={css({
-        display: "grid",
-        gridTemplateColumns: "repeat(3, 1fr)",
+      className={hstack({
+        "& > *": {
+          flexGrow: 1,
+        },
         textAlign: "center",
-        sm: { display: "none" },
+        lg: { display: "none" },
       })}>
       {menu.map((menu) => (
         <li key={menu.path}>
