@@ -9,10 +9,9 @@ import { Button } from "@/components/Button";
 import { FormsList } from "./FormsList";
 import { stack } from "@styled-system/patterns";
 import { NotificationBadge } from "@/components/NotificationBadge";
-import { atomWithStorage } from "jotai/utils";
 import { useAtomValue } from "jotai";
+import { hiddenFormIdsAtom } from "./hiddenFormIds";
 
-export const hiddenFormIdsAtom = atomWithStorage<string[]>("hiddenFormIds", []);
 
 const DashboardPage: NextPage = () => {
   const { data: projectRes, error: projectResError, isLoading: projectResIsLoading } = useSWR("/projects/me");
