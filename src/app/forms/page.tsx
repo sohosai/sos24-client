@@ -5,11 +5,14 @@ import { NextPage } from "next";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 import { css } from "@styled-system/css";
-
 import { Button } from "@/components/Button";
 import { FormsList } from "./FormsList";
 import { stack } from "@styled-system/patterns";
 import { NotificationBadge } from "@/components/NotificationBadge";
+import { atomWithStorage } from "jotai/utils";
+import { useAtomValue } from "jotai";
+
+export const hiddenFormIdsAtom = atomWithStorage<string[]>('hiddenFormIds', []);
 
 const DashboardPage: NextPage = () => {
   const { data: projectRes, error: projectResError, isLoading: projectResIsLoading } = useSWR("/projects/me");
@@ -28,6 +31,8 @@ const DashboardPage: NextPage = () => {
     isLoading: answersResIsLoading,
   } = useSWR(() => `/form-answers?project_id=` + project?.id);
   const answers = answersRes ? assignType("/form-answers", answersRes) : undefined;
+
+  const hiddenFormIds = useAtomValue(hiddenFormIdsAtom)
 
   const isLoading = projectResIsLoading || formsResIsLoading || answersResIsLoading;
   const error = projectResError || formsResError || answersResError;
@@ -76,7 +81,13 @@ const DashboardPage: NextPage = () => {
           <Button color={filterUnsubmitted ? "primary" : "secondary"} onClick={toggleFilter} onTouchEnd={toggleFilter}>
             未提出のみ表示
           </Button>
-          <FormsList forms={forms} answers={answers} filterUnsubmitted={filterUnsubmitted} />
+          <FormsList forms={forms.filter((form) => !hiddenFormIds.includes(form.id))} answers={answers} filterUnsubmitted={filterUnsubmitted} />
+          
+          <h3 className={css({
+            fontSize: "lg",
+            fontWeight: "bold"
+          })}>非表示中の申請</h3>
+          <FormsList forms={forms.filter((form) => hiddenFormIds.includes(form.id))} answers={answers} filterUnsubmitted={filterUnsubmitted} />
         </div>
       </div>
     </>
