@@ -1,7 +1,8 @@
 import { FC } from "react";
 
 import { components } from "@/schema";
-import { NumberField } from "@/components/formFields/NumberField";
+//import { NumberField } from "@/components/formFields/NumberField";
+//import { TextField } from "@/components/formFields/TextField";
 
 type FormItem = components["schemas"]["FormItem"];
 
@@ -14,22 +15,22 @@ export const FormItems: FC<{
   if (items.length == 0) {
     return <p>申請の項目が一件もありません</p>;
   }
+  /*
   return items.map((item) => {
     switch (item.type) {
       case "int":
         return (
           <NumberField
             id={item.id ?? ""}
-            name={item.name ?? ""}
+            label={item.name ?? ""}
             description={item.name ?? ""}
             required={item.required ?? true}
-            min={item.min !== undefined ? item.min : null}
-            max={item.max !== undefined ? item.max : null}
+            register={undefined}
           />
         );
       case "string":
         return (
-          <StringForm
+          <TextField
             id={item.id ?? ""}
             name={item.name ?? ""}
             description={item.name ?? ""}
@@ -74,4 +75,5 @@ export const FormItems: FC<{
         return <p>項目の読み込みに失敗しました</p>;
     }
   });
+  */
 };
