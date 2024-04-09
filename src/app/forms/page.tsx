@@ -11,7 +11,7 @@ import { Button } from "@/components/Button";
 import { FormsList } from "./FormsList";
 
 const DashboardPage: NextPage = () => {
-  const { data: projectRes, error: projectError } = useSWR("/projects/me", fetcherWithToken);
+  const { data: projectRes, error: projectError, isLoading: projectLoading } = useSWR("/projects/me", fetcherWithToken);
   const project = projectRes ? assignType("/projects/me", projectRes.json) : undefined;
 
   const projectId = project?.id;
