@@ -7,7 +7,7 @@ import { valibotResolver } from "@hookform/resolvers/valibot";
 import toast from "react-hot-toast";
 import { Button } from "@/components/Button";
 import { vstack } from "@styled-system/patterns";
-import { css } from "@styled-system/css";
+import { css, cx } from "@styled-system/css";
 import React from "react";
 import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
 import { components } from "@/schema";
@@ -61,6 +61,7 @@ export const handleCopyInviteLink = async (project_id: string, position: "owner"
 };
 
 export const ProjectTableView: React.FC<{
+  isCommittee?: boolean;
   isEditMode?: boolean;
   onSubmit?: () => unknown;
   hideSubOwner?: boolean;
@@ -209,6 +210,11 @@ export const ProjectTableView: React.FC<{
         <TableRow label="企画属性" formId="attributes">
           {<ProjectAttributesBadge attributes={projectData.attributes} />}
         </TableRow>
+        <div className={css({ display: "flex", justifyContent: "space-between", mt: 5 })}>
+          <label className={cx(css({ fontWeight: "bold" }))}>企画の削除</label>
+
+          <Button color="secondary">企画を削除</Button>
+        </div>
       </div>
       {isEditMode && (
         <Button type="submit" color="blue">

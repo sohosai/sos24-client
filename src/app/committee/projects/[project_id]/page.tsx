@@ -56,7 +56,7 @@ const NewsDetailsPage = ({ params }: { params: { project_id: string } }) => {
           企画詳細
         </h2>
 
-        <ProjectTableView projectData={project} />
+        <ProjectTableView projectData={project} isCommittee={true} />
       </div>
     </div>
   );
