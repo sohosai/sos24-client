@@ -36,6 +36,7 @@ const DashboardPage: NextPage = () => {
   const error = projectResError || formsResError || answersResError;
 
   const [filterUnsubmitted, setFilterUnsubmitted] = useState(false);
+  const [isHiddenFormsShown, setIsHiddenFormsShown] = useState(false);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -85,18 +86,24 @@ const DashboardPage: NextPage = () => {
             filterUnsubmitted={filterUnsubmitted}
           />
 
-          <h3
+          <button
             className={css({
               fontSize: "lg",
               fontWeight: "bold",
-            })}>
-            非表示中の申請
-          </h3>
-          <FormsList
-            forms={forms.filter((form) => hiddenFormIds.includes(form.id))}
-            answers={answers}
-            filterUnsubmitted={filterUnsubmitted}
-          />
+              cursor: "pointer",
+            })}
+            onClick={() => {
+              setIsHiddenFormsShown((prev) => !prev);
+            }}>
+            {isHiddenFormsShown ? "-" : "+" } 非表示中の申請
+          </button>
+          {isHiddenFormsShown && (
+            <FormsList
+              forms={forms.filter((form) => hiddenFormIds.includes(form.id))}
+              answers={answers}
+              filterUnsubmitted={filterUnsubmitted}
+            />
+          )}
         </div>
       </div>
     </>
