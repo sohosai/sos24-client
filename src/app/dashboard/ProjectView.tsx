@@ -30,35 +30,44 @@ const shareURL = async (url: string) => {
     });
 };
 
-export const handleCopyInviteLink = async (project_id: string, position: "owner" | "sub_owner") => {
-  const inviteId = localStorage.getItem("invitation_id");
+const getNewInvitationId = async (project_id: string, position: components["schemas"]["Invitation"]["position"]) => {
+  const res = await client.POST("/invitations", {
+    body: {
+      project_id,
+      position,
+    },
+  });
+  if (res.error) {
+    throw res.error;
+  }
+  localStorage.setItem("invitation_id", res.data.id ?? "");
+  return res.data.id;
+};
+
+const getInvitationIdWithCache = async (
+  project_id: string,
+  position: components["schemas"]["Invitation"]["position"],
+): Promise<string> => {
+  const invitationId = localStorage.getItem("invitation_id");
+
+  if (!invitationId) {
+    return await getNewInvitationId(project_id, position);
+  }
+
   const { data: dataFromAPI, error } = await client.GET("/invitations/{invitation_id}", {
-    params: { path: { invitation_id: inviteId ?? "" } },
+    params: { path: { invitation_id: invitationId ?? "" } },
   });
 
-  let idIsValid = false;
-  if (inviteId && !error) {
-    const invitation = assignType("/invitations/{invitation_id}", dataFromAPI);
-    if (!invitation.used_by) {
-      idIsValid = true;
-    }
+  if (!error && !assignType("/invitations/{invitation_id}", dataFromAPI).used_by) {
+    return invitationId;
+  } else {
+    return await getNewInvitationId(project_id, position);
+  }
+};
 
-    shareURL(`${document.location.origin}/invitations/${inviteId}`);
-    return;
-  }
-  if (!idIsValid || !inviteId) {
-    client
-      .POST("/invitations", {
-        body: {
-          project_id,
-          position,
-        },
-      })
-      .then((res) => {
-        localStorage.setItem("invitation_id", res.data?.id ?? "");
-        shareURL(`${document.location.origin}/invitations/${inviteId}`);
-      });
-  }
+export const handleCopyInviteLink = async (project_id: string, position: "owner" | "sub_owner") => {
+  const invitationId = await getInvitationIdWithCache(project_id, position);
+  shareURL(`${window.location.origin}/invitations/${invitationId}`);
 };
 
 export const ProjectTableView: React.FC<{
