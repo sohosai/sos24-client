@@ -4,7 +4,7 @@ import { useAuthState } from "@/lib/firebase";
 import { css } from "@styled-system/css";
 import { getAuth, signOut } from "firebase/auth";
 import { FC, useEffect, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Image from "next/image";
 import logo from "@/components/assets/Logo.svg";
 import useSWR from "swr";
@@ -104,7 +104,6 @@ export const Header: FC = () => {
           display: "block",
         },
       })}>
-      <Toaster />
       {showMobileMenu && (
         <MobileMenu
           menu={menu}
