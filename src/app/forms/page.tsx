@@ -12,7 +12,6 @@ import { NotificationBadge } from "@/components/NotificationBadge";
 import { useAtomValue } from "jotai";
 import { hiddenFormIdsAtom } from "./hiddenFormIds";
 
-
 const DashboardPage: NextPage = () => {
   const { data: projectRes, error: projectResError, isLoading: projectResIsLoading } = useSWR("/projects/me");
   const project = projectRes ? assignType("/projects/me", projectRes) : undefined;
