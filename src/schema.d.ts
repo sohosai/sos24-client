@@ -1484,7 +1484,7 @@ export interface paths {
         /** @description OK */
         200: {
           content: {
-            "application/json": components["schemas"]["ProjectApplicationPeriod"][];
+            "application/json": components["schemas"]["ProjectApplicationPeriod"];
           };
         };
         /** @description Unauthorized */
