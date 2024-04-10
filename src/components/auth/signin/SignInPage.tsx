@@ -2,7 +2,7 @@
 
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { FirebaseError } from "firebase/app";
 import { css, cx } from "@styled-system/css";
 import { basicErrorMessageStyle, basicFormStyle } from "@/components/formFields/styles";
@@ -41,7 +41,6 @@ export const SigninForm: React.FC = () => {
 
   return (
     <>
-      <Toaster />
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={css({
