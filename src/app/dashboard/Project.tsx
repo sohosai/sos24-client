@@ -36,6 +36,7 @@ export const Project: React.FC = () => {
               <div className={basicErrorMessageStyle}>企画取得に失敗しました</div>
             ) : (
               <ProjectTableView
+                isCommittee={false}
                 isEditMode={editable}
                 onSubmit={() => {
                   mutateProject(rawProjectData);
