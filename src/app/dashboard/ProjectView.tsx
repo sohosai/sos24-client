@@ -12,14 +12,17 @@ import React from "react";
 import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
 import { components } from "@/schema";
 import { TableRow } from "./TableRow";
-export const handleCopyInviteLink = async (project_id: string, position: "owner" | "sub_owner") => {
+export const handleCopyInviteLink = async (
+  project_id: string,
+  position: "owner" | "sub_owner",
+  isCommittee: boolean,
+) => {
   const inviteId = localStorage.getItem("invitation_id");
   const { data: dataFromAPI, error } = await client.GET("/invitations/{invitation_id}", {
     params: { path: { invitation_id: inviteId ?? "" } },
   });
-
   let idIsValid = false;
-  if (inviteId && !error) {
+  if (inviteId && !error && !isCommittee) {
     const invitation = assignType("/invitations/{invitation_id}", dataFromAPI);
     if (!invitation.used_by) {
       idIsValid = true;
@@ -34,7 +37,7 @@ export const handleCopyInviteLink = async (project_id: string, position: "owner"
       });
     return;
   }
-  if (!idIsValid || !inviteId) {
+  if (!idIsValid || !inviteId || isCommittee) {
     client
       .POST("/invitations", {
         body: {
@@ -65,7 +68,8 @@ export const ProjectTableView: React.FC<{
   onSubmit?: () => unknown;
   hideSubOwner?: boolean;
   projectData: components["schemas"]["Project"];
-}> = ({ isEditMode = false, onSubmit = () => {}, hideSubOwner = false, projectData }) => {
+  isCommittee?: boolean;
+}> = ({ isEditMode = false, onSubmit = () => {}, hideSubOwner = false, projectData, isCommittee }) => {
   const {
     register,
     formState: { errors },
@@ -196,7 +200,7 @@ export const ProjectTableView: React.FC<{
             {projectData.sub_owner_name ?? (
               <button
                 className={css({ color: "sohosai.purple", textDecoration: "underline", cursor: "pointer" })}
-                onClick={() => handleCopyInviteLink(projectData.id, "sub_owner")}
+                onClick={() => handleCopyInviteLink(projectData.id, "sub_owner", isCommittee ?? false)}
                 type="button">
                 招待リンクをコピー
               </button>
