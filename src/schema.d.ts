@@ -1477,6 +1477,31 @@ export interface paths {
       };
     };
   };
+  "/project-application-period": {
+    /** 企画募集期間を取得する */
+    get: {
+      responses: {
+        /** @description OK */
+        200: {
+          content: {
+            "application/json": components["schemas"]["ProjectApplicationPeriod"][];
+          };
+        };
+        /** @description Unauthorized */
+        401: {
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
+        };
+        /** @description Internal Server Error */
+        500: {
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
+        };
+      };
+    };
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -1985,6 +2010,12 @@ export interface components {
     };
     UpdateFormAnswer: {
       items: components["schemas"]["FormAnswerItem"];
+    };
+    ProjectApplicationPeriod: {
+      /** Format: date-time */
+      start_at: string;
+      /** Format: date-time */
+      end_at: string;
     };
   };
   responses: never;
