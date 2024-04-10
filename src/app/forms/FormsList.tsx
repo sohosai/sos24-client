@@ -12,6 +12,7 @@ import EyesOpenIcon from "@/components/assets/EyesOpen.svg";
 import EyesClosedIcon from "@/components/assets/EyesClosed.svg";
 import Image from "next/image";
 import { hiddenFormIdsAtom } from "./hiddenFormIds";
+import toast from "react-hot-toast";
 
 type Form = components["schemas"]["FormSummary"];
 type Answer = components["schemas"]["FormAnswerSummary"];
@@ -78,8 +79,10 @@ export const FormsList: FC<{
               onClick={() => {
                 setHiddenFormIds((prev) => {
                   if (prev.includes(form.id)) {
+                    toast.success("企画を再度表示するようにしました")
                     return prev.filter((i) => i != form.id);
                   } else {
+                    toast.success("企画を非表示にしました")
                     return [...prev, form.id];
                   }
                 });
