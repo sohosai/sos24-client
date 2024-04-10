@@ -97,7 +97,7 @@ export const ProjectTableView: React.FC<{
       });
   };
   return (
-    <form className={vstack({ width: "2xl" })} onSubmit={handleSubmit(submitForm)}>
+    <form className={vstack({ width: "full" })} onSubmit={handleSubmit(submitForm)}>
       <div>
         <TableRow label="企画名" formId="title">
           {isEditMode ? (
