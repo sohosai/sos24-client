@@ -3,14 +3,16 @@ on:
   pull_request:
     branches:
       - main
+      - develop
 
 jobs:
   prettier:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, portainer]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
+          node-version: "latest"
           cache: "npm"
           cache-dependency-path: "**/package-lock.json"
 
@@ -23,11 +25,12 @@ jobs:
           CI: true
 
   lint:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, portainer]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
+          node-version: "latest"
           cache: "npm"
           cache-dependency-path: "**/package-lock.json"
 
