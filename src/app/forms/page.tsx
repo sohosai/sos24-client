@@ -35,7 +35,7 @@ const DashboardPage: NextPage = () => {
   const isLoading = projectResIsLoading || formsResIsLoading || answersResIsLoading;
   const error = projectResError || formsResError || answersResError;
 
-  const [filterUnsubmitted, setFilterUnsubmitted] = useState(false);
+  const [isSubmittedShown, setIsSubmittedShown] = useState(true);
   const [isHiddenFormsShown, setIsHiddenFormsShown] = useState(false);
 
   if (isLoading) {
@@ -45,7 +45,7 @@ const DashboardPage: NextPage = () => {
   if (error || !forms || !answers) {
     return (
       <p>
-        フォームの取得中にエラーが発生しました
+        申請の取得中にエラーが発生しました
         <span>({String(projectResError)})</span>
         <span>({String(formsResError)})</span>
         <span>({String(answersResError)})</span>
@@ -53,8 +53,10 @@ const DashboardPage: NextPage = () => {
     );
   }
 
-  const notifications = forms.length - answers.length;
-  const toggleFilter = () => setFilterUnsubmitted((prev) => !prev);
+  const notifications = forms.filter(
+    (form) => !answers.map((answer) => answer.form_id).includes(form.id) && !hiddenFormIds.includes(form.id),
+  ).length;
+  const toggleFilter = () => setIsSubmittedShown((prev) => !prev);
 
   return (
     <>
@@ -77,13 +79,13 @@ const DashboardPage: NextPage = () => {
           </h2>
         </div>
         <div className={stack({ padding: 10, gap: 4, alignItems: "flex-start", width: "100%" })}>
-          <Button color={filterUnsubmitted ? "primary" : "secondary"} onClick={toggleFilter} onTouchEnd={toggleFilter}>
+          <Button color={isSubmittedShown ? "secondary" : "primary"} onClick={toggleFilter} onTouchEnd={toggleFilter}>
             未提出のみ表示
           </Button>
           <FormsList
             forms={forms.filter((form) => !hiddenFormIds.includes(form.id))}
             answers={answers}
-            filterUnsubmitted={filterUnsubmitted}
+            showSubmitted={!isSubmittedShown}
           />
 
           <button
@@ -101,7 +103,7 @@ const DashboardPage: NextPage = () => {
             <FormsList
               forms={forms.filter((form) => hiddenFormIds.includes(form.id))}
               answers={answers}
-              filterUnsubmitted={filterUnsubmitted}
+              showSubmitted={isSubmittedShown}
             />
           )}
         </div>

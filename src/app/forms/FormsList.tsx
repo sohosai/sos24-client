@@ -13,6 +13,7 @@ import EyesClosedIcon from "@/components/assets/EyesClosed.svg";
 import Image from "next/image";
 import { hiddenFormIdsAtom } from "./hiddenFormIds";
 import toast from "react-hot-toast";
+import { NoResultNotice } from "@/components/NoResultNotice";
 
 type Form = components["schemas"]["FormSummary"];
 type Answer = components["schemas"]["FormAnswerSummary"];
@@ -20,8 +21,8 @@ type Answer = components["schemas"]["FormAnswerSummary"];
 export const FormsList: FC<{
   forms: Form[];
   answers: Answer[];
-  filterUnsubmitted: boolean;
-}> = ({ forms, answers, filterUnsubmitted }) => {
+  showSubmitted: boolean;
+}> = ({ forms, answers, showSubmitted }) => {
   const [hiddenFormIds, setHiddenFormIds] = useAtom(hiddenFormIdsAtom);
 
   return (
@@ -53,7 +54,11 @@ export const FormsList: FC<{
         <div>タイトル</div>
         <div>締切まで</div>
       </div>
-
+      {forms.length == 0 && (
+        <div className={css({ gridColumn: "1/7" })}>
+          <NoResultNotice message="申請はありません" />
+        </div>
+      )}
       {forms.map((form) => {
         const answer = answers.find((ans) => {
           ans.id === form.id;
@@ -63,7 +68,7 @@ export const FormsList: FC<{
         const endsAt = dayjs(form.ends_at);
         const status = getSubmitStatus(endsAt, answer);
 
-        if (filterUnsubmitted && status !== "未提出") {
+        if (!showSubmitted && status !== "未提出") {
           return;
         }
 
@@ -79,10 +84,10 @@ export const FormsList: FC<{
               onClick={() => {
                 setHiddenFormIds((prev) => {
                   if (prev.includes(form.id)) {
-                    toast.success("企画を再度表示するようにしました");
+                    toast.success("申請を再度表示するようにしました");
                     return prev.filter((i) => i != form.id);
                   } else {
-                    toast.success("企画を非表示にしました");
+                    toast.success("申請を非表示にしました");
                     return [...prev, form.id];
                   }
                 });
