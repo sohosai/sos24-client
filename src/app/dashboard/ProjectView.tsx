@@ -37,7 +37,7 @@ export const handleCopyInviteLink = async (
       });
     return;
   }
-  if (!idIsValid || !inviteId || isCommittee) {
+  if (!idIsValid) {
     client
       .POST("/invitations", {
         body: {
