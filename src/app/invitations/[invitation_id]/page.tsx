@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { container, stack } from "@styled-system/patterns";
 import { Title } from "@/components/Title";
 import { Button } from "@/components/Button";
+import { LoadingUI } from "@/components/LoadingUI";
 
 export const runtime = "edge";
 
@@ -22,9 +23,7 @@ const PositionFormatter = ({ position }: { position: "owner" | "sub_owner" }) =>
 const InvitationPage = ({ params }: { params: { invitation_id: string } }) => {
   const router = useRouter();
   const { data, error, isLoading } = useSWR(`/invitations/${params.invitation_id}`);
-  if (isLoading) {
-    return;
-  }
+  if (isLoading) return <LoadingUI />;
   if (error) {
     switch (error.name) {
       case "invitation/not-found":

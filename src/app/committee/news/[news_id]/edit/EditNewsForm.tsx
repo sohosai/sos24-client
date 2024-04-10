@@ -16,6 +16,7 @@ import { ProjectCategorySelector } from "@/components/ProjectCategorySelector";
 import { TitleField } from "@/components/news/TitleField";
 import { BodyField } from "@/components/news/BodyField";
 import { Heading } from "@/components/Heading";
+import { LoadingUI } from "@/components/LoadingUI";
 
 export const EditNewsForm: FC<{
   news_id: string;
@@ -33,9 +34,7 @@ export const EditNewsForm: FC<{
   });
 
   const { data, error, isLoading } = useSWR(`/news/${news_id}`);
-  if (isLoading) {
-    return;
-  }
+  if (isLoading) return <LoadingUI />;
   if (error) {
     switch (error.name) {
       case "news/not-found":

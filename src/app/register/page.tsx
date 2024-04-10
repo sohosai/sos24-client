@@ -8,12 +8,13 @@ import { RegistrationProgress } from "@/components/RegistrationProgress";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
 import { assignType } from "@/lib/openapi";
+import { LoadingUI } from "@/components/LoadingUI";
 
 const RegisterPage = () => {
   const { data: userRes, isLoading, error } = useSWR("/users/me");
   const router = useRouter();
   const user = assignType("/users/me", userRes);
-  if (isLoading) return;
+  if (isLoading) return <LoadingUI />;
   if (error) return <p>エラーが発生しました</p>;
   if (user.owned_project_id) {
     router.push("/dashboard");

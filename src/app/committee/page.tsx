@@ -1,4 +1,5 @@
 "use client";
+import { LoadingUI } from "@/components/LoadingUI";
 import { assignType } from "@/lib/openapi";
 import { NextPage } from "next";
 import { useRouter } from "next/navigation";
@@ -8,7 +9,7 @@ const CommitteePage: NextPage = () => {
   const { data: userRes, isLoading, error } = useSWR("/users/me");
   const router = useRouter();
   const user = assignType("/users/me", userRes);
-  if (isLoading) return;
+  if (isLoading) return <LoadingUI />;
   if (error) return <p>エラーが発生しました</p>;
   if (user.role === "general") {
     router.push("/");

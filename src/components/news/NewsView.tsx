@@ -11,6 +11,7 @@ import { Button } from "@/components/Button";
 import { css } from "@styled-system/css";
 import Image from "next/image";
 import plusIcon from "@/components/assets/Plus.svg";
+import { LoadingUI } from "../LoadingUI";
 
 // 対象の企画であるかを確認する
 const isTargetProject = (
@@ -58,9 +59,7 @@ export const NewsView: FC<{
 
   const { data: newsData, error: newsError, isLoading: isLoadingNews } = useSWR("/news");
   const { data: projectData, error: projectError, isLoading: isLoadingProject } = useSWR("/projects/me");
-  if (isLoadingNews || isLoadingProject) {
-    return;
-  }
+  if (isLoadingNews || isLoadingProject) return <LoadingUI />;
   if (newsError) {
     return <p>お知らせの読み込み中に不明なエラーが発生しました。</p>;
   }

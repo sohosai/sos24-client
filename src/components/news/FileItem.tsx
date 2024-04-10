@@ -5,14 +5,13 @@ import { css } from "@styled-system/css";
 import downloadIcon from "@/components/assets/Download.svg";
 import Image from "next/image";
 import { FC } from "react";
+import { LoadingUI } from "@/components/LoadingUI";
 
 export const FileItem: FC<{
   file_id: string;
 }> = ({ file_id }) => {
   const { data, error, isLoading } = useSWR(`/files/${file_id}`);
-  if (isLoading) {
-    return;
-  }
+  if (isLoading) return <LoadingUI />;
   if (error) {
     switch (error.code) {
       case "file/not-found":

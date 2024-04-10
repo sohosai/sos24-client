@@ -5,13 +5,12 @@ import { assignType } from "@/lib/openapi";
 import { container } from "@styled-system/patterns";
 import { News } from "@/components/news/News";
 import { NextPage } from "next";
+import { LoadingUI } from "@/components/LoadingUI";
 
 export const runtime = "edge";
 const CommitteeNewsDetailsPage: NextPage<{ params: { news_id: string } }> = ({ params }) => {
   const { data, error, isLoading } = useSWR(`/news/${params.news_id}`);
-  if (isLoading) {
-    return;
-  }
+  if (isLoading) return <LoadingUI />;
   if (error) {
     switch (error.name) {
       case "news/not-found":
