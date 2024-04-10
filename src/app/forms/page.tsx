@@ -95,7 +95,7 @@ const DashboardPage: NextPage = () => {
             onClick={() => {
               setIsHiddenFormsShown((prev) => !prev);
             }}>
-            {isHiddenFormsShown ? "-" : "+" } 非表示中の申請
+            {isHiddenFormsShown ? "-" : "+"} 非表示中の申請
           </button>
           {isHiddenFormsShown && (
             <FormsList

@@ -79,10 +79,10 @@ export const FormsList: FC<{
               onClick={() => {
                 setHiddenFormIds((prev) => {
                   if (prev.includes(form.id)) {
-                    toast.success("企画を再度表示するようにしました")
+                    toast.success("企画を再度表示するようにしました");
                     return prev.filter((i) => i != form.id);
                   } else {
-                    toast.success("企画を非表示にしました")
+                    toast.success("企画を非表示にしました");
                     return [...prev, form.id];
                   }
                 });
