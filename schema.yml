@@ -1541,9 +1541,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProjectApplicationPeriod'
+                $ref: '#/components/schemas/ProjectApplicationPeriod'
         '401':
           description: Unauthorized
           content:
