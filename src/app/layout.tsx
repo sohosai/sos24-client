@@ -4,6 +4,7 @@ import { AuthProvider } from "@/lib/auth";
 
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,6 +19,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
+        <Toaster />
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

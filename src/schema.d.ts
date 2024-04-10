@@ -4,6 +4,17 @@
  */
 
 export interface paths {
+  "/health": {
+    /** サーバーの状態を確認する */
+    get: {
+      responses: {
+        /** @description OK */
+        200: {
+          content: never;
+        };
+      };
+    };
+  };
   "/projects": {
     /** 企画一覧の取得 */
     get: {
@@ -16,15 +27,21 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -44,15 +61,21 @@ export interface paths {
         };
         /** @description Bad Request */
         400: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unprocessable Entity */
         422: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -69,11 +92,15 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -90,15 +117,21 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Not Found */
         404: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -120,19 +153,27 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Not Found */
         404: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -155,27 +196,39 @@ export interface paths {
         };
         /** @description Bad Request */
         400: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Not Found */
         404: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unprocessable Entity */
         422: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -193,19 +246,27 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Not Found */
         404: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -222,15 +283,21 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -250,15 +317,21 @@ export interface paths {
         };
         /** @description Bad Request */
         400: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unprocessable Entity */
         422: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -275,11 +348,15 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -296,11 +373,15 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -322,19 +403,27 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Not Found */
         404: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -357,27 +446,39 @@ export interface paths {
         };
         /** @description Bad Request */
         400: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Not Found */
         404: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unprocessable Entity */
         422: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -391,23 +492,33 @@ export interface paths {
       responses: {
         /** @description OK */
         200: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Not Found */
         404: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -424,11 +535,15 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -448,23 +563,33 @@ export interface paths {
         };
         /** @description Bad Request */
         400: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unprocessable Entity */
         422: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -486,15 +611,21 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Not Found */
         404: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -517,27 +648,39 @@ export interface paths {
         };
         /** @description Bad Request */
         400: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Not Found */
         404: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unprocessable Entity */
         422: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -555,19 +698,27 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Not Found */
         404: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -584,15 +735,21 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -617,23 +774,33 @@ export interface paths {
         };
         /** @description Bad Request */
         400: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unprocessable Entity */
         422: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -655,15 +822,21 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -681,15 +854,21 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -706,15 +885,21 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -734,23 +919,33 @@ export interface paths {
         };
         /** @description Bad Request */
         400: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unprocessable Entity */
         422: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -772,19 +967,27 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Not Found */
         404: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -802,19 +1005,27 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Not Found */
         404: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -832,19 +1043,27 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Not Found */
         404: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -866,19 +1085,27 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Not Found */
         404: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -898,23 +1125,33 @@ export interface paths {
         };
         /** @description Bad Request */
         400: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unprocessable Entity */
         422: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -936,15 +1173,21 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Not Found */
         404: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -967,27 +1210,39 @@ export interface paths {
         };
         /** @description Bad Request */
         400: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Not Found */
         404: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unprocessable Entity */
         422: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -1005,19 +1260,27 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Not Found */
         404: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -1040,19 +1303,27 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Not Found */
         404: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -1072,27 +1343,39 @@ export interface paths {
         };
         /** @description Bad Request */
         400: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Not Found */
         404: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unprocessable Entity */
         422: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -1114,19 +1397,27 @@ export interface paths {
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Not Found */
         404: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -1149,27 +1440,39 @@ export interface paths {
         };
         /** @description Bad Request */
         400: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unauthorized */
         401: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Forbidden */
         403: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Not Found */
         404: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Unprocessable Entity */
         422: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
         /** @description Internal Server Error */
         500: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["Error"];
+          };
         };
       };
     };
@@ -1199,7 +1502,16 @@ export interface components {
       /** @example そぽたん焼き */
       title: string;
       category: components["schemas"]["ProjectCategory"];
-      attribute: components["schemas"]["ProjectAttribute"][];
+      attributes: components["schemas"]["ProjectAttribute"][];
+      /** Format: uuid */
+      owner_id: string;
+      owner_name: string;
+      /** Format: email */
+      owner_email: string;
+    };
+    Error: {
+      code?: string;
+      message?: string;
     };
     CreateProject: {
       /** @example そぽたん焼き */
@@ -1291,6 +1603,8 @@ export interface components {
       email: string;
       phone_number: string;
       role: components["schemas"]["UserRole"];
+      owned_project_id?: string | null;
+      owned_project_title?: string | null;
       /** Format: date-time */
       created_at: string;
       /** Format: date-time */
