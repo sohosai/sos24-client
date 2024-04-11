@@ -1,4 +1,4 @@
-import { basicErrorMessageStyle, basicFormStyle } from "@/components/forms/styles";
+import { basicErrorMessageStyle, basicFormStyle } from "@/components/formFields/styles";
 import { ProjectAttributesBadge } from "@/components/project/AttirbutesBadge";
 import { assignType, client } from "@/lib/openapi";
 import { useForm } from "react-hook-form";
@@ -12,55 +12,68 @@ import React from "react";
 import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
 import { components } from "@/schema";
 import { TableRow } from "./TableRow";
-export const handleCopyInviteLink = async (
+
+const shareURL = async (url: string) => {
+  navigator.clipboard
+    .writeText(url)
+    .then(() => {
+      toast.success("招待リンクをコピーしました");
+    })
+    .catch(() => {
+      navigator
+        .share({
+          url,
+        })
+        .catch(() => {
+          toast.error("招待リンクを共有できませんでした");
+        });
+    });
+};
+
+const getNewInvitationId = async (project_id: string, position: components["schemas"]["Invitation"]["position"]) => {
+  const res = await client.POST("/invitations", {
+    body: {
+      project_id,
+      position,
+    },
+  });
+  if (res.error) {
+    throw res.error;
+  }
+  localStorage.setItem("invitation_id", res.data.id ?? "");
+  return res.data.id;
+};
+
+const getInvitationIdWithCache = async (
+  project_id: string,
+  position: components["schemas"]["Invitation"]["position"],
+): Promise<string> => {
+  const invitationId = localStorage.getItem("invitation_id");
+
+  if (!invitationId) {
+    return await getNewInvitationId(project_id, position);
+  }
+
+  const { data: dataFromAPI, error } = await client.GET("/invitations/{invitation_id}", {
+    params: { path: { invitation_id: invitationId ?? "" } },
+  });
+
+  if (!error && !assignType("/invitations/{invitation_id}", dataFromAPI).used_by) {
+    return invitationId;
+  } else {
+    return await getNewInvitationId(project_id, position);
+  }
+};
+
+export const handleShareInviteLink = async (
   project_id: string,
   position: "owner" | "sub_owner",
-  isCommittee: boolean,
+  useCache?: boolean,
 ) => {
-  const inviteId = localStorage.getItem("invitation_id");
-  const { data: dataFromAPI, error } = await client.GET("/invitations/{invitation_id}", {
-    params: { path: { invitation_id: inviteId ?? "" } },
-  });
-  let idIsValid = false;
-  if (inviteId && !error && !isCommittee) {
-    const invitation = assignType("/invitations/{invitation_id}", dataFromAPI);
-    if (!invitation.used_by) {
-      idIsValid = true;
-    }
-    navigator.clipboard
-      .writeText(`${document.location.origin}/invitations/${inviteId}`)
-      .then(() => {
-        toast.success("招待リンクをコピーしました");
-      })
-      .catch(() => {
-        toast.error("招待リンクのコピーに失敗しました");
-      });
-    return;
-  }
-  if (!idIsValid) {
-    client
-      .POST("/invitations", {
-        body: {
-          project_id,
-          position,
-        },
-      })
-      .then((res) => {
-        localStorage.setItem("invitation_id", res.data?.id ?? "");
-        navigator.clipboard
-          .writeText(`${document.location.origin}/invitations/${res.data?.id}`)
-          .then(() => {
-            toast.success("招待リンクをコピーしました");
-          })
-          .catch(() => {
-            toast.error("招待リンクのコピーに失敗しました");
-          });
-      })
-      .catch((e) => {
-        toast.error("招待リンクの作成に失敗しました");
-        throw new Error(e);
-      });
-  }
+  const invitationId = useCache
+    ? await getInvitationIdWithCache(project_id, position)
+    : await getNewInvitationId(project_id, position);
+  shareURL(`${window.location.origin}/invitations/${invitationId}`);
 };
 
 export const ProjectTableView: React.FC<{
@@ -69,7 +82,7 @@ export const ProjectTableView: React.FC<{
   hideSubOwner?: boolean;
   projectData: components["schemas"]["Project"];
   isCommittee?: boolean;
-}> = ({ isEditMode = false, onSubmit = () => {}, hideSubOwner = false, projectData, isCommittee }) => {
+}> = ({ isEditMode = false, onSubmit = () => {}, hideSubOwner = false, projectData, isCommittee = false }) => {
   const {
     register,
     formState: { errors },
@@ -101,7 +114,7 @@ export const ProjectTableView: React.FC<{
       });
   };
   return (
-    <form className={vstack({ width: "2xl" })} onSubmit={handleSubmit(submitForm)}>
+    <form className={vstack({ width: "full" })} onSubmit={handleSubmit(submitForm)}>
       <div>
         <TableRow label="企画名" formId="title">
           {isEditMode ? (
@@ -200,9 +213,9 @@ export const ProjectTableView: React.FC<{
             {projectData.sub_owner_name ?? (
               <button
                 className={css({ color: "sohosai.purple", textDecoration: "underline", cursor: "pointer" })}
-                onClick={() => handleCopyInviteLink(projectData.id, "sub_owner", isCommittee ?? false)}
+                onClick={() => handleShareInviteLink(projectData.id, "sub_owner", !isCommittee)}
                 type="button">
-                招待リンクをコピー
+                招待リンクを共有
               </button>
             )}
           </TableRow>

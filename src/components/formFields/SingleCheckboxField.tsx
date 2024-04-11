@@ -1,16 +1,11 @@
-import { UseFormRegisterReturn } from "react-hook-form";
-import { basicErrorMessageStyle, checkboxFormStyle } from "@/components/forms/styles";
+import { basicFieldProps } from "./_components/types";
+import { basicErrorMessageStyle, checkboxFormStyle } from "./styles";
 import { css } from "@styled-system/css";
 import { flex } from "@styled-system/patterns";
 
-interface CheckboxFieldProps {
-  id: string;
-  label: string;
-  register: UseFormRegisterReturn;
-  error?: string;
-}
+interface SingleCheckboxFieldProps extends basicFieldProps {}
 
-export const CheckboxField = ({ id, label, register, error }: CheckboxFieldProps) => {
+export const SingleCheckboxField = ({ id, label, register, error }: SingleCheckboxFieldProps) => {
   return (
     <div>
       <div

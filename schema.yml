@@ -1530,6 +1530,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /project-application-period:
+    get:
+      summary: 企画募集期間を取得する
+      tags:
+        - projects
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectApplicationPeriod'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   securitySchemes:
     Bearer:
@@ -2588,3 +2612,15 @@ components:
           $ref: '#/components/schemas/FormAnswerItem'
       required:
         - items
+    ProjectApplicationPeriod:
+      type: object
+      properties:
+        start_at:
+          type: string
+          format: date-time
+        end_at:
+          type: string
+          format: date-time
+      required:
+        - start_at
+        - end_at
