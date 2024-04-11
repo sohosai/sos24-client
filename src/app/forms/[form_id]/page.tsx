@@ -5,11 +5,12 @@ import { useForm } from "react-hook-form";
 import { assignType } from "@/lib/openapi";
 import { css } from "@styled-system/css";
 
-import { FormItems } from "./FormItems";
+import { FormItems, formFieldsType } from "./FormItems";
 import dayjs from "dayjs";
 import { getTimeLeftText, getSubmitStatusFromDate } from "@/lib/formHelpers";
 import { type SubmitStatus, SubmitStatusBadge } from "@/components/SubmitStatus";
 import { Loading } from "@/components/Loading";
+import { Button } from "@/components/Button";
 
 export const runtime = "edge";
 
@@ -32,12 +33,16 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
   const _answers = assignType("/form-answers", answersRes);
 
   const status: SubmitStatus = getSubmitStatusFromDate(form?.ends_at, form?.answered_at);
+  const onSubmit = async (data: formFieldsType) => {
+    console.log(errors);
+    console.log(data);
+  };
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({ mode: "onBlur" });
 
   return (
     <>
@@ -77,6 +82,7 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
                 {form.description}
               </p>
               <form
+                onSubmit={handleSubmit(onSubmit)}
                 className={css({
                   marginBlock: 10,
                   display: "flex",
@@ -84,6 +90,7 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
                   rowGap: 3,
                 })}>
                 <FormItems items={form.items} register={register} errors={errors} />
+                <Button color="primary">送信</Button>
               </form>
             </>
           )}
