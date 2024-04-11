@@ -2,7 +2,7 @@ import { css } from "@styled-system/css";
 import Image from "next/image";
 import categoryIcon from "@/components/assets/CategoryIcon.svg";
 import { UseFormRegisterReturn } from "react-hook-form";
-import { basicErrorMessageStyle, basicFormLabelStyle } from "@/components/forms/styles";
+import { basicErrorMessageStyle, basicFormLabelStyle } from "@/components/formFields/styles";
 import { flex, hstack, stack, visuallyHidden } from "@styled-system/patterns";
 import { ProjectPlace } from "@/lib/valibot";
 

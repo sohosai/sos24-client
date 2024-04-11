@@ -4,7 +4,7 @@ import { useAuthState } from "@/lib/firebase";
 import { css } from "@styled-system/css";
 import { getAuth, signOut } from "firebase/auth";
 import { FC, useEffect, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Image from "next/image";
 import logo from "@/components/assets/Logo.svg";
 import useSWR from "swr";
@@ -42,8 +42,7 @@ const generalMenu: MenuData[] = [
 
 const committeeMenu: MenuData[] = [
   {
-    // ToDo: merge待ち
-    path: "/committee/projects" as Route,
+    path: "/committee/projects",
     name: "企画",
   },
   {
@@ -55,7 +54,7 @@ const committeeMenu: MenuData[] = [
     name: "お知らせ",
   },
   {
-    path: "/committee/users" as Route,
+    path: "/committee/users",
     name: "ユーザ",
   },
 ];
@@ -105,7 +104,6 @@ export const Header: FC = () => {
           display: "block",
         },
       })}>
-      <Toaster />
       {showMobileMenu && (
         <MobileMenu
           menu={menu}

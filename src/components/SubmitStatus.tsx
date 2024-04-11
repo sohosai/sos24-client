@@ -1,13 +1,13 @@
 import { cva, cx } from "@styled-system/css";
 
-export type submitStatus = "未提出" | "提出済み" | "遅延提出";
+export type SubmitStatus = "未提出" | "提出済み" | "遅延提出";
 
 type Props = {
-  status: submitStatus;
+  status: SubmitStatus;
   className?: string;
 };
 
-export const SubmitStatus = ({ status, className }: Props) => {
+export const SubmitStatusBadge = ({ status, className }: Props) => {
   const submitStatus = cva({
     base: {
       borderRadius: "md",

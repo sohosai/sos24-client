@@ -1,10 +1,12 @@
 import { css } from "@styled-system/css";
 import dayjs from "dayjs";
 import Link from "next/link";
-import { flex } from "@styled-system/patterns";
 import { CategoryBadges } from "@/components/CategoryBadges";
 import { FC } from "react";
 import { ProjectCategory } from "@/lib/valibot";
+import Image from "next/image";
+import arrowIcon from "@/components/assets/Arrow.svg";
+import { NoResultNotice } from "../NoResultNotice";
 
 type News = {
   id: string;
@@ -12,8 +14,6 @@ type News = {
   categories: ProjectCategory[];
   updated_at: string;
 };
-
-import { NoResultNotice } from "../NoResultNotice";
 
 export const NewsList: FC<{
   newsList: News[];
@@ -23,18 +23,26 @@ export const NewsList: FC<{
     <div>
       <div
         className={css({
-          display: "grid",
-          alignItems: "center",
-          gridTemplateColumns: "1fr 5fr",
-          "& > * > *": {
-            pl: 4,
-            pr: 4,
-            lineHeight: 3,
+          sm: {
+            display: "grid",
+            alignItems: "center",
+            gridTemplateColumns: "1fr 5fr",
+            "& > * > *": {
+              pl: 4,
+              pr: 4,
+              lineHeight: 3,
+            },
+            gap: 0,
+          },
+          base: {
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
           },
         })}>
         <div
           className={css({
-            display: "contents",
+            display: { sm: "contents", base: "none" },
             "& > *": {
               borderColor: "gray.500",
               borderBottom: "1px solid",
@@ -50,48 +58,73 @@ export const NewsList: FC<{
               key={news.id}
               href={isCommittee ? `/committee/news/${news.id}` : `/news/${news.id}`}
               className={css({
-                display: "contents",
-                "& > *": {
+                sm: {
+                  display: "contents",
+                  "& > *": {
+                    borderColor: "gray.200",
+                    borderBottom: "1px solid",
+                  },
+                },
+                base: {
+                  display: "grid",
+                  gridTemplateColumns: "auto 1fr",
+                  gridTemplateRows: "auto auto",
+                  columnGap: 3,
+                  rowGap: 1,
+                  paddingY: 2,
+                  borderBlockEnd: 4,
+                  borderStyle: "dotted",
                   borderColor: "gray.200",
-                  borderBottom: "1px solid",
                 },
               })}>
               <div
                 className={css({
                   fontSize: "sm",
                   fontWeight: "bold",
+                  height: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  smDown: {
+                    gridColumn: "1/2",
+                    gridRow: "1/2",
+                    height: "auto",
+                  },
                 })}>
-                {dayjs(news.updated_at).format("YYYY/MM/DD")}
+                <span>{dayjs(news.updated_at).format("YYYY/MM/DD")}</span>
               </div>
               <div
-                className={flex({
+                className={css({
+                  display: { sm: "flex", base: "contents" },
                   alignItems: "center",
                   gap: 4,
                   fontSize: "sm",
+                  height: "100%",
+                  paddingY: 1,
                 })}>
                 <span
                   className={css({
-                    display: "contents",
-                    "& > *": {
-                      borderColor: "gray.200",
-                      borderBottom: "1px solid",
+                    verticalAlign: "middle",
+                    lineHeight: 1.6,
+                    smDown: {
+                      display: "flex",
+                      gap: 1,
+                      gridColumn: "1/3",
+                      gridRow: "2/3",
+                      paddingY: 2,
                     },
                   })}>
-                  <div
-                    className={flex({
-                      alignItems: "center",
-                      gap: 4,
-                      fontSize: "sm",
-                    })}>
-                    <span
-                      className={css({
-                        verticalAlign: "middle",
-                      })}>
-                      {news.title}
-                    </span>
-                    <CategoryBadges categories={news.categories} />
-                  </div>
+                  <Image
+                    src={arrowIcon}
+                    alt=""
+                    className={css({
+                      display: { base: "inline-block", sm: "none" },
+                      color: "sohosai.purple",
+                    })}
+                  />
+
+                  {news.title}
                 </span>
+                <CategoryBadges categories={news.categories} />
               </div>
             </Link>
           ))

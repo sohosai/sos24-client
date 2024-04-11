@@ -11,9 +11,9 @@ import { assignType, client } from "@/lib/openapi";
 import { FC, useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { basicErrorMessageStyle, basicFormStyle } from "@/components/forms/styles";
 import { UserRoleFormatter } from "@/components/user/UserRoleFormatter";
 import { components } from "@/schema";
+import { basicFormStyle, basicErrorMessageStyle } from "@/components/formFields/styles";
 
 let labelAndInputStyle = css({
   display: "flex",
