@@ -1,7 +1,7 @@
 "use client";
 
 import useSWR from "swr";
-import { fetcherWithToken } from "@/lib/swr";
+import { useForm } from "react-hook-form";
 import { assignType } from "@/lib/openapi";
 import { css } from "@styled-system/css";
 
@@ -9,24 +9,35 @@ import { FormItems } from "./FormItems";
 import dayjs from "dayjs";
 import { type SubmitStatus, SubmitStatusBadge } from "@/components/SubmitStatus";
 import { getTimeLeftText, getSubmitStatusFromDate } from "@/lib/formHelpers";
+import { Loading } from "@/components/Loading";
 
 export const runtime = "edge";
 
 const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
   const id = params.form_id;
 
-  const { data: projectRes } = useSWR("/projects/me", fetcherWithToken);
-  const project = projectRes ? assignType("/projects/me", projectRes) : undefined;
+  const { data: projectRes, error: projectError, isLoading: projectLoading } = useSWR("/projects/me");
+  const project = assignType("/projects/me", projectRes);
 
   const projectId = project?.id;
 
-  const { data: formRes } = useSWR(`/forms/${id}/`, fetcherWithToken);
-  const form = formRes ? assignType("/forms/{form_id}", formRes) : undefined;
+  const { data: formRes, error: formError, isLoading: formLoading } = useSWR(`/forms/${id}`);
+  const form = assignType("/forms/{form_id}", formRes);
 
-  const { data: answersRes } = useSWR(`/form-answers?project_id=${projectId}`, fetcherWithToken);
-  const _answers = answersRes ? assignType("/form-answers", answersRes) : undefined;
+  const {
+    data: answersRes,
+    error: answersError,
+    isLoading: answersLoading,
+  } = useSWR(`/form-answers?project_id=${projectId}`);
+  const _answers = assignType("/form-answers", answersRes);
 
   const status: SubmitStatus = getSubmitStatusFromDate(form?.ends_at, form?.answered_at);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   return (
     <>
@@ -39,15 +50,17 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
             maxWidth: "2xl",
             marginInline: "auto",
           })}>
-          {(projectRes && !projectRes.ok) || (formRes && !formRes?.ok) || (answersRes && !answersRes?.ok) ? (
+          {projectLoading || formLoading || answersLoading ? (
+            <Loading />
+          ) : projectError || formError || answersError ? (
             <p>
               申請の取得中にエラーが発生しました(
-              {(projectRes && !projectRes?.ok ? `Project: ${projectRes?.statusCode} ` : "") +
-                (formRes && !formRes?.ok ? `Forms: ${formRes?.statusCode} ` : "") +
-                (answersRes && !answersRes?.ok ? `Answers: ${answersRes?.statusCode}` : "")}
+              {(projectError ? `Project: ${projectError.message} ` : "") +
+                (formError ? `Forms: ${formError.message} ` : "") +
+                (answersError ? `Answers: ${answersError.message}` : "")}
               )
             </p>
-          ) : form ? (
+          ) : (
             <>
               <h2>{form.title}</h2>
               <p>
@@ -64,18 +77,15 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
                 {form.description}
               </p>
               <form
-                noValidate
                 className={css({
                   marginBlock: 10,
                   display: "flex",
                   flexDirection: "column",
                   rowGap: 3,
                 })}>
-                <FormItems items={form.items} />
+                <FormItems items={form.items} register={register} errors={errors} />
               </form>
             </>
-          ) : (
-            <p className={css({ width: "100%", textAlign: "center" })}>申請内容を読み込み中です……</p>
           )}
         </div>
       </div>
