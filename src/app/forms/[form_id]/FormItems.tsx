@@ -20,10 +20,12 @@ export type FormFieldsTypeMap = {
   file: FileList;
 };
 
+export type formFieldsType = { [x: string]: valueof<FormFieldsTypeMap> };
+
 type Props = {
   items: FormItem[] | undefined;
-  register: UseFormRegister<{ [x: string]: valueof<FormFieldsTypeMap> }>;
-  errors: FieldErrors<{ [x: string]: valueof<FormFieldsTypeMap> }>;
+  register: UseFormRegister<formFieldsType>;
+  errors: FieldErrors<formFieldsType>;
 };
 
 export const FormItems: FC<Props> = ({ items, register, errors }) => {
@@ -42,7 +44,11 @@ export const FormItems: FC<Props> = ({ items, register, errors }) => {
             label={item.name}
             description={item.description}
             required={item.required ?? true}
-            register={register(item.id)}
+            register={register(item.id, {
+              required: { value: item.required, message: "数字を入力してください。" },
+              max: item.max ? { value: item.max, message: `${item.max}以下の数字を入力してください` } : undefined,
+              min: item.min ? { value: item.min, message: `${item.min}以上の数字を入力してください` } : undefined,
+            })}
             error={errors[item.id]?.message}
           />
         );
@@ -54,7 +60,15 @@ export const FormItems: FC<Props> = ({ items, register, errors }) => {
             label={item.name}
             description={item.description}
             required={item.required ?? true}
-            register={register(item.id)}
+            register={register(item.id, {
+              required: { value: item.required, message: "文字を入力してください。" },
+              maxLength: item.max_length
+                ? { value: item.max_length, message: `${item.max_length}文字以下で入力してください` }
+                : undefined,
+              minLength: item.min_length
+                ? { value: item.min_length, message: `${item.min_length}文字以上で入力してください` }
+                : undefined,
+            })}
             error={errors[item.id]?.message}
           />
         );
@@ -66,7 +80,9 @@ export const FormItems: FC<Props> = ({ items, register, errors }) => {
             description={item.description}
             required={item.required ?? true}
             options={item.options ?? []}
-            register={register(item.id)}
+            register={register(item.id, {
+              required: { value: item.required, message: "項目を選択してください。" },
+            })}
             error={errors[item.id]?.message}
           />
         );
