@@ -1,26 +1,36 @@
 "use client";
 
-import { container, stack } from "@styled-system/patterns";
+import { container, hstack, stack } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
-import { assignType } from "@/lib/openapi";
-import dayjs from "dayjs";
+import { assignType, client } from "@/lib/openapi";
 import Link from "next/link";
 import useSWR from "swr";
 import { ProjectTableView } from "@/app/dashboard/ProjectView";
+import { Button } from "@/components/Button";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export const runtime = "edge";
 
+const deleteProject = async (project_id: string) => {
+  await client.DELETE("/projects/{project_id}", { params: { path: { project_id } } }).catch((e) => {
+    throw e;
+  });
+};
+
 const NewsDetailsPage = ({ params }: { params: { project_id: string } }) => {
   const { data, error, isLoading } = useSWR(`/projects/${params.project_id}`);
+  const router = useRouter();
+
   if (isLoading) {
     return;
   }
   if (error) {
     switch (error.name) {
-      case "news/not-found":
-        return <p>このお知らせは存在しません。</p>;
+      case "projects/not-found":
+        return <p>この企画は存在しません。</p>;
       default:
-        return <p>お知らせの読み込み中に不明なエラーが発生しました。</p>;
+        return <p>企画の読み込み中に不明なエラーが発生しました。</p>;
     }
   }
 
@@ -41,12 +51,6 @@ const NewsDetailsPage = ({ params }: { params: { project_id: string } }) => {
           })}>
           ←企画一覧に戻る
         </Link>
-        <p
-          className={css({
-            fontSize: "xs",
-          })}>
-          最終更新: {project && dayjs(project.updated_at).format("YYYY/MM/DD")}
-        </p>
         <h2
           className={css({
             fontSize: "2xl",
@@ -56,7 +60,27 @@ const NewsDetailsPage = ({ params }: { params: { project_id: string } }) => {
           企画詳細
         </h2>
 
-        <ProjectTableView projectData={project} isCommittee={true} />
+        <ProjectTableView projectData={project} isCommittee />
+
+        <section className={hstack({ justifyContent: "space-between" })}>
+          <h3 className={css({ fontWeight: "bold" })}>企画の削除</h3>
+          <Button
+            color="secondary"
+            onClick={() => {
+              if (window.confirm("本当に削除して良いですか?")) {
+                deleteProject(project.id)
+                  .then(() => {
+                    toast.success("企画を削除しました");
+                    router.push("/committee/projects");
+                  })
+                  .catch(() => {
+                    toast.error("企画の削除に失敗しました");
+                  });
+              }
+            }}>
+            削除
+          </Button>
+        </section>
       </div>
     </div>
   );

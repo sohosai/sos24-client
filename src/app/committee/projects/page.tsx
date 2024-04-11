@@ -11,7 +11,7 @@ import useSWR from "swr";
 import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
 import { filterSelectorStyle } from "@/components/news/FilterSelector";
 import { AttributesFormatter } from "@/components/project/AttributesFormatter";
-import { projectCategories } from "@/lib/valibot";
+import { projectAttributes, projectCategories } from "@/lib/valibot";
 import { NoResultNotice } from "@/components/NoResultNotice";
 const filterStyle = css({
   position: "relative",
@@ -22,14 +22,6 @@ const filterStyle = css({
   appearance: "none",
   paddingLeft: 6,
 });
-// ToDo: 後でvalibotと統合
-const projectAttributes: components["schemas"]["ProjectAttribute"][] = [
-  "academic",
-  "art",
-  "official",
-  "inside",
-  "outside",
-];
 const ProjectsPage: NextPage = () => {
   const { data: rawProjectsData, isLoading, error } = useSWR("/projects");
   const projectsData = assignType("/projects", rawProjectsData) ?? [];
@@ -63,7 +55,7 @@ const ProjectsPage: NextPage = () => {
           <option value="">企画属性</option>
           {projectAttributes.map((e) => (
             <option value={e} key={e}>
-              <AttributesFormatter attribute={e} />
+              <AttributesFormatter attribute={e as components["schemas"]["ProjectAttribute"]} />
             </option>
           ))}
         </select>
