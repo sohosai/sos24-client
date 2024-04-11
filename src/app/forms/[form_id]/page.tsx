@@ -8,7 +8,7 @@ import { css } from "@styled-system/css";
 import { FormItems } from "./FormItems";
 import dayjs from "dayjs";
 import { getTimeLeftText, getSubmitStatusFromDate } from "@/lib/formHelpers";
-import { SubmitStatus, submitStatus } from "@/components/SubmitStatus";
+import { type SubmitStatus, SubmitStatusBadge } from "@/components/SubmitStatus";
 
 export const runtime = "edge";
 
@@ -26,7 +26,7 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
   const { data: answersRes } = useSWR(`/form-answers?project_id=${projectId}`, fetcherWithToken);
   const _answers = answersRes ? assignType("/form-answers", answersRes) : undefined;
 
-  const status: submitStatus = getSubmitStatusFromDate(form?.ends_at, form?.answered_at);
+  const status: SubmitStatus = getSubmitStatusFromDate(form?.ends_at, form?.answered_at);
 
   return (
     <>
@@ -54,7 +54,7 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
                 <span>
                   {dayjs(form.ends_at).format("YYYY/MM/DD")} ({getTimeLeftText(dayjs(), dayjs(form.ends_at), status)})
                 </span>
-                <SubmitStatus status={status} className={css({ marginInline: 3 })} />
+                <SubmitStatusBadge status={status} className={css({ marginInline: 3 })} />
               </p>
               <p
                 className={css({
