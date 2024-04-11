@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 
 import { components } from "@/schema";
-import type { submitStatus } from "@/components/SubmitStatus";
+import type { SubmitStatus } from "@/components/SubmitStatus";
 
 type Answer = components["schemas"]["FormAnswerSummary"];
 
@@ -20,7 +20,7 @@ export const getFormStatus = (now: dayjs.Dayjs, startsAt: dayjs.Dayjs, endsAt: d
   return "不明";
 };
 
-export const getSubmitStatus = (deadline: string | undefined, answer: Answer | undefined): submitStatus => {
+export const getSubmitStatus = (deadline: string | undefined, answer: Answer | undefined): SubmitStatus => {
   return getSubmitStatusFromDate(deadline, answer?.updated_at);
 };
 
@@ -38,7 +38,7 @@ export const getSubmitStatusFromDate = (deadline: string | null | undefined, ans
 
 export const getTimeLeft = (now: dayjs.Dayjs, deadline: dayjs.Dayjs) => deadline.diff(now, "d");
 
-export const getTimeLeftText = (now: dayjs.Dayjs, deadline: dayjs.Dayjs, status: submitStatus) => {
+export const getTimeLeftText = (now: dayjs.Dayjs, deadline: dayjs.Dayjs, status: SubmitStatus) => {
   const diff = getTimeLeft(now, deadline);
   return status === "未提出" ? (diff >= 0 ? `残り${diff}日` : "締切を過ぎています") : "";
 };
