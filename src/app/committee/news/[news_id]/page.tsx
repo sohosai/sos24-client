@@ -15,6 +15,7 @@ const CommitteeNewsDetailsPage: NextPage<{ params: { news_id: string } }> = ({ p
   if (error) {
     switch (error.name) {
       case "news/not-found":
+      case "news/invalid-uuid":
         return <p>このお知らせは存在しません。</p>;
       default:
         return <p>お知らせの読み込み中に不明なエラーが発生しました。</p>;
