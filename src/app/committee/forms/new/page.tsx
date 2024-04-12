@@ -11,6 +11,7 @@ import { FC } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { FormFieldEditor } from "./FormFieldEditor";
 import { sectionTitleStyle, descriptionStyle, checkboxGrpupStyle, checkboxStyle, textInputStyle } from "./styles";
+import { Button } from "@/components/Button";
 
 const Divider: FC = () => {
   return <div className={css({ width: "full", height: "2px", background: "gray.400" })}></div>;
@@ -202,8 +203,19 @@ const CreateFormPage: NextPage = () => {
 
         <fieldset>
           <legend>質問項目</legend>
-          <div>
-            <button
+          <div
+            className={css({
+              width: "full",
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              "& > button": {
+                flexGrow: 1,
+              },
+            })}>
+            <Button
+              color="blue"
+              size="y"
               type="button"
               onClick={() => {
                 append({
@@ -217,14 +229,23 @@ const CreateFormPage: NextPage = () => {
                 });
               }}>
               テキスト項目
-            </button>
-            <button>チェックボックス項目</button>
-            <button>ドロップダウン項目</button>
-            <button>ファイル項目</button>
+            </Button>
+            <Button color="blue" size="y">
+              チェックボックス項目
+            </Button>
+            <Button color="blue" size="y">
+              ドロップダウン項目
+            </Button>
+            <Button color="blue" size="y">
+              ファイル項目
+            </Button>
           </div>
         </fieldset>
 
-        <div>
+        <div
+          className={stack({
+            gap: 4,
+          })}>
           {fields.map((field, index) => {
             return <FormFieldEditor key={index} field={field} index={index} register={register} />;
           })}
