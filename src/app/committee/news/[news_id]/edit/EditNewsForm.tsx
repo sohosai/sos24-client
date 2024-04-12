@@ -65,7 +65,7 @@ export const EditNewsForm: FC<{
           title: data.title,
           body: data.body,
           categories: categories as components["schemas"]["ProjectCategory"][],
-          attributes: projectAttributes as components["schemas"]["ProjectAttribute"][],
+          attributes: projectAttributes as unknown as components["schemas"]["ProjectAttribute"][],
           attachments: [],
         },
       })
