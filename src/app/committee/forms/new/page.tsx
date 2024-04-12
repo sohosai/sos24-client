@@ -10,44 +10,7 @@ import { NextPage } from "next";
 import { FC } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { FormFieldEditor } from "./FormFieldEditor";
-
-const sectionTitleStyle = css({
-  fontSize: "xl",
-  fontWeight: "bold",
-});
-
-const descriptionStyle = css({
-  fontSize: "sm",
-  color: "gray.600",
-});
-
-const checkboxStyle = css({
-  py: 1,
-  px: 4,
-  rounded: "full",
-  background: "gray.200",
-  color: "gray.500",
-  fontSize: "sm",
-  fontWeight: "bold",
-  "&:has(:checked)": {
-    background: "tsukuba.purple",
-    color: "white",
-  },
-});
-
-const checkboxGrpupStyle = css({
-  display: "flex",
-  flexWrap: "wrap",
-  gap: 1,
-});
-
-export const textInputStyle = css({
-  border: "1px solid token(colors.gray.400)",
-  background: "gray.100",
-  rounded: "sm",
-  width: "full",
-  padding: 2,
-});
+import { sectionTitleStyle, descriptionStyle, checkboxGrpupStyle, checkboxStyle, textInputStyle } from "./styles";
 
 const Divider: FC = () => {
   return <div className={css({ width: "full", height: "2px", background: "gray.400" })}></div>;
