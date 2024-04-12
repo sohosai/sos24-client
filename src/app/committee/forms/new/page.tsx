@@ -41,7 +41,7 @@ const checkboxGrpupStyle = css({
   gap: 1,
 });
 
-const textInputStyle = css({
+export const textInputStyle = css({
   border: "1px solid token(colors.gray.400)",
   background: "gray.100",
   rounded: "sm",
