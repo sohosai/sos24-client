@@ -1,8 +1,9 @@
 import { FC } from "react";
-import { CreateFormInput, textInputStyle, type FormField } from "./page";
+import { CreateFormInput, type FormField } from "./page";
 import { UseFormRegister } from "react-hook-form";
 import { checkboxFormStyle } from "@/components/formFields/styles";
 import { css } from "@styled-system/css";
+import { textInputStyle } from "./styles";
 
 export const FormFieldEditor: FC<{ field: FormField; index: number; register: UseFormRegister<CreateFormInput> }> = ({
   field,
