@@ -65,9 +65,9 @@ export type FormField = {
     }
   | {
       type: "string";
-      minLength: number;
-      maxLength: number;
-      allowNewline: boolean;
+      min_length: number;
+      max_length: number;
+      allow_newline: boolean;
     }
   | {
       type: "choose_one";
@@ -75,8 +75,8 @@ export type FormField = {
     }
   | {
       type: "choose_many";
-      minSelection: number;
-      maxSelection: number;
+      min_selection: number;
+      max_selection: number;
       options: string[];
     }
   | {
@@ -86,7 +86,7 @@ export type FormField = {
     }
 );
 
-type CreateFormInput = {
+export type CreateFormInput = {
   starts_at: string;
   ends_at: string;
   title: string;
@@ -248,9 +248,9 @@ const CreateFormPage: NextPage = () => {
                   description: "",
                   required: false,
                   type: "string",
-                  minLength: 0,
-                  maxLength: 0,
-                  allowNewline: false,
+                  min_length: 0,
+                  max_length: 0,
+                  allow_newline: false,
                 });
               }}>
               テキスト項目
@@ -263,7 +263,7 @@ const CreateFormPage: NextPage = () => {
 
         <div>
           {fields.map((field, index) => {
-            return <FormFieldEditor key={index} field={field} />;
+            return <FormFieldEditor key={index} field={field} index={index} register={register} />;
           })}
         </div>
 
