@@ -24,7 +24,7 @@ export default defineConfig({
           },
           tsukuba: {
             purple: { value: "#60C" },
-          }
+          },
         },
       },
     },
