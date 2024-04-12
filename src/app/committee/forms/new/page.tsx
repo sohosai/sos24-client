@@ -19,19 +19,19 @@ const Divider: FC = () => {
 
 export type FormField = {
   name: string;
-  description: string;
+  description?: string;
   required: boolean;
 } & (
   | {
       type: "int";
-      min: number;
-      max: number;
+      min?: number;
+      max?: number;
     }
   | {
       type: "string";
-      min_length: number;
-      max_length: number;
-      allow_newline: boolean;
+      min_length?: number;
+      max_length?: number;
+      allow_newline?: boolean;
     }
   | {
       type: "choose_one";
@@ -39,8 +39,8 @@ export type FormField = {
     }
   | {
       type: "choose_many";
-      min_selection: number;
-      max_selection: number;
+      min_selection?: number;
+      max_selection?: number;
       options: string[];
     }
   | {
@@ -49,6 +49,9 @@ export type FormField = {
       limit: number;
     }
 );
+
+type ExtractFormFieldType<T> = T extends { type: infer U } ? U : never;
+export type FormFieldType = ExtractFormFieldType<FormField>;
 
 export type CreateFormInput = {
   starts_at: string;
@@ -69,7 +72,7 @@ const CreateFormPage: NextPage = () => {
       attachments: [],
     },
   });
-  const { fields, append } = useFieldArray({ name: "items", control });
+  const { fields, append, remove, move } = useFieldArray({ name: "items", control });
 
   const onSubmit = handleSubmit((data) => {
     const body = {
@@ -220,23 +223,54 @@ const CreateFormPage: NextPage = () => {
               onClick={() => {
                 append({
                   name: "",
-                  description: "",
                   required: false,
                   type: "string",
-                  min_length: 0,
-                  max_length: 0,
-                  allow_newline: false,
                 });
               }}>
               テキスト項目
             </Button>
-            <Button color="blue" size="y">
+            <Button
+              color="blue"
+              size="y"
+              type="button"
+              onClick={() => {
+                append({
+                  name: "",
+                  required: false,
+                  type: "int",
+                });
+              }}>
+              数値項目
+            </Button>
+            <Button
+              color="blue"
+              size="y"
+              type="button"
+              onClick={() => {
+                append({
+                  name: "",
+                  type: "choose_many",
+                  required: false,
+                  options: [],
+                });
+              }}>
               チェックボックス項目
             </Button>
-            <Button color="blue" size="y">
+            <Button
+              color="blue"
+              size="y"
+              type="button"
+              onClick={() => {
+                append({
+                  name: "",
+                  type: "choose_one",
+                  required: false,
+                  options: [],
+                });
+              }}>
               ドロップダウン項目
             </Button>
-            <Button color="blue" size="y">
+            <Button color="blue" size="y" type="button" onClick={() => {}}>
               ファイル項目
             </Button>
           </div>
@@ -247,7 +281,18 @@ const CreateFormPage: NextPage = () => {
             gap: 4,
           })}>
           {fields.map((field, index) => {
-            return <FormFieldEditor key={index} field={field} index={index} register={register} />;
+            return (
+              <FormFieldEditor
+                key={index}
+                field={field}
+                index={index}
+                register={register}
+                move={move}
+                remove={() => {
+                  remove(index);
+                }}
+              />
+            );
           })}
         </div>
 
