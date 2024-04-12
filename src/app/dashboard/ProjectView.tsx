@@ -13,7 +13,7 @@ import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter"
 import { components } from "@/schema";
 import { TableRow } from "./TableRow";
 
-const shareURL = async (url: string) => {
+export const shareURL = async (url: string) => {
   navigator.clipboard
     .writeText(url)
     .then(() => {
@@ -30,7 +30,10 @@ const shareURL = async (url: string) => {
     });
 };
 
-const getNewInvitationId = async (project_id: string, position: components["schemas"]["Invitation"]["position"]) => {
+export const getNewInvitationId = async (
+  project_id: string,
+  position: components["schemas"]["Invitation"]["position"],
+) => {
   const res = await client.POST("/invitations", {
     body: {
       project_id,

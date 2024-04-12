@@ -60,6 +60,11 @@ const NewsDetailsPage = ({ params }: { params: { project_id: string } }) => {
           企画詳細
         </h2>
 
+        <div className={hstack({ flexDir: "row-reverse" })}>
+          <Button color="blue" onClick={() => router.push(`/committee/projects/${project.id}/edit`)}>
+            編集
+          </Button>
+        </div>
         <ProjectTableView projectData={project} isCommittee />
 
         <section className={hstack({ justifyContent: "space-between" })}>
