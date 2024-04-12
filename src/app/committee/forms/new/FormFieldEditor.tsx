@@ -4,7 +4,11 @@ import { UseFieldArrayMove, UseFormRegister } from "react-hook-form";
 import { checkboxFormStyle } from "@/components/formFields/styles";
 import { css } from "@styled-system/css";
 import { textInputStyle } from "./styles";
-import { hstack } from "@styled-system/patterns";
+import { hstack, stack } from "@styled-system/patterns";
+
+import pulldownMenu from "@/components/assets/pulldownMenu.svg";
+import trashOutline from "@/components/assets/TrashOutline.svg";
+import Image from "next/image";
 
 const getFieldTypeText = (type: FormFieldType): string => {
   switch (type) {
@@ -30,17 +34,28 @@ export const FormFieldEditor: FC<{
 }> = ({ field, index, register, remove, move }) => {
   return (
     <div
-      className={css({
+      className={stack({
         border: "1px solid token(colors.gray.400)",
         rounded: "md",
         padding: 5,
+        display: "grid",
+        gap: 2,
       })}>
       <button
         type="button"
         onClick={() => {
           move(index, index - 1);
-        }}>
-        ^
+        }}
+        className={css({
+          justifySelf: "center",
+        })}>
+        <Image
+          src={pulldownMenu}
+          alt="上"
+          className={css({
+            rotate: "180deg",
+          })}
+        />
       </button>
       <div
         className={css({
@@ -54,7 +69,13 @@ export const FormFieldEditor: FC<{
             alignItems: "center",
             gap: 3,
           })}>
-          <p>{getFieldTypeText(field.type)}項目</p>
+          <p
+            className={css({
+              color: "sohosai.blue",
+              fontWeight: "bold",
+            })}>
+            {getFieldTypeText(field.type)}項目
+          </p>
 
           <div className={hstack({ gap: 3 })}>
             <label
@@ -80,7 +101,7 @@ export const FormFieldEditor: FC<{
         </div>
 
         <button type="button" onClick={remove}>
-          REMOVE
+          <Image src={trashOutline} alt="削除" />
         </button>
       </div>
 
@@ -178,8 +199,11 @@ export const FormFieldEditor: FC<{
           type="button"
           onClick={() => {
             move(index, index + 1);
-          }}>
-          v
+          }}
+          className={css({
+            justifySelf: "center",
+          })}>
+          <Image src={pulldownMenu} alt="下" />
         </button>
       }
     </div>
