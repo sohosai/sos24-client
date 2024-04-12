@@ -17,19 +17,19 @@ export const getProjectCategoryText = (category: ProjectCategory) => {
     case "stage_university_hall":
       return "ステージ企画（大学会館ステージ）";
   }
-}
+};
 
 export const getProjectAttributeText = (attribute: ProjectAttribute) => {
   switch (attribute) {
     case "academic":
-      return "学術参加枠"
+      return "学術参加枠";
     case "art":
-      return "芸術祭参加枠"
+      return "芸術祭参加枠";
     case "official":
-      return "委員会企画"
+      return "委員会企画";
     case "inside":
-      return "屋内企画"
+      return "屋内企画";
     case "outside":
-      return "屋外企画"
+      return "屋外企画";
   }
-}
+};
