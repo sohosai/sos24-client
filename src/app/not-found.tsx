@@ -1,6 +1,4 @@
-import sendIcon from "@/components/assets/notFoundSopotan.png";
-
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 
 import notFoundSopotan from "@/components/assets/notFoundSopotan.png";
 import { css } from "@styled-system/css";
