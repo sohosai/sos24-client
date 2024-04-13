@@ -17,33 +17,50 @@ interface Props extends basicFieldProps {
   limit?: number | null;
 }
 
-export const FilesForm: FC<Props> = (props: Props) => {
+export const FilesField: FC<Props> = (props: Props) => {
+  const { ref, ...rest } = props.register;
   const [maxFiles, setMaxFiles] = useState(0);
   const [fileIds, setFileIds] = useState<number[]>([]);
-  const filesDOM = useRef<HTMLInputElement>(null);
+  const filesDOM = useRef<HTMLInputElement | null>(null);
   const [isDragged, setIsDragged] = useState(false);
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const validateFiles = () => {
+    // 一般的なエラーの検証
     filesDOM.current?.setCustomValidity("");
     const isValid = filesDOM.current?.checkValidity();
-
-    if (isValid) {
-      const fileNumber = filesDOM.current?.files?.length;
-      if (props.limit && fileNumber && fileNumber > props.limit) {
-        filesDOM.current?.setCustomValidity(`ファイルは${props.limit}個までしかアップロードできません`);
-      } else {
-        filesDOM.current?.setCustomValidity("");
-      }
-    }
-
-    const isValid2 = filesDOM.current?.checkValidity();
-
-    if (!(isValid && isValid2)) {
+    if (!isValid) {
       setErrorMessage(filesDOM.current?.validationMessage ?? "");
-    } else {
-      setErrorMessage(null);
+      return
     }
+
+    // ファイルの上限数の検証
+    const files = filesDOM.current?.files
+    const fileNumber = files?.length;
+    if (props.limit && fileNumber && fileNumber > props.limit) {
+      filesDOM.current?.setCustomValidity(`ファイルは${props.limit}個までしかアップロードできません`);
+    } else {
+      filesDOM.current?.setCustomValidity("");
+    }
+    const isValid2 = filesDOM.current?.checkValidity();
+    if (!isValid2) {
+      setErrorMessage(filesDOM.current?.validationMessage ?? "");
+      return
+    }
+
+    // ファイルの拡張子の検証
+    if (extensionsRegex && files && [...Array(fileNumber)].some((_,i)=>!extensionsRegex.test(files[i].name))){
+      filesDOM.current?.setCustomValidity(`ファイルの拡張子は${props.extensions?.join("、")}のいずれかにしてください`);
+    } else {
+      filesDOM.current?.setCustomValidity("");
+    }
+    const isValid3 = filesDOM.current?.checkValidity();
+    if (!isValid3) {
+      setErrorMessage(filesDOM.current?.validationMessage ?? "");
+      return
+    }
+
+    setErrorMessage(null);
   };
 
   const getFiles = (event: DragEvent<HTMLDivElement>) => {
@@ -101,6 +118,11 @@ export const FilesForm: FC<Props> = (props: Props) => {
       },
     },
   });
+
+  const extensionsRegex =
+    props.extensions && props.extensions.length >= 1
+      ? new RegExp(`\\.(${props.extensions.join("|")})$`, "i")
+      : undefined;
 
   const files = filesDOM.current?.files;
   return (
@@ -182,7 +204,11 @@ export const FilesForm: FC<Props> = (props: Props) => {
         id="userfile"
         accept={props.extensions ? props.extensions.join(",") : undefined}
         multiple={!props.limit || props.limit > 1}
-        ref={filesDOM}
+        ref={(e) => {
+          ref(e);
+          filesDOM.current = e;
+        }}
+        {...rest}
         className={css({
           display: "none",
         })}
@@ -207,16 +233,21 @@ export const FilesForm: FC<Props> = (props: Props) => {
             if (!file) {
               return;
             }
+
+            const error = extensionsRegex ? !extensionsRegex.test(file.name) : false;
             return (
               <FileView
                 key={fileIds[i]}
                 name={file.name}
+                error={error}
                 delete={() => {
                   if (!files) {
                     return;
                   }
 
-                  filesDOM.current.files = deleteFile(files, i);
+                  if (filesDOM.current) {
+                    filesDOM.current.files = deleteFile(files, i);
+                  }
                   validateFiles();
                 }}
               />
