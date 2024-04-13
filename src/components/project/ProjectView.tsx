@@ -11,7 +11,8 @@ import { css } from "@styled-system/css";
 import React from "react";
 import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
 import { components } from "@/schema";
-import { TableRow } from "./TableRow";
+import { TableRow } from "../../app/dashboard/TableRow";
+import { UserWithAddress } from "./UserWithAddress";
 
 export const shareURL = async (url: string) => {
   navigator.clipboard
@@ -189,6 +190,9 @@ export const ProjectTableView: React.FC<{
             projectData.kana_group_name
           )}
         </TableRow>
+        <TableRow label="企画責任者">
+          <UserWithAddress name={projectData.owner_name} email={projectData.owner_email} />
+        </TableRow>
         {/*企画応募画面で誓約書提出を副責任者登録より前にやってもらうため*/}
         {hideSubOwner ? null : (
           <TableRow
@@ -213,7 +217,9 @@ export const ProjectTableView: React.FC<{
                 副企画責任者
               </span>
             }>
-            {projectData.sub_owner_name ?? (
+            {projectData.sub_owner_name && projectData.sub_owner_email ? (
+              <UserWithAddress name={projectData.sub_owner_name} email={projectData.sub_owner_email} />
+            ) : (
               <button
                 className={css({ color: "sohosai.purple", textDecoration: "underline", cursor: "pointer" })}
                 onClick={() => handleShareInviteLink(projectData.id, "sub_owner", !isCommittee)}
