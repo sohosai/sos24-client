@@ -6,6 +6,10 @@ on:
 jobs:
   build_and_deploy:
     runs-on: [self-hosted, portainer]
+    permissions:
+      contents: read
+      deployments: write
+    name: Publish to Cloudflare
     steps:
       - uses: actions/checkout@v4
         with:
@@ -32,4 +36,3 @@ jobs:
           accountId: ${{vars.CLOUDFLARE_ACCOUNT_ID}}
           projectName: ${{vars.CLOUDFLARE_BETA_PROJECT_NAME}}
           directory: ".vercel/output/static"
-          branch: develop
