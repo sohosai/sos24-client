@@ -21,10 +21,14 @@ import Arrow from "./three_arrow_left.svg";
 import Image from "next/image";
 import { getNewInvitationId, shareURL } from "@/app/dashboard/ProjectView";
 import { components } from "@/schema";
+import Link from "next/link";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const ProjectEditPage: NextPage<{ params: { project_id: string } }> = ({ params }) => {
   const { data: rawProject, isLoading, error } = useSWR(`/projects/${params.project_id}`);
   const project = rawProject ? assignType("/projects/{project_id}", rawProject) : undefined;
+  const router = useRouter();
   const {
     register,
     formState: { errors },
@@ -36,14 +40,20 @@ const ProjectEditPage: NextPage<{ params: { project_id: string } }> = ({ params 
 
   const updateProject = async (data: UpdateProjectCommitteeSchemaType) => {
     if (!project) return;
-    await client.PUT("/projects/{project_id}", {
-      params: {
-        path: {
-          project_id: project.id,
+    client
+      .PUT("/projects/{project_id}", {
+        params: {
+          path: {
+            project_id: project.id,
+          },
         },
-      },
-      body: data as components["schemas"]["UpdateProject"],
-    });
+        body: data as components["schemas"]["UpdateProject"],
+      })
+      .then(() => {
+        toast.success("変更を保存しました");
+        router.push(`/committee/projects/${project.id}`);
+      })
+      .catch(() => toast.error("変更を保存できませんでした"));
   };
 
   if (isLoading) {
@@ -61,8 +71,16 @@ const ProjectEditPage: NextPage<{ params: { project_id: string } }> = ({ params 
   }
 
   return (
-    <main className={container()}>
+    <main className={container({ maxWidth: "4xl", marginY: 8 })}>
+      <Link className={css({ color: "sohosai.purple", fontSize: "sm" })} href={`/committee/projects/${project.id}`}>
+        ←企画に戻る
+      </Link>
       <form className={stack({ gap: 4 })} onSubmit={handleSubmit(updateProject)}>
+        <div className={hstack({ flexDirection: "row-reverse" })}>
+          <Button color="primary" type="submit">
+            保存
+          </Button>
+        </div>
         <label className={lableAndInputStyle}>
           企画名
           <input className={basicFormStyle()} {...register("title", { value: project?.title })} />
@@ -89,30 +107,33 @@ const ProjectEditPage: NextPage<{ params: { project_id: string } }> = ({ params 
           {errors.kana_group_name && <span className={basicErrorMessageStyle}>{errors.kana_group_name.message}</span>}
         </label>
         <section className={hstack({ justifyContent: "space-between" })}>
-          <span className={css({ fontWeight: "bold" })}>企画責任者変更</span>
+          <span className={css({ fontWeight: "bold" })}>企画責任者</span>
           <div className={hstack()}>
             <span>{project?.owner_name}</span>
             <Image src={Arrow} alt="" />
             <Button
               type="button"
               color="secondary"
-              onClick={async () => shareURL(await getNewInvitationId(project?.id ?? "", "owner"))}>
+              onClick={async () =>
+                shareURL(`${window.location.origin}/invitation/${await getNewInvitationId(project.id, "owner")}`)
+              }>
               変更用URLを発行
             </Button>
           </div>
         </section>
-        {project?.sub_owner_name && (
-          <section>
-            <span>副企画責任者変更</span>
-            <div className={hstack()}>
-              <span>{project?.owner_name}</span>
-              <Image src={Arrow} alt="" />
-              <Button type="button" color="secondary">
-                変更用URLを発行
-              </Button>
-            </div>
-          </section>
-        )}
+        <section className={hstack({ justifyContent: "space-between" })}>
+          <span className={css({ fontWeight: "bold" })}>副企画責任者</span>
+          <div className={hstack()}>
+            <span>{project?.sub_owner_name ?? "未設定"}</span>
+            <Image src={Arrow} alt="" />
+            <Button
+              type="button"
+              color="secondary"
+              onClick={async () => shareURL(await getNewInvitationId(project.id, "sub_owner"))}>
+              変更用URLを発行
+            </Button>
+          </div>
+        </section>
         <label>企画区分</label>
         <fieldset>
           <legend>どれか一つを選択してください</legend>
@@ -191,7 +212,6 @@ const ProjectEditPage: NextPage<{ params: { project_id: string } }> = ({ params 
           </div>
         </fieldset>
         {errors.attributes && <span className={basicErrorMessageStyle}>{errors.attributes.message}</span>}
-        <Button color="primary">更新</Button>
       </form>
     </main>
   );
