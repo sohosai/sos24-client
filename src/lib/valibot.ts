@@ -1,6 +1,5 @@
 import { array, custom, literal, minLength, object, Output, picklist, regex, string, union } from "valibot";
 import Graphemer from "graphemer";
-import { components } from "@/schema";
 
 /**
  * 半角・全角英数字及び半角記号を3文字でかな2文字分としてカウントする謎のやつ
