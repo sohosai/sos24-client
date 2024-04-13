@@ -5,7 +5,7 @@ import { css } from "@styled-system/css";
 import { assignType, client } from "@/lib/openapi";
 import Link from "next/link";
 import useSWR from "swr";
-import { ProjectTableView } from "@/app/dashboard/ProjectView";
+import { ProjectTableView } from "@/components/project/ProjectView";
 import { Button } from "@/components/Button";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
