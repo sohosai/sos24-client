@@ -21,7 +21,7 @@ jobs:
           cache: "npm"
           cache-dependency-path: "**/package-lock.json"
       - name: build
-        run: npx wrangler pages dev
+        run: npx @cloudflare/next-on-pages@1
         env:
           NEXT_PUBLIC_API_ENDPOINT: ${{vars.BETA_API_ENDPOINT}}
           NEXT_PUBLIC_FIREBASE_API_KEY: ${{vars.BETA_FIREBASE_API_KEY}}
