@@ -8,6 +8,8 @@ import useSWR from "swr";
 import Link from "next/link";
 import { ProjectEditForm } from "./ProjectEditForm";
 
+export const runtime = "edge";
+
 const ProjectEditPage: NextPage<{ params: { project_id: string } }> = ({ params }) => {
   const { data: rawProject, isLoading, error } = useSWR(`/projects/${params.project_id}`);
   const project = rawProject ? assignType("/projects/{project_id}", rawProject) : undefined;
