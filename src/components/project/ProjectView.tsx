@@ -120,6 +120,7 @@ export const ProjectTableView: React.FC<{
   return (
     <form className={vstack({ width: "full" })} onSubmit={handleSubmit(submitForm)}>
       <div>
+        <TableRow label="企画番号">{`00${projectData.index}`.slice(-3)}</TableRow>
         <TableRow label="企画名" formId="title">
           {isEditMode ? (
             <>
