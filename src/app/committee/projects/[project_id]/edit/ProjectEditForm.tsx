@@ -15,6 +15,7 @@ import { components } from "@/schema";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { ProjectCategoryEditor } from "./ProjectCategoryEditor";
+export const runtime = "edge";
 
 export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project"] }> = ({ project }) => {
   const router = useRouter();
@@ -39,7 +40,11 @@ export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project
         },
         body: data as components["schemas"]["UpdateProject"],
       })
-      .then(() => {
+      .then((res) => {
+        if (res.error) {
+          toast.error("変更を保存できませんでした");
+          return;
+        }
         toast.success("変更を保存しました");
         router.push(`/committee/projects/${project.id}`);
       })
