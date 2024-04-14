@@ -61,7 +61,7 @@ export const FormsList: FC<{
       {forms.map((form) => {
         const startsAt = dayjs(form.starts_at);
         const endsAt = dayjs(form.ends_at);
-        const status = getSubmitStatusFromDate(form.ends_at, form.answer_id);
+        const status = getSubmitStatusFromDate(form.ends_at, form.answered_at);
 
         if (!showSubmitted && status !== "未提出") {
           return;
