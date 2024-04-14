@@ -5,7 +5,7 @@ import { FC } from "react";
 import { components } from "@/schema";
 
 import { SubmitStatusBadge } from "@/components/SubmitStatus";
-import { getSubmitStatus, getTimeLeftText } from "@/lib/formHelpers";
+import { getSubmitStatusFromDate, getTimeLeftText } from "@/lib/formHelpers";
 import { useAtom } from "jotai";
 
 import EyesOpenIcon from "@/components/assets/EyesOpen.svg";
@@ -17,13 +17,11 @@ import { NoResultNotice } from "@/components/NoResultNotice";
 import Link from "next/link";
 
 type Form = components["schemas"]["FormSummary"];
-type Answer = components["schemas"]["FormAnswerSummary"];
 
 export const FormsList: FC<{
   forms: Form[];
-  answers: Answer[];
   showSubmitted: boolean;
-}> = ({ forms, answers, showSubmitted }) => {
+}> = ({ forms, showSubmitted }) => {
   const [hiddenFormIds, setHiddenFormIds] = useAtom(hiddenFormIdsAtom);
 
   return (
@@ -61,13 +59,9 @@ export const FormsList: FC<{
         </div>
       )}
       {forms.map((form) => {
-        const answer = answers.find((ans) => {
-          ans.id === form.id;
-        });
-
         const startsAt = dayjs(form.starts_at);
         const endsAt = dayjs(form.ends_at);
-        const status = getSubmitStatus(endsAt, answer);
+        const status = getSubmitStatusFromDate(form.ends_at, form.answered_at);
 
         if (!showSubmitted && status !== "未提出") {
           return;
