@@ -31,11 +31,11 @@ export const FilesField: FC<Props> = (props: Props) => {
     const isValid = filesDOM.current?.checkValidity();
     if (!isValid) {
       setErrorMessage(filesDOM.current?.validationMessage ?? "");
-      return
+      return;
     }
 
     // ファイルの上限数の検証
-    const files = filesDOM.current?.files
+    const files = filesDOM.current?.files;
     const fileNumber = files?.length;
     if (props.limit && fileNumber && fileNumber > props.limit) {
       filesDOM.current?.setCustomValidity(`ファイルは${props.limit}個までしかアップロードできません`);
@@ -45,11 +45,11 @@ export const FilesField: FC<Props> = (props: Props) => {
     const isValid2 = filesDOM.current?.checkValidity();
     if (!isValid2) {
       setErrorMessage(filesDOM.current?.validationMessage ?? "");
-      return
+      return;
     }
 
     // ファイルの拡張子の検証
-    if (extensionsRegex && files && [...Array(fileNumber)].some((_,i)=>!extensionsRegex.test(files[i].name))){
+    if (extensionsRegex && files && [...Array(fileNumber)].some((_, i) => !extensionsRegex.test(files[i].name))) {
       filesDOM.current?.setCustomValidity(`ファイルの拡張子は${props.extensions?.join("、")}のいずれかにしてください`);
     } else {
       filesDOM.current?.setCustomValidity("");
@@ -57,7 +57,7 @@ export const FilesField: FC<Props> = (props: Props) => {
     const isValid3 = filesDOM.current?.checkValidity();
     if (!isValid3) {
       setErrorMessage(filesDOM.current?.validationMessage ?? "");
-      return
+      return;
     }
 
     setErrorMessage(null);

@@ -23,7 +23,7 @@ export const fileViewStyle = cva({
       true: {
         borderColor: "error",
         borderWidth: 2,
-        borderStyle: "solid"
+        borderStyle: "solid",
       },
       false: {},
     },
