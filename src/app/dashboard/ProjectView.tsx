@@ -71,7 +71,6 @@ export const handleCopyInviteLink = async (project_id: string, position: "owner"
 };
 
 export const ProjectTableView: React.FC<{
-  isCommittee?: boolean;
   isEditMode?: boolean;
   onSubmit?: () => unknown;
   hideSubOwner?: boolean;
