@@ -110,7 +110,7 @@ paths:
             text/csv:
               schema:
                 type: string
-        "401": 
+        "401":
           description: Unauthorized
           content:
             application/json:
