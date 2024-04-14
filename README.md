@@ -1,38 +1,49 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# sos24-client
 
 [![CD(beta)](https://github.com/sohosai/sos24-client/actions/workflows/cd-beta.yml/badge.svg)](https://github.com/sohosai/sos24-client/actions/workflows/cd-beta.yml)
 
-## Getting Started
+雙峰祭オンラインシステムのクライアントです。
 
-First, run the development server:
+## 環境構築
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 環境変数
+`.env.example`を参考にFirebase・バックエンドURLを設定します。
+
+### セットアップ
+`npm i`で依存関係がインストールされます。
+
+`npm run dev`で開発用サーバが起動します。
+
+### ビルド
+`npm run build`でビルドできます
+
+Cloudflare Pagesにデプロイする場合は`npx @cloudflare/next-on-pages@1`で静的アセットを生成できます。
+
+## APIからのresponseにスキーマに応じた型を付ける方法
+### SWRを使ってGETするとき編
+
+```typescript
+import { assignType } from "@/lib/openapi";
+  
+const newsId = "<uuid>"
+
+const { data: newsRes, error: newsErr, isLoading } = useSWR(`/news/${newsId}`);
+if (isLoading) {
+  // 読み込み時の処理
+}
+if (newsErr) {
+  // エラー時の処理
+}
+const news = assignType("/news/{news_id}", newsRes);
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+path parametersはurlに文字列として直接埋め込みます。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`assignType`には、openapiで定義されているパスと`newsRes`を渡します。
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## APIを安全に叩く方法(post、putなど)
 
-## Learn More
+openapi-fetchを使います。
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## ベータについて
+[GitHub Actions](https://github.com/sohosai/sos24-client/actions/workflows/cd-beta.yml)を手動実行することでベータをデプロイできます。
