@@ -23,7 +23,7 @@ export const fileViewStyle = cva({
       true: {
         borderColor: "error",
         borderWidth: 2,
-        borderStyle: "solid"
+        borderStyle: "solid",
       },
       false: {},
     },
@@ -39,7 +39,8 @@ export const FileView = (props: Props) => {
       <span>{props.name}</span>
       {props.delete !== undefined && (
         <button
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             if (props.delete !== undefined) {
               props.delete();
             }
