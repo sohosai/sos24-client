@@ -150,7 +150,8 @@ export const FilesField = (props: Props) => {
         }}
         className={dropAreaStyle({ isDragged })}>
         <button
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             filesDOM.current?.click();
           }}
           className={css({
