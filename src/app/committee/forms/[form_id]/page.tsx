@@ -1,86 +1,39 @@
 "use client";
 
-import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
-import { projectCategoryItemStyle } from "@/components/formFields/styles";
-import { ProjectAttributesBadge } from "@/components/project/AttirbutesBadge";
+import { Separator } from "@/components/Separator";
 import { assignType } from "@/lib/openapi";
-import { projectAttributes, projectCategories } from "@/lib/valibot";
-import { components } from "@/schema";
-import { css } from "@styled-system/css";
-import { container, hstack, vstack } from "@styled-system/patterns";
-import dayjs from "dayjs";
+import { css, cx } from "@styled-system/css";
+import { container, vstack } from "@styled-system/patterns";
 import { NextPage } from "next";
+import Link from "next/link";
 import useSWR from "swr";
+import { FormDetailedView } from "./FormDetailedView";
 
 export const runtime = "edge";
 
-const LabelAndTime: React.FC<{ label: string; time: string }> = ({ label, time }) => {
-  return (
-    <div className={hstack({ fontWeight: "700", gap: 9 })}>
-      <span>{label}</span>
-      <time dateTime={time} className={css({ letterSpacing: 3 })}>
-        {dayjs(time).format("M月D日 HH:mm")}
-      </time>
-    </div>
-  );
-};
-
-const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }> = ({ form }) => {
-  return (
-    <div className={vstack({ gap: 4, alignItems: "start" })}>
-      <div>
-        作成日: <time dateTime={form.created_at}> {dayjs(form.created_at).format("YYYY/MM/DD")}</time>
-      </div>
-      <div className={hstack({ gap: 6 })}>
-        <h1 className={css({ fontSize: "3xl", fontWeight: "bold" })}>{form.title}</h1>
-        <div className={hstack()}>
-          <ul className={hstack()}>
-            {/* 同じカテゴリが複数入ることはないと信じている */}
-            {form.categories.length == projectCategories.length ? (
-              <li className={projectCategoryItemStyle}>すべての企画区分</li>
-            ) : (
-              form.categories.map((category) => (
-                <li key={category} className={projectCategoryItemStyle}>
-                  <ProjectCategoryFormatter category={category} />
-                </li>
-              ))
-            )}
-          </ul>
-          {form.attributes.length == projectAttributes.length ? (
-            "すべての企画属性"
-          ) : (
-            <ProjectAttributesBadge attributes={form.attributes} />
-          )}
-        </div>
-      </div>
-      <div className={css({ width: "full" })}>
-        <label className={css({ fontWeight: "bold", fontSize: "lg" })} htmlFor="form-description">
-          説明
-        </label>
-        <textarea
-          value={form.description}
-          id="form-description"
-          disabled
-          className={css({ width: "full", borderRadius: "lg", padding: 5 })}
-        />
-      </div>
-      <>{form.attachments.forEach((file) => file)}</>
-      <div className={vstack({ gap: 2 })}>
-        <LabelAndTime label="受付開始日時" time={form.starts_at} />
-        <LabelAndTime label="受付終了日時" time={form.ends_at} />
-      </div>
-    </div>
-  );
+const FormAnswerList: React.FC<{ formId: string }> = ({ formId }) => {
+  const { data, isLoading, error } = useSWR(`/form-answers?form_id=${formId}`);
+  const answers = assignType("/form-answers", data);
+  if (isLoading) return;
+  if (error) return `エラーが発生しました${error}`;
+  return <>{answers.map((e) => e.id)}</>;
 };
 
 const FormDetailedPage: NextPage<{ params: { form_id: string } }> = ({ params }) => {
-  const { data, isLoading, error } = useSWR(`/forms/${params.form_id}`);
-  const form = assignType("/forms/{form_id}", data);
+  const { data: formData, isLoading, error } = useSWR(`/forms/${params.form_id}`);
+  const form = assignType("/forms/{form_id}", formData);
   if (isLoading) return;
   if (error) return "エラーが発生しました";
   return (
-    <main className={container({ maxWidth: "4xl" })}>
-      <FormDetailedView form={form} />
+    <main className={cx(container({ maxWidth: "4xl", paddingY: 4 }))}>
+      <div className={vstack({ gap: 4, alignItems: "start", width: "full" })}>
+        <Link href="/committee/forms" className={css({ color: "sohosai.purple", display: "block" })}>
+          ←申請一覧へ
+        </Link>
+        <FormDetailedView form={form} />
+        <Separator />
+        <FormAnswerList formId={form.id} />
+      </div>
     </main>
   );
 };
