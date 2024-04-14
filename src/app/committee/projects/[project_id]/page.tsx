@@ -5,7 +5,7 @@ import { css } from "@styled-system/css";
 import { assignType, client } from "@/lib/openapi";
 import Link from "next/link";
 import useSWR from "swr";
-import { ProjectTableView } from "@/app/dashboard/ProjectView";
+import { ProjectTableView } from "@/components/project/ProjectView";
 import { Button } from "@/components/Button";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -60,6 +60,11 @@ const NewsDetailsPage = ({ params }: { params: { project_id: string } }) => {
           企画詳細
         </h2>
 
+        <div className={hstack({ flexDir: "row-reverse" })}>
+          <Button color="blue" onClick={() => router.push(`/committee/projects/${project.id}/edit`)}>
+            編集
+          </Button>
+        </div>
         <ProjectTableView projectData={project} isCommittee />
 
         <section className={hstack({ justifyContent: "space-between" })}>
