@@ -122,17 +122,17 @@ export const EditNewsForm: FC<{
               })
               .then(({ error }) => {
                 if (error) {
-                  toast.error(`記事削除中にエラーが発生しました`);
+                  toast.error(`お知らせ削除中にエラーが発生しました`);
                   return;
                 }
-                toast.success("記事を削除しました");
+                toast.success("お知らせを削除しました");
                 router.push(`/committee/news`);
               })
               .catch(() => {
-                toast.error(`記事削除中にエラーが発生しました`);
+                toast.error(`お知らせ削除中にエラーが発生しました`);
               });
           }}>
-          記事を削除する
+          お知らせを削除する
         </Button>
       </div>
     </form>
