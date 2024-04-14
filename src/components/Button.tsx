@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes, FC } from "react";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   color: "primary" | "secondary" | "blue";
-  size?: "medium" | "big";
+  size?: "y" | "medium" | "big";
   className?: string;
   children: React.ReactNode;
 }
@@ -49,6 +49,7 @@ export const Button: FC<Props> = ({ color, size = "medium", className, children,
         },
       },
       size: {
+        y: { paddngIline: 0, paddingBlock: 1 },
         medium: { paddingInline: 9, paddingBlock: 1 },
         big: { paddingInline: 12, paddingBlock: 2 },
       },
