@@ -1,6 +1,5 @@
 import { css } from "@styled-system/css";
 import { basicErrorMessageStyle, basicFormLabelStyle, basicFormStyle } from "./styles";
-import { center } from "@styled-system/patterns";
 
 import { RequiredBadge } from "./_components/RequiredBadge";
 import type { basicFieldProps } from "./_components/types";

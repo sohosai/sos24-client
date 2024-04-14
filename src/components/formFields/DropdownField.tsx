@@ -8,7 +8,7 @@ interface Props extends basicFieldProps {
   options: string[];
 }
 
-export const DropdownForm: FC<Props> = (props: Props) => {
+export const DropdownField: FC<Props> = (props: Props) => {
   return (
     <div>
       <label className={basicFormLabelStyle} htmlFor={props.id}>
