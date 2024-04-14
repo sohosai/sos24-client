@@ -14,6 +14,7 @@ import Image from "next/image";
 import { hiddenFormIdsAtom } from "./hiddenFormIds";
 import toast from "react-hot-toast";
 import { NoResultNotice } from "@/components/NoResultNotice";
+import Link from "next/link";
 
 type Form = components["schemas"]["FormSummary"];
 
@@ -88,7 +89,7 @@ export const FormsList: FC<{
               }}>
               {isShown ? <Image src={EyesClosedIcon} alt="非表示" /> : <Image src={EyesOpenIcon} alt="表示" />}
             </button>
-            <a
+            <Link
               href={`/forms/${form.id}`}
               className={css({
                 display: "contents",
@@ -100,7 +101,7 @@ export const FormsList: FC<{
               <div>{endsAt.format("YYYY/MM/DD")}</div>
               <div>{form.title}</div>
               <div>{getTimeLeftText(dayjs(), endsAt, status)}</div>
-            </a>
+            </Link>
           </div>
         );
       })}

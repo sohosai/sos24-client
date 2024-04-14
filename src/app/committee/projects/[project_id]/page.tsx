@@ -60,7 +60,7 @@ const NewsDetailsPage = ({ params }: { params: { project_id: string } }) => {
           企画詳細
         </h2>
 
-        <ProjectTableView projectData={project} />
+        <ProjectTableView projectData={project} isCommittee />
 
         <section className={hstack({ justifyContent: "space-between" })}>
           <h3 className={css({ fontWeight: "bold" })}>企画の削除</h3>
