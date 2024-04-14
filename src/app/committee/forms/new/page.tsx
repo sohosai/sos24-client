@@ -12,6 +12,8 @@ import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { FormFieldEditor } from "./FormFieldEditor";
 import { sectionTitleStyle, descriptionStyle, checkboxGrpupStyle, checkboxStyle, textInputStyle } from "./styles";
 import { Button } from "@/components/Button";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const Divider: FC = () => {
   return <div className={css({ width: "full", height: "2px", background: "gray.400" })}></div>;
@@ -35,13 +37,13 @@ export type FormField = {
     }
   | {
       type: "choose_one";
-      options: string[];
+      options: string;
     }
   | {
       type: "choose_many";
       min_selection?: number;
       max_selection?: number;
-      options: string[];
+      options: string;
     }
   | {
       type: "file";
@@ -65,6 +67,8 @@ export type CreateFormInput = {
 };
 
 const CreateFormPage: NextPage = () => {
+  const router = useRouter();
+
   const { register, control, handleSubmit } = useForm<CreateFormInput>({
     defaultValues: {
       categories: [],
@@ -81,11 +85,32 @@ const CreateFormPage: NextPage = () => {
       categories: data.categories.length === 0 ? [...projectCategories] : data.categories,
       starts_at: data.starts_at === "" ? dayjs().toISOString() : data.starts_at,
       ends_at: dayjs(data.ends_at).toISOString(),
+      items: [
+        ...data.items.map((item) => {
+          if (item.type !== "choose_many" && item.type !== "choose_one") {
+            return item;
+          }
+
+          return {
+            ...item,
+            options: item.options.split("\n"),
+          };
+        }),
+      ],
     };
 
-    client.POST("/forms", {
-      body,
-    });
+    client
+      .POST("/forms", {
+        body,
+      })
+      .then((res) => {
+        if (!res.error) {
+          toast.success("申請を作成しました");
+          router.push("/committee/forms");
+        } else {
+          toast.error("申請の作成に失敗しました");
+        }
+      });
   });
 
   return (
@@ -251,7 +276,7 @@ const CreateFormPage: NextPage = () => {
                   name: "",
                   type: "choose_many",
                   required: false,
-                  options: [],
+                  options: "",
                 });
               }}>
               チェックボックス項目
@@ -265,7 +290,7 @@ const CreateFormPage: NextPage = () => {
                   name: "",
                   type: "choose_one",
                   required: false,
-                  options: [],
+                  options: "",
                 });
               }}>
               ドロップダウン項目

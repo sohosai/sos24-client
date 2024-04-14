@@ -166,10 +166,22 @@ export const FormFieldEditor: FC<{
               </>
             );
           case "choose_one":
-            return <></>;
+            return (
+              <>
+                <div>
+                  <label>選択肢(改行区切り)</label>
+                  <textarea {...register(`items.${index}.options`, { required: true })} className={textInputStyle} />
+                </div>
+              </>
+            );
           case "choose_many":
             return (
               <>
+                <div>
+                  <label>選択肢(改行区切り)</label>
+                  <textarea {...register(`items.${index}.options`, { required: true })} className={textInputStyle} />
+                </div>
+
                 <div className={hstack({ gap: 3 })}>
                   <div>
                     <label>最小選択数</label>
