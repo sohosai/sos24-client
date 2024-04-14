@@ -1,4 +1,4 @@
-import { array, custom, literal, minLength, object, Output, regex, string, union } from "valibot";
+import { array, custom, literal, minLength, object, Output, picklist, regex, string, union } from "valibot";
 import Graphemer from "graphemer";
 
 /**
@@ -68,6 +68,8 @@ const projectCategorySchema = union(
 );
 
 export const projectAttributes = ["academic", "art", "official", "inside", "outside"] as const;
+export const projectAttributesSchema = array(picklist(projectAttributes));
+
 export type ProjectAttribute = (typeof projectAttributes)[number];
 
 export const projectPlaces = ["outside", "inside", "stage"];
@@ -90,6 +92,17 @@ export const RegisterProjectSchema = object({
   agreement1: projectAgreementSchema,
   agreement2: projectAgreementSchema,
 });
+
+export const UpdateProjectCommitteeSchema = object({
+  title: projectTitleSchema,
+  kana_title: projectKanaTitleSchema,
+  group_name: projectGroupName,
+  kana_group_name: projectKanaGroupName,
+  category: projectCategorySchema,
+  attributes: projectAttributesSchema,
+});
+
+export type UpdateProjectCommitteeSchemaType = Output<typeof UpdateProjectCommitteeSchema>;
 
 export type RegisterProjectSchemaType = Output<typeof RegisterProjectSchema>;
 
