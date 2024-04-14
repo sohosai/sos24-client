@@ -26,6 +26,7 @@ export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project
   } = useForm<UpdateProjectCommitteeSchemaType>({
     resolver: valibotResolver(UpdateProjectCommitteeSchema),
     defaultValues: project,
+    mode: "onBlur",
   });
 
   const lableAndInputStyle = css({ fontWeight: "bold", "& > input": { fontWeight: "normal", marginTop: 2 } });
@@ -62,19 +63,19 @@ export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project
         企画名
         <input
           className={basicFormStyle()}
-          placeholder="20文字以内で入力"
+          placeholder="２０文字以内で入力"
           {...register("title", { value: project?.title })}
         />
-        <span className={css({ color: "gray.400", fontWeight: "normal" })}>
+        <p className={css({ color: "gray.400", fontWeight: "normal" })}>
           ※絵文字不可。半角全角英数字・半角記号は３字で仮名２文字にカウントします。
-        </span>
+        </p>
         {errors.title && <span className={basicErrorMessageStyle}>{errors.title.message}</span>}
       </label>
       <label className={lableAndInputStyle}>
         企画名（ふりがな）
         <input
           className={basicFormStyle()}
-          placeholder="20文字以内で入力"
+          placeholder="２０文字以内で入力"
           {...register("kana_title", { value: project?.kana_title })}
         />
         {errors.kana_title && <span className={basicErrorMessageStyle}>{errors.kana_title.message}</span>}
@@ -82,9 +83,9 @@ export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project
       <label className={lableAndInputStyle}>
         企画団体名
         <input className={basicFormStyle()} {...register("group_name", { value: project?.group_name })} />
-        <span className={css({ color: "gray.400", fontWeight: "normal" })}>
+        <p className={css({ color: "gray.400", fontWeight: "normal" })}>
           ※絵文字不可。半角全角英数字・半角記号は３字で仮名２文字にカウントします。
-        </span>
+        </p>
         {errors.group_name && <span className={basicErrorMessageStyle}>{errors.group_name.message}</span>}
       </label>
       <label className={lableAndInputStyle}>
@@ -153,12 +154,12 @@ export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project
                 cursor: "pointer",
                 color: "gray.600",
                 fontSize: "sm",
-                border: "3px solid token(colors.gray.300)",
+                outline: "3px solid token(colors.gray.300)",
                 fontWeight: "bold",
                 boxSizing: "border-box",
                 "&:has(> input:checked)": {
                   color: "sohosai.purple",
-                  border: "2px solid ",
+                  outline: "2px solid ",
                   backgroundColor: "white",
                 },
               })}>
