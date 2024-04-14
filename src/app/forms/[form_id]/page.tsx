@@ -103,28 +103,31 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
     }
 
     type formAnswerItems = components["schemas"]["CreateFormAnswer"]["items"];
-    const items: formAnswerItems = form.items.map((item): formAnswerItems[number] => {
+    const items: formAnswerItems = form.items.flatMap((item): formAnswerItems[number] | [] => {
       const value = (() => {
         switch (item.type) {
           case "string":
-            return data[item.id];
+            return data[item.id] || null;
           case "int":
             const datum = data[item.id];
             return datum ? parseInt(datum ?? "") : null;
           case "file":
-            return fileIds[item.id];
+            return fileIds[item.id] || null;
           case "choose_many":
-            return JSON.parse(String(data[item.id] ?? "[]"));
+            const options = JSON.parse(String(data[item.id] ?? "[]")) as string[];
+            return options.length ? options : null;
           default:
-            return data[item.id];
+            return data[item.id] || null;
         }
       })();
 
-      return {
-        item_id: item.id,
-        type: item.type,
-        value: value,
-      };
+      return value
+        ? {
+            item_id: item.id,
+            type: item.type,
+            value: value,
+          }
+        : [];
     });
 
     client
