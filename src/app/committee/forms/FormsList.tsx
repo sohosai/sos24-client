@@ -4,7 +4,6 @@ import { FC } from "react";
 
 import { components } from "@/schema";
 
-
 import { NoResultNotice } from "@/components/NoResultNotice";
 import Link from "next/link";
 import { getCommitteeTimeLeftText, getFormStatus } from "@/lib/formHelpers";
@@ -15,7 +14,6 @@ type Form = components["schemas"]["FormSummary"];
 export const FormsList: FC<{
   forms: Form[];
 }> = ({ forms }) => {
-
   return (
     <div
       className={css({
@@ -50,7 +48,6 @@ export const FormsList: FC<{
         </div>
       )}
       {forms.map((form) => {
-
         const startsAt = dayjs(form.starts_at);
         const endsAt = dayjs(form.ends_at);
         const status = getFormStatus(dayjs(), startsAt, endsAt);
