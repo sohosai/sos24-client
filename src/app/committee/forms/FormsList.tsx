@@ -7,13 +7,14 @@ import { components } from "@/schema";
 
 import { NoResultNotice } from "@/components/NoResultNotice";
 import Link from "next/link";
-import { getCommitteeTimeLeftText } from "@/lib/formHelpers";
+import { getCommitteeTimeLeftText, getFormStatus } from "@/lib/formHelpers";
+import { FormStatusBadge } from "@/components/FormStatusBadge";
 
 type Form = components["schemas"]["FormSummary"];
 
 export const FormsList: FC<{
   forms: Form[];
-}> = ({ forms}) => {
+}> = ({ forms }) => {
 
   return (
     <div
@@ -21,7 +22,7 @@ export const FormsList: FC<{
         width: "full",
         display: "grid",
         alignItems: "center",
-        gridTemplateColumns: "1fr 1fr 3fr 2fr",
+        gridTemplateColumns: "1fr 1fr 1fr 3fr 2fr",
         "& > * > *": {
           pr: 4,
           lineHeight: 2,
@@ -37,6 +38,7 @@ export const FormsList: FC<{
             borderBottom: "1px solid",
           },
         })}>
+        <div>状態</div>
         <div>配信日</div>
         <div>締切日</div>
         <div>タイトル</div>
@@ -51,6 +53,7 @@ export const FormsList: FC<{
 
         const startsAt = dayjs(form.starts_at);
         const endsAt = dayjs(form.ends_at);
+        const status = getFormStatus(dayjs(), startsAt, endsAt);
 
         return (
           <div
@@ -63,6 +66,9 @@ export const FormsList: FC<{
               className={css({
                 display: "contents",
               })}>
+              <div className={css({ paddingBlock: 2 })}>
+                <FormStatusBadge status={status} />
+              </div>
               <div>{startsAt.format("YYYY/MM/DD")}</div>
               <div>{endsAt.format("YYYY/MM/DD")}</div>
               <div>{form.title}</div>
