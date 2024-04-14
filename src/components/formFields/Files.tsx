@@ -1,5 +1,5 @@
-import type { DragEvent } from "react";
-import { FC, useRef, useState } from "react";
+import type { Dispatch, DragEvent, SetStateAction } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { css, cva } from "@styled-system/css";
 import { basicFieldProps } from "./_components/types";
@@ -11,21 +11,30 @@ import { FileView } from "@/components/FileView";
 
 import clickIcon from "@/components/assets/Click.svg";
 import driveIcon from "@/components/assets/Drive.svg";
+import { FileErrorsType, FilesFormType } from "@/app/forms/[form_id]/FormItems";
 
 interface Props extends basicFieldProps {
   extensions?: string[];
   limit?: number | null;
+  files: FilesFormType;
+  setFiles: Dispatch<SetStateAction<FilesFormType>>;
+  setErrorState: Dispatch<SetStateAction<FileErrorsType>>;
 }
 
-export const FilesField: FC<Props> = (props: Props) => {
+export const FilesField = (props: Props) => {
   const { ref, ...rest } = props.register;
   const [maxFiles, setMaxFiles] = useState(0);
   const [fileIds, setFileIds] = useState<number[]>([]);
+
   const filesDOM = useRef<HTMLInputElement | null>(null);
   const [isDragged, setIsDragged] = useState(false);
 
+  //const files = props.files
+  const setFiles = props.setFiles;
+
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const validateFiles = () => {
+<<<<<<< HEAD
     // 一般的なエラーの検証
     filesDOM.current?.setCustomValidity("");
     const isValid = filesDOM.current?.checkValidity();
@@ -51,9 +60,35 @@ export const FilesField: FC<Props> = (props: Props) => {
     // ファイルの拡張子の検証
     if (extensionsRegex && files && [...Array(fileNumber)].some((_, i) => !extensionsRegex.test(files[i].name))) {
       filesDOM.current?.setCustomValidity(`ファイルの拡張子は${props.extensions?.join("、")}のいずれかにしてください`);
-    } else {
-      filesDOM.current?.setCustomValidity("");
+=======
+    const files = filesDOM.current?.files;
+    const fileNumber = files?.length;
+
+    let message = "";
+    if (props.required && (!fileNumber || fileNumber < 1)) {
+      // 必須の場合ファイルが選択されているか確認
+      message = `ファイルをアップロードしてください`;
+    } else if (props.limit && fileNumber && fileNumber > props.limit) {
+      // ファイルの上限数の検証
+      message = `ファイルは${props.limit}個までしかアップロードできません`;
+    } else if (
+      extensionsRegex &&
+      files &&
+      [...Array(fileNumber)].some((_, i) => !extensionsRegex.test(files[i].name))
+    ) {
+      // ファイルの拡張子の検証
+      message = `ファイルの拡張子は${props.extensions?.join("、")}のいずれかにしてください`;
     }
+
+    if (message) {
+      setErrorMessage(message ?? "");
+      props.setErrorState((prev) => prev.set(props.id, message ?? ""));
+>>>>>>> e6678eb (implement the form post feature)
+    } else {
+      setErrorMessage(null);
+      props.setErrorState((prev) => prev.set(props.id, null));
+    }
+<<<<<<< HEAD
     const isValid3 = filesDOM.current?.checkValidity();
     if (!isValid3) {
       setErrorMessage(filesDOM.current?.validationMessage ?? "");
@@ -61,12 +96,16 @@ export const FilesField: FC<Props> = (props: Props) => {
     }
 
     setErrorMessage(null);
+=======
+>>>>>>> e6678eb (implement the form post feature)
   };
 
   const getFiles = (event: DragEvent<HTMLDivElement>) => {
     setIsDragged(false);
     if (filesDOM.current?.files && event.dataTransfer && event.dataTransfer.files.length > 0) {
-      filesDOM.current.files = addFile(filesDOM.current.files, event.dataTransfer.files);
+      const newFile = addFile(filesDOM.current.files, event.dataTransfer.files);
+      filesDOM.current.files = newFile;
+      setFiles((prev) => prev.set(props.id, newFile));
     }
   };
   const [updateFile, setUpdateFile] = useState(false);
@@ -121,7 +160,7 @@ export const FilesField: FC<Props> = (props: Props) => {
 
   const extensionsRegex =
     props.extensions && props.extensions.length >= 1
-      ? new RegExp(`\\.(${props.extensions.join("|")})$`, "i")
+      ? new RegExp(`(${props.extensions.map((e) => e.replaceAll(".", "\\.")).join("|")})$`, "i")
       : undefined;
 
   const files = filesDOM.current?.files;
@@ -134,7 +173,6 @@ export const FilesField: FC<Props> = (props: Props) => {
         )}
       </span>
       <div
-        id="drop_area"
         role="form"
         onDragOver={(e) => {
           e.preventDefault();
@@ -201,26 +239,28 @@ export const FilesField: FC<Props> = (props: Props) => {
       </div>
       <input
         type="file"
-        id="userfile"
         accept={props.extensions ? props.extensions.join(",") : undefined}
         multiple={!props.limit || props.limit > 1}
+        {...rest}
         ref={(e) => {
           ref(e);
           filesDOM.current = e;
         }}
-        {...rest}
         className={css({
           display: "none",
         })}
         onChange={(e) => {
           e.preventDefault();
+          if (filesDOM.current?.files) {
+            setFiles((prev) => prev.set(props.id, filesDOM.current?.files ?? null));
+          }
           validateFiles();
 
           // 毎回確実にstateを更新して再レンダリングさせる
           setUpdateFile(!updateFile);
         }}
       />
-      <span className={basicErrorMessageStyle}>{errorMessage}</span>
+      <span className={basicErrorMessageStyle}>{props.error ? props.error : errorMessage}</span>
       <div
         className={css({
           display: "flex",

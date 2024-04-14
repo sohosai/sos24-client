@@ -1,34 +1,52 @@
-import { FC } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 
 import { components } from "@/schema";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { FieldErrors, UseFormGetValues, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { NumberField } from "@/components/formFields/NumberField";
 import { TextField } from "@/components/formFields/TextField";
-import { DropdownForm } from "@/components/formFields/DropdownField";
-import { CheckboxForm } from "@/components/formFields/CheckboxField";
-import { FilesForm } from "@/components/formFields/Files";
+import { DropdownField } from "@/components/formFields/DropdownField";
+import { CheckboxField } from "@/components/formFields/CheckboxField";
+import { FilesField } from "@/components/formFields/Files";
 
 type FormItem = components["schemas"]["FormItem"];
 
 type valueof<T> = T[keyof T];
 
+type stringArrayJSON = string;
 export type FormFieldsTypeMap = {
   string: string;
-  int: number;
+  int: string;
   choose_one: string;
-  choose_many: string[];
-  file: FileList;
+  choose_many: stringArrayJSON;
+  file: "" | null | undefined;
 };
 
-export type formFieldsType = { [x: string]: valueof<FormFieldsTypeMap> };
+export type FormFieldsType = { [x: string]: valueof<FormFieldsTypeMap> };
+
+export type FileErrorsType = Map<string, string | null>;
+export type FilesFormType = Map<string, FileList | null>;
 
 type Props = {
   items: FormItem[] | undefined;
-  register: UseFormRegister<formFieldsType>;
-  errors: FieldErrors<formFieldsType>;
+  getValues: UseFormGetValues<FormFieldsType>;
+  setValue: UseFormSetValue<FormFieldsType>;
+  register: UseFormRegister<FormFieldsType>;
+  errors: FieldErrors<FormFieldsType>;
+  files: FilesFormType;
+  setFiles: Dispatch<SetStateAction<FilesFormType>>;
+  setFileErrors: Dispatch<SetStateAction<FileErrorsType>>;
 };
 
-export const FormItems: FC<Props> = ({ items, register, errors }) => {
+export const FormItems: FC<Props> = ({
+  items,
+  getValues,
+  setValue,
+  register,
+  errors,
+  files,
+  setFiles,
+  setFileErrors,
+}) => {
   if (!items) {
     return <p>申請項目の読み込みに失敗しました</p>;
   }
@@ -45,7 +63,7 @@ export const FormItems: FC<Props> = ({ items, register, errors }) => {
             description={item.description}
             required={item.required ?? true}
             register={register(item.id, {
-              required: { value: item.required, message: "数字を入力してください。" },
+              required: { value: item.required, message: "数字を入力してください" },
               max: item.max ? { value: item.max, message: `${item.max}以下の数字を入力してください` } : undefined,
               min: item.min ? { value: item.min, message: `${item.min}以上の数字を入力してください` } : undefined,
             })}
@@ -61,7 +79,7 @@ export const FormItems: FC<Props> = ({ items, register, errors }) => {
             description={item.description}
             required={item.required ?? true}
             register={register(item.id, {
-              required: { value: item.required, message: "文字を入力してください。" },
+              required: { value: item.required, message: "文字を入力してください" },
               maxLength: item.max_length
                 ? { value: item.max_length, message: `${item.max_length}文字以下で入力してください` }
                 : undefined,
@@ -74,7 +92,7 @@ export const FormItems: FC<Props> = ({ items, register, errors }) => {
         );
       case "choose_one":
         return (
-          <DropdownForm
+          <DropdownField
             id={item.id}
             label={item.name}
             description={item.description}
@@ -88,19 +106,21 @@ export const FormItems: FC<Props> = ({ items, register, errors }) => {
         );
       case "choose_many":
         return (
-          <CheckboxForm
+          <CheckboxField
             id={item.id ?? ""}
             label={item.name ?? ""}
             description={item.description}
             required={item.required ?? true}
             options={item.options ?? []}
             register={register(item.id)}
+            getValues={getValues}
+            setValue={setValue}
             error={errors[item.id]?.message}
           />
         );
       case "file":
         return (
-          <FilesForm
+          <FilesField
             id={item.id ?? ""}
             label={item.name ?? ""}
             description={item.description}
@@ -108,7 +128,9 @@ export const FormItems: FC<Props> = ({ items, register, errors }) => {
             extensions={item.extensions ?? []}
             limit={item.limit ?? null}
             register={register(item.id)}
-            error={errors[item.id]?.message}
+            files={files}
+            setFiles={setFiles}
+            setErrorState={setFileErrors}
           />
         );
       default:
