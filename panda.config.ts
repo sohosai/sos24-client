@@ -22,6 +22,9 @@ export default defineConfig({
             orange: { value: "#ed6d1f" },
             purple: { value: "#60C" },
           },
+          tsukuba: {
+            purple: { value: "#60C" },
+          },
         },
       },
     },
