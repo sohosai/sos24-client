@@ -11,13 +11,14 @@ import { css } from "@styled-system/css";
 import React from "react";
 import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
 import { components } from "@/schema";
-import { TableRow } from "./TableRow";
+import { TableRow } from "../../app/dashboard/TableRow";
+import { UserWithAddress } from "./UserWithAddress";
 
-const shareURL = async (url: string) => {
+export const shareURL = async (url: string) => {
   navigator.clipboard
     .writeText(url)
     .then(() => {
-      toast.success("招待リンクをコピーしました");
+      toast.success("リンクをコピーしました");
     })
     .catch(() => {
       navigator
@@ -25,12 +26,15 @@ const shareURL = async (url: string) => {
           url,
         })
         .catch(() => {
-          toast.error("招待リンクを共有できませんでした");
+          toast.error("リンクを共有できませんでした");
         });
     });
 };
 
-const getNewInvitationId = async (project_id: string, position: components["schemas"]["Invitation"]["position"]) => {
+export const getNewInvitationId = async (
+  project_id: string,
+  position: components["schemas"]["Invitation"]["position"],
+) => {
   const res = await client.POST("/invitations", {
     body: {
       project_id,
@@ -116,6 +120,7 @@ export const ProjectTableView: React.FC<{
   return (
     <form className={vstack({ width: "full" })} onSubmit={handleSubmit(submitForm)}>
       <div>
+        <TableRow label="企画番号">{`00${projectData.index}`.slice(-3)}</TableRow>
         <TableRow label="企画名" formId="title">
           {isEditMode ? (
             <>
@@ -186,6 +191,9 @@ export const ProjectTableView: React.FC<{
             projectData.kana_group_name
           )}
         </TableRow>
+        <TableRow label="企画責任者">
+          <UserWithAddress name={projectData.owner_name} email={projectData.owner_email} />
+        </TableRow>
         {/*企画応募画面で誓約書提出を副責任者登録より前にやってもらうため*/}
         {hideSubOwner ? null : (
           <TableRow
@@ -210,7 +218,9 @@ export const ProjectTableView: React.FC<{
                 副企画責任者
               </span>
             }>
-            {projectData.sub_owner_name ?? (
+            {projectData.sub_owner_name && projectData.sub_owner_email ? (
+              <UserWithAddress name={projectData.sub_owner_name} email={projectData.sub_owner_email} />
+            ) : (
               <button
                 className={css({ color: "sohosai.purple", textDecoration: "underline", cursor: "pointer" })}
                 onClick={() => handleShareInviteLink(projectData.id, "sub_owner", !isCommittee)}

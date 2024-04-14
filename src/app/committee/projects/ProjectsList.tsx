@@ -2,13 +2,11 @@ import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter"
 import { ProjectAttributesBadge } from "@/components/project/AttirbutesBadge";
 import { components } from "@/schema";
 import { css, cx } from "@styled-system/css";
-import { grid, hstack, vstack } from "@styled-system/patterns";
-import MailAddressIcon from "@/components/assets/MailAddress.svg";
+import { grid, vstack } from "@styled-system/patterns";
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
-import toast from "react-hot-toast";
 import { projectCategoryItemStyle } from "@/components/formFields/styles";
+import { UserWithAddress } from "../../../components/project/UserWithAddress";
 
 const ProjectRow: React.FC<{ data: components["schemas"]["ProjectSummary"] }> = ({ data }) => {
   return (
@@ -22,24 +20,13 @@ const ProjectRow: React.FC<{ data: components["schemas"]["ProjectSummary"] }> = 
       <div className={css({ fontWeight: "bold", color: "gray.500", fontSize: "lg" })}>
         {("000" + data.index).slice(-3)}
       </div>
-      {/* 将来的に企画責任者名を含める? */}
       <div className={vstack({ alignItems: "start" })}>
         <Link
           href={`/committee/projects/${data.id}`}
           className={css({ fontWeight: "bold", fontSize: "lg", display: "block" })}>
           {data.title}
         </Link>
-        <div
-          className={hstack({ alignItems: "center", zIndex: 2, cursor: "pointer" })}
-          onClick={() => {
-            navigator.clipboard
-              .writeText(data.owner_email)
-              .then(() => toast.success("企画責任者のメールアドレスをコピーしました"))
-              .catch(() => toast.error("コピーに失敗しました"));
-          }}>
-          <Image src={MailAddressIcon} alt="" className={css({ height: "full" })} />
-          {data.owner_name}
-        </div>
+        <UserWithAddress name={data.owner_name} email={data.owner_email} />
       </div>
       <div className={vstack({ alignItems: "end" })}>
         <div
