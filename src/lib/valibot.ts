@@ -59,7 +59,7 @@ export const projectCategories = [
   "stage_1a",
   "stage_university_hall",
   "stage_united",
-];
+] as const;
 export type ProjectCategory = (typeof projectCategories)[number];
 
 const projectCategorySchema = union(
@@ -67,7 +67,7 @@ const projectCategorySchema = union(
   "いずれかの企画区分を選択してください",
 );
 
-export const projectAttributes = ["academic", "art", "official", "inside", "outside"];
+export const projectAttributes = ["academic", "art", "official", "inside", "outside"] as const;
 export type ProjectAttribute = (typeof projectAttributes)[number];
 
 export const projectPlaces = ["outside", "inside", "stage"];

@@ -65,8 +65,14 @@ const getInvitationIdWithCache = async (
   }
 };
 
-export const handleCopyInviteLink = async (project_id: string, position: "owner" | "sub_owner") => {
-  const invitationId = await getInvitationIdWithCache(project_id, position);
+export const handleShareInviteLink = async (
+  project_id: string,
+  position: "owner" | "sub_owner",
+  useCache?: boolean,
+) => {
+  const invitationId = useCache
+    ? await getInvitationIdWithCache(project_id, position)
+    : await getNewInvitationId(project_id, position);
   shareURL(`${window.location.origin}/invitations/${invitationId}`);
 };
 
@@ -75,7 +81,8 @@ export const ProjectTableView: React.FC<{
   onSubmit?: () => unknown;
   hideSubOwner?: boolean;
   projectData: components["schemas"]["Project"];
-}> = ({ isEditMode = false, onSubmit = () => {}, hideSubOwner = false, projectData }) => {
+  isCommittee?: boolean;
+}> = ({ isEditMode = false, onSubmit = () => {}, hideSubOwner = false, projectData, isCommittee = false }) => {
   const {
     register,
     formState: { errors },
@@ -206,7 +213,7 @@ export const ProjectTableView: React.FC<{
             {projectData.sub_owner_name ?? (
               <button
                 className={css({ color: "sohosai.purple", textDecoration: "underline", cursor: "pointer" })}
-                onClick={() => handleCopyInviteLink(projectData.id, "sub_owner")}
+                onClick={() => handleShareInviteLink(projectData.id, "sub_owner", !isCommittee)}
                 type="button">
                 招待リンクを共有
               </button>
