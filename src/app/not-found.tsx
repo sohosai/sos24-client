@@ -5,7 +5,7 @@ import { css } from "@styled-system/css";
 import { box, center, hstack, vstack } from "@styled-system/patterns";
 export default function NotFoundPage() {
   return (
-    <div className={center({ w: "100%", mt: 48 })}>
+    <div className={center({ w: "full", mt: 48 })}>
       <div className={hstack({ gap: 24 })}>
         <Image
           src={notFoundSopotan}
@@ -22,7 +22,7 @@ export default function NotFoundPage() {
             <span
               className={css({
                 textAlign: "left",
-                color: "#4C4C4C",
+                color: "gray.500",
                 fontSize: "15px",
                 fontWeight: "700",
                 h: "87px",
