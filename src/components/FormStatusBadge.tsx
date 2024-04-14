@@ -29,7 +29,7 @@ export const FormStatusBadge = ({ status, className }: Props) => {
           backgroundColor: "sohosai.orange",
           color: "white",
         },
-        不明: {}
+        不明: {},
       },
     },
   });
