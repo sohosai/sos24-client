@@ -1784,7 +1784,7 @@ export interface components {
     FormItemType: "string" | "int" | "choose_one" | "choose_many" | "file";
     NewFormItem: {
       name: string;
-      description: string;
+      description?: string | null;
       required: boolean;
       type: components["schemas"]["FormItemType"];
       min?: number | null;
