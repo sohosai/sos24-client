@@ -10,8 +10,8 @@ import dayjs from "dayjs";
 import toast from "react-hot-toast";
 
 import { FormItems, FileErrorsType, FormFieldsType, FilesFormType } from "./FormItems";
-import { type SubmitStatus, SubmitStatusBadge } from "@/components/SubmitStatus";
 import { getTimeLeftText, getSubmitStatusFromDate } from "@/lib/formHelpers";
+import { type SubmitStatus, SubmitStatusBadge } from "@/components/SubmitStatus";
 import { Loading } from "@/components/Loading";
 import { Button } from "@/components/Button";
 import { postFile } from "@/lib/postFile";
@@ -22,7 +22,8 @@ export const runtime = "edge";
 const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
   const router = useRouter();
   const id = params.form_id;
-const { data: projectRes, error: projectError, isLoading: projectLoading } = useSWR("/projects/me");
+
+  const { data: projectRes, error: projectError, isLoading: projectLoading } = useSWR("/projects/me");
   const project = assignType("/projects/me", projectRes);
 
   const projectId = project?.id;
