@@ -1,14 +1,20 @@
 import { FC } from "react";
-import { RequiredBadge } from "./_components/RequiredBadge";
+import { UseFormGetValues, UseFormRegisterReturn, UseFormSetValue } from "react-hook-form";
+
 import { css } from "@styled-system/css";
 import { basicFieldProps } from "./_components/types";
 import { basicFormLabelStyle, checkboxFormStyle } from "./styles";
+import { RequiredBadge } from "./_components/RequiredBadge";
+import { FormFieldsType } from "@/app/forms/[form_id]/FormItems";
 
 interface Props extends basicFieldProps {
+  register: UseFormRegisterReturn;
+  getValues: UseFormGetValues<FormFieldsType>;
+  setValue: UseFormSetValue<FormFieldsType>;
   options: string[];
 }
 
-export const CheckboxForm: FC<Props> = (props: Props) => {
+export const CheckboxField: FC<Props> = (props: Props) => {
   return (
     <div>
       <fieldset>
@@ -36,9 +42,19 @@ export const CheckboxForm: FC<Props> = (props: Props) => {
                   type="checkbox"
                   key={option}
                   value={option}
-                  name={option}
                   id={`${props.id}-${index}`}
                   className={checkboxFormStyle}
+                  onChange={(e) => {
+                    let checks = JSON.parse(String(props.getValues(props.id) ?? "[]")) as string[];
+                    if (checks.includes(option)) {
+                      if (!e.target.checked) {
+                        checks = checks.filter((v) => v !== option);
+                      }
+                    } else {
+                      checks.push(option);
+                    }
+                    props.setValue(props.id, JSON.stringify(checks));
+                  }}
                 />
                 <label
                   htmlFor={`${props.id}-${index}`}

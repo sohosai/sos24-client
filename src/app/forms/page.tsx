@@ -84,7 +84,6 @@ const DashboardPage: NextPage = () => {
           </Button>
           <FormsList
             forms={forms.filter((form) => !hiddenFormIds.includes(form.id))}
-            answers={answers}
             showSubmitted={!isSubmittedShown}
           />
 
@@ -102,7 +101,6 @@ const DashboardPage: NextPage = () => {
           {isHiddenFormsShown && (
             <FormsList
               forms={forms.filter((form) => hiddenFormIds.includes(form.id))}
-              answers={answers}
               showSubmitted={isSubmittedShown}
             />
           )}

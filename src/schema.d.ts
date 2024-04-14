@@ -1985,7 +1985,7 @@ export interface components {
     CreateFormAnswer: {
       /** Format: uuid */
       form_id: string;
-      items: components["schemas"]["FormAnswerItem"];
+      items: components["schemas"]["FormAnswerItem"][];
     };
     CreatedFormAnswer: {
       /** Format: uuid */
