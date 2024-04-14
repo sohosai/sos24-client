@@ -2556,7 +2556,9 @@ components:
           type: string
           format: uuid
         items:
-          $ref: '#/components/schemas/FormAnswerItem'
+          type: array
+          items:
+            $ref: '#/components/schemas/FormAnswerItem'
       required:
         - form_id
         - items
