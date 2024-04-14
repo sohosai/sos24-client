@@ -24,7 +24,7 @@ export const ProjectCategoryEditor: React.FC<{ register: UseFormRegisterReturn }
               boxSizing: "border-box",
               "&:has(> input:checked)": {
                 color: "sohosai.purple",
-                border: "2px solid ",
+                outline: "2px solid ",
                 backgroundColor: "white",
               },
             }),

@@ -18,7 +18,7 @@ export const shareURL = async (url: string) => {
   navigator.clipboard
     .writeText(url)
     .then(() => {
-      toast.success("招待リンクをコピーしました");
+      toast.success("リンクをコピーしました");
     })
     .catch(() => {
       navigator
@@ -26,7 +26,7 @@ export const shareURL = async (url: string) => {
           url,
         })
         .catch(() => {
-          toast.error("招待リンクを共有できませんでした");
+          toast.error("リンクを共有できませんでした");
         });
     });
 };
