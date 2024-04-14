@@ -34,34 +34,6 @@ export const FilesField = (props: Props) => {
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const validateFiles = () => {
-<<<<<<< HEAD
-<<<<<<< HEAD
-    // 一般的なエラーの検証
-    filesDOM.current?.setCustomValidity("");
-    const isValid = filesDOM.current?.checkValidity();
-    if (!isValid) {
-      setErrorMessage(filesDOM.current?.validationMessage ?? "");
-      return;
-    }
-
-    // ファイルの上限数の検証
-    const files = filesDOM.current?.files;
-    const fileNumber = files?.length;
-    if (props.limit && fileNumber && fileNumber > props.limit) {
-      filesDOM.current?.setCustomValidity(`ファイルは${props.limit}個までしかアップロードできません`);
-    } else {
-      filesDOM.current?.setCustomValidity("");
-    }
-    const isValid2 = filesDOM.current?.checkValidity();
-    if (!isValid2) {
-      setErrorMessage(filesDOM.current?.validationMessage ?? "");
-      return;
-    }
-
-    // ファイルの拡張子の検証
-    if (extensionsRegex && files && [...Array(fileNumber)].some((_, i) => !extensionsRegex.test(files[i].name))) {
-      filesDOM.current?.setCustomValidity(`ファイルの拡張子は${props.extensions?.join("、")}のいずれかにしてください`);
-=======
     const files = filesDOM.current?.files;
     const fileNumber = files?.length;
 
@@ -84,45 +56,10 @@ export const FilesField = (props: Props) => {
     if (message) {
       setErrorMessage(message ?? "");
       props.setErrorState((prev) => prev.set(props.id, message ?? ""));
->>>>>>> e6678eb (implement the form post feature)
-=======
-    const files = filesDOM.current?.files;
-    const fileNumber = files?.length;
-
-    let message = "";
-    if (props.required && (!fileNumber || fileNumber < 1)) {
-      // 必須の場合ファイルが選択されているか確認
-      message = `ファイルをアップロードしてください`;
-    } else if (props.limit && fileNumber && fileNumber > props.limit) {
-      // ファイルの上限数の検証
-      message = `ファイルは${props.limit}個までしかアップロードできません`;
-    } else if (
-      extensionsRegex &&
-      files &&
-      [...Array(fileNumber)].some((_, i) => !extensionsRegex.test(files[i].name))
-    ) {
-      // ファイルの拡張子の検証
-      message = `ファイルの拡張子は${props.extensions?.join("、")}のいずれかにしてください`;
-    }
-
-    if (message) {
-      setErrorMessage(message ?? "");
-      props.setErrorState((prev) => prev.set(props.id, message ?? ""));
->>>>>>> 7909d428f0917bdbc92754794c40f0a27703744c
     } else {
       setErrorMessage(null);
       props.setErrorState((prev) => prev.set(props.id, null));
     }
-<<<<<<< HEAD
-    const isValid3 = filesDOM.current?.checkValidity();
-    if (!isValid3) {
-      setErrorMessage(filesDOM.current?.validationMessage ?? "");
-      return;
-    }
-
-    setErrorMessage(null);
-=======
->>>>>>> e6678eb (implement the form post feature)
   };
 
   const getFiles = (event: DragEvent<HTMLDivElement>) => {
