@@ -1,5 +1,5 @@
 import { css } from "@styled-system/css";
-import Link from "next/link"
+import Link from "next/link";
 import dayjs from "dayjs";
 import { FC } from "react";
 
@@ -16,11 +16,14 @@ export const FormsList: FC<{
 }> = ({ forms }) => {
   return (
     <div>
-      <div className={css({
-        width: "full",
-        display: "grid",
-        justifyContent: "flex-end"
-      })}><Link href="/committee/forms/new">+ 新規作成</Link></div>
+      <div
+        className={css({
+          width: "full",
+          display: "grid",
+          justifyContent: "flex-end",
+        })}>
+        <Link href="/committee/forms/new">+ 新規作成</Link>
+      </div>
       <div
         className={css({
           width: "full",
