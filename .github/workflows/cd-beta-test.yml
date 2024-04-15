@@ -38,6 +38,6 @@ jobs:
           branch: ${{ github.head_ref || github.ref_name }}
           apiToken: ${{secrets.CLOUDFLARE_API_TOKEN}}
           accountId: ${{vars.CLOUDFLARE_ACCOUNT_ID}}
-          projectName: ${{vars.CLOUDFLARE_BETA_PROJECT_NAME}}
+          projectName: ${{vars.CLOUDFLARE_BETA_PROJECT_NAME_TEST}}
           directory: ".vercel/output/static"
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
