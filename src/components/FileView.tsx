@@ -1,6 +1,8 @@
 import Image from "next/image";
+import downloadIcon from "./assets/Download.svg";
 import deleteIcon from "./assets/TrashOutline.svg";
 import { css, cva } from "@styled-system/css";
+import { FC } from "react";
 
 interface Props {
   name: string;
@@ -37,6 +39,7 @@ export const FileView = (props: Props) => {
   return (
     <div className={fileViewStyle({ isError: props.error })}>
       <span>{props.name}</span>
+      {props.link !== undefined && <DownloadBuutton link={props.link} />}
       {props.delete !== undefined && (
         <button
           onClick={(e) => {
@@ -62,3 +65,17 @@ export const FileView = (props: Props) => {
     </div>
   );
 };
+
+type DownloadButtonProps = { link: string };
+const DownloadBuutton: FC<DownloadButtonProps> = ({ link }) => (
+  <a href={link} download>
+    <Image
+      src={downloadIcon}
+      alt="ダウンロード"
+      className={css({
+        height: 5,
+        width: 5,
+      })}
+    />
+  </a>
+);
