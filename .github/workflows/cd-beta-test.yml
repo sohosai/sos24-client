@@ -1,0 +1,43 @@
+name: CD(beta-test)
+
+on:
+  push:
+    branches:
+      - feat/cd-test
+  workflow_dispatch:
+
+jobs:
+  build_and_deploy:
+    runs-on: [self-hosted, portainer]
+    permissions:
+      contents: read
+      deployments: write
+    name: Publish to Cloudflare
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: develop
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "latest"
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
+      - name: build
+        run: npx @cloudflare/next-on-pages@1
+        env:
+          NEXT_PUBLIC_API_ENDPOINT: ${{vars.BETA_API_ENDPOINT}}
+          NEXT_PUBLIC_FIREBASE_API_KEY: ${{vars.BETA_FIREBASE_API_KEY}}
+          NEXT_PUBLIC_FIREBASE_APP_ID: ${{vars.BETA_FIREBASE_APP_ID}}
+          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{vars.BETA_FIREBASE_AUTH_DOMAIN}}
+          NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{vars.BETA_FIREBASE_MESSAGING_SENDER_ID}}
+          NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{vars.BETA_FIREBASE_PROJECT_ID}}
+          NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{vars.BETA_FIREBASE_STORAGE_BUCKET}}
+      - name: deploy
+        uses: cloudflare/pages-action@v1
+        with:
+          branch: ${{ github.head_ref || github.ref_name }}
+          apiToken: ${{secrets.CLOUDFLARE_API_TOKEN}}
+          accountId: ${{vars.CLOUDFLARE_ACCOUNT_ID}}
+          projectName: ${{vars.CLOUDFLARE_BETA_PROJECT_NAME}}
+          directory: ".vercel/output/static"
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
