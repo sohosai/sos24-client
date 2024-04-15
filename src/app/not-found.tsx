@@ -2,22 +2,22 @@ import Image from "next/image";
 
 import notFoundSopotan from "@/components/assets/notFoundSopotan.png";
 import { css } from "@styled-system/css";
-import { box, center, hstack, vstack } from "@styled-system/patterns";
+import { box, center, flex, vstack } from "@styled-system/patterns";
 export default function NotFoundPage() {
   return (
-    <div className={center({ w: "full", mt: 48 })}>
-      <div className={hstack({ gap: 24 })}>
+    <div className={center({ w: "full", h: "calc(85vh)" })}>
+      <div className={flex({ align: "center", direction: { sm: "row", base: "column" }, gap: { sm: "4vw", base: 5 } })}>
         <Image
           src={notFoundSopotan}
           alt=""
           className={css({
-            height: 60,
             width: 60,
+            height: "auto",
             mt: 5,
           })}
         />
-        <div className={box({ width: "390px" })}>
-          <div className={vstack({ gap: 12 })}>
+        <div className={box({ maxW: "390px", paddingX: 3 })}>
+          <div className={vstack({ gap: 8 })}>
             <span className={css({ fontSize: "24px", fontWeight: "600" })}>お探しのページが見つかりません。</span>
             <span
               className={css({
