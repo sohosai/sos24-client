@@ -8,7 +8,6 @@ import { ProjectTableView } from "./ProjectView";
 import { assignType } from "@/lib/openapi";
 import useSWR from "swr";
 import { basicErrorMessageStyle } from "@/components/formFields/styles";
-
 export const Project: React.FC = () => {
   const [editable, setEditable] = useState(false);
   const {
@@ -36,7 +35,6 @@ export const Project: React.FC = () => {
               <div className={basicErrorMessageStyle}>企画取得に失敗しました</div>
             ) : (
               <ProjectTableView
-                isCommittee={false}
                 isEditMode={editable}
                 onSubmit={() => {
                   mutateProject(rawProjectData);

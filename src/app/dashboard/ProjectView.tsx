@@ -219,11 +219,6 @@ export const ProjectTableView: React.FC<{
         <TableRow label="企画属性" formId="attributes">
           {<ProjectAttributesBadge attributes={projectData.attributes} />}
         </TableRow>
-        <div className={css({ display: "flex", justifyContent: "space-between", mt: 5 })}>
-          <label className={cx(css({ fontWeight: "bold" }))}>企画の削除</label>
-
-          <Button color="secondary">企画を削除</Button>
-        </div>
       </div>
       {isEditMode && (
         <Button type="submit" color="blue">
