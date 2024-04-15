@@ -16,7 +16,7 @@ import { FileErrorsType, FilesFormType } from "@/app/forms/[form_id]/FormItems";
 interface Props extends basicFieldProps {
   extensions?: string[];
   limit?: number | null;
-  files: FilesFormType;
+  files?: FilesFormType;
   setFiles: Dispatch<SetStateAction<FilesFormType>>;
   setErrorState: Dispatch<SetStateAction<FileErrorsType>>;
 }
