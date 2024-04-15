@@ -59,7 +59,7 @@ export const News: FC<{
               alt=""
               className={css({ cursor: "pointer", pt: 2 })}
               onClick={() => {
-                const res = client
+                client
                   .DELETE("/news/{news_id}", {
                     params: {
                       path: {
