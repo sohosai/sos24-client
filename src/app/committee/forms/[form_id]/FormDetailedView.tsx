@@ -8,8 +8,22 @@ import { css } from "@styled-system/css";
 import { hstack, vstack } from "@styled-system/patterns";
 import dayjs from "dayjs";
 import { LabelAndTime } from "./LabelAndTime";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { FilesFormType, FormItems } from "@/app/forms/[form_id]/FormItems";
+import { FormAnswerList } from "./FormAnswerList";
 
 export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }> = ({ form }) => {
+  const {
+    register,
+    getValues,
+    setValue,
+    formState: { errors },
+  } = useForm({ mode: "onBlur" });
+
+  const [_, setState] = useState<FilesFormType>(new Map());
+  const [__, setFileErrors] = useState(new Map());
+
   return (
     <div className={vstack({ gap: 4, alignItems: "start", width: "full" })}>
       <div>
@@ -49,10 +63,30 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
         />
       </div>
       <>{form.attachments.forEach((file) => file)}</>
-      <div className={vstack({ gap: 2 })}>
+      <div className={vstack({ gap: 2, alignItems: "start" })}>
         <LabelAndTime label="受付開始日時" time={form.starts_at} />
         <LabelAndTime label="受付終了日時" time={form.ends_at} />
       </div>
+      <form
+        className={css({
+          marginBlock: 10,
+          display: "flex",
+          flexDirection: "column",
+          width: "full",
+          rowGap: 3,
+        })}>
+        <FormItems
+          items={form.items}
+          getValues={getValues}
+          setValue={setValue}
+          register={register}
+          errors={errors}
+          files={new Map()}
+          setFiles={setState}
+          setFileErrors={setFileErrors}
+        />
+      </form>
+      <FormAnswerList formId={form.id} deadline={form.ends_at} />
     </div>
   );
 };
