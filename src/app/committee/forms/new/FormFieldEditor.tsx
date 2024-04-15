@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { CreateFormInput, FormFieldType, type FormField } from "./page";
 import { UseFieldArrayMove, UseFormRegister } from "react-hook-form";
 import { checkboxFormStyle } from "@/components/formFields/styles";
 import { css } from "@styled-system/css";
@@ -9,6 +8,7 @@ import { hstack, stack } from "@styled-system/patterns";
 import pulldownMenu from "@/components/assets/pulldownMenu.svg";
 import trashOutline from "@/components/assets/TrashOutline.svg";
 import Image from "next/image";
+import { FormFieldType, FormField, CreateFormInput } from "./FormEditor";
 
 const getFieldTypeText = (type: FormFieldType): string => {
   switch (type) {
@@ -20,6 +20,8 @@ const getFieldTypeText = (type: FormFieldType): string => {
       return "ドロップダウン";
     case "choose_many":
       return "チェックボックス";
+    case "file":
+      return "ファイル";
     default:
       return "unreachable";
   }
@@ -200,6 +202,23 @@ export const FormFieldEditor: FC<{
                       className={textInputStyle}
                     />
                   </div>
+                </div>
+              </>
+            );
+          case "file":
+            return (
+              <>
+                <div>
+                  <label>ファイル数上限</label>
+                  <input
+                    type="number"
+                    {...register(`items.${index}.limit`, { required: true, valueAsNumber: true })}
+                    className={textInputStyle}
+                  />
+                </div>
+                <div>
+                  <label>拡張子(改行区切り)</label>
+                  <textarea {...register(`items.${index}.extensions`, { required: true })} className={textInputStyle} />
                 </div>
               </>
             );
