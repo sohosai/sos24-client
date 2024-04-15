@@ -7,7 +7,7 @@ import { valibotResolver } from "@hookform/resolvers/valibot";
 import toast from "react-hot-toast";
 import { Button } from "@/components/Button";
 import { vstack } from "@styled-system/patterns";
-import { css, cx } from "@styled-system/css";
+import { css } from "@styled-system/css";
 import React from "react";
 import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
 import { components } from "@/schema";

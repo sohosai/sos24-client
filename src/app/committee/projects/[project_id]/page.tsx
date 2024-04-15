@@ -6,7 +6,7 @@ import { assignType, client } from "@/lib/openapi";
 import Link from "next/link";
 import useSWR from "swr";
 import { ProjectTableView } from "@/app/dashboard/ProjectView";
-import { Button } from "@/components/Button";
+
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import deleteButton from "@/components/assets/deleteProjectButton.svg";
