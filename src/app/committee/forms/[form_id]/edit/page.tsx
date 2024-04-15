@@ -10,6 +10,8 @@ import { stack } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
 import dayjs from "dayjs";
 
+export const runtime = "edge";
+
 const EditFormPage: NextPage<{ params: { form_id: string } }> = ({ params }) => {
   const {
     data: previousValuesData,
