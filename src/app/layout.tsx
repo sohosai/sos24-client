@@ -9,13 +9,6 @@ import { Toaster } from "react-hot-toast";
 export const metadata: Metadata = {
   title: "雙峰祭オンラインシステム",
   description: "",
-  icons: [
-    {
-      rel: "icon",
-      url: "/favicon.png",
-      sizes: "any",
-    },
-  ],
 };
 
 export default function RootLayout({
