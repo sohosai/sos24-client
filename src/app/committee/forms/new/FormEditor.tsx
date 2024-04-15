@@ -110,7 +110,7 @@ export const FormEditor: FC<{
             categories: data.categories.length === 0 ? [...projectCategories] : data.categories,
             starts_at: data.starts_at === "" ? dayjs().toISOString() : data.starts_at,
             ends_at: dayjs(data.ends_at).toISOString(),
-            attachments: fileIds.attachments,
+            attachments: fileIds.attachments ?? [],
             items: [
               ...data.items.map((item) => {
                 if (item.type === "choose_many" || item.type === "choose_one") {
