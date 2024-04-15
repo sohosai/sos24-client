@@ -1,4 +1,4 @@
-import { flex, stack } from "@styled-system/patterns";
+import { flex, hstack, stack } from "@styled-system/patterns";
 import Link from "next/link";
 import { css } from "@styled-system/css";
 import dayjs from "dayjs";
@@ -9,6 +9,9 @@ import { components } from "@/schema";
 import { Button } from "@/components/Button";
 import { useRouter } from "next/navigation";
 import { FC } from "react";
+import deleteNewsButton from "@/components/assets/deleteNewsButton.svg";
+import { client } from "@/lib/openapi";
+import toast from "react-hot-toast";
 
 export const News: FC<{
   news: components["schemas"]["News"];
@@ -50,20 +53,48 @@ export const News: FC<{
           {news.title}
         </h2>
         {isCommittee && (
-          <Button
-            color="blue"
-            className={flex({
-              verticalAlign: "middle",
-            })}
-            onClick={() => router.push(`/committee/news/${news.id}/edit`)}>
-            <span
-              className={css({
-                fontSize: "xs",
-                fontWeight: "bold",
-              })}>
-              編集
-            </span>
-          </Button>
+          <div className={hstack()}>
+            <Image
+              src={deleteNewsButton}
+              alt=""
+              className={css({ cursor: "pointer", pt: 2 })}
+              onClick={() => {
+                const res = client
+                  .DELETE("/news/{news_id}", {
+                    params: {
+                      path: {
+                        news_id: news.id,
+                      },
+                    },
+                  })
+                  .then(({ error }) => {
+                    if (error) {
+                      toast.error("お知らせの削除に失敗しました");
+                      return;
+                    }
+                    toast.success("お知らせを削除しました");
+                    router.push("/committee/news");
+                  })
+                  .catch((e) => {
+                    throw e;
+                  });
+              }}
+            />
+            <Button
+              color="blue"
+              className={flex({
+                verticalAlign: "middle",
+              })}
+              onClick={() => router.push(`/committee/news/${news.id}/edit`)}>
+              <span
+                className={css({
+                  fontSize: "xs",
+                  fontWeight: "bold",
+                })}>
+                編集
+              </span>
+            </Button>
+          </div>
         )}
       </div>
       <hr
