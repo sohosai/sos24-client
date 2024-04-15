@@ -2,8 +2,6 @@ name: CD(beta-test)
 
 on:
   push:
-    branches:
-      - feat/cd-test
   workflow_dispatch:
 
 jobs:
