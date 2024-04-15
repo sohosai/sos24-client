@@ -10,8 +10,20 @@ import Image from "next/image";
 import pulldownIcon from "@/components/assets/Pulldown.svg";
 import { css } from "@styled-system/css";
 import { Project } from "./Project";
+import { assignType } from "@/lib/openapi";
+import useSWR from "swr";
+import { useRouter } from "next/navigation";
 
 const DashboardPage: NextPage = () => {
+  const { data: userRes, isLoading, error } = useSWR("/users/me");
+  const router = useRouter();
+  const user = assignType("/users/me", userRes);
+  if (isLoading) return;
+  if (error) return <p>エラーが発生しました</p>;
+  if (!user.owned_project_id) {
+    router.push("/register");
+    return;
+  }
   return (
     <div className={container()}>
       <div className={stack({ gap: 8, marginY: 8 })}>
