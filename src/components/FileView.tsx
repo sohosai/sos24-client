@@ -66,8 +66,8 @@ export const FileView = (props: Props) => {
   );
 };
 
-type downloadButtonProps = { link: string };
-const DownloadBuutton: FC<downloadButtonProps> = ({ link }) => (
+type DownloadButtonProps = { link: string };
+const DownloadBuutton: FC<DownloadButtonProps> = ({ link }) => (
   <a href={link} download>
     <Image
       src={downloadIcon}
