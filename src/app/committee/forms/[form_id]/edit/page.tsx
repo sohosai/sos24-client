@@ -2,17 +2,18 @@
 
 import { assignType, client } from "@/lib/openapi";
 import { NextPage } from "next";
-import router from "next/router";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 import { CreateFormInput, FormEditor, FormField, HandleFormEditorSubmit } from "../../new/FormEditor";
 import { stack } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
 import dayjs from "dayjs";
+import { useRouter } from "next/navigation";
 
 export const runtime = "edge";
 
 const EditFormPage: NextPage<{ params: { form_id: string } }> = ({ params }) => {
+  const router = useRouter();
   const {
     data: previousValuesData,
     error,

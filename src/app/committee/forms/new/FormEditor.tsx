@@ -108,7 +108,7 @@ export const FormEditor: FC<{
             ...data,
             attributes: data.attributes.length === 0 ? [...projectAttributes] : data.attributes,
             categories: data.categories.length === 0 ? [...projectCategories] : data.categories,
-            starts_at: data.starts_at === "" ? dayjs().toISOString() : data.starts_at,
+            starts_at: (data.starts_at === "" ? dayjs() : dayjs(data.starts_at)).toISOString(),
             ends_at: dayjs(data.ends_at).toISOString(),
             attachments: fileIds.attachments ?? [],
             items: [
