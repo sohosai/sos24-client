@@ -64,7 +64,6 @@ export const Header: FC = () => {
   const auth = getAuth();
   const { data: userRes, isLoading: userIsLoading } = useSWR("/users/me");
   const userInfo = !userIsLoading ? assignType("/users/me", userRes) : undefined;
-  const { error: projectErr, isLoading: projectIsLoading } = useSWR("/projects/me");
   const path = usePathname();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const menu = path.startsWith("/committee") ? committeeMenu : generalMenu;
@@ -182,7 +181,7 @@ export const Header: FC = () => {
             })}>
             <img src="https://www.sakura.ad.jp/brand-assets/images/logo-3.png" alt="" className={css({ height: 6 })} />
           </a>
-          {((!projectIsLoading && !projectErr) || path.startsWith("/committee")) && <HeaderMenuItems menu={menu} />}
+          {(!userInfo?.owned_project_id || path.startsWith("/committee")) && <HeaderMenuItems menu={menu} />}
         </div>
         {isLoading || !user ? (
           <></>
