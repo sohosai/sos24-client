@@ -6,7 +6,7 @@ import Image from "next/image";
 import { basicErrorMessageStyle, basicFormLabelStyle } from "@/components/formFields/styles";
 import { flex, stack, visuallyHidden } from "@styled-system/patterns";
 import React from "react";
-import { Separator } from "../../../components/Separator";
+import { Separator } from "@/components/Separator";
 
 interface CategoryItem {
   label: string;
