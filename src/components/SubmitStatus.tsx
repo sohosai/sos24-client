@@ -18,15 +18,15 @@ export const SubmitStatusBadge = ({ status, className }: Props) => {
     },
     variants: {
       status: {
-        未提出: {
+        提出済み: {
           backgroundColor: "gray.200",
           color: "black",
         },
-        提出済み: {
+        遅延提出: {
           backgroundColor: "sohosai.blue",
           color: "white",
         },
-        遅延提出: {
+        未提出: {
           backgroundColor: "sohosai.orange",
           color: "white",
         },
