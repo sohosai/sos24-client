@@ -1,5 +1,5 @@
-import type { DragEvent } from "react";
-import { FC, useRef, useState } from "react";
+import type { Dispatch, DragEvent, SetStateAction } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { css, cva } from "@styled-system/css";
 import { basicFieldProps } from "./_components/types";
@@ -11,45 +11,63 @@ import { FileView } from "@/components/FileView";
 
 import clickIcon from "@/components/assets/Click.svg";
 import driveIcon from "@/components/assets/Drive.svg";
+import { FileErrorsType, FilesFormType } from "@/app/forms/[form_id]/FormItems";
 
 interface Props extends basicFieldProps {
   extensions?: string[];
   limit?: number | null;
+  files: FilesFormType;
+  setFiles: Dispatch<SetStateAction<FilesFormType>>;
+  setErrorState: Dispatch<SetStateAction<FileErrorsType>>;
 }
 
-export const FilesForm: FC<Props> = (props: Props) => {
+export const FilesField = (props: Props) => {
+  const { ref, ...rest } = props.register;
   const [maxFiles, setMaxFiles] = useState(0);
   const [fileIds, setFileIds] = useState<number[]>([]);
-  const filesDOM = useRef<HTMLInputElement>(null);
+
+  const filesDOM = useRef<HTMLInputElement | null>(null);
   const [isDragged, setIsDragged] = useState(false);
+
+  //const files = props.files
+  const setFiles = props.setFiles;
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const validateFiles = () => {
-    filesDOM.current?.setCustomValidity("");
-    const isValid = filesDOM.current?.checkValidity();
+    const files = filesDOM.current?.files;
+    const fileNumber = files?.length;
 
-    if (isValid) {
-      const fileNumber = filesDOM.current?.files?.length;
-      if (props.limit && fileNumber && fileNumber > props.limit) {
-        filesDOM.current?.setCustomValidity(`ファイルは${props.limit}個までしかアップロードできません`);
-      } else {
-        filesDOM.current?.setCustomValidity("");
-      }
+    let message = "";
+    if (props.required && (!fileNumber || fileNumber < 1)) {
+      // 必須の場合ファイルが選択されているか確認
+      message = `ファイルをアップロードしてください`;
+    } else if (props.limit && fileNumber && fileNumber > props.limit) {
+      // ファイルの上限数の検証
+      message = `ファイルは${props.limit}個までしかアップロードできません`;
+    } else if (
+      extensionsRegex &&
+      files &&
+      [...Array(fileNumber)].some((_, i) => !extensionsRegex.test(files[i].name))
+    ) {
+      // ファイルの拡張子の検証
+      message = `ファイルの拡張子は${props.extensions?.join("、")}のいずれかにしてください`;
     }
 
-    const isValid2 = filesDOM.current?.checkValidity();
-
-    if (!(isValid && isValid2)) {
-      setErrorMessage(filesDOM.current?.validationMessage ?? "");
+    if (message) {
+      setErrorMessage(message ?? "");
+      props.setErrorState((prev) => prev.set(props.id, message ?? ""));
     } else {
       setErrorMessage(null);
+      props.setErrorState((prev) => prev.set(props.id, null));
     }
   };
 
   const getFiles = (event: DragEvent<HTMLDivElement>) => {
     setIsDragged(false);
     if (filesDOM.current?.files && event.dataTransfer && event.dataTransfer.files.length > 0) {
-      filesDOM.current.files = addFile(filesDOM.current.files, event.dataTransfer.files);
+      const newFile = addFile(filesDOM.current.files, event.dataTransfer.files);
+      filesDOM.current.files = newFile;
+      setFiles((prev) => prev.set(props.id, newFile));
     }
   };
   const [updateFile, setUpdateFile] = useState(false);
@@ -102,6 +120,11 @@ export const FilesForm: FC<Props> = (props: Props) => {
     },
   });
 
+  const extensionsRegex =
+    props.extensions && props.extensions.length >= 1
+      ? new RegExp(`(${props.extensions.map((e) => e.replaceAll(".", "\\.")).join("|")})$`, "i")
+      : undefined;
+
   const files = filesDOM.current?.files;
   return (
     <div>
@@ -112,7 +135,6 @@ export const FilesForm: FC<Props> = (props: Props) => {
         )}
       </span>
       <div
-        id="drop_area"
         role="form"
         onDragOver={(e) => {
           e.preventDefault();
@@ -128,7 +150,8 @@ export const FilesForm: FC<Props> = (props: Props) => {
         }}
         className={dropAreaStyle({ isDragged })}>
         <button
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             filesDOM.current?.click();
           }}
           className={css({
@@ -179,22 +202,28 @@ export const FilesForm: FC<Props> = (props: Props) => {
       </div>
       <input
         type="file"
-        id="userfile"
         accept={props.extensions ? props.extensions.join(",") : undefined}
         multiple={!props.limit || props.limit > 1}
-        ref={filesDOM}
+        {...rest}
+        ref={(e) => {
+          ref(e);
+          filesDOM.current = e;
+        }}
         className={css({
           display: "none",
         })}
         onChange={(e) => {
           e.preventDefault();
+          if (filesDOM.current?.files) {
+            setFiles((prev) => prev.set(props.id, filesDOM.current?.files ?? null));
+          }
           validateFiles();
 
           // 毎回確実にstateを更新して再レンダリングさせる
           setUpdateFile(!updateFile);
         }}
       />
-      <span className={basicErrorMessageStyle}>{errorMessage}</span>
+      <span className={basicErrorMessageStyle}>{props.error ? props.error : errorMessage}</span>
       <div
         className={css({
           display: "flex",
@@ -207,16 +236,21 @@ export const FilesForm: FC<Props> = (props: Props) => {
             if (!file) {
               return;
             }
+
+            const error = extensionsRegex ? !extensionsRegex.test(file.name) : false;
             return (
               <FileView
                 key={fileIds[i]}
                 name={file.name}
+                error={error}
                 delete={() => {
                   if (!files) {
                     return;
                   }
 
-                  filesDOM.current.files = deleteFile(files, i);
+                  if (filesDOM.current) {
+                    filesDOM.current.files = deleteFile(files, i);
+                  }
                   validateFiles();
                 }}
               />
