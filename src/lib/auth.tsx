@@ -19,6 +19,9 @@ export const AuthProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
       value={{
         fetcher: async (url) => fetcherWithToken(url, await authState.user?.getIdToken()),
         errorRetryCount: 2,
+        onErrorRetry: (error) => {
+          if (error.status === 404) return;
+        },
       }}>
       <AuthUI>{children}</AuthUI>
     </SWRConfig>
