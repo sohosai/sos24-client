@@ -7,13 +7,16 @@ import { css } from "@styled-system/css";
 import { stack, visuallyHidden } from "@styled-system/patterns";
 import dayjs from "dayjs";
 import { NextPage } from "next";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { FormFieldEditor } from "./FormFieldEditor";
 import { sectionTitleStyle, descriptionStyle, checkboxGrpupStyle, checkboxStyle, textInputStyle } from "./styles";
 import { Button } from "@/components/Button";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { FilesField } from "@/components/formFields/Files";
+import { FileErrorsType, FilesFormType } from "@/app/forms/[form_id]/FormItems";
+import { deleteAllUploadedFiles, postFiles } from "@/lib/postFile";
 
 const Divider: FC = () => {
   return <div className={css({ width: "full", height: "2px", background: "gray.400" })}></div>;
@@ -78,9 +81,24 @@ const CreateFormPage: NextPage = () => {
   });
   const { fields, append, remove, move } = useFieldArray({ name: "items", control });
 
-  const onSubmit = handleSubmit((data) => {
+  const [files, setFiles] = useState<FilesFormType>(new Map([["attachments", null]]));
+  const [fileErrors, setFileErrors] = useState<FileErrorsType>(new Map([["attachments", null]]));
+
+  const onSubmit = handleSubmit(async (data) => {
+    if (fileErrors.get("attachments")) {
+      toast.error("正しいファイルをアップロードしてください");
+      return;
+    }
+
+    const fileIds = await postFiles("public", files);
+    if (!fileIds) {
+      toast.error("ファイルのアップロードに失敗しました");
+      return;
+    }
+
     const body = {
       ...data,
+      attachments: fileIds.attachments,
       attributes: data.attributes.length === 0 ? [...projectAttributes] : data.attributes,
       categories: data.categories.length === 0 ? [...projectCategories] : data.categories,
       starts_at: data.starts_at === "" ? dayjs().toISOString() : data.starts_at,
@@ -109,6 +127,7 @@ const CreateFormPage: NextPage = () => {
           router.push("/committee/forms");
         } else {
           toast.error("申請の作成に失敗しました");
+          deleteAllUploadedFiles(fileIds);
         }
       });
   });
@@ -212,7 +231,13 @@ const CreateFormPage: NextPage = () => {
             <textarea {...register("description", { required: true })} className={textInputStyle} />
           </div>
           <div>
-            <label htmlFor="attachments">添付ファイル</label>
+            <FilesField
+              id="attachments"
+              label="添付ファイル"
+              register={register("attachments")}
+              setFiles={setFiles}
+              setErrorState={setFileErrors}
+            />
           </div>
           <div>
             <p className={descriptionStyle}>受付開始日時を選択しなかった場合現在時刻が入力されます</p>
