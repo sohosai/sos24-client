@@ -6,6 +6,7 @@ import Image from "next/image";
 import { basicErrorMessageStyle, basicFormLabelStyle } from "@/components/formFields/styles";
 import { flex, stack, visuallyHidden } from "@styled-system/patterns";
 import React from "react";
+import { Separator } from "@/components/Separator";
 
 interface CategoryItem {
   label: string;
@@ -130,18 +131,5 @@ const Badge = ({ label, allowed }: BadgeProps) => {
       <span>{label}</span>
       <span>{allowed ? "可" : "不可"}</span>
     </span>
-  );
-};
-
-// ref: https://stackoverflow.com/questions/69530735/make-a-css-rounded-dotted-line
-const Separator = () => {
-  return (
-    <div
-      className={css({
-        height: 1,
-        background:
-          "radial-gradient(circle closest-side, var(--colors-gray-400) 98%,#0000)   50%/10px 100%," +
-          "linear-gradient(90deg, var(--colors-gray-400) 50%, #0000 0)              50%/20px 100%;",
-      })}></div>
   );
 };
