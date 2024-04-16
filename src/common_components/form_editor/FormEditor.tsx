@@ -144,7 +144,7 @@ export const FormEditor: FC<{
           <p className={descriptionStyle}>選択しない場合全ての企画が対象になります</p>
 
           <div className={stack({ gap: 2 })}>
-            <label>企画区分</label>
+            <p>企画区分</p>
             <div className={checkboxGrpupStyle}>
               {projectCategories.map((category) => (
                 <Controller
@@ -175,7 +175,7 @@ export const FormEditor: FC<{
           </div>
 
           <div className={stack({ gap: 2 })}>
-            <label>企画属性</label>
+            <p>企画属性</p>
             <div className={checkboxGrpupStyle}>
               {projectAttributes.map((attribute) => (
                 <Controller
@@ -230,11 +230,11 @@ export const FormEditor: FC<{
           <div>
             <p className={descriptionStyle}>受付開始日時を選択しなかった場合現在時刻が入力されます</p>
             <div>
-              <label>受付開始日時</label>
+              <label htmlFor="starts_at">受付開始日時</label>
               <input type="datetime-local" {...register("starts_at")} />
             </div>
             <div>
-              <label>受付終了日時</label>
+              <label htmlFor="ends_at">受付終了日時</label>
               <input type="datetime-local" {...register("ends_at", { required: true })} />
             </div>
           </div>
