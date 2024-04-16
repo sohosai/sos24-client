@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import notFoundSopotan from "@/components/assets/notFoundSopotan.png";
 import { css } from "@styled-system/css";
-import { box, center, flex, vstack } from "@styled-system/patterns";
+import { box, center, flex } from "@styled-system/patterns";
 
 interface Props {
   message?: string;
@@ -22,7 +22,7 @@ export const NotFound: FC<Props> = ({ message = "お探しのページが見つ�
         })}
       />
       <div className={box({ maxW: "390px", paddingX: 3 })}>
-        <div className={vstack({ gap: 8 })}>
+        <div className={flex({ gap: 8, align: "start" })}>
           <span className={css({ fontSize: "24px", fontWeight: "600" })}>{message}</span>
           <span
             className={css({
