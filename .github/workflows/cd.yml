@@ -2,7 +2,7 @@ name: CD
 run-name: CD - ${{ github.event_name }}
 
 on:
-#  push:
+  #  push:
   pull_request:
     branches:
       - main
@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  PROJECT_NAME:  ${{ vars.CLOUDFLARE_PROJECT_NAME }}
+  PROJECT_NAME: ${{ vars.CLOUDFLARE_PROJECT_NAME }}
   PRODUCTION_BRANCH: main
 
 jobs:
@@ -42,7 +42,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: build (branch preview)
-        if: ${{ (github.head_ref || github.ref_name) != env.PRODUCTION_BRANCH }}
+        if: ${{ ((github.head_ref || github.ref_name) != env.PRODUCTION_BRANCH) && github.event.action == 'synchronized' }}
         run: npx @cloudflare/next-on-pages@1
         env:
           NEXT_PUBLIC_API_ENDPOINT: ${{secrets.DEV_API_ENDPOINT}}
@@ -53,7 +53,7 @@ jobs:
           NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{secrets.DEV_FIREBASE_PROJECT_ID}}
           NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{secrets.DEV_FIREBASE_STORAGE_BUCKET}}
       - name: build (production)
-        if: ${{ (github.head_ref || github.ref_name) == env.PRODUCTION_BRANCH }}
+        if: ${{ ((github.head_ref || github.ref_name) == env.PRODUCTION_BRANCH) && github.event.pull_request.merged == true }}
         run: npx @cloudflare/next-on-pages@1
         env:
           NEXT_PUBLIC_API_ENDPOINT: ${{secrets.PROD_API_ENDPOINT}}
@@ -95,7 +95,7 @@ jobs:
         id: publish
       - name: generate alias url
         id: generate-alias-url
-        if: ${{ (github.head_ref || github.ref_name) != env.PRODUCTION_BRANCH }}
+        if: ${{ (github.head_ref || github.ref_name) != env.PRODUCTION_BRANCH && github.event.action == 'synchronized'}}
         env:
           BRANCH: ${{ github.ref_name }}
           PUBLISH_CFPAGES_URL: ${{ steps.publish.outputs.deployment-url }}
@@ -155,7 +155,7 @@ jobs:
             commit message: [${{ github.event.head_commit.message}}](${{ github.server_url }}/${{ github.repository }}/tree/${{ github.event.head_commit.id}})\n
             commit author: \`${{ github.event.head_commit.author.name }}\`\n
             commit date: \`${{ github.event.head_commit.timestamp }}\`\n
-            
+
             <details><summary>Deploying with Cloudflare Pages</summary>
 
             \`\`\`deploy\n
