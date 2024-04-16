@@ -19,6 +19,7 @@ import { SwitchModeButton } from "./SwitchModeButton";
 import { MobileMenu } from "./MobileMenu";
 import { HeaderMenuItems } from "./HeaderMenuItems";
 import { HeaderNavigation } from "./HeaderNavigation";
+import { components } from "@/schema";
 
 export type MenuData = {
   path: Route;
@@ -53,11 +54,40 @@ const committeeMenu: MenuData[] = [
     path: "/committee/news",
     name: "お知らせ",
   },
+];
+
+const committeeOperatorMenu: MenuData[] = [
+  {
+    path: "/committee/projects",
+    name: "企画",
+  },
+  {
+    path: "/committee/forms",
+    name: "申請",
+  },
+  {
+    path: "/committee/news",
+    name: "お知らせ",
+  },
   {
     path: "/committee/users",
-    name: "ユーザ",
+    name: "ユーザー",
   },
 ];
+
+const menuForRole = (role?: components["schemas"]["UserRole"]): MenuData[] => {
+  switch (role) {
+    case "administrator":
+    case "committee_operator":
+      return committeeOperatorMenu;
+    case "committee":
+      return committeeMenu;
+    case "general":
+      return generalMenu;
+    default:
+      return [];
+  }
+};
 
 export const Header: FC = () => {
   const { user, isLoading } = useAuthState();
@@ -66,7 +96,7 @@ export const Header: FC = () => {
   const userInfo = !userIsLoading ? assignType("/users/me", userRes) : undefined;
   const path = usePathname();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const menu = path.startsWith("/committee") ? committeeMenu : generalMenu;
+  const menu = path.startsWith("/committee") ? menuForRole(userInfo?.role) : generalMenu;
 
   useEffect(() => {
     setShowMobileMenu(false);
