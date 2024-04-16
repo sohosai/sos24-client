@@ -5,10 +5,10 @@ import { NextPage } from "next";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 import { css } from "@styled-system/css";
-import { Button } from "@/components/Button";
+import { Button } from "@/common_components/Button";
 import { FormsList } from "./FormsList";
 import { stack } from "@styled-system/patterns";
-import { NotificationBadge } from "@/components/NotificationBadge";
+import { NotificationBadge } from "@/common_components/NotificationBadge";
 import { useAtomValue } from "jotai";
 import { hiddenFormIdsAtom } from "./hiddenFormIds";
 
@@ -79,7 +79,7 @@ const DashboardPage: NextPage = () => {
           </h2>
         </div>
         <div className={stack({ padding: 10, gap: 4, alignItems: "flex-start", width: "100%" })}>
-          <Button color={isSubmittedShown ? "secondary" : "primary"} onClick={toggleFilter} onTouchEnd={toggleFilter}>
+          <Button color={isSubmittedShown ? "secondary" : "purple"} onClick={toggleFilter} onTouchEnd={toggleFilter}>
             未提出のみ表示
           </Button>
           <FormsList

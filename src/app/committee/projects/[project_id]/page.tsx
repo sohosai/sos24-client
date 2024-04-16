@@ -6,12 +6,12 @@ import { assignType, client } from "@/lib/openapi";
 import Link from "next/link";
 import useSWR from "swr";
 
-import { ProjectTableView } from "@/components/project/ProjectView";
+import { ProjectTableView } from "@/common_components/project/ProjectView";
 import toast from "react-hot-toast";
 import { notFound, useRouter } from "next/navigation";
-import deleteButton from "@/components/assets/deleteProjectButton.svg";
+import deleteButton from "@/assets/deleteProjectButton.svg?url";
 import Image from "next/image";
-import { Button } from "@/components/Button";
+import { Button } from "@/common_components/Button";
 export const runtime = "edge";
 
 const deleteProject = async (project_id: string) => {
@@ -49,7 +49,7 @@ const NewsDetailsPage = ({ params }: { params: { project_id: string } }) => {
         <Link
           href="/committee/projects"
           className={css({
-            color: "sohosai.purple",
+            color: "tsukuba.purple",
             fontSize: "xs",
           })}>
           ←企画一覧に戻る

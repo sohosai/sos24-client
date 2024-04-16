@@ -1,16 +1,16 @@
 "use client";
-import { Button } from "@/components/Button";
-import { basicErrorMessageStyle, basicFormStyle } from "@/components/formFields/styles";
-import { AttributesFormatter } from "@/components/project/AttributesFormatter";
+import { Button } from "@/common_components/Button";
+import { basicErrorMessageStyle, basicFormStyle } from "@/common_components/formFields/styles";
+import { AttributesFormatter } from "@/common_components/project/AttributesFormatter";
 import { client } from "@/lib/openapi";
 import { UpdateProjectCommitteeSchema, UpdateProjectCommitteeSchemaType, projectAttributes } from "@/lib/valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { css } from "@styled-system/css";
 import { hstack, stack, visuallyHidden } from "@styled-system/patterns";
 import { useForm } from "react-hook-form";
-import Arrow from "./three_arrow_left.svg";
+import Arrow from "./three_arrow_left.svg?url";
 import Image from "next/image";
-import { getNewInvitationId, shareURL } from "@/components/project/ProjectView";
+import { getNewInvitationId, shareURL } from "@/common_components/project/ProjectView";
 import { components } from "@/schema";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -55,7 +55,7 @@ export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project
   return (
     <form className={stack({ gap: 4 })} onSubmit={handleSubmit(updateProject)}>
       <div className={hstack({ flexDirection: "row-reverse" })}>
-        <Button color="primary" type="submit">
+        <Button color="purple" type="submit">
           保存
         </Button>
       </div>
@@ -158,7 +158,7 @@ export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project
                 fontWeight: "bold",
                 boxSizing: "border-box",
                 "&:has(> input:checked)": {
-                  color: "sohosai.purple",
+                  color: "tsukuba.purple",
                   outline: "2px solid ",
                   backgroundColor: "white",
                 },

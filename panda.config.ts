@@ -15,12 +15,10 @@ export default defineConfig({
     extend: {
       semanticTokens: {
         colors: {
-          primary: { value: "{colors.violet.800}" },
           error: { value: "{colors.red.600}" },
           sohosai: {
             blue: { value: "#1eb8cb" },
             orange: { value: "#ed6d1f" },
-            purple: { value: "#60C" },
           },
           tsukuba: {
             purple: { value: "#60C" },
@@ -32,4 +30,6 @@ export default defineConfig({
 
   // The output directory for your css system
   outdir: "styled-system",
+
+  jsxFramework: "react",
 });

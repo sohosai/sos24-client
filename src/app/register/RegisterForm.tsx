@@ -4,7 +4,7 @@ import { useForm, useWatch } from "react-hook-form";
 import { css } from "@styled-system/css";
 import { RegisterProjectSchema, RegisterProjectSchemaType } from "@/lib/valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import { Button } from "@/components/Button";
+import { Button } from "@/common_components/Button";
 import { TextField } from "./_components/TextField";
 import { CategoryField } from "./_components/CategoryField";
 import { category_to_type, PlaceField } from "./_components/PlaceField";
@@ -184,7 +184,7 @@ export const RegisterForm = () => {
         register={register("agreement2")}
         error={errors.agreement2?.message}
       />
-      <Button type="submit" color="primary" className={css({ flexGrow: 0, alignSelf: "center" })}>
+      <Button type="submit" color="purple" className={css({ flexGrow: 0, alignSelf: "center" })}>
         次へ
       </Button>
     </form>
