@@ -1,15 +1,17 @@
 "use client";
 
-import { container, hstack, stack } from "@styled-system/patterns";
+import { container, flex, hstack, stack } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
 import { assignType, client } from "@/lib/openapi";
 import Link from "next/link";
 import useSWR from "swr";
+
 import { ProjectTableView } from "@/components/project/ProjectView";
-import { Button } from "@/components/Button";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-
+import deleteButton from "@/components/assets/deleteProjectButton.svg";
+import Image from "next/image";
+import { Button } from "@/components/Button";
 export const runtime = "edge";
 
 const deleteProject = async (project_id: string) => {
@@ -51,41 +53,34 @@ const NewsDetailsPage = ({ params }: { params: { project_id: string } }) => {
           })}>
           ←企画一覧に戻る
         </Link>
-        <h2
-          className={css({
-            fontSize: "2xl",
-            fontWeight: "bold",
-            marginBottom: 2,
-          })}>
-          企画詳細
-        </h2>
-
-        <div className={hstack({ flexDir: "row-reverse" })}>
-          <Button color="blue" onClick={() => router.push(`/committee/projects/${project.id}/edit`)}>
-            編集
-          </Button>
-        </div>
-        <ProjectTableView projectData={project} isCommittee />
-
-        <section className={hstack({ justifyContent: "space-between" })}>
-          <h3 className={css({ fontWeight: "bold" })}>企画の削除</h3>
-          <Button
-            color="secondary"
-            onClick={() => {
-              if (window.confirm("本当に削除して良いですか?")) {
-                deleteProject(project.id)
-                  .then(() => {
-                    toast.success("企画を削除しました");
+        <span className={(hstack({ gap: 2 }), flex({ justifyContent: "space-between" }))}>
+          <h2
+            className={css({
+              fontSize: "2xl",
+              fontWeight: "bold",
+              marginBottom: 2,
+            })}>
+            企画詳細
+          </h2>
+          <div className={hstack({ flexDir: "row-reverse" })}>
+            <Button color="blue" onClick={() => router.push(`/committee/projects/${project.id}/edit`)}>
+              編集
+            </Button>
+            <Image
+              src={deleteButton}
+              alt=""
+              className={css({ cursor: "pointer" })}
+              onClick={() => {
+                window.confirm("本当に削除しますか？") &&
+                  deleteProject(project.id).then(() => {
+                    toast.success("企画を削除しました。");
                     router.push("/committee/projects");
-                  })
-                  .catch(() => {
-                    toast.error("企画の削除に失敗しました");
                   });
-              }
-            }}>
-            削除
-          </Button>
-        </section>
+              }}
+            />
+          </div>
+        </span>
+        <ProjectTableView projectData={project} />
       </div>
     </div>
   );
