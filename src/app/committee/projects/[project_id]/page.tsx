@@ -8,7 +8,7 @@ import useSWR from "swr";
 import { ProjectTableView } from "@/components/project/ProjectView";
 import { Button } from "@/components/Button";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 
 export const runtime = "edge";
 
@@ -28,7 +28,8 @@ const NewsDetailsPage = ({ params }: { params: { project_id: string } }) => {
   if (error) {
     switch (error.name) {
       case "projects/not-found":
-        return <p>この企画は存在しません。</p>;
+      case "projects/invalid-uuid":
+        notFound();
       default:
         return <p>企画の読み込み中に不明なエラーが発生しました。</p>;
     }
