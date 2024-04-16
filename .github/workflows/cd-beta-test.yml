@@ -153,6 +153,19 @@ jobs:
               .addHeading('Cloudflare Pages Deploy report')
               .addRaw(output)
               .write()
+      - name: Notify
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          content: "status: ${{ needs.build_and_deploy.result }} \n🔗 Preview URL: ${{ steps.publish.outputs.deployment-url }} \n📌 Branch Preview URL: ${{ steps.generate-alias-url.outputs.alias-url }}"
+          title: "${{ github.workflow }}"
+          description: "Build and deploy status of sos24-client-beta."
+          color: 0x6600CC
+          url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          username: GitHub Actions
+          avatar_url: https://r2.sohosai.com/logo.png
+
   notify:
     runs-on: [self-hosted, portainer]
     needs: [build_and_deploy]
