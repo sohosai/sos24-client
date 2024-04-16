@@ -40,11 +40,11 @@ export const FormAnswerList: React.FC<{ formId: string; deadline: string }> = ({
                   },
                   borderBottom: "2px solid token(colors.gray.300)",
                 })}>
-                <span>{answer.project_title}</span>
-                <div className={hstack()}>
-                  <span>{dayjs(answer.updated_at).format("YYYY/MM/DD")}</span>
-                  <SubmitStatusBadge status={status} />
+                <div className={hstack({ gap: 5 })}>
+                  <span>{dayjs(answer.updated_at).format("MM/DD hh:mm")}</span>
+                  <span className={css({ fontWeight: "bold" })}>{answer.project_title}</span>
                 </div>
+                <SubmitStatusBadge status={status} />
               </Link>
             );
           })}
