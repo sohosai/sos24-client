@@ -116,21 +116,22 @@ export const EditNewsForm: FC<{
           color="secondary"
           className={css({ w: "269px" })}
           onClick={() => {
-            client
-              .DELETE(`/news/{news_id}`, {
-                params: { path: { news_id: news_id } },
-              })
-              .then(({ error }) => {
-                if (error) {
+            window.confirm("本当に削除しますか？") &&
+              client
+                .DELETE(`/news/{news_id}`, {
+                  params: { path: { news_id: news_id } },
+                })
+                .then(({ error }) => {
+                  if (error) {
+                    toast.error(`お知らせ削除中にエラーが発生しました`);
+                    return;
+                  }
+                  toast.success("お知らせを削除しました");
+                  router.push(`/committee/news`);
+                })
+                .catch(() => {
                   toast.error(`お知らせ削除中にエラーが発生しました`);
-                  return;
-                }
-                toast.success("お知らせを削除しました");
-                router.push(`/committee/news`);
-              })
-              .catch(() => {
-                toast.error(`お知らせ削除中にエラーが発生しました`);
-              });
+                });
           }}>
           お知らせを削除する
         </Button>
