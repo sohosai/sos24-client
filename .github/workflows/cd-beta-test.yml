@@ -18,7 +18,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: develop
+          ref: ${{ github.head_ref || github.ref_name }}
+      - name: Symlink
+        run: mkdir -p /home/runner/work/${{ github.event.repository.name }}/ && ln -s ${{ github.workspace }} /home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}
       - uses: actions/setup-node@v4
         with:
           node-version: "latest"
