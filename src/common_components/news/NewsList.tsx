@@ -6,7 +6,7 @@ import { FC } from "react";
 import { ProjectCategory } from "@/lib/valibot";
 import Image from "next/image";
 import arrowIcon from "@/assets/Arrow.svg";
-import { NoResultNotice } from "../NoResultNotice";
+import { NoResultNotice } from "@/common_components/NoResultNotice";
 
 type News = {
   id: string;

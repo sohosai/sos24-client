@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { css } from "@styled-system/css";
-import { basicErrorMessageStyle } from "../formFields/styles";
+import { basicErrorMessageStyle } from "@/common_components/formFields/styles";
 
 export const TitleField: FC<{
   register: UseFormRegisterReturn;

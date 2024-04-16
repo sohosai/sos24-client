@@ -11,7 +11,7 @@ import { css } from "@styled-system/css";
 import React from "react";
 import { ProjectCategoryFormatter } from "@/common_components/ProjectCategoryFormatter";
 import { components } from "@/schema";
-import { TableRow } from "../../app/dashboard/TableRow";
+import { TableRow } from "@/app/dashboard/TableRow";
 import { UserWithAddress } from "./UserWithAddress";
 
 export const shareURL = async (url: string) => {
