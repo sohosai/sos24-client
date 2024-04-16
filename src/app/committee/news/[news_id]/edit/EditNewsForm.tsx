@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { projectAttributes, projectCategories, UpdateNewsSchema, UpdateNewsSchemaType } from "@/lib/valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import { hstack, stack } from "@styled-system/patterns";
+import { center, hstack, stack } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
 import { Button } from "@/components/Button";
 import Image from "next/image";
@@ -111,6 +111,31 @@ export const EditNewsForm: FC<{
       <TitleField register={register("title")} error={errors.title?.message} />
       <BodyField register={register("body")} error={errors.body?.message} />
       <Heading>添付ファイル</Heading>
+      <div className={center()}>
+        <Button
+          color="secondary"
+          className={css({ w: "269px" })}
+          onClick={() => {
+            window.confirm("本当に削除しますか？") &&
+              client
+                .DELETE(`/news/{news_id}`, {
+                  params: { path: { news_id: news_id } },
+                })
+                .then(({ error }) => {
+                  if (error) {
+                    toast.error(`お知らせ削除中にエラーが発生しました`);
+                    return;
+                  }
+                  toast.success("お知らせを削除しました");
+                  router.push(`/committee/news`);
+                })
+                .catch(() => {
+                  toast.error(`お知らせ削除中にエラーが発生しました`);
+                });
+          }}>
+          お知らせを削除する
+        </Button>
+      </div>
     </form>
   );
 };
