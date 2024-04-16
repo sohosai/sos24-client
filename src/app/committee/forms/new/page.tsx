@@ -6,7 +6,7 @@ import { stack } from "@styled-system/patterns";
 import { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { FormEditor, HandleFormEditorSubmit } from "./FormEditor";
+import { FormEditor, HandleFormEditorSubmit } from "@/common_components/form_editor/FormEditor";
 
 const CreateFormPage: NextPage = () => {
   const router = useRouter();
