@@ -5,9 +5,8 @@ import { css } from "@styled-system/css";
 import { textInputStyle } from "./styles";
 import { hstack, stack } from "@styled-system/patterns";
 
-import pulldownMenu from "@/assets/pulldownMenu.svg";
-import trashOutline from "@/assets/TrashOutline.svg";
-import Image from "next/image";
+import PulldownMenu from "@/assets/pulldownMenu.svg";
+import TrashOutline from "@/assets/TrashOutline.svg";
 import { FormFieldType, FormField, CreateFormInput } from "./FormEditor";
 
 const getFieldTypeText = (type: FormFieldType): string => {
@@ -50,12 +49,12 @@ export const FormFieldEditor: FC<{
         }}
         className={css({
           justifySelf: "center",
-        })}>
-        <Image
-          src={pulldownMenu}
-          alt="上"
+        })}
+        aria-label="上">
+        <PulldownMenu
           className={css({
             rotate: "180deg",
+            color: "sohosai.blue",
           })}
         />
       </button>
@@ -102,8 +101,12 @@ export const FormFieldEditor: FC<{
           </div>
         </div>
 
-        <button type="button" onClick={remove}>
-          <Image src={trashOutline} alt="削除" />
+        <button type="button" onClick={remove} aria-label="削除">
+          <TrashOutline
+            className={css({
+              color: "sohosai.blue",
+            })}
+          />
         </button>
       </div>
 
@@ -233,8 +236,13 @@ export const FormFieldEditor: FC<{
           }}
           className={css({
             justifySelf: "center",
-          })}>
-          <Image src={pulldownMenu} alt="下" />
+          })}
+          aria-label="下">
+          <PulldownMenu
+            className={css({
+              color: "sohosai.blue",
+            })}
+          />
         </button>
       }
     </div>
