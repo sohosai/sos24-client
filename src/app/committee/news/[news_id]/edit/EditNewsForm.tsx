@@ -3,19 +3,19 @@ import { projectAttributes, projectCategories, UpdateNewsSchema, UpdateNewsSchem
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { center, hstack, stack } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
-import { Button } from "@/components/Button";
+import { Button } from "@/common_components/Button";
 import Image from "next/image";
-import sendIcon from "@/components/assets/Send.svg";
+import sendIcon from "@/assets/Send.svg?url";
 import useSWR from "swr";
 import { assignType, client } from "@/lib/openapi";
 import { FC, useState } from "react";
 import { components } from "@/schema";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { ProjectCategorySelector } from "@/components/ProjectCategorySelector";
-import { TitleField } from "@/components/news/TitleField";
-import { BodyField } from "@/components/news/BodyField";
-import { Heading } from "@/components/Heading";
+import { ProjectCategorySelector } from "@/common_components/ProjectCategorySelector";
+import { TitleField } from "@/common_components/news/TitleField";
+import { BodyField } from "@/common_components/news/BodyField";
+import { Heading } from "@/common_components/Heading";
 
 export const EditNewsForm: FC<{
   news_id: string;
@@ -93,7 +93,7 @@ export const EditNewsForm: FC<{
         <h2 className={css({ fontSize: "2xl", fontWeight: "bold" })}>お知らせ編集</h2>
         <Button
           type="submit"
-          color="primary"
+          color="purple"
           className={hstack({
             gap: 3,
           })}>

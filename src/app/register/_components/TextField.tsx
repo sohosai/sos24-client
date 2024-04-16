@@ -1,9 +1,9 @@
 import { css } from "@styled-system/css";
-import { basicErrorMessageStyle, basicFormLabelStyle, basicFormStyle } from "@/components/formFields/styles";
+import { basicErrorMessageStyle, basicFormLabelStyle, basicFormStyle } from "@/common_components/formFields/styles";
 import { center } from "@styled-system/patterns";
 
-import { RequiredBadge } from "@/components/formFields/_components/RequiredBadge";
-import type { basicFieldProps } from "@/components/formFields/_components/types";
+import { RequiredBadge } from "@/common_components/formFields/_components/RequiredBadge";
+import type { basicFieldProps } from "@/common_components/formFields/_components/types";
 
 interface TextFieldProps extends basicFieldProps {
   type: "text" | "textarea";

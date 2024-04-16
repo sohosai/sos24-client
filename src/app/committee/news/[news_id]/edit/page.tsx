@@ -15,7 +15,7 @@ const EditNewsPage: NextPage<{ params: { news_id: string } }> = ({ params }) => 
         <Link
           href="/committee/news"
           className={css({
-            color: "sohosai.purple",
+            color: "tsukuba.purple",
             fontSize: "xs",
           })}>
           ←お知らせ一覧に戻る

@@ -2,7 +2,7 @@ import { css } from "@styled-system/css";
 import { FC } from "react";
 import Link from "next/link";
 import { components } from "@/schema";
-import { UserRoleFormatter } from "@/components/user/UserRoleFormatter";
+import { UserRoleFormatter } from "@/common_components/user/UserRoleFormatter";
 
 export const UserList: FC<{
   userList: components["schemas"]["UserSummary"][];

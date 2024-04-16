@@ -1,12 +1,12 @@
-import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
-import { ProjectAttributesBadge } from "@/components/project/AttirbutesBadge";
+import { ProjectCategoryFormatter } from "@/common_components/ProjectCategoryFormatter";
+import { ProjectAttributesBadge } from "@/common_components/project/AttirbutesBadge";
 import { components } from "@/schema";
 import { css, cx } from "@styled-system/css";
 import { grid, vstack } from "@styled-system/patterns";
 import React from "react";
 import Link from "next/link";
-import { projectCategoryItemStyle } from "@/components/formFields/styles";
-import { UserWithAddress } from "../../../components/project/UserWithAddress";
+import { projectCategoryItemStyle } from "@/common_components/formFields/styles";
+import { UserWithAddress } from "@/common_components/project/UserWithAddress";
 
 const ProjectRow: React.FC<{ data: components["schemas"]["ProjectSummary"] }> = ({ data }) => {
   return (

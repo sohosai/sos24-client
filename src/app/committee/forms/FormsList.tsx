@@ -5,9 +5,9 @@ import { FC } from "react";
 
 import { components } from "@/schema";
 
-import { NoResultNotice } from "@/components/NoResultNotice";
+import { NoResultNotice } from "@/common_components/NoResultNotice";
 import { getCommitteeTimeLeftText, getFormStatus } from "@/lib/formHelpers";
-import { FormStatusBadge } from "@/components/FormStatusBadge";
+import { FormStatusBadge } from "@/common_components/FormStatusBadge";
 
 type Form = components["schemas"]["FormSummary"];
 
