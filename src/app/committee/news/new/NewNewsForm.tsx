@@ -1,8 +1,8 @@
 import { hstack, stack } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
-import { Button } from "@/components/Button";
+import { Button } from "@/common_components/Button";
 import Image from "next/image";
-import sendIcon from "@/components/assets/Send.svg";
+import sendIcon from "@/assets/Send.svg?url";
 import { NewNewsSchema, NewNewsSchemaType, projectAttributes, projectCategories } from "@/lib/valibot";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -10,10 +10,10 @@ import { valibotResolver } from "@hookform/resolvers/valibot";
 import { client } from "@/lib/openapi";
 import { components } from "@/schema";
 import toast from "react-hot-toast";
-import { ProjectCategorySelector } from "@/components/ProjectCategorySelector";
-import { TitleField } from "@/components/news/TitleField";
-import { BodyField } from "@/components/news/BodyField";
-import { Heading } from "@/components/Heading";
+import { ProjectCategorySelector } from "@/common_components/ProjectCategorySelector";
+import { TitleField } from "@/common_components/news/TitleField";
+import { BodyField } from "@/common_components/news/BodyField";
+import { Heading } from "@/common_components/Heading";
 
 export const NewNewsForm = () => {
   const router = useRouter();
@@ -62,7 +62,7 @@ export const NewNewsForm = () => {
         <h2 className={css({ fontSize: "2xl", fontWeight: "bold" })}>新規お知らせ作成</h2>
         <Button
           type="submit"
-          color="primary"
+          color="purple"
           className={hstack({
             gap: 3,
           })}>

@@ -2,11 +2,11 @@ import { Dispatch, FC, SetStateAction } from "react";
 
 import { components } from "@/schema";
 import { FieldErrors, UseFormGetValues, UseFormRegister, UseFormSetValue } from "react-hook-form";
-import { NumberField } from "@/components/formFields/NumberField";
-import { TextField } from "@/components/formFields/TextField";
-import { DropdownField } from "@/components/formFields/DropdownField";
-import { CheckboxField } from "@/components/formFields/CheckboxField";
-import { FilesField } from "@/components/formFields/Files";
+import { NumberField } from "@/common_components/formFields/NumberField";
+import { TextField } from "@/common_components/formFields/TextField";
+import { DropdownField } from "@/common_components/formFields/DropdownField";
+import { CheckboxField } from "@/common_components/formFields/CheckboxField";
+import { FilesField } from "@/common_components/formFields/Files";
 
 type FormItem = components["schemas"]["FormItem"];
 

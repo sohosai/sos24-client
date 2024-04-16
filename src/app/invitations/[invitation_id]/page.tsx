@@ -3,10 +3,10 @@
 import useSWR from "swr";
 import { assignType, client } from "@/lib/openapi";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import { container, stack } from "@styled-system/patterns";
-import { Title } from "@/components/Title";
-import { Button } from "@/components/Button";
+import { Title } from "@/common_components/Title";
+import { Button } from "@/common_components/Button";
 
 export const runtime = "edge";
 
@@ -28,7 +28,8 @@ const InvitationPage = ({ params }: { params: { invitation_id: string } }) => {
   if (error) {
     switch (error.name) {
       case "invitation/not-found":
-        return <p>この招待リンクは存在しません。</p>;
+      case "invitation/invalid-uuid":
+        notFound();
       default:
         return <p>招待の読み込み中に不明なエラーが発生しました。</p>;
     }
@@ -76,7 +77,7 @@ const InvitationPage = ({ params }: { params: { invitation_id: string } }) => {
               <PositionFormatter position={invitation.position} />
               に招待しています。
             </p>
-            <Button color="primary" onClick={onClick}>
+            <Button color="purple" onClick={onClick}>
               承諾する
             </Button>
           </>
