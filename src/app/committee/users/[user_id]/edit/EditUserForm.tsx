@@ -99,7 +99,7 @@ export const EditUserForm: FC<{
         <h2 className={css({ fontSize: "2xl", fontWeight: "bold" })}>ユーザー編集</h2>
         <Button
           type="submit"
-          color="primary"
+          color="purple"
           className={hstack({
             gap: 3,
           })}>

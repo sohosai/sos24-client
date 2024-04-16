@@ -85,7 +85,7 @@ export const SigninForm: React.FC = () => {
           {errors.password && <span className={basicErrorMessageStyle}>{errors.password.message}</span>}
           {errors.root && <span className={basicErrorMessageStyle}>{errors.root.message}</span>}
         </div>
-        <Button type="submit" color="primary" className={css({ flexGrow: 0, alignSelf: "center" })}>
+        <Button type="submit" color="purple" className={css({ flexGrow: 0, alignSelf: "center" })}>
           送信
         </Button>
       </form>

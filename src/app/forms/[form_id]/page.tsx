@@ -192,7 +192,7 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
                   setFiles={setFiles}
                   setFileErrors={setFileErrors}
                 />
-                <Button color="primary">送信</Button>
+                <Button color="purple">送信</Button>
               </form>
             </>
           )}

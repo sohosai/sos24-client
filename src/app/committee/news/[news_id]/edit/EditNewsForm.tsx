@@ -93,7 +93,7 @@ export const EditNewsForm: FC<{
         <h2 className={css({ fontSize: "2xl", fontWeight: "bold" })}>お知らせ編集</h2>
         <Button
           type="submit"
-          color="primary"
+          color="purple"
           className={hstack({
             gap: 3,
           })}>
