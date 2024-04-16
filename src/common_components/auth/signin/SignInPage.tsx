@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FirebaseError } from "firebase/app";
 import { css, cx } from "@styled-system/css";
-import { basicErrorMessageStyle, basicFormStyle } from "@/components/formFields/styles";
-import { Button } from "@/components/Button";
+import { basicErrorMessageStyle, basicFormStyle } from "@/common_components/formFields/styles";
+import { Button } from "@/common_components/Button";
 
 type SignInInput = { email: string; password: string };
 

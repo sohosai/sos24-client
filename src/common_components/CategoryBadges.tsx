@@ -2,7 +2,7 @@ import { projectCategories, ProjectCategory } from "@/lib/valibot";
 import { css } from "@styled-system/css";
 import { flex } from "@styled-system/patterns";
 import { FC } from "react";
-import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
+import { ProjectCategoryFormatter } from "@/common_components/ProjectCategoryFormatter";
 
 export const CategoryBadges: FC<{
   categories: ProjectCategory[];

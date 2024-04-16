@@ -1,16 +1,16 @@
 import { flex, stack } from "@styled-system/patterns";
-import { FilterSelector, NewsFilterType, newsFilters } from "@/components/news/FilterSelector";
-import { NewsList } from "@/components/news/NewsList";
+import { FilterSelector, NewsFilterType, newsFilters } from "@/common_components/news/FilterSelector";
+import { NewsList } from "@/common_components/news/NewsList";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 import { FC, useCallback, useState } from "react";
 import { components } from "@/schema";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Route } from "next";
-import { Button } from "@/components/Button";
+import { Button } from "@/common_components/Button";
 import { css } from "@styled-system/css";
 import Image from "next/image";
-import plusIcon from "@/components/assets/Plus.svg";
+import plusIcon from "@/common_components/assets/Plus.svg";
 
 // 対象の企画であるかを確認する
 const isTargetProject = (

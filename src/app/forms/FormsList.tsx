@@ -4,16 +4,16 @@ import { FC } from "react";
 
 import { components } from "@/schema";
 
-import { SubmitStatusBadge } from "@/components/SubmitStatus";
+import { SubmitStatusBadge } from "@/common_components/SubmitStatus";
 import { getSubmitStatusFromDate, getTimeLeftText } from "@/lib/formHelpers";
 import { useAtom } from "jotai";
 
-import EyesOpenIcon from "@/components/assets/EyesOpen.svg";
-import EyesClosedIcon from "@/components/assets/EyesClosed.svg";
+import EyesOpenIcon from "@/common_components/assets/EyesOpen.svg";
+import EyesClosedIcon from "@/common_components/assets/EyesClosed.svg";
 import Image from "next/image";
 import { hiddenFormIdsAtom } from "./hiddenFormIds";
 import toast from "react-hot-toast";
-import { NoResultNotice } from "@/components/NoResultNotice";
+import { NoResultNotice } from "@/common_components/NoResultNotice";
 import Link from "next/link";
 
 type Form = components["schemas"]["FormSummary"];

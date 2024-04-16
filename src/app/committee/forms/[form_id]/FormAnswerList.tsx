@@ -4,9 +4,9 @@ import { css } from "@styled-system/css";
 import { hstack } from "@styled-system/patterns";
 import Link from "next/link";
 import useSWR from "swr";
-import { NoResultNotice } from "@/components/NoResultNotice";
+import { NoResultNotice } from "@/common_components/NoResultNotice";
 import { getSubmitStatusFromDate } from "@/lib/formHelpers";
-import { SubmitStatusBadge } from "@/components/SubmitStatus";
+import { SubmitStatusBadge } from "@/common_components/SubmitStatus";
 import dayjs from "dayjs";
 
 export const FormAnswerList: React.FC<{ formId: string; deadline: string }> = ({ formId, deadline }) => {

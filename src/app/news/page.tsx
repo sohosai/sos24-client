@@ -2,7 +2,7 @@
 
 import { center, container, stack } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
-import { NewsView } from "@/components/news/NewsView";
+import { NewsView } from "@/common_components/news/NewsView";
 import { NextPage } from "next";
 
 const NewsPage: NextPage = () => {

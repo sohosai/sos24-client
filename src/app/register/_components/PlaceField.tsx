@@ -1,8 +1,8 @@
 import { css } from "@styled-system/css";
 import Image from "next/image";
-import categoryIcon from "@/components/assets/CategoryIcon.svg";
+import categoryIcon from "@/common_components/assets/CategoryIcon.svg";
 import { UseFormRegisterReturn } from "react-hook-form";
-import { basicErrorMessageStyle, basicFormLabelStyle } from "@/components/formFields/styles";
+import { basicErrorMessageStyle, basicFormLabelStyle } from "@/common_components/formFields/styles";
 import { flex, hstack, stack, visuallyHidden } from "@styled-system/patterns";
 import { ProjectPlace } from "@/lib/valibot";
 

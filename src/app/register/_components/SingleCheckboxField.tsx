@@ -1,5 +1,5 @@
-import { basicFieldProps } from "@/components/formFields/_components/types";
-import { basicErrorMessageStyle, checkboxFormStyle } from "@/components/formFields/styles";
+import { basicFieldProps } from "@/common_components/formFields/_components/types";
+import { basicErrorMessageStyle, checkboxFormStyle } from "@/common_components/formFields/styles";
 import { css } from "@styled-system/css";
 import { flex } from "@styled-system/patterns";
 

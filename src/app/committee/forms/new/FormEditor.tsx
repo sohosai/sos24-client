@@ -4,7 +4,7 @@ import { css } from "@styled-system/css";
 import { FC, useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { ProjectAttribute, ProjectCategory, projectAttributes, projectCategories } from "@/lib/valibot";
-import { Button } from "@/components/Button";
+import { Button } from "@/common_components/Button";
 import { getProjectCategoryText, getProjectAttributeText } from "@/lib/textUtils";
 import { stack, visuallyHidden } from "@styled-system/patterns";
 import { FormFieldEditor } from "./FormFieldEditor";
@@ -14,7 +14,7 @@ import dayjs from "dayjs";
 import { deleteAllUploadedFiles, postFiles } from "@/lib/postFile";
 import toast from "react-hot-toast";
 import { FilesFormType, FileErrorsType } from "@/app/forms/[form_id]/FormItems";
-import { FilesField } from "@/components/formFields/Files";
+import { FilesField } from "@/common_components/formFields/Files";
 
 export type FormField = {
   name: string;

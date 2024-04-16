@@ -1,12 +1,12 @@
 import { FC } from "react";
 import { UseFieldArrayMove, UseFormRegister } from "react-hook-form";
-import { checkboxFormStyle } from "@/components/formFields/styles";
+import { checkboxFormStyle } from "@/common_components/formFields/styles";
 import { css } from "@styled-system/css";
 import { textInputStyle } from "./styles";
 import { hstack, stack } from "@styled-system/patterns";
 
-import pulldownMenu from "@/components/assets/pulldownMenu.svg";
-import trashOutline from "@/components/assets/TrashOutline.svg";
+import pulldownMenu from "@/common_components/assets/pulldownMenu.svg";
+import trashOutline from "@/common_components/assets/TrashOutline.svg";
 import Image from "next/image";
 import { FormFieldType, FormField, CreateFormInput } from "./FormEditor";
 

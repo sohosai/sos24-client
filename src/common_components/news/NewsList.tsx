@@ -1,11 +1,11 @@
 import { css } from "@styled-system/css";
 import dayjs from "dayjs";
 import Link from "next/link";
-import { CategoryBadges } from "@/components/CategoryBadges";
+import { CategoryBadges } from "@/common_components/CategoryBadges";
 import { FC } from "react";
 import { ProjectCategory } from "@/lib/valibot";
 import Image from "next/image";
-import arrowIcon from "@/components/assets/Arrow.svg";
+import arrowIcon from "@/common_components/assets/Arrow.svg";
 import { NoResultNotice } from "../NoResultNotice";
 
 type News = {

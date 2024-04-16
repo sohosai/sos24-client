@@ -1,6 +1,6 @@
 import { css } from "@styled-system/css";
 import { hstack } from "@styled-system/patterns";
-import MailAddressIcon from "@/components/assets/MailAddress.svg";
+import MailAddressIcon from "@/common_components/assets/MailAddress.svg";
 import React from "react";
 import Image from "next/image";
 import toast from "react-hot-toast";

@@ -1,12 +1,12 @@
 import React, { FC, PropsWithChildren } from "react";
-import { Header } from "@/components/header/Header";
-import SigninPage from "@/components/auth/signin/page";
-import SignupPage from "@/components/auth/signup/page";
+import { Header } from "@/common_components/header/Header";
+import SigninPage from "@/common_components/auth/signin/page";
+import SignupPage from "@/common_components/auth/signup/page";
 import { atom, useAtomValue } from "jotai";
 import { useAuthState } from "@/lib/firebase";
-import { Loading } from "@/components/Loading";
+import { Loading } from "@/common_components/Loading";
 import { css } from "@styled-system/css";
-import { EmailVerification } from "@/components/auth/EmailVerification";
+import { EmailVerification } from "@/common_components/auth/EmailVerification";
 
 export const authModeAtom = atom<"signIn" | "signUp">("signIn");
 

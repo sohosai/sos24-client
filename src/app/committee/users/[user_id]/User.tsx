@@ -3,9 +3,9 @@ import { components } from "@/schema";
 import { grid, hstack, stack } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
 import Link from "next/link";
-import { UserRoleFormatter } from "@/components/user/UserRoleFormatter";
+import { UserRoleFormatter } from "@/common_components/user/UserRoleFormatter";
 import dayjs from "dayjs";
-import { Button } from "@/components/Button";
+import { Button } from "@/common_components/Button";
 import { useRouter } from "next/navigation";
 
 export const User: FC<{

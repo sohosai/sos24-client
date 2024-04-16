@@ -6,12 +6,12 @@ import { assignType, client } from "@/lib/openapi";
 import Link from "next/link";
 import useSWR from "swr";
 
-import { ProjectTableView } from "@/components/project/ProjectView";
+import { ProjectTableView } from "@/common_components/project/ProjectView";
 import toast from "react-hot-toast";
 import { notFound, useRouter } from "next/navigation";
-import deleteButton from "@/components/assets/deleteProjectButton.svg";
+import deleteButton from "@/common_components/assets/deleteProjectButton.svg";
 import Image from "next/image";
-import { Button } from "@/components/Button";
+import { Button } from "@/common_components/Button";
 export const runtime = "edge";
 
 const deleteProject = async (project_id: string) => {
