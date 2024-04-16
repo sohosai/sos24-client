@@ -1,5 +1,5 @@
 import { basicErrorMessageStyle, basicFormStyle } from "@/components/formFields/styles";
-import { ProjectAttributesBadge } from "@/components/project/AttirbutesBadge";
+import { ProjectAttributesBadge } from "@/components/project/ProjectAttributesBadge";
 import { assignType, client } from "@/lib/openapi";
 import { useForm } from "react-hook-form";
 import { UpdateProjectSchema, UpdateProjectSchemaType } from "@/lib/valibot";
@@ -11,7 +11,7 @@ import { css } from "@styled-system/css";
 import React from "react";
 import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
 import { components } from "@/schema";
-import { TableRow } from "../../app/dashboard/TableRow";
+import { TableRow } from "@/app/dashboard/TableRow";
 import { UserWithAddress } from "./UserWithAddress";
 
 export const shareURL = async (url: string) => {

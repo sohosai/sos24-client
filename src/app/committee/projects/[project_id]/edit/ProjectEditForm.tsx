@@ -17,6 +17,23 @@ import { useRouter } from "next/navigation";
 import { ProjectCategoryEditor } from "./ProjectCategoryEditor";
 export const runtime = "edge";
 
+export const attributeSelectorStyle = css({
+  paddingBlock: 2,
+  paddingInline: 6,
+  borderRadius: "2xl",
+  cursor: "pointer",
+  color: "gray.600",
+  fontSize: "sm",
+  outline: "3px solid token(colors.gray.300)",
+  fontWeight: "bold",
+  boxSizing: "border-box",
+  "&:has(> input:checked)": {
+    color: "sohosai.purple",
+    outline: "2px solid ",
+    backgroundColor: "white",
+  },
+});
+
 export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project"] }> = ({ project }) => {
   const router = useRouter();
   const {
@@ -145,24 +162,7 @@ export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project
         </div>
         <div className={hstack()}>
           {projectAttributes.map((attribute) => (
-            <label
-              key={attribute}
-              className={css({
-                paddingBlock: 2,
-                paddingInline: 6,
-                borderRadius: "2xl",
-                cursor: "pointer",
-                color: "gray.600",
-                fontSize: "sm",
-                outline: "3px solid token(colors.gray.300)",
-                fontWeight: "bold",
-                boxSizing: "border-box",
-                "&:has(> input:checked)": {
-                  color: "sohosai.purple",
-                  outline: "2px solid ",
-                  backgroundColor: "white",
-                },
-              })}>
+            <label key={attribute} className={attributeSelectorStyle}>
               <AttributesFormatter attribute={attribute} />
               <input
                 type="checkbox"
