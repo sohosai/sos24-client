@@ -20,12 +20,16 @@ export const getFormStatus = (now: dayjs.Dayjs, startsAt: dayjs.Dayjs, endsAt: d
   return "不明";
 };
 
-export const getSubmitStatus = (deadline: dayjs.Dayjs, answer: Answer | undefined): SubmitStatus => {
-  if (!answer) {
+export const getSubmitStatus = (deadline: string | undefined, answer: Answer | undefined): SubmitStatus => {
+  return getSubmitStatusFromDate(deadline, answer?.updated_at);
+};
+
+export const getSubmitStatusFromDate = (deadline: string | null | undefined, answer: string | null | undefined) => {
+  if (!answer || !deadline) {
     return "未提出";
   }
 
-  if (dayjs(answer.updated_at).isBefore(deadline)) {
+  if (dayjs(answer).isBefore(dayjs(deadline))) {
     return "提出済み";
   } else {
     return "遅延提出";
@@ -37,4 +41,9 @@ export const getTimeLeft = (now: dayjs.Dayjs, deadline: dayjs.Dayjs) => deadline
 export const getTimeLeftText = (now: dayjs.Dayjs, deadline: dayjs.Dayjs, status: SubmitStatus) => {
   const diff = getTimeLeft(now, deadline);
   return status === "未提出" ? (diff >= 0 ? `残り${diff}日` : "締切を過ぎています") : "";
+};
+
+export const getCommitteeTimeLeftText = (now: dayjs.Dayjs, deadline: dayjs.Dayjs) => {
+  const diff = getTimeLeft(now, deadline);
+  return diff >= 0 ? `残り${diff}日` : "締切を過ぎています";
 };

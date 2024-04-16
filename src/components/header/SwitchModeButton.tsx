@@ -24,7 +24,10 @@ export const SwitchModeButton: FC<{ isCommitteeMode: boolean; showMobileMenu: bo
         gap: { lg: 2, base: 0 },
         textDecoration: "underline",
         color: showMobileMenu ? "white" : "black",
-      })}>
+      })}
+      onClick={() => {
+        localStorage.removeItem("invitation_id");
+      }}>
       <Image
         src={showMobileMenu ? ModeSwitchWhite : ModeSwitch}
         alt=""

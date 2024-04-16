@@ -5,12 +5,13 @@ import { css } from "@styled-system/css";
 import { assignType, client } from "@/lib/openapi";
 import Link from "next/link";
 import useSWR from "swr";
-import { ProjectTableView } from "@/app/dashboard/ProjectView";
 
+import { ProjectTableView } from "@/components/project/ProjectView";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import deleteButton from "@/components/assets/deleteProjectButton.svg";
 import Image from "next/image";
+import { Button } from "@/components/Button";
 export const runtime = "edge";
 
 const deleteProject = async (project_id: string) => {
@@ -61,6 +62,13 @@ const NewsDetailsPage = ({ params }: { params: { project_id: string } }) => {
             })}>
             企画詳細
           </h2>
+          <div className={hstack({ flexDir: "row-reverse" })}>
+            <Button color="blue" onClick={() => router.push(`/committee/projects/${project.id}/edit`)}>
+              編集
+            </Button>
+          </div>
+          <ProjectTableView projectData={project} isCommittee />
+          <h3 className={css({ fontWeight: "bold" })}>企画の削除</h3>
 
           <Image
             src={deleteButton}

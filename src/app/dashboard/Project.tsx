@@ -4,7 +4,7 @@ import { Title } from "@/components/Title";
 import { css } from "@styled-system/css";
 import { useState } from "react";
 import { Button } from "@/components/Button";
-import { ProjectTableView } from "./ProjectView";
+import { ProjectTableView } from "../../components/project/ProjectView";
 import { assignType } from "@/lib/openapi";
 import useSWR from "swr";
 import { basicErrorMessageStyle } from "@/components/formFields/styles";
