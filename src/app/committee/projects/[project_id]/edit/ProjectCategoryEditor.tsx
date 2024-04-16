@@ -1,5 +1,5 @@
 "use client";
-import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
+import { ProjectCategoryFormatter } from "@/common_components/ProjectCategoryFormatter";
 import { projectCategories } from "@/lib/valibot";
 import { css, cx } from "@styled-system/css";
 import { hstack, visuallyHidden } from "@styled-system/patterns";
@@ -23,7 +23,7 @@ export const ProjectCategoryEditor: React.FC<{ register: UseFormRegisterReturn }
               fontWeight: "bold",
               boxSizing: "border-box",
               "&:has(> input:checked)": {
-                color: "sohosai.purple",
+                color: "tsukuba.purple",
                 outline: "2px solid ",
                 backgroundColor: "white",
               },
