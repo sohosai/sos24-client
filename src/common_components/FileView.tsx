@@ -19,6 +19,7 @@ export const fileViewStyle = cva({
     justifyContent: "space-between",
     backgroundColor: "gray.100",
     borderRadius: "md",
+    width: "full",
   },
   variants: {
     isError: {
