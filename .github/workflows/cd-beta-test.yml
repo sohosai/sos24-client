@@ -4,6 +4,10 @@ on:
   push:
   workflow_dispatch:
 
+env:
+  PROJECT_NAME:  ${{ vars.CLOUDFLARE_BETA_PROJECT_NAME_TEST }}
+  PRODUCTION_BRANCH: main
+
 jobs:
   build_and_deploy:
     runs-on: [self-hosted, portainer]
@@ -20,6 +24,18 @@ jobs:
           node-version: "latest"
           cache: "npm"
           cache-dependency-path: "**/package-lock.json"
+      - name: cache
+        uses: actions/cache@v4
+        with:
+          # See here for caching with `yarn` https://github.com/actions/cache/blob/main/examples.md#node---yarn or you can leverage caching with actions/setup-node https://github.com/actions/setup-node
+          path: |
+            ~/.npm
+            ${{ github.workspace }}/.next/cache
+          # Generate a new cache whenever packages or source files change.
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          # If source files changed but packages didn't, rebuild from a prior cache.
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: build
         run: npx @cloudflare/next-on-pages@1
         env:
@@ -30,12 +46,127 @@ jobs:
           NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{vars.BETA_FIREBASE_MESSAGING_SENDER_ID}}
           NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{vars.BETA_FIREBASE_PROJECT_ID}}
           NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{vars.BETA_FIREBASE_STORAGE_BUCKET}}
-      - name: deploy
-        uses: cloudflare/pages-action@v1
+      - name: set production branch
+        run: |
+          result=$(curl -sS -X PATCH \
+            -H 'Content-Type: application/json' \
+            -H 'Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}' \
+            -d '{ "production_branch": "${{ env.PRODUCTION_BRANCH }}" }' \
+            https://api.cloudflare.com/client/v4/accounts/${{ vars.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/${{ env.PROJECT_NAME }})
+          result=$(echo "$result" | jq  -r '
+            if .success == true then
+              "✅ Cloudflare Pages Production Branchの変更に成功しました。\n✨ \(.result.latest_deployment.production_branch)から\(.result.production_branch)に変更されました"
+            else
+              "❌ Cloudflare Pages Production Branchの変更に失敗しました。\n📝エラーコード: \(.errors[].code) \nエラーメッセージ: \(.errors[].message)" 
+            end
+            ')
+          echo "$result"
+
+          { echo 'summary<<EOF'
+            echo "$result"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+        id: set-production-branch
+      - name: Publish to Cloudflare Pages
+        if: steps.set-production-branch.outcome == 'success'
+        uses: cloudflare/wrangler-action@v3
         with:
-          branch: ${{ github.head_ref || github.ref_name }}
-          apiToken: ${{secrets.CLOUDFLARE_API_TOKEN}}
-          accountId: ${{vars.CLOUDFLARE_ACCOUNT_ID}}
-          projectName: ${{vars.CLOUDFLARE_BETA_PROJECT_NAME_TEST}}
-          directory: ".vercel/output/static"
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          # Explicit branch name needed because of: https://github.com/cloudflare/pages-action/issues/97
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy .vercel/output/static --project-name=${{ env.PROJECT_NAME }} --branch=${{ github.head_ref || github.ref_name }}
+        id: publish
+      - name: generate alias url
+        id: generate-alias-url
+        if: ${{ (github.head_ref || github.ref_name) != env.PRODUCTION_BRANCH }}
+        env:
+          BRANCH: ${{ github.ref_name }}
+          PUBLISH_CFPAGES_URL: ${{ steps.publish.outputs.deployment-url }}
+        run: |
+          [[ $PUBLISH_CFPAGES_URL =~ (https?://)?([a-zA-Z0-9-]+)\.pages\.dev ]]
+          invalid_chars_regex='[^a-z0-9-]'
+          max_alias_length=28
+          alphanum="abcdefghijklmnopqrstuvwxyz0123456789"
+
+          function generate_branch_alias() {
+              local branch="$1"
+              local normalised=$(echo "$branch" | tr '[:upper:]' '[:lower:]' | sed -e "s/$invalid_chars_regex/-/g" -e "s/^-//" -e "s/-\$//")
+
+              if [ -z "$normalised" ]; then
+                  echo "branch-$(rand_alphanum 10)"
+                  return
+              fi
+
+              if [ ${#normalised} -gt $max_alias_length ]; then
+                  echo "${normalised:0:$max_alias_length}"
+                  return
+              fi
+
+              echo "$normalised"
+          }
+
+          function rand_alphanum() {
+              local length="$1"
+              local alias=""
+
+              for ((i=0; i<$length; i++)); do
+                  alias+="${alphanum:RANDOM%${#alphanum}:1}"
+              done
+          }
+          new_url="https://$(generate_branch_alias "${BRANCH}").${BASH_REMATCH[2]}.pages.dev"
+          echo $new_url
+          echo alias-url=$new_url >> $GITHUB_OUTPUT
+      - name: Create Job Summary
+        uses: actions/github-script@v7
+        env:
+          CHANGE_BRANCH: ${{ steps.set-production-branch.outputs.summary }}
+          PUBLISH_CFPAGES: ${{ steps.publish.outputs.command-output }}
+          PUBLISH_CFPAGES_URL: ${{ steps.publish.outputs.deployment-url }}
+          PUBLISH_CFPAGES_ALIAS: ${{ steps.generate-alias-url.outputs.alias-url }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `\n#### Cloudflare Pages set production branch ⚙️\`${{ steps.set-production-branch.outcome }}\`\n
+            #### Cloudflare Pages Deploy 📖\`${{ steps.publish.outcome }}\`\n
+
+            🔗 Preview URL: [${process.env.PUBLISH_CFPAGES_URL}](${process.env.PUBLISH_CFPAGES_URL})\n
+
+            ${process.env.PUBLISH_CFPAGES_ALIAS ?
+              `📌 Branch Preview URL: [${process.env.PUBLISH_CFPAGES_ALIAS}](${process.env.PUBLISH_CFPAGES_ALIAS})\n`:""
+            }
+            commit hash: \`${{ github.event.head_commit.id }}\`\n
+            commit message: [${{ github.event.head_commit.message}}](${{ github.server_url }}/${{ github.repository }}/tree/${{ github.event.head_commit.id}})\n
+            commit author: \`${{ github.event.head_commit.author.name }}\`\n
+            commit date: \`${{ github.event.head_commit.timestamp }}\`\n
+            
+            <details><summary>Deploying with Cloudflare Pages</summary>
+
+            \`\`\`deploy\n
+            ${process.env.CHANGE_BRANCH}
+            ${process.env.PUBLISH_CFPAGES}
+            \`\`\`
+
+            </details>
+
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+            await core.summary
+              .addHeading('Cloudflare Pages Deploy report')
+              .addRaw(output)
+              .write()
+  notify:
+    runs-on: [self-hosted, portainer]
+    needs: [build_and_deploy]
+    if: always() && !failure() && !cancelled()
+    steps:
+      - name: Notify
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          content: "status: ${{ needs.build_and_deploy.result }}"
+          title: "${{ github.workflow }}"
+          description: "Build and deploy status of sos24-client-beta."
+          color: 0x6600CC
+          url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          username: GitHub Actions
+          avatar_url: https://r2.sohosai.com/logo.png
