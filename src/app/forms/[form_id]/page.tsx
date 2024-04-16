@@ -2,7 +2,7 @@
 
 import useSWR from "swr";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { useRouter } from "next/navigation";
 import { assignType, client } from "@/lib/openapi";
 import { css } from "@styled-system/css";
@@ -14,8 +14,9 @@ import { getTimeLeftText, getSubmitStatusFromDate } from "@/lib/formHelpers";
 import { type SubmitStatus, SubmitStatusBadge } from "@/components/SubmitStatus";
 import { Loading } from "@/components/Loading";
 import { Button } from "@/components/Button";
-import { postFile } from "@/lib/postFile";
+import { deleteAllUploadedFiles, postFiles } from "@/lib/postFile";
 import { components } from "@/schema";
+import { FileView } from "@/components/FileView";
 
 export const runtime = "edge";
 
@@ -40,66 +41,16 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
 
   const status: SubmitStatus = getSubmitStatusFromDate(form?.ends_at, form?.answered_at);
 
-  const deleteMultipleUploadedFiles = async (ids: (string | false | undefined)[]) => {
-    return await Promise.all(
-      ids.map(async (id_) => {
-        if (id_) {
-          // 削除できなくても無視
-          await client
-            .DELETE("/files/{file_id}", { params: { path: { file_id: id_ } } })
-            .then()
-            .catch();
-        }
-      }),
-    );
-  };
-
-  type FileIds = { [itemId: string]: string[] };
-  const deleteAllUploadedFiles = async (fileIds: FileIds) => {
-    await Promise.all(
-      Object.keys(fileIds).map((itemId) => {
-        deleteMultipleUploadedFiles(fileIds[itemId]);
-      }),
-    );
-  };
-
   const onSubmit: SubmitHandler<FormFieldsType> = async (data) => {
     if (Array.from(fileErrors).some((v) => v[1])) {
       toast.error(`正しいファイルをアップロードしてください`);
       return;
     }
 
-    const fileIds: FileIds = {};
-    for (const file of Array.from(files)) {
-      if (!file[1]) {
-        continue;
-      }
-      const ids = (
-        await Promise.all(
-          [...Array(file[1].length)].map(async (_, i) => {
-            const f = file[1]?.item(i);
-            if (!f) {
-              return;
-            }
-            try {
-              const response = (await postFile("private", f))?.ids;
-              return response;
-            } catch {
-              toast.error("ファイルのアップロード中にエラーが発生しました");
-              return false;
-            }
-          }),
-        )
-      ).flat();
-
-      if (ids.some((v) => !v)) {
-        // エラーがあったら全てのファイルを削除した上でreturn
-        await deleteMultipleUploadedFiles(ids);
-        return;
-      }
-
-      // falsyのもの以外を抽出(本来上の条件分岐で絞り込めているはずだが、現在のTSのバージョン(5.3.3)ではうまく推論されないためこれを書いている)
-      fileIds[file[0]] = ids.flatMap((v) => v || []);
+    const fileIds = await postFiles("private", files);
+    if (!fileIds) {
+      toast.error("ファイルのアップロード中にエラーが発生しました");
+      return;
     }
 
     type formAnswerItems = components["schemas"]["CreateFormAnswer"]["items"];
@@ -201,7 +152,7 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
             </p>
           ) : (
             <>
-              <h2>{form.title}</h2>
+              <h2 className={css({ fontSize: "2xl", fontWeight: "bold" })}>{form.title}</h2>
               <p>
                 <span>
                   {dayjs(form.ends_at).format("YYYY/MM/DD")} ({getTimeLeftText(dayjs(), dayjs(form.ends_at), status)})
@@ -215,6 +166,14 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
                 })}>
                 {form.description}
               </p>
+              {form.attachments.length && (
+                <>
+                  <h3 className={css({ fontSize: "xl" })}>添付ファイル</h3>
+                  {form.attachments.map((fileId, index) => (
+                    <AttachFile fileId={fileId} key={index} />
+                  ))}
+                </>
+              )}
               <form
                 onSubmit={handleSubmit(onSubmit)}
                 className={css({
@@ -243,3 +202,12 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
   );
 };
 export default FormDetailPage;
+
+const AttachFile: FC<{ fileId: string }> = ({ fileId }) => {
+  const { data: fileRes, error: fileError, isLoading: fileLoading } = useSWR(`/files/${fileId}`);
+
+  const file = assignType("/files/{file_id}", fileRes);
+  if (!fileLoading && !fileError) {
+    return <FileView name={file.name} link={file.url} />;
+  }
+};
