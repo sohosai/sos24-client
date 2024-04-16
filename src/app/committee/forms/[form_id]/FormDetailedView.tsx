@@ -76,21 +76,19 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
           </Link>
         </div>
       </div>
-      <div className={hstack({ gap: 6 })}>
-        <h1 className={css({ fontSize: "3xl", fontWeight: "bold" })}>{form.title}</h1>
-        <div className={hstack()}>
-          <ul className={hstack()}>
-            {/* 同じカテゴリが複数入ることはないと信じている */}
-            {form.categories.length == projectCategories.length ? (
-              <li className={projectCategoryItemStyle}>すべての企画区分</li>
-            ) : (
-              form.categories.map((category) => (
-                <li key={category} className={projectCategoryItemStyle}>
-                  <ProjectCategoryFormatter category={category} />
-                </li>
-              ))
-            )}
-          </ul>
+      <div className={hstack({ justifyContent: "space-between", width: "full" })}>
+        <h1 className={css({ fontSize: "3xl", fontWeight: "bold", wordBreak: "keep-all" })}>{form.title}</h1>
+        <div className={hstack({ flexWrap: "wrap", justifyContent: "flex-end" })}>
+          {/* 同じカテゴリが複数入ることはないと信じている */}
+          {form.categories.length == projectCategories.length ? (
+            <div className={projectCategoryItemStyle}>すべての企画区分</div>
+          ) : (
+            form.categories.map((category) => (
+              <div key={category} className={projectCategoryItemStyle}>
+                <ProjectCategoryFormatter category={category} />
+              </div>
+            ))
+          )}
           {form.attributes.length == projectAttributes.length ? (
             <span className={attributeSelectorStyle}>すべての企画属性</span>
           ) : (
