@@ -8,7 +8,6 @@ import { ProjectTableView } from "../../components/project/ProjectView";
 import { assignType } from "@/lib/openapi";
 import useSWR from "swr";
 import { basicErrorMessageStyle } from "@/components/formFields/styles";
-
 export const Project: React.FC = () => {
   const [editable, setEditable] = useState(false);
   const {
