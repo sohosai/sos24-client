@@ -111,12 +111,12 @@ export const FormFieldEditor: FC<{
       </div>
 
       <div>
-        <label>質問</label>
+        <label htmlFor={`items.${index}.name`}>質問</label>
         <input {...register(`items.${index}.name`, { required: true })} className={textInputStyle} />
       </div>
 
       <div>
-        <label>説明(任意)</label>
+        <label htmlFor={`items.${index}.description`}>説明(任意)</label>
         <textarea {...register(`items.${index}.description`)} className={textInputStyle} />
       </div>
 
@@ -127,7 +127,7 @@ export const FormFieldEditor: FC<{
               <>
                 <div className={hstack({ gap: 3 })}>
                   <div>
-                    <label>最小文字数</label>
+                    <label htmlFor={`items.${index}.min_length`}>最小文字数</label>
                     <input
                       type="number"
                       {...register(`items.${index}.min_length`, { valueAsNumber: true })}
@@ -136,7 +136,7 @@ export const FormFieldEditor: FC<{
                   </div>
 
                   <div>
-                    <label>最大文字数</label>
+                    <label htmlFor={`items.${index}.max_length`}>最大文字数</label>
                     <input
                       type="number"
                       {...register(`items.${index}.max_length`, { valueAsNumber: true })}
@@ -151,7 +151,7 @@ export const FormFieldEditor: FC<{
               <>
                 <div className={hstack({ gap: 3 })}>
                   <div>
-                    <label>最小値</label>
+                    <label htmlFor={`items.${index}.min`}>最小値</label>
                     <input
                       type="number"
                       {...register(`items.${index}.min`, { valueAsNumber: true })}
@@ -160,7 +160,7 @@ export const FormFieldEditor: FC<{
                   </div>
 
                   <div>
-                    <label>最大値</label>
+                    <label htmlFor={`items.${index}.max`}>最大値</label>
                     <input
                       type="number"
                       {...register(`items.${index}.max`, { valueAsNumber: true })}
@@ -174,7 +174,7 @@ export const FormFieldEditor: FC<{
             return (
               <>
                 <div>
-                  <label>選択肢(改行区切り)</label>
+                  <label htmlFor={`items.${index}.options`}>選択肢(改行区切り)</label>
                   <textarea {...register(`items.${index}.options`, { required: true })} className={textInputStyle} />
                 </div>
               </>
@@ -183,13 +183,13 @@ export const FormFieldEditor: FC<{
             return (
               <>
                 <div>
-                  <label>選択肢(改行区切り)</label>
+                  <label htmlFor={`items.${index}.options`}>選択肢(改行区切り)</label>
                   <textarea {...register(`items.${index}.options`, { required: true })} className={textInputStyle} />
                 </div>
 
                 <div className={hstack({ gap: 3 })}>
                   <div>
-                    <label>最小選択数</label>
+                    <label htmlFor={`items.${index}.min_selection`}>最小選択数</label>
                     <input
                       type="number"
                       {...register(`items.${index}.min_selection`, { valueAsNumber: true })}
@@ -198,7 +198,7 @@ export const FormFieldEditor: FC<{
                   </div>
 
                   <div>
-                    <label>最大選択数</label>
+                    <label htmlFor={`items.${index}.max_selection`}>最大選択数</label>
                     <input
                       type="number"
                       {...register(`items.${index}.max_selection`, { valueAsNumber: true })}
@@ -212,7 +212,7 @@ export const FormFieldEditor: FC<{
             return (
               <>
                 <div>
-                  <label>ファイル数上限</label>
+                  <label htmlFor={`items.${index}.limit`}>ファイル数上限</label>
                   <input
                     type="number"
                     {...register(`items.${index}.limit`, { required: true, valueAsNumber: true })}
@@ -220,7 +220,7 @@ export const FormFieldEditor: FC<{
                   />
                 </div>
                 <div>
-                  <label>拡張子(改行区切り)</label>
+                  <label htmlFor={`items.${index}.extensions`}>拡張子(改行区切り)</label>
                   <textarea {...register(`items.${index}.extensions`, { required: true })} className={textInputStyle} />
                 </div>
               </>

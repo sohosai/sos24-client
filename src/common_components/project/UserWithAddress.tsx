@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 
 export const UserWithAddress: React.FC<{ name: string; email: string }> = ({ name, email }) => {
   return (
-    <div
+    <button
       className={hstack({ alignItems: "center", cursor: "pointer" })}
       onClick={() => {
         navigator.clipboard
@@ -17,6 +17,6 @@ export const UserWithAddress: React.FC<{ name: string; email: string }> = ({ nam
       }}>
       <Image src={MailAddressIcon} alt="" className={css({ height: "full" })} />
       {name}
-    </div>
+    </button>
   );
 };
