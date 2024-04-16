@@ -41,7 +41,7 @@ export const ProjectAttributesBadge: React.FC<{
     fontSize: "lg",
   });
   const ActiveItemStyle = css({
-    backgroundColor: "sohosai.purple",
+    backgroundColor: "tsukuba.purple",
     color: "white!",
     border: "none!",
     fontWeight: "bold",

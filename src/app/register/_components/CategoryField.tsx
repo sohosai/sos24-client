@@ -1,7 +1,7 @@
 import { css } from "@styled-system/css";
 import { UseFormRegisterReturn } from "react-hook-form";
 
-import categoryIcon from "@/assets/CategoryIcon.svg";
+import categoryIcon from "@/assets/CategoryIcon.svg?url";
 import Image from "next/image";
 import { basicErrorMessageStyle, basicFormLabelStyle } from "@/common_components/formFields/styles";
 import { flex, stack, visuallyHidden } from "@styled-system/patterns";
@@ -67,7 +67,7 @@ const CategoryFieldItem = ({ label, value, register, badges }: CategoryFieldItem
           background: "gray.200",
         },
         "&:has(> input:checked)": {
-          borderColor: "sohosai.purple",
+          borderColor: "tsukuba.purple",
         },
       })}>
       <input type="radio" value={value} {...register} className={visuallyHidden()} />

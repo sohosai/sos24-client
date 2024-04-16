@@ -10,7 +10,7 @@ import { Route } from "next";
 import { Button } from "@/common_components/Button";
 import { css } from "@styled-system/css";
 import Image from "next/image";
-import plusIcon from "@/assets/Plus.svg";
+import plusIcon from "@/assets/Plus.svg?url";
 
 // 対象の企画であるかを確認する
 const isTargetProject = (

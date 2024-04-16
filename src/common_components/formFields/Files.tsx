@@ -9,8 +9,8 @@ import { basicErrorMessageStyle, basicFormLabelStyle } from "./styles";
 import { RequiredBadge } from "./_components/RequiredBadge";
 import { FileView } from "@/common_components/FileView";
 
-import clickIcon from "@/assets/Click.svg";
-import driveIcon from "@/assets/Drive.svg";
+import clickIcon from "@/assets/Click.svg?url";
+import driveIcon from "@/assets/Drive.svg?url";
 import { FileErrorsType, FilesFormType } from "@/app/forms/[form_id]/FormItems";
 
 interface Props extends basicFieldProps {

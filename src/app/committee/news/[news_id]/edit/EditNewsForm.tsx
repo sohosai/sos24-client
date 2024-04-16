@@ -5,7 +5,7 @@ import { center, hstack, stack } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
 import { Button } from "@/common_components/Button";
 import Image from "next/image";
-import sendIcon from "@/assets/Send.svg";
+import sendIcon from "@/assets/Send.svg?url";
 import useSWR from "swr";
 import { assignType, client } from "@/lib/openapi";
 import { FC, useState } from "react";

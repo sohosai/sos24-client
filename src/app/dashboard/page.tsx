@@ -7,7 +7,7 @@ import { Title } from "@/common_components/Title";
 import Link from "next/link";
 import Image from "next/image";
 
-import pulldownIcon from "@/assets/Pulldown.svg";
+import pulldownIcon from "@/assets/Pulldown.svg?url";
 import { css } from "@styled-system/css";
 import { Project } from "./Project";
 import { assignType } from "@/lib/openapi";
@@ -35,7 +35,7 @@ const DashboardPage: NextPage = () => {
             <Link
               href="/news"
               className={flex({
-                backgroundColor: "sohosai.purple",
+                backgroundColor: "tsukuba.purple",
                 borderRadius: 2,
                 paddingX: 4,
                 paddingY: 1,
