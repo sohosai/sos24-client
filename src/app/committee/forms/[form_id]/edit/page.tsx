@@ -4,7 +4,12 @@ import { assignType, client } from "@/lib/openapi";
 import { NextPage } from "next";
 import toast from "react-hot-toast";
 import useSWR from "swr";
-import { CreateFormInput, FormEditor, FormField, HandleFormEditorSubmit } from "../../new/FormEditor";
+import {
+  CreateFormInput,
+  FormEditor,
+  FormField,
+  HandleFormEditorSubmit,
+} from "@/common_components/form_editor/FormEditor";
 import { stack } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
 import dayjs from "dayjs";
