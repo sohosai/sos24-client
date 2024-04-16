@@ -67,10 +67,11 @@ const NewsDetailsPage = ({ params }: { params: { project_id: string } }) => {
             alt=""
             className={css({ cursor: "pointer" })}
             onClick={() => {
-              deleteProject(project.id).then(() => {
-                toast.success("企画を削除しました。");
-                router.push("/committee/projects");
-              });
+              window.confirm("本当に削除しますか？") &&
+                deleteProject(project.id).then(() => {
+                  toast.success("企画を削除しました。");
+                  router.push("/committee/projects");
+                });
             }}
           />
         </span>
