@@ -88,6 +88,6 @@ export const projectCategoryItemStyle = hstack({
   backgroundColor: "gray.200",
   "&:has(> input:checked)": {
     color: "white",
-    backgroundColor: "sohosai.purple",
+    backgroundColor: "tsukuba.purple",
   },
 });

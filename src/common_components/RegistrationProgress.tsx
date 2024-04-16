@@ -1,8 +1,8 @@
-import RegistrationProgress1 from "@/assets/RegistrationProgress/1.svg";
-import RegistrationProgress2 from "@/assets/RegistrationProgress/2.svg";
-import RegistrationProgress3 from "@/assets/RegistrationProgress/3.svg";
-import RegistrationProgress4 from "@/assets/RegistrationProgress/4.svg";
-import RegistrationProgress5 from "@/assets/RegistrationProgress/5.svg";
+import RegistrationProgress1 from "@/assets/RegistrationProgress/1.svg?url";
+import RegistrationProgress2 from "@/assets/RegistrationProgress/2.svg?url"url"url";
+import RegistrationProgress3 from "@/assets/RegistrationProgress/3.svg?url";
+import RegistrationProgress4 from "@/assets/RegistrationProgress/4.svg?url";
+import RegistrationProgress5 from "@/assets/RegistrationProgress/5.svg?url";
 import Image from "next/image";
 import { FC } from "react";
 

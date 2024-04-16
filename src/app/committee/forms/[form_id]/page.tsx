@@ -18,7 +18,7 @@ const FormDetailedPage: NextPage<{ params: { form_id: string } }> = ({ params })
   return (
     <main className={cx(container({ maxWidth: "4xl", paddingY: 4 }))}>
       <div className={vstack({ gap: 4, alignItems: "start", width: "full" })}>
-        <Link href="/committee/forms" className={css({ color: "sohosai.purple", display: "block" })}>
+        <Link href="/committee/forms" className={css({ color: "tsukuba.purple", display: "block" })}>
           ←申請一覧へ
         </Link>
         <FormDetailedView form={form} />

@@ -22,7 +22,7 @@ export const User: FC<{
       <Link
         href="/committee/users"
         className={css({
-          color: "sohosai.purple",
+          color: "tsukuba.purple",
           fontSize: "xs",
         })}>
         ←ユーザー一覧に戻る
@@ -94,7 +94,7 @@ export const User: FC<{
               <Link
                 href={`/committee/projects/${user.owned_project_id}`}
                 className={css({
-                  color: "sohosai.purple",
+                  color: "tsukuba.purple",
                   fontWeight: "bold",
                   textDecoration: "underline",
                 })}>

@@ -13,7 +13,7 @@ import { useState } from "react";
 import { FilesFormType, FormItems } from "@/app/forms/[form_id]/FormItems";
 import { FormAnswerList } from "./FormAnswerList";
 import Image from "next/image";
-import deleteNewsButton from "@/assets/deleteFormButton.svg";
+import deleteNewsButton from "@/assets/deleteFormButton.svg?url";
 import { client } from "@/lib/openapi";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";

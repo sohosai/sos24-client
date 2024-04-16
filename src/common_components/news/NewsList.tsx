@@ -5,7 +5,7 @@ import { CategoryBadges } from "@/common_components/CategoryBadges";
 import { FC } from "react";
 import { ProjectCategory } from "@/lib/valibot";
 import Image from "next/image";
-import arrowIcon from "@/assets/Arrow.svg";
+import arrowIcon from "@/assets/Arrow.svg?url";
 import { NoResultNotice } from "@/common_components/NoResultNotice";
 
 type News = {
@@ -118,7 +118,7 @@ export const NewsList: FC<{
                     alt=""
                     className={css({
                       display: { base: "inline-block", sm: "none" },
-                      color: "sohosai.purple",
+                      color: "tsukuba.purple",
                     })}
                   />
 

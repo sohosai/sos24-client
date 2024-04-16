@@ -1,6 +1,6 @@
 import { css } from "@styled-system/css";
 import Image from "next/image";
-import categoryIcon from "@/assets/CategoryIcon.svg";
+import categoryIcon from "@/assets/CategoryIcon.svg?url";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { basicErrorMessageStyle, basicFormLabelStyle } from "@/common_components/formFields/styles";
 import { flex, hstack, stack, visuallyHidden } from "@styled-system/patterns";
@@ -100,7 +100,7 @@ const PlaceFieldItem = ({ label, value, caption, register, disabled }: PlaceFiel
             background: "gray.200",
           },
           "&:has(> input:checked)": {
-            borderColor: "sohosai.purple",
+            borderColor: "tsukuba.purple",
           },
           "&:has(> input:disabled)": {
             backgroundColor: "gray.300",

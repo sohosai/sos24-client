@@ -222,7 +222,7 @@ export const ProjectTableView: React.FC<{
               <UserWithAddress name={projectData.sub_owner_name} email={projectData.sub_owner_email} />
             ) : (
               <button
-                className={css({ color: "sohosai.purple", textDecoration: "underline", cursor: "pointer" })}
+                className={css({ color: "tsukuba.purple", textDecoration: "underline", cursor: "pointer" })}
                 onClick={() => handleShareInviteLink(projectData.id, "sub_owner", !isCommittee)}
                 type="button">
                 招待リンクを共有

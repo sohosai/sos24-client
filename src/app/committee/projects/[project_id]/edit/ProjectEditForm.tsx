@@ -8,7 +8,7 @@ import { valibotResolver } from "@hookform/resolvers/valibot";
 import { css } from "@styled-system/css";
 import { hstack, stack, visuallyHidden } from "@styled-system/patterns";
 import { useForm } from "react-hook-form";
-import Arrow from "./three_arrow_left.svg";
+import Arrow from "./three_arrow_left.svg?url";
 import Image from "next/image";
 import { getNewInvitationId, shareURL } from "@/common_components/project/ProjectView";
 import { components } from "@/schema";
@@ -158,7 +158,7 @@ export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project
                 fontWeight: "bold",
                 boxSizing: "border-box",
                 "&:has(> input:checked)": {
-                  color: "sohosai.purple",
+                  color: "tsukuba.purple",
                   outline: "2px solid ",
                   backgroundColor: "white",
                 },

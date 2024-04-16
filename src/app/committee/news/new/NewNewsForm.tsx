@@ -2,7 +2,7 @@ import { hstack, stack } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
 import { Button } from "@/common_components/Button";
 import Image from "next/image";
-import sendIcon from "@/assets/Send.svg";
+import sendIcon from "@/assets/Send.svg?url";
 import { NewNewsSchema, NewNewsSchemaType, projectAttributes, projectCategories } from "@/lib/valibot";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";

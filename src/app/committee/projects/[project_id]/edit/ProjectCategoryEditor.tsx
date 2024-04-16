@@ -23,7 +23,7 @@ export const ProjectCategoryEditor: React.FC<{ register: UseFormRegisterReturn }
               fontWeight: "bold",
               boxSizing: "border-box",
               "&:has(> input:checked)": {
-                color: "sohosai.purple",
+                color: "tsukuba.purple",
                 outline: "2px solid ",
                 backgroundColor: "white",
               },

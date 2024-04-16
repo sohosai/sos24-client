@@ -15,7 +15,7 @@ const EditUserPage: NextPage<{ params: { user_id: string } }> = ({ params }) => 
         <Link
           href="/committee/users"
           className={css({
-            color: "sohosai.purple",
+            color: "tsukuba.purple",
             fontSize: "xs",
           })}>
           ←ユーザー一覧に戻る
