@@ -1,7 +1,7 @@
 import { FC } from "react";
 import Image from "next/image";
 
-import notFoundSopotan from "@/common_components/assets/notFoundSopotan.png";
+import notFoundSopotan from "@/assets/notFoundSopotan.png";
 import { css } from "@styled-system/css";
 import { box, center, flex } from "@styled-system/patterns";
 

@@ -5,7 +5,7 @@ import { CategoryBadges } from "@/common_components/CategoryBadges";
 import { FC } from "react";
 import { ProjectCategory } from "@/lib/valibot";
 import Image from "next/image";
-import arrowIcon from "@/common_components/assets/Arrow.svg";
+import arrowIcon from "@/assets/Arrow.svg";
 import { NoResultNotice } from "../NoResultNotice";
 
 type News = {

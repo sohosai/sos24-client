@@ -1,6 +1,6 @@
 import Image, { StaticImageData } from "next/image";
 
-import SuyasuyaBellIcon from "./assets/SuyasuyaBell.png";
+import SuyasuyaBellIcon from "@/assets/SuyasuyaBell.png";
 import { css } from "@styled-system/css";
 import { flex } from "@styled-system/patterns";
 export const NoResultNotice = (props: { message: string; type?: "notice" }) => {

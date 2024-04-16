@@ -2,7 +2,7 @@ import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 import { flex } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
-import downloadIcon from "@/common_components/assets/Download.svg";
+import downloadIcon from "@/assets/Download.svg";
 import Image from "next/image";
 import { FC } from "react";
 

@@ -1,6 +1,6 @@
 import { css } from "@styled-system/css";
 import Image from "next/image";
-import LoadingSopotan from "./assets/LoadingSopotan.png";
+import LoadingSopotan from "@/assets/LoadingSopotan.png";
 
 export const Loading = () => (
   <div

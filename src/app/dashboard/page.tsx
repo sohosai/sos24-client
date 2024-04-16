@@ -7,7 +7,7 @@ import { Title } from "@/common_components/Title";
 import Link from "next/link";
 import Image from "next/image";
 
-import pulldownIcon from "@/common_components/assets/Pulldown.svg";
+import pulldownIcon from "@/assets/Pulldown.svg";
 import { css } from "@styled-system/css";
 import { Project } from "./Project";
 import { assignType } from "@/lib/openapi";

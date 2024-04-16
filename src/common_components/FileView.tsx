@@ -1,6 +1,6 @@
 import Image from "next/image";
-import downloadIcon from "./assets/Download.svg";
-import deleteIcon from "./assets/TrashOutline.svg";
+import downloadIcon from "@/assets/Download.svg";
+import deleteIcon from "@/assets/TrashOutline.svg";
 import { css, cva } from "@styled-system/css";
 import { FC } from "react";
 

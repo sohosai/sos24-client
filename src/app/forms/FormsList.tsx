@@ -8,8 +8,8 @@ import { SubmitStatusBadge } from "@/common_components/SubmitStatus";
 import { getSubmitStatusFromDate, getTimeLeftText } from "@/lib/formHelpers";
 import { useAtom } from "jotai";
 
-import EyesOpenIcon from "@/common_components/assets/EyesOpen.svg";
-import EyesClosedIcon from "@/common_components/assets/EyesClosed.svg";
+import EyesOpenIcon from "@/assets/EyesOpen.svg";
+import EyesClosedIcon from "@/assets/EyesClosed.svg";
 import Image from "next/image";
 import { hiddenFormIdsAtom } from "./hiddenFormIds";
 import toast from "react-hot-toast";

@@ -1,7 +1,7 @@
 import { center } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
 import { Button } from "@/common_components/Button";
-import SendButton from "@/common_components/assets/SendButton.svg";
+import SendButton from "@/assets/SendButton.svg";
 import Image from "next/image";
 import { sendEmailVerification } from "firebase/auth";
 import { useAuthState } from "@/lib/firebase";

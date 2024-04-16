@@ -5,8 +5,8 @@ import { css } from "@styled-system/css";
 import { textInputStyle } from "./styles";
 import { hstack, stack } from "@styled-system/patterns";
 
-import pulldownMenu from "@/common_components/assets/pulldownMenu.svg";
-import trashOutline from "@/common_components/assets/TrashOutline.svg";
+import pulldownMenu from "@/assets/pulldownMenu.svg";
+import trashOutline from "@/assets/TrashOutline.svg";
 import Image from "next/image";
 import { FormFieldType, FormField, CreateFormInput } from "./FormEditor";
 
