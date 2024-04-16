@@ -184,7 +184,7 @@ export const RegisterForm = () => {
         register={register("agreement2")}
         error={errors.agreement2?.message}
       />
-      <Button type="submit" color="primary" className={css({ flexGrow: 0, alignSelf: "center" })}>
+      <Button type="submit" color="purple" className={css({ flexGrow: 0, alignSelf: "center" })}>
         次へ
       </Button>
     </form>

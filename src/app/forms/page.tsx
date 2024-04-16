@@ -79,7 +79,7 @@ const DashboardPage: NextPage = () => {
           </h2>
         </div>
         <div className={stack({ padding: 10, gap: 4, alignItems: "flex-start", width: "100%" })}>
-          <Button color={isSubmittedShown ? "secondary" : "primary"} onClick={toggleFilter} onTouchEnd={toggleFilter}>
+          <Button color={isSubmittedShown ? "secondary" : "purple"} onClick={toggleFilter} onTouchEnd={toggleFilter}>
             未提出のみ表示
           </Button>
           <FormsList

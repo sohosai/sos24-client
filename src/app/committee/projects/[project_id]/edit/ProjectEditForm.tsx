@@ -55,7 +55,7 @@ export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project
   return (
     <form className={stack({ gap: 4 })} onSubmit={handleSubmit(updateProject)}>
       <div className={hstack({ flexDirection: "row-reverse" })}>
-        <Button color="primary" type="submit">
+        <Button color="purple" type="submit">
           保存
         </Button>
       </div>

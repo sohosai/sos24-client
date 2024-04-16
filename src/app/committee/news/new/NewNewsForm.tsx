@@ -62,7 +62,7 @@ export const NewNewsForm = () => {
         <h2 className={css({ fontSize: "2xl", fontWeight: "bold" })}>新規お知らせ作成</h2>
         <Button
           type="submit"
-          color="primary"
+          color="purple"
           className={hstack({
             gap: 3,
           })}>

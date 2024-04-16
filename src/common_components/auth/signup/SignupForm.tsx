@@ -116,7 +116,7 @@ export const SignupForm = () => {
       </div>
       {errors.agreement && <span className={basicErrorMessageStyle}>{errors.agreement.message}</span>}
       {errors.root && <span className={basicErrorMessageStyle}>{errors.root.message}</span>}
-      <Button color="primary" className={css({ alignSelf: "center" })} type="submit">
+      <Button color="purple" className={css({ alignSelf: "center" })} type="submit">
         送信
       </Button>
     </form>

@@ -77,7 +77,7 @@ const InvitationPage = ({ params }: { params: { invitation_id: string } }) => {
               <PositionFormatter position={invitation.position} />
               に招待しています。
             </p>
-            <Button color="primary" onClick={onClick}>
+            <Button color="purple" onClick={onClick}>
               承諾する
             </Button>
           </>
