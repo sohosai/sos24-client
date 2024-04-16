@@ -181,7 +181,7 @@ export const Header: FC = () => {
             })}>
             <img src="https://www.sakura.ad.jp/brand-assets/images/logo-3.png" alt="" className={css({ height: 6 })} />
           </a>
-          {(!userInfo?.owned_project_id || path.startsWith("/committee")) && <HeaderMenuItems menu={menu} />}
+          {(userInfo?.owned_project_id || path.startsWith("/committee")) && <HeaderMenuItems menu={menu} />}
         </div>
         {isLoading || !user ? (
           <></>
