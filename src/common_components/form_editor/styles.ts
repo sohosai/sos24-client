@@ -22,6 +22,9 @@ export const checkboxStyle = css({
     background: "tsukuba.purple",
     color: "white",
   },
+  "&:has(:focus)": {
+    outline: "1px solid",
+  },
 });
 
 export const checkboxGrpupStyle = css({
