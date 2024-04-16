@@ -9,7 +9,7 @@ import useSWR from "swr";
 import { ProjectTableView } from "@/common_components/project/ProjectView";
 import toast from "react-hot-toast";
 import { notFound, useRouter } from "next/navigation";
-import deleteButton from "@/common_components/assets/deleteProjectButton.svg";
+import deleteButton from "@/assets/deleteProjectButton.svg";
 import Image from "next/image";
 import { Button } from "@/common_components/Button";
 export const runtime = "edge";
