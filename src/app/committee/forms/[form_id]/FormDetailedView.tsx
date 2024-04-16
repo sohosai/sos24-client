@@ -18,6 +18,8 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { AttributesFormatter } from "@/common_components/project/AttributesFormatter";
 import { attributeSelectorStyle } from "@/common_components/project/ProjectAttributesBadge";
+import { buttonStyle } from "@/recipes/button";
+import Link from "next/link";
 export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }> = ({ form }) => {
   const {
     register,
@@ -35,28 +37,33 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
         <div>
           作成日: <time dateTime={form.created_at}> {dayjs(form.created_at).format("YYYY/MM/DD")}</time>
         </div>
-        <Image
-          src={deleteNewsButton}
-          alt="delete"
-          onClick={() => {
-            window.confirm("本当に削除しますか？") &&
-              client
-                .DELETE(`/forms/{form_id}`, {
-                  params: { path: { form_id: form.id } },
-                })
-                .then(({ error }) => {
-                  if (error) {
+        <div className={hstack()}>
+          <Image
+            src={deleteNewsButton}
+            alt="delete"
+            onClick={() => {
+              window.confirm("本当に削除しますか？") &&
+                client
+                  .DELETE(`/forms/{form_id}`, {
+                    params: { path: { form_id: form.id } },
+                  })
+                  .then(({ error }) => {
+                    if (error) {
+                      toast.error(`申請削除中にエラーが発生しました`);
+                      return;
+                    }
+                    toast.success("申請を削除しました");
+                    router.push(`/committee/forms`);
+                  })
+                  .catch(() => {
                     toast.error(`申請削除中にエラーが発生しました`);
-                    return;
-                  }
-                  toast.success("申請を削除しました");
-                  router.push(`/committee/forms`);
-                })
-                .catch(() => {
-                  toast.error(`申請削除中にエラーが発生しました`);
-                });
-          }}
-        />
+                  });
+            }}
+          />
+          <Link href={`/committee/forms/${form.id}/edit`} className={buttonStyle({ color: "blue", visual: "outline" })}>
+            編集
+          </Link>
+        </div>
       </div>
       <div className={hstack({ gap: 6 })}>
         <h1 className={css({ fontSize: "3xl", fontWeight: "bold" })}>{form.title}</h1>
