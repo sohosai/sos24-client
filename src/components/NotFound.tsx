@@ -22,7 +22,7 @@ export const NotFound: FC<Props> = ({ message = "お探しのページが見つ�
         })}
       />
       <div className={box({ maxW: "390px", paddingX: 3 })}>
-        <div className={flex({ gap: 8, align: "start" })}>
+        <div className={flex({ gap: 8, align: "start", direction: "column" })}>
           <span className={css({ fontSize: "24px", fontWeight: "600" })}>{message}</span>
           <span
             className={css({

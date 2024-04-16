@@ -27,8 +27,8 @@ const NewsDetailsPage = ({ params }: { params: { project_id: string } }) => {
   }
   if (error) {
     switch (error.name) {
-      case "projects/not-found":
-      case "projects/invalid-uuid":
+      case "project/not-found":
+      case "project/invalid-uuid":
         notFound();
       default:
         return <p>企画の読み込み中に不明なエラーが発生しました。</p>;
