@@ -5,7 +5,7 @@ import { FC } from "react";
 import { components } from "@/schema";
 
 import { SubmitStatusBadge } from "@/components/SubmitStatus";
-import { getSubmitStatus, getTimeLeftText } from "@/lib/formHelpers";
+import { getSubmitStatusFromDate, getTimeLeftText } from "@/lib/formHelpers";
 import { useAtom } from "jotai";
 
 import EyesOpenIcon from "@/components/assets/EyesOpen.svg";
@@ -14,15 +14,14 @@ import Image from "next/image";
 import { hiddenFormIdsAtom } from "./hiddenFormIds";
 import toast from "react-hot-toast";
 import { NoResultNotice } from "@/components/NoResultNotice";
+import Link from "next/link";
 
 type Form = components["schemas"]["FormSummary"];
-type Answer = components["schemas"]["FormAnswerSummary"];
 
 export const FormsList: FC<{
   forms: Form[];
-  answers: Answer[];
   showSubmitted: boolean;
-}> = ({ forms, answers, showSubmitted }) => {
+}> = ({ forms, showSubmitted }) => {
   const [hiddenFormIds, setHiddenFormIds] = useAtom(hiddenFormIdsAtom);
 
   return (
@@ -60,13 +59,9 @@ export const FormsList: FC<{
         </div>
       )}
       {forms.map((form) => {
-        const answer = answers.find((ans) => {
-          ans.id === form.id;
-        });
-
         const startsAt = dayjs(form.starts_at);
         const endsAt = dayjs(form.ends_at);
-        const status = getSubmitStatus(endsAt, answer);
+        const status = getSubmitStatusFromDate(form.ends_at, form.answered_at);
 
         if (!showSubmitted && status !== "未提出") {
           return;
@@ -94,7 +89,7 @@ export const FormsList: FC<{
               }}>
               {isShown ? <Image src={EyesClosedIcon} alt="非表示" /> : <Image src={EyesOpenIcon} alt="表示" />}
             </button>
-            <a
+            <Link
               href={`/forms/${form.id}`}
               className={css({
                 display: "contents",
@@ -106,7 +101,7 @@ export const FormsList: FC<{
               <div>{endsAt.format("YYYY/MM/DD")}</div>
               <div>{form.title}</div>
               <div>{getTimeLeftText(dayjs(), endsAt, status)}</div>
-            </a>
+            </Link>
           </div>
         );
       })}
