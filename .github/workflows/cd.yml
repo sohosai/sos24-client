@@ -1,11 +1,16 @@
-name: CD(beta-test)
+name: CD
+run-name: CD - ${{ github.event_name }}
 
 on:
-  push:
+#  push:
+  pull_request:
+    branches:
+      - main
+      - develop
   workflow_dispatch:
 
 env:
-  PROJECT_NAME:  ${{ vars.CLOUDFLARE_BETA_PROJECT_NAME_TEST }}
+  PROJECT_NAME:  ${{ vars.CLOUDFLARE_PROJECT_NAME }}
   PRODUCTION_BRANCH: main
 
 jobs:
@@ -36,16 +41,28 @@ jobs:
           # If source files changed but packages didn't, rebuild from a prior cache.
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
-      - name: build
+      - name: build (branch preview)
+        if: ${{ (github.head_ref || github.ref_name) != env.PRODUCTION_BRANCH }}
         run: npx @cloudflare/next-on-pages@1
         env:
-          NEXT_PUBLIC_API_ENDPOINT: ${{vars.BETA_API_ENDPOINT}}
-          NEXT_PUBLIC_FIREBASE_API_KEY: ${{vars.BETA_FIREBASE_API_KEY}}
-          NEXT_PUBLIC_FIREBASE_APP_ID: ${{vars.BETA_FIREBASE_APP_ID}}
-          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{vars.BETA_FIREBASE_AUTH_DOMAIN}}
-          NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{vars.BETA_FIREBASE_MESSAGING_SENDER_ID}}
-          NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{vars.BETA_FIREBASE_PROJECT_ID}}
-          NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{vars.BETA_FIREBASE_STORAGE_BUCKET}}
+          NEXT_PUBLIC_API_ENDPOINT: ${{secrets.DEV_API_ENDPOINT}}
+          NEXT_PUBLIC_FIREBASE_API_KEY: ${{secrets.DEV_FIREBASE_API_KEY}}
+          NEXT_PUBLIC_FIREBASE_APP_ID: ${{secrets.DEV_FIREBASE_APP_ID}}
+          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{secrets.DEV_FIREBASE_AUTH_DOMAIN}}
+          NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{secrets.DEV_FIREBASE_MESSAGING_SENDER_ID}}
+          NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{secrets.DEV_FIREBASE_PROJECT_ID}}
+          NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{secrets.DEV_FIREBASE_STORAGE_BUCKET}}
+      - name: build (production)
+        if: ${{ (github.head_ref || github.ref_name) == env.PRODUCTION_BRANCH }}
+        run: npx @cloudflare/next-on-pages@1
+        env:
+          NEXT_PUBLIC_API_ENDPOINT: ${{secrets.PROD_API_ENDPOINT}}
+          NEXT_PUBLIC_FIREBASE_API_KEY: ${{secrets.PROD_FIREBASE_API_KEY}}
+          NEXT_PUBLIC_FIREBASE_APP_ID: ${{secrets.PROD_FIREBASE_APP_ID}}
+          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{secrets.PROD_FIREBASE_AUTH_DOMAIN}}
+          NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{secrets.PROD_FIREBASE_MESSAGING_SENDER_ID}}
+          NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{secrets.PROD_FIREBASE_PROJECT_ID}}
+          NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{secrets.PROD_FIREBASE_STORAGE_BUCKET}}
       - name: set production branch
         run: |
           result=$(curl -sS -X PATCH \
@@ -160,25 +177,7 @@ jobs:
           status: ${{ job.status }}
           content: "status: ${{ needs.build_and_deploy.result }} \n🔗 Preview URL: ${{ steps.publish.outputs.deployment-url }} \n📌 Branch Preview URL: ${{ steps.generate-alias-url.outputs.alias-url }}"
           title: "${{ github.workflow }}"
-          description: "Build and deploy status of sos24-client-beta."
-          color: 0x6600CC
-          url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          username: GitHub Actions
-          avatar_url: https://r2.sohosai.com/logo.png
-
-  notify:
-    runs-on: [self-hosted, portainer]
-    needs: [build_and_deploy]
-    if: always() && !failure() && !cancelled()
-    steps:
-      - name: Notify
-        uses: sarisia/actions-status-discord@v1
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          status: ${{ job.status }}
-          content: "status: ${{ needs.build_and_deploy.result }}"
-          title: "${{ github.workflow }}"
-          description: "Build and deploy status of sos24-client-beta."
+          description: "Build and deploy status of sos24-client."
           color: 0x6600CC
           url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           username: GitHub Actions
