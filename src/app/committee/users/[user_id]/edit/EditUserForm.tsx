@@ -3,17 +3,17 @@ import { UpdateUserSchema, UpdateUserSchemaType, userRoles } from "@/lib/valibot
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { hstack, stack } from "@styled-system/patterns";
 import { css, cx } from "@styled-system/css";
-import { Button } from "@/components/Button";
+import { Button } from "@/common_components/Button";
 import Image from "next/image";
-import sendIcon from "@/components/assets/SendButton.svg";
+import sendIcon from "@/assets/SendButton.svg?url";
 import useSWR from "swr";
 import { assignType, client } from "@/lib/openapi";
 import { FC, useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { UserRoleFormatter } from "@/components/user/UserRoleFormatter";
+import { UserRoleFormatter } from "@/common_components/user/UserRoleFormatter";
 import { components } from "@/schema";
-import { basicFormStyle, basicErrorMessageStyle } from "@/components/formFields/styles";
+import { basicFormStyle, basicErrorMessageStyle } from "@/common_components/formFields/styles";
 
 let labelAndInputStyle = css({
   display: "flex",
@@ -99,7 +99,7 @@ export const EditUserForm: FC<{
         <h2 className={css({ fontSize: "2xl", fontWeight: "bold" })}>ユーザー編集</h2>
         <Button
           type="submit"
-          color="primary"
+          color="purple"
           className={hstack({
             gap: 3,
           })}>

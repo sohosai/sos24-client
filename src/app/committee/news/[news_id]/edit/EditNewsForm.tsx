@@ -1,21 +1,21 @@
 import { useForm } from "react-hook-form";
 import { projectAttributes, projectCategories, UpdateNewsSchema, UpdateNewsSchemaType } from "@/lib/valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import { hstack, stack } from "@styled-system/patterns";
+import { center, hstack, stack } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
-import { Button } from "@/components/Button";
+import { Button } from "@/common_components/Button";
 import Image from "next/image";
-import sendIcon from "@/components/assets/Send.svg";
+import sendIcon from "@/assets/Send.svg?url";
 import useSWR from "swr";
 import { assignType, client } from "@/lib/openapi";
 import { FC, useState } from "react";
 import { components } from "@/schema";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { ProjectCategorySelector } from "@/components/ProjectCategorySelector";
-import { TitleField } from "@/components/news/TitleField";
-import { BodyField } from "@/components/news/BodyField";
-import { Heading } from "@/components/Heading";
+import { ProjectCategorySelector } from "@/common_components/ProjectCategorySelector";
+import { TitleField } from "@/common_components/news/TitleField";
+import { BodyField } from "@/common_components/news/BodyField";
+import { Heading } from "@/common_components/Heading";
 
 export const EditNewsForm: FC<{
   news_id: string;
@@ -93,7 +93,7 @@ export const EditNewsForm: FC<{
         <h2 className={css({ fontSize: "2xl", fontWeight: "bold" })}>お知らせ編集</h2>
         <Button
           type="submit"
-          color="primary"
+          color="purple"
           className={hstack({
             gap: 3,
           })}>
@@ -111,6 +111,31 @@ export const EditNewsForm: FC<{
       <TitleField register={register("title")} error={errors.title?.message} />
       <BodyField register={register("body")} error={errors.body?.message} />
       <Heading>添付ファイル</Heading>
+      <div className={center()}>
+        <Button
+          color="secondary"
+          className={css({ w: "269px" })}
+          onClick={() => {
+            window.confirm("本当に削除しますか？") &&
+              client
+                .DELETE(`/news/{news_id}`, {
+                  params: { path: { news_id: news_id } },
+                })
+                .then(({ error }) => {
+                  if (error) {
+                    toast.error(`お知らせ削除中にエラーが発生しました`);
+                    return;
+                  }
+                  toast.success("お知らせを削除しました");
+                  router.push(`/committee/news`);
+                })
+                .catch(() => {
+                  toast.error(`お知らせ削除中にエラーが発生しました`);
+                });
+          }}>
+          お知らせを削除する
+        </Button>
+      </div>
     </form>
   );
 };

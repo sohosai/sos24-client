@@ -27,7 +27,7 @@ const ProjectEditPage: NextPage<{ params: { project_id: string } }> = ({ params 
 
   return (
     <main className={container({ maxWidth: "4xl", marginY: 8 })}>
-      <Link className={css({ color: "sohosai.purple", fontSize: "xs" })} href={`/committee/projects/${project.id}`}>
+      <Link className={css({ color: "tsukuba.purple", fontSize: "xs" })} href={`/committee/projects/${project.id}`}>
         ←企画に戻る
       </Link>
       <ProjectEditForm project={project} />

@@ -1,6 +1,6 @@
 "use client";
-import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
-import { projectCategoryItemStyle } from "@/components/formFields/styles";
+import { ProjectCategoryFormatter } from "@/common_components/ProjectCategoryFormatter";
+import { projectCategoryItemStyle } from "@/common_components/formFields/styles";
 import { projectAttributes, projectCategories } from "@/lib/valibot";
 import { components } from "@/schema";
 import { css } from "@styled-system/css";
@@ -11,9 +11,13 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { FilesFormType, FormItems } from "@/app/forms/[form_id]/FormItems";
 import { FormAnswerList } from "./FormAnswerList";
-import { attributeSelectorStyle } from "../../projects/[project_id]/edit/ProjectEditForm";
-import { AttributesFormatter } from "@/components/project/AttributesFormatter";
-
+import Image from "next/image";
+import deleteNewsButton from "@/assets/deleteFormButton.svg?url";
+import { client } from "@/lib/openapi";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { AttributesFormatter } from "@/common_components/project/AttributesFormatter";
+import { attributeSelectorStyle } from "@/common_components/project/ProjectAttributesBadge";
 export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }> = ({ form }) => {
   const {
     register,
@@ -21,14 +25,38 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
     setValue,
     formState: { errors },
   } = useForm({ mode: "onBlur" });
-
+  const router = useRouter();
   const [_, setState] = useState<FilesFormType>(new Map());
   const [__, setFileErrors] = useState(new Map());
 
   return (
     <div className={vstack({ gap: 4, alignItems: "start", width: "full" })}>
-      <div>
-        作成日: <time dateTime={form.created_at}> {dayjs(form.created_at).format("YYYY/MM/DD")}</time>
+      <div className={hstack({ gap: 6 })}>
+        <div>
+          作成日: <time dateTime={form.created_at}> {dayjs(form.created_at).format("YYYY/MM/DD")}</time>
+        </div>
+        <Image
+          src={deleteNewsButton}
+          alt="delete"
+          onClick={() => {
+            window.confirm("本当に削除しますか？") &&
+              client
+                .DELETE(`/forms/{form_id}`, {
+                  params: { path: { form_id: form.id } },
+                })
+                .then(({ error }) => {
+                  if (error) {
+                    toast.error(`申請削除中にエラーが発生しました`);
+                    return;
+                  }
+                  toast.success("申請を削除しました");
+                  router.push(`/committee/forms`);
+                })
+                .catch(() => {
+                  toast.error(`申請削除中にエラーが発生しました`);
+                });
+          }}
+        />
       </div>
       <div className={hstack({ gap: 6 })}>
         <h1 className={css({ fontSize: "3xl", fontWeight: "bold" })}>{form.title}</h1>

@@ -11,12 +11,12 @@ import toast from "react-hot-toast";
 
 import { FormItems, FileErrorsType, FormFieldsType, FilesFormType } from "./FormItems";
 import { getTimeLeftText, getSubmitStatusFromDate } from "@/lib/formHelpers";
-import { type SubmitStatus, SubmitStatusBadge } from "@/components/SubmitStatus";
-import { Loading } from "@/components/Loading";
-import { Button } from "@/components/Button";
+import { type SubmitStatus, SubmitStatusBadge } from "@/common_components/SubmitStatus";
+import { Loading } from "@/common_components/Loading";
+import { Button } from "@/common_components/Button";
 import { deleteAllUploadedFiles, postFiles } from "@/lib/postFile";
 import { components } from "@/schema";
-import { FileView } from "@/components/FileView";
+import { FileView } from "@/common_components/FileView";
 
 export const runtime = "edge";
 
@@ -192,7 +192,7 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
                   setFiles={setFiles}
                   setFileErrors={setFileErrors}
                 />
-                <Button color="primary">送信</Button>
+                <Button color="purple">送信</Button>
               </form>
             </>
           )}
