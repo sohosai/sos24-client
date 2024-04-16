@@ -66,22 +66,19 @@ const NewsDetailsPage = ({ params }: { params: { project_id: string } }) => {
             <Button color="blue" onClick={() => router.push(`/committee/projects/${project.id}/edit`)}>
               編集
             </Button>
+            <Image
+              src={deleteButton}
+              alt=""
+              className={css({ cursor: "pointer" })}
+              onClick={() => {
+                window.confirm("本当に削除しますか？") &&
+                  deleteProject(project.id).then(() => {
+                    toast.success("企画を削除しました。");
+                    router.push("/committee/projects");
+                  });
+              }}
+            />
           </div>
-          <ProjectTableView projectData={project} isCommittee />
-          <h3 className={css({ fontWeight: "bold" })}>企画の削除</h3>
-
-          <Image
-            src={deleteButton}
-            alt=""
-            className={css({ cursor: "pointer" })}
-            onClick={() => {
-              window.confirm("本当に削除しますか？") &&
-                deleteProject(project.id).then(() => {
-                  toast.success("企画を削除しました。");
-                  router.push("/committee/projects");
-                });
-            }}
-          />
         </span>
         <ProjectTableView projectData={project} />
       </div>
