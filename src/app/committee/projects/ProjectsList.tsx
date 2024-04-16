@@ -1,5 +1,5 @@
 import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
-import { ProjectAttributesBadge } from "@/components/project/AttirbutesBadge";
+import { ProjectAttributesBadge } from "@/components/project/ProjectAttributesBadge";
 import { components } from "@/schema";
 import { css, cx } from "@styled-system/css";
 import { grid, vstack } from "@styled-system/patterns";

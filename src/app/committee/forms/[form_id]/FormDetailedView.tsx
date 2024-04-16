@@ -1,7 +1,6 @@
 "use client";
 import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
 import { projectCategoryItemStyle } from "@/components/formFields/styles";
-import { ProjectAttributesBadge } from "@/components/project/AttirbutesBadge";
 import { projectAttributes, projectCategories } from "@/lib/valibot";
 import { components } from "@/schema";
 import { css } from "@styled-system/css";
@@ -12,6 +11,8 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { FilesFormType, FormItems } from "@/app/forms/[form_id]/FormItems";
 import { FormAnswerList } from "./FormAnswerList";
+import { attributeSelectorStyle } from "../../projects/[project_id]/edit/ProjectEditForm";
+import { AttributesFormatter } from "@/components/project/AttributesFormatter";
 
 export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }> = ({ form }) => {
   const {
@@ -45,9 +46,15 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
             )}
           </ul>
           {form.attributes.length == projectAttributes.length ? (
-            "すべての企画属性"
+            <span className={attributeSelectorStyle}>すべての企画属性</span>
           ) : (
-            <ProjectAttributesBadge attributes={form.attributes} />
+            <>
+              {form.attributes.map((attribute) => (
+                <span key={attribute} className={attributeSelectorStyle}>
+                  <AttributesFormatter attribute={attribute} />
+                </span>
+              ))}
+            </>
           )}
         </div>
       </div>
