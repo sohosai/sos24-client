@@ -1,7 +1,6 @@
 "use client";
 import { ProjectCategoryFormatter } from "@/common_components/ProjectCategoryFormatter";
 import { projectCategoryItemStyle } from "@/common_components/formFields/styles";
-import { ProjectAttributesBadge } from "@/common_components/project/AttirbutesBadge";
 import { projectAttributes, projectCategories } from "@/lib/valibot";
 import { components } from "@/schema";
 import { css } from "@styled-system/css";
@@ -14,9 +13,24 @@ import { FilesFormType, FormItems } from "@/app/forms/[form_id]/FormItems";
 import { FormAnswerList } from "./FormAnswerList";
 import Image from "next/image";
 import deleteNewsButton from "@/assets/deleteFormButton.svg?url";
-import { client } from "@/lib/openapi";
+import { assignType, client } from "@/lib/openapi";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { AttributesFormatter } from "@/common_components/project/AttributesFormatter";
+import { attributeSelectorStyle } from "@/common_components/project/ProjectAttributesBadge";
+import { buttonStyle } from "@/recipes/button";
+import Link from "next/link";
+import useSWR from "swr";
+import { FileView } from "@/common_components/FileView";
+
+const FileViewInstance: React.FC<{ fileId: string }> = ({ fileId }) => {
+  const { data, isLoading, error } = useSWR(`/files/${fileId}`);
+  const file = assignType("/files/{file_id}", data);
+  if (isLoading) return;
+  if (error) return `エラーが発生しました ${error}`;
+  return <FileView name={file.name} link={file.url} />;
+};
+
 export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }> = ({ form }) => {
   const {
     register,
@@ -34,48 +48,57 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
         <div>
           作成日: <time dateTime={form.created_at}> {dayjs(form.created_at).format("YYYY/MM/DD")}</time>
         </div>
-        <Image
-          src={deleteNewsButton}
-          alt="delete"
-          onClick={() => {
-            window.confirm("本当に削除しますか？") &&
-              client
-                .DELETE(`/forms/{form_id}`, {
-                  params: { path: { form_id: form.id } },
-                })
-                .then(({ error }) => {
-                  if (error) {
-                    toast.error(`申請削除中にエラーが発生しました`);
-                    return;
-                  }
-                  toast.success("申請を削除しました");
-                  router.push(`/committee/forms`);
-                })
-                .catch(() => {
-                  toast.error(`申請削除中にエラーが発生しました`);
-                });
-          }}
-        />
-      </div>
-      <div className={hstack({ gap: 6 })}>
-        <h1 className={css({ fontSize: "3xl", fontWeight: "bold" })}>{form.title}</h1>
         <div className={hstack()}>
-          <ul className={hstack()}>
-            {/* 同じカテゴリが複数入ることはないと信じている */}
-            {form.categories.length == projectCategories.length ? (
-              <li className={projectCategoryItemStyle}>すべての企画区分</li>
-            ) : (
-              form.categories.map((category) => (
-                <li key={category} className={projectCategoryItemStyle}>
-                  <ProjectCategoryFormatter category={category} />
-                </li>
-              ))
-            )}
-          </ul>
-          {form.attributes.length == projectAttributes.length ? (
-            "すべての企画属性"
+          <Image
+            src={deleteNewsButton}
+            alt="delete"
+            onClick={() => {
+              window.confirm("本当に削除しますか？") &&
+                client
+                  .DELETE(`/forms/{form_id}`, {
+                    params: { path: { form_id: form.id } },
+                  })
+                  .then(({ error }) => {
+                    if (error) {
+                      toast.error(`申請削除中にエラーが発生しました`);
+                      return;
+                    }
+                    toast.success("申請を削除しました");
+                    router.push(`/committee/forms`);
+                  })
+                  .catch(() => {
+                    toast.error(`申請削除中にエラーが発生しました`);
+                  });
+            }}
+          />
+          <Link href={`/committee/forms/${form.id}/edit`} className={buttonStyle({ color: "blue", visual: "outline" })}>
+            編集
+          </Link>
+        </div>
+      </div>
+      <div className={hstack({ justifyContent: "space-between", width: "full" })}>
+        <h1 className={css({ fontSize: "3xl", fontWeight: "bold", wordBreak: "keep-all" })}>{form.title}</h1>
+        <div className={hstack({ flexWrap: "wrap", justifyContent: "flex-end" })}>
+          {/* 同じカテゴリが複数入ることはないと信じている */}
+          {form.categories.length == projectCategories.length ? (
+            <div className={projectCategoryItemStyle}>すべての企画区分</div>
           ) : (
-            <ProjectAttributesBadge attributes={form.attributes} />
+            form.categories.map((category) => (
+              <div key={category} className={projectCategoryItemStyle}>
+                <ProjectCategoryFormatter category={category} />
+              </div>
+            ))
+          )}
+          {form.attributes.length == projectAttributes.length ? (
+            <span className={attributeSelectorStyle}>すべての企画属性</span>
+          ) : (
+            <>
+              {form.attributes.map((attribute) => (
+                <span key={attribute} className={attributeSelectorStyle}>
+                  <AttributesFormatter attribute={attribute} />
+                </span>
+              ))}
+            </>
           )}
         </div>
       </div>
@@ -90,7 +113,9 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
           className={css({ width: "full", borderRadius: "lg", padding: 5 })}
         />
       </div>
-      <>{form.attachments.forEach((file) => file)}</>
+      {form.attachments.map((file) => (
+        <FileViewInstance fileId={file} key={file} />
+      ))}
       <div className={vstack({ gap: 2, alignItems: "start" })}>
         <LabelAndTime label="受付開始日時" time={form.starts_at} />
         <LabelAndTime label="受付終了日時" time={form.ends_at} />
