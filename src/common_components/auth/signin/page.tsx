@@ -4,8 +4,8 @@ import { NextPage } from "next";
 import { SigninForm } from "./SignInPage";
 import { css } from "@styled-system/css";
 import Image from "next/image";
-import Triangle from "@/components/assets/Triangle.svg";
-import { authModeAtom } from "@/components/auth/AuthUI";
+import Triangle from "@/common_components/assets/Triangle.svg";
+import { authModeAtom } from "@/common_components/auth/AuthUI";
 import { useSetAtom } from "jotai";
 import { center } from "@styled-system/patterns";
 

@@ -1,13 +1,13 @@
 "use client";
 import { vstack } from "@styled-system/patterns";
-import { Title } from "@/components/Title";
+import { Title } from "@/common_components/Title";
 import { css } from "@styled-system/css";
 import { useState } from "react";
-import { Button } from "@/components/Button";
-import { ProjectTableView } from "../../components/project/ProjectView";
+import { Button } from "@/common_components/Button";
+import { ProjectTableView } from "@/common_components/project/ProjectView";
 import { assignType } from "@/lib/openapi";
 import useSWR from "swr";
-import { basicErrorMessageStyle } from "@/components/formFields/styles";
+import { basicErrorMessageStyle } from "@/common_components/formFields/styles";
 export const Project: React.FC = () => {
   const [editable, setEditable] = useState(false);
   const {

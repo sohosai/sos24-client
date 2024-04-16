@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren } from "react";
 import { flex } from "@styled-system/patterns";
 import Image from "next/image";
-import triangleIcon from "@/components/assets/Triangle.svg";
+import triangleIcon from "@/common_components/assets/Triangle.svg";
 import { css } from "@styled-system/css";
 
 export const Heading: FC<PropsWithChildren> = ({ children }) => {

@@ -3,7 +3,7 @@
 import { NextPage } from "next";
 import { center, container, stack } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
-import { NewsView } from "@/components/news/NewsView";
+import { NewsView } from "@/common_components/news/NewsView";
 
 const CommitteeNewsPage: NextPage = () => {
   return (

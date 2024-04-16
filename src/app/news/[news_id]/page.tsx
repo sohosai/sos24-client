@@ -3,7 +3,7 @@
 import { container } from "@styled-system/patterns";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
-import { News } from "@/components/news/News";
+import { News } from "@/common_components/news/News";
 import { NextPage } from "next";
 import { notFound } from "next/navigation";
 

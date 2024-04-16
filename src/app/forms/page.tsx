@@ -5,10 +5,10 @@ import { NextPage } from "next";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 import { css } from "@styled-system/css";
-import { Button } from "@/components/Button";
+import { Button } from "@/common_components/Button";
 import { FormsList } from "./FormsList";
 import { stack } from "@styled-system/patterns";
-import { NotificationBadge } from "@/components/NotificationBadge";
+import { NotificationBadge } from "@/common_components/NotificationBadge";
 import { useAtomValue } from "jotai";
 import { hiddenFormIdsAtom } from "./hiddenFormIds";
 

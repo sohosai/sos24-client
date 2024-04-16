@@ -3,7 +3,7 @@ import { UseFormRegisterReturn } from "react-hook-form";
 import { hstack, stack, visuallyHidden } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
 import { projectCategories, ProjectCategory } from "@/lib/valibot";
-import { ProjectCategoryFormatter } from "@/components/ProjectCategoryFormatter";
+import { ProjectCategoryFormatter } from "@/common_components/ProjectCategoryFormatter";
 import { basicErrorMessageStyle, projectCategoryItemStyle } from "./formFields/styles";
 
 export const ProjectCategorySelector: FC<{

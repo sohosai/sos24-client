@@ -5,8 +5,8 @@ import { assignType, client } from "@/lib/openapi";
 import toast from "react-hot-toast";
 import { notFound, useRouter } from "next/navigation";
 import { container, stack } from "@styled-system/patterns";
-import { Title } from "@/components/Title";
-import { Button } from "@/components/Button";
+import { Title } from "@/common_components/Title";
+import { Button } from "@/common_components/Button";
 
 export const runtime = "edge";
 

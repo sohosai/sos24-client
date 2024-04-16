@@ -3,8 +3,8 @@
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { css, cx } from "@styled-system/css";
-import { basicErrorMessageStyle, basicFormStyle, checkboxFormStyle } from "@/components/formFields/styles";
-import { Button } from "@/components/Button";
+import { basicErrorMessageStyle, basicFormStyle, checkboxFormStyle } from "@/common_components/formFields/styles";
+import { Button } from "@/common_components/Button";
 import { getAuth, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
 import { SignupSchema, SignupSchemaType } from "@/lib/valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";

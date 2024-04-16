@@ -1,5 +1,5 @@
-import ModeSwitch from "@/components/assets/SwitchMode.svg";
-import ModeSwitchWhite from "@/components/assets/SwitchModeWhite.svg";
+import ModeSwitch from "@/common_components/assets/SwitchMode.svg";
+import ModeSwitchWhite from "@/common_components/assets/SwitchModeWhite.svg";
 
 import { css } from "@styled-system/css";
 import Image from "next/image";

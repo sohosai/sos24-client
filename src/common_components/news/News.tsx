@@ -3,13 +3,13 @@ import Link from "next/link";
 import { css } from "@styled-system/css";
 import dayjs from "dayjs";
 import Image from "next/image";
-import triangleIcon from "@/components/assets/Triangle.svg";
-import { FileItem } from "@/components/news/FileItem";
+import triangleIcon from "@/common_components/assets/Triangle.svg";
+import { FileItem } from "@/common_components/news/FileItem";
 import { components } from "@/schema";
-import { Button } from "@/components/Button";
+import { Button } from "@/common_components/Button";
 import { useRouter } from "next/navigation";
 import { FC } from "react";
-import deleteNewsButton from "@/components/assets/deleteNewsButton.svg";
+import deleteNewsButton from "@/common_components/assets/deleteNewsButton.svg";
 import { client } from "@/lib/openapi";
 import toast from "react-hot-toast";
 
