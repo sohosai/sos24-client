@@ -5,6 +5,7 @@ import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 import { container } from "@styled-system/patterns";
 import { User } from "@/app/committee/users/[user_id]/User";
+import { notFound } from "next/navigation";
 
 export const runtime = "edge";
 
@@ -18,7 +19,7 @@ const UserDetailsPage: NextPage<{
   if (error) {
     switch (error.name) {
       case "user/not-found":
-        return <p>このユーザーは存在しません。</p>;
+        notFound();
       default:
         return <p>ユーザーの読み込み中に不明なエラーが発生しました。</p>;
     }

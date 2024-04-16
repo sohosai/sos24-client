@@ -5,6 +5,7 @@ import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 import { News } from "@/components/news/News";
 import { NextPage } from "next";
+import { notFound } from "next/navigation";
 
 export const runtime = "edge";
 
@@ -17,7 +18,7 @@ const NewsDetailsPage: NextPage<{ params: { news_id: string } }> = ({ params }) 
     switch (error.name) {
       case "news/not-found":
       case "news/invalid-uuid":
-        return <p>このお知らせは存在しません。</p>;
+        notFound();
       default:
         return <p>お知らせの読み込み中に不明なエラーが発生しました。</p>;
     }
