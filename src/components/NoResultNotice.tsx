@@ -13,6 +13,7 @@ export const NoResultNotice = (props: { message: string; type?: "notice" }) => {
         alignItems: "center",
         gap: 4,
         direction: "column",
+        width: "full",
       })}>
       <div className={css({ pl: 0, pr: 0 })}>
         {iconSrc ? (
