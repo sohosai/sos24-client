@@ -4,7 +4,6 @@ import { css } from "@styled-system/css";
 import { FC, useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { ProjectAttribute, ProjectCategory, projectAttributes, projectCategories } from "@/lib/valibot";
-import { Button } from "@/common_components/Button";
 import { getProjectCategoryText, getProjectAttributeText } from "@/lib/textUtils";
 import { stack, visuallyHidden } from "@styled-system/patterns";
 import { FormFieldEditor } from "./FormFieldEditor";
@@ -15,6 +14,7 @@ import { deleteAllUploadedFiles, postFiles } from "@/lib/postFile";
 import toast from "react-hot-toast";
 import { FilesFormType, FileErrorsType } from "@/app/forms/[form_id]/FormItems";
 import { FilesField } from "@/common_components/formFields/Files";
+import { Button, buttonStyle } from "@/recipes/button";
 
 export type FormField = {
   name: string;
@@ -254,9 +254,13 @@ export const FormEditor: FC<{
                 flexGrow: 1,
               },
             })}>
-            <Button
-              color="blue"
-              size="y"
+            <button
+              className={buttonStyle({
+                shadow: "md",
+                color: "blue",
+                visual: "outline",
+                size: "y",
+              })}
               type="button"
               onClick={() => {
                 append({
@@ -266,10 +270,14 @@ export const FormEditor: FC<{
                 });
               }}>
               テキスト項目
-            </Button>
-            <Button
-              color="blue"
-              size="y"
+            </button>
+            <button
+              className={buttonStyle({
+                shadow: "md",
+                color: "blue",
+                visual: "outline",
+                size: "y",
+              })}
               type="button"
               onClick={() => {
                 append({
@@ -279,10 +287,14 @@ export const FormEditor: FC<{
                 });
               }}>
               数値項目
-            </Button>
-            <Button
-              color="blue"
-              size="y"
+            </button>
+            <button
+              className={buttonStyle({
+                shadow: "md",
+                color: "blue",
+                visual: "outline",
+                size: "y",
+              })}
               type="button"
               onClick={() => {
                 append({
@@ -293,10 +305,14 @@ export const FormEditor: FC<{
                 });
               }}>
               チェックボックス項目
-            </Button>
-            <Button
-              color="blue"
-              size="y"
+            </button>
+            <button
+              className={buttonStyle({
+                shadow: "md",
+                color: "blue",
+                visual: "outline",
+                size: "y",
+              })}
               type="button"
               onClick={() => {
                 append({
@@ -307,10 +323,14 @@ export const FormEditor: FC<{
                 });
               }}>
               ドロップダウン項目
-            </Button>
-            <Button
-              color="blue"
-              size="y"
+            </button>
+            <button
+              className={buttonStyle({
+                shadow: "md",
+                color: "blue",
+                visual: "outline",
+                size: "y",
+              })}
               type="button"
               onClick={() => {
                 append({
@@ -322,7 +342,7 @@ export const FormEditor: FC<{
                 });
               }}>
               ファイル項目
-            </Button>
+            </button>
           </div>
         </fieldset>
 
@@ -346,7 +366,14 @@ export const FormEditor: FC<{
           })}
         </div>
 
-        <button>送信</button>
+        <Button
+          visual="solid"
+          color="purple"
+          className={css({
+            alignSelf: "center",
+          })}>
+          送信
+        </Button>
       </form>
     </>
   );
