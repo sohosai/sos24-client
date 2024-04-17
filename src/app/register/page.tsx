@@ -8,17 +8,24 @@ import { RegistrationProgress } from "@/common_components/RegistrationProgress";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
 import { assignType } from "@/lib/openapi";
+import dayjs from "dayjs";
 
 const RegisterPage = () => {
-  const { data: userRes, isLoading, error } = useSWR("/users/me");
+  const { data: userRes, isLoading: userIsLoading, error: userError } = useSWR("/users/me");
   const router = useRouter();
   const user = assignType("/users/me", userRes);
-  if (isLoading) return;
-  if (error) return <p>エラーが発生しました</p>;
+  const {
+    data: _applicationPeriod,
+    isLoading: isApplicationPeriodLoading,
+    error: applicationPeriodError,
+  } = useSWR("/project-application-period");
+  if (userIsLoading || isApplicationPeriodLoading) return;
+  if (userError || applicationPeriodError) return <p>エラーが発生しました</p>;
   if (user.owned_project_id) {
     router.push("/dashboard");
   }
-
+  const applicationPeriod = assignType("/project-application-period", _applicationPeriod);
+  const isApplicationPeriod = dayjs().isBefore(applicationPeriod.end_at) && dayjs().isAfter(applicationPeriod.start_at);
   return (
     <div>
       <div
@@ -28,32 +35,47 @@ const RegisterPage = () => {
           marginY: 8,
         })}>
         <Title>企画登録</Title>
-        <div
-          className={css({
-            backgroundColor: "gray.700",
-            width: "full",
-            paddingY: 2,
-            paddingX: 2,
-            fontSize: "sm",
-            fontWeight: "bold",
-            color: "white",
-            textAlign: "center",
-            sm: {
-              display: "flex",
-              justifyContent: "center",
-              maxWidth: "4xl",
-            },
-          })}>
-          <p>企画応募はすべて企画責任者が行ってください。</p>
-          <p>副責任者が代理で行うことができません。</p>
-        </div>
-        <div
-          className={container({
-            maxWidth: "4xl",
-          })}>
-          <RegisterForm />
-          <RegistrationProgress step={1} />
-        </div>
+        {isApplicationPeriod ? (
+          <>
+            <div
+              className={css({
+                backgroundColor: "gray.700",
+                width: "full",
+                paddingY: 2,
+                paddingX: 2,
+                fontSize: "sm",
+                fontWeight: "bold",
+                color: "white",
+                textAlign: "center",
+                sm: {
+                  display: "flex",
+                  justifyContent: "center",
+                  maxWidth: "4xl",
+                },
+              })}>
+              <p>企画応募はすべて企画責任者が行ってください。</p>
+              <p>副責任者が代理で行うことができません。</p>
+            </div>
+            <div
+              className={container({
+                maxWidth: "4xl",
+              })}>
+              <RegisterForm />
+              <RegistrationProgress step={1} />
+            </div>
+          </>
+        ) : (
+          <p
+            className={css({
+              color: "gray.400",
+              fontSize: "lg",
+              fontWeight: "bold",
+              marginTop: 24,
+              textAlign: "center",
+            })}>
+            募集期間外です
+          </p>
+        )}
       </div>
     </div>
   );
