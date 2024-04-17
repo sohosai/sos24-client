@@ -7,6 +7,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { FormEditor, HandleFormEditorSubmit } from "@/common_components/form_editor/FormEditor";
+import { deleteMultipleUploadedFiles } from "@/lib/postFile";
 
 const CreateFormPage: NextPage = () => {
   const router = useRouter();
@@ -21,6 +22,7 @@ const CreateFormPage: NextPage = () => {
           toast.success("申請を作成しました");
           router.push("/committee/forms");
         } else {
+          deleteMultipleUploadedFiles(body.attributes);
           toast.error("申請の作成に失敗しました");
         }
       });
