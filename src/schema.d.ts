@@ -6,1501 +6,121 @@
 export interface paths {
   "/health": {
     /** サーバーの状態を確認する */
-    get: {
-      responses: {
-        /** @description OK */
-        200: {
-          content: never;
-        };
-      };
-    };
+    get: operations["getHealth"];
   };
   "/projects": {
     /** 企画一覧の取得 */
-    get: {
-      responses: {
-        /** @description OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["ProjectSummary"][];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    get: operations["getProjects"];
     /** 企画の作成 */
-    post: {
-      requestBody: {
-        content: {
-          "application/json": components["schemas"]["CreateProject"];
-        };
-      };
-      responses: {
-        /** @description Created */
-        201: {
-          content: {
-            "application/json": components["schemas"]["CreatedProject"];
-          };
-        };
-        /** @description Bad Request */
-        400: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unprocessable Entity */
-        422: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    post: operations["postProject"];
   };
   "/projects/export": {
     /** 企画一覧のエクスポート */
-    get: {
-      responses: {
-        /** @description OK */
-        200: {
-          content: {
-            "text/csv": string;
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    get: operations["getProjectsExport"];
   };
   "/projects/me": {
     /** 自分が企画責任者・副企画責任者になっている企画の取得 */
-    get: {
-      responses: {
-        /** @description OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["Project"];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Not Found */
-        404: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    get: operations["getMyProject"];
   };
   "/projects/{project_id}": {
     /** 特定のIDの企画の取得 */
-    get: {
-      parameters: {
-        path: {
-          project_id: string;
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["Project"];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Not Found */
-        404: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    get: operations["getProjectById"];
     /** 特定のIDの企画の更新 */
-    put: {
-      parameters: {
-        path: {
-          project_id: string;
-        };
-      };
-      requestBody: {
-        content: {
-          "application/json": components["schemas"]["UpdateProject"];
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          content: never;
-        };
-        /** @description Bad Request */
-        400: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Not Found */
-        404: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unprocessable Entity */
-        422: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    put: operations["putProjectById"];
     /** 特定のIDの企画の削除 */
-    delete: {
-      parameters: {
-        path: {
-          project_id: string;
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          content: never;
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Not Found */
-        404: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    delete: operations["deleteProjectById"];
   };
   "/users": {
     /** ユーザー一覧の取得 */
-    get: {
-      responses: {
-        /** @description OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["UserSummary"][];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    get: operations["getUsers"];
     /** ユーザーの作成 */
-    post: {
-      requestBody: {
-        content: {
-          "application/json": components["schemas"]["CreateUser"];
-        };
-      };
-      responses: {
-        /** @description Created */
-        201: {
-          content: {
-            "application/json": components["schemas"]["CreatedUser"];
-          };
-        };
-        /** @description Bad Request */
-        400: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unprocessable Entity */
-        422: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    post: operations["postUser"];
   };
   "/users/export": {
     /** ユーザー一覧のエクスポート */
-    get: {
-      responses: {
-        /** @description OK */
-        200: {
-          content: {
-            "text/csv": string;
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    get: operations["getUsersExport"];
   };
   "/users/me": {
     /** 自分のユーザーの取得 */
-    get: {
-      responses: {
-        /** @description OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["User"];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    get: operations["getMyUser"];
   };
   "/users/{user_id}": {
     /** 特定のIDのユーザーの取得 */
-    get: {
-      parameters: {
-        path: {
-          user_id: string;
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["User"];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Not Found */
-        404: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    get: operations["getUserById"];
     /** 特定のIDのユーザーの更新 */
-    put: {
-      parameters: {
-        path: {
-          user_id: string;
-        };
-      };
-      requestBody: {
-        content: {
-          "application/json": components["schemas"]["UpdateUser"];
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          content: never;
-        };
-        /** @description Bad Request */
-        400: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Not Found */
-        404: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unprocessable Entity */
-        422: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    put: operations["putUserById"];
     /** 特定のIDのユーザーの削除 */
-    delete: {
-      parameters: {
-        path: {
-          user_id: string;
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Not Found */
-        404: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    delete: operations["deleteUserById"];
   };
   "/news": {
     /** ニュース一覧の取得 */
-    get: {
-      responses: {
-        /** @description OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["NewsSummary"][];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    get: operations["getNews"];
     /** ニュースの作成 */
-    post: {
-      requestBody: {
-        content: {
-          "application/json": components["schemas"]["CreateNews"];
-        };
-      };
-      responses: {
-        /** @description Created */
-        201: {
-          content: {
-            "application/json": components["schemas"]["CreatedNews"];
-          };
-        };
-        /** @description Bad Request */
-        400: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unprocessable Entity */
-        422: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    post: operations["postNews"];
   };
   "/news/{news_id}": {
     /** 特定のIDのニュースの取得 */
-    get: {
-      parameters: {
-        path: {
-          news_id: string;
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["News"];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Not Found */
-        404: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    get: operations["getNewsById"];
     /** 特定のIDのニュースの更新 */
-    put: {
-      parameters: {
-        path: {
-          news_id: string;
-        };
-      };
-      requestBody: {
-        content: {
-          "application/json": components["schemas"]["UpdateNews"];
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          content: never;
-        };
-        /** @description Bad Request */
-        400: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Not Found */
-        404: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unprocessable Entity */
-        422: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    put: operations["putNewsById"];
     /** 特定のIDのニュースの削除 */
-    delete: {
-      parameters: {
-        path: {
-          news_id: string;
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          content: never;
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Not Found */
-        404: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    delete: operations["deleteNewsById"];
   };
   "/files": {
     /** ニュースの添付ファイル一覧の取得 */
-    get: {
-      responses: {
-        /** @description OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["FileInfo"][];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    get: operations["getFiles"];
     /** ファイルの作成 */
-    post: {
-      parameters: {
-        query?: {
-          visibility?: "private" | "public";
-        };
-      };
-      requestBody: {
-        content: {
-          "multipart/form-data": components["schemas"]["CreateFile"];
-        };
-      };
-      responses: {
-        /** @description Created */
-        201: {
-          content: {
-            "application/json": components["schemas"]["CreatedFile"];
-          };
-        };
-        /** @description Bad Request */
-        400: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unprocessable Entity */
-        422: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    post: operations["postFiles"];
   };
   "/files/{file_id}": {
     /** 特定のIDのファイルの取得 */
-    get: {
-      parameters: {
-        path: {
-          file_id: string;
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["File"];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    get: operations["getFileById"];
     /** 特定のIDのファイルの削除 */
-    delete: {
-      parameters: {
-        path: {
-          file_id: string;
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          content: never;
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    delete: operations["deleteFileById"];
   };
   "/invitations": {
     /** 招待一覧の取得 */
-    get: {
-      responses: {
-        /** @description OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["Invitation"][];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    get: operations["getInvitations"];
     /** 招待の作成 */
-    post: {
-      requestBody: {
-        content: {
-          "application/json": components["schemas"]["CreateInvitation"];
-        };
-      };
-      responses: {
-        /** @description Created */
-        201: {
-          content: {
-            "application/json": components["schemas"]["CreatedInvitation"];
-          };
-        };
-        /** @description Bad Request */
-        400: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unprocessable Entity */
-        422: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    post: operations["postInvitation"];
   };
   "/invitations/{invitation_id}": {
     /** 特定のIDの招待の取得 */
-    get: {
-      parameters: {
-        path: {
-          invitation_id: string;
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["Invitation"];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Not Found */
-        404: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    get: operations["getInvitationById"];
     /** 特定のIDの招待の受諾 */
-    post: {
-      parameters: {
-        path: {
-          invitation_id: string;
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          content: never;
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Not Found */
-        404: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    post: operations["postInvitationById"];
     /** 招待の削除 */
-    delete: {
-      parameters: {
-        path: {
-          invitation_id: string;
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          content: never;
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Not Found */
-        404: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    delete: operations["deleteInvitationById"];
   };
   "/forms": {
     /** 申請一覧の取得 */
-    get: {
-      parameters: {
-        query?: {
-          project_id?: string;
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["FormSummary"][];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Not Found */
-        404: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    get: operations["getForms"];
     /** 申請の作成 */
-    post: {
-      requestBody: {
-        content: {
-          "application/json": components["schemas"]["CreateForm"];
-        };
-      };
-      responses: {
-        /** @description Created */
-        201: {
-          content: {
-            "application/json": components["schemas"]["CreatedForm"];
-          };
-        };
-        /** @description Bad Request */
-        400: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unprocessable Entity */
-        422: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    post: operations["postForm"];
   };
   "/forms/{form_id}": {
     /** 特定のIDの申請を取得 */
-    get: {
-      parameters: {
-        path: {
-          form_id: string;
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["Form"];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Not Found */
-        404: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    get: operations["getFormById"];
     /** 特定のIDの申請を更新 */
-    put: {
-      parameters: {
-        path: {
-          form_id: string;
-        };
-      };
-      requestBody: {
-        content: {
-          "application/json": components["schemas"]["UpdateForm"];
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          content: never;
-        };
-        /** @description Bad Request */
-        400: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Not Found */
-        404: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unprocessable Entity */
-        422: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    put: operations["putFormById"];
     /** 特定のIDの申請を削除 */
-    delete: {
-      parameters: {
-        path: {
-          form_id: string;
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          content: never;
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Not Found */
-        404: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    delete: operations["deleteFormById"];
   };
   "/form-answers": {
     /** 申請の回答一覧を取得 */
-    get: {
-      parameters: {
-        query?: {
-          project_id?: string;
-          form_id?: string;
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["FormAnswerSummary"][];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Not Found */
-        404: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    get: operations["getFormAnswers"];
     /** 申請の回答を作成 */
-    post: {
-      requestBody: {
-        content: {
-          "application/json": components["schemas"]["CreateFormAnswer"];
-        };
-      };
-      responses: {
-        /** @description Created */
-        201: {
-          content: {
-            "application/json": components["schemas"]["CreatedFormAnswer"];
-          };
-        };
-        /** @description Bad Request */
-        400: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Not Found */
-        404: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unprocessable Entity */
-        422: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    post: operations["postFormAnswer"];
   };
   "/form-answers/{form_answer_id}": {
     /** 申請の回答を取得 */
-    get: {
-      parameters: {
-        path: {
-          form_answer_id: string;
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["FormAnswer"][];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Not Found */
-        404: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    get: operations["getFormAnswerById"];
     /** 申請の回答を更新 */
-    put: {
-      parameters: {
-        path: {
-          form_answer_id: string;
-        };
-      };
-      requestBody: {
-        content: {
-          "application/json": components["schemas"]["UpdateFormAnswer"];
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          content: never;
-        };
-        /** @description Bad Request */
-        400: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Forbidden */
-        403: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Not Found */
-        404: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Unprocessable Entity */
-        422: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    put: operations["putFormAnswerById"];
   };
   "/project-application-period": {
     /** 企画募集期間を取得する */
-    get: {
-      responses: {
-        /** @description OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["ProjectApplicationPeriod"];
-          };
-        };
-        /** @description Unauthorized */
-        401: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-        /** @description Internal Server Error */
-        500: {
-          content: {
-            "application/json": components["schemas"]["Error"];
-          };
-        };
-      };
-    };
+    get: operations["getProjectApplicationPeriod"];
   };
 }
 
@@ -1574,16 +194,16 @@ export interface components {
       owner_name: string;
       owner_email: string;
       /** Format: uuid */
-      sub_owner_id?: string | null;
-      sub_owner_name?: string | null;
-      sub_owner_email?: string | null;
-      remarks?: string | null;
+      sub_owner_id?: string;
+      sub_owner_name?: string;
+      sub_owner_email?: string;
+      remarks?: string;
       /** Format: date-time */
       created_at: string;
       /** Format: date-time */
       updated_at: string;
       /** Format: date-time */
-      deleted_at?: string | null;
+      deleted_at?: string;
     };
     UpdateProject: {
       /** @example そぽたん焼き */
@@ -1597,7 +217,7 @@ export interface components {
       /** @example foods_with_kitchen */
       category: components["schemas"]["ProjectCategory"];
       attributes: components["schemas"]["ProjectAttribute"][];
-      remarks?: string | null;
+      remarks?: string;
     };
     /** @enum {string} */
     UserRole: "administrator" | "committee_operator" | "committee" | "general";
@@ -1628,14 +248,14 @@ export interface components {
       email: string;
       phone_number: string;
       role: components["schemas"]["UserRole"];
-      owned_project_id?: string | null;
-      owned_project_title?: string | null;
+      owned_project_id?: string;
+      owned_project_title?: string;
       /** Format: date-time */
       created_at: string;
       /** Format: date-time */
       updated_at: string;
       /** Format: date-time */
-      deleted_at?: string | null;
+      deleted_at?: string;
     };
     UpdateUser: {
       name: string;
@@ -1678,7 +298,7 @@ export interface components {
       /** Format: date-time */
       updated_at: string;
       /** Format: date-time */
-      deleted_at?: string | null;
+      deleted_at?: string;
     };
     UpdateNews: {
       title: string;
@@ -1691,32 +311,35 @@ export interface components {
       /** Format: uuid */
       id: string;
       name: string;
+      /** Format: uuid */
+      owner?: string;
       /** Format: date-time */
       created_at: string;
       /** Format: date-time */
       updated_at: string;
       /** Format: date-time */
-      deleted_at?: string | null;
+      deleted_at?: string;
     };
     CreateFile: {
       /** Format: binary */
       file: string;
     };
     CreatedFile: {
-      ids?: string[];
-      required?: [ids];
+      ids: string[];
     };
     File: {
       /** Format: uuid */
       id: string;
       name: string;
       url: string;
+      /** Format: uuid */
+      owner?: string | null;
       /** Format: date-time */
       created_at: string;
       /** Format: date-time */
       updated_at: string;
       /** Format: date-time */
-      deleted_at?: string | null;
+      deleted_at?: string;
     };
     Invitation: {
       /** Format: uuid */
@@ -1728,13 +351,13 @@ export interface components {
       project_title: string;
       /** @enum {string} */
       position: "owner" | "sub_owner";
-      used_by?: string | null;
+      used_by?: string;
       /** Format: date-time */
       created_at: string;
       /** Format: date-time */
       updated_at: string;
       /** Format: date-time */
-      deleted_at?: string | null;
+      deleted_at?: string;
     };
     CreateInvitation: {
       /** Format: uuid */
@@ -1771,9 +394,9 @@ export interface components {
       /** @description 対象となる企画属性 */
       attributes: components["schemas"]["ProjectAttribute"][];
       /** Format: uuid */
-      answer_id?: string | null;
+      answer_id?: string;
       /** Format: date-time */
-      answered_at?: string | null;
+      answered_at?: string;
       /**
        * Format: date-time
        * @example 2024-03-15T14:45:00Z
@@ -1784,21 +407,21 @@ export interface components {
     FormItemType: "string" | "int" | "choose_one" | "choose_many" | "file";
     NewFormItem: {
       name: string;
-      description?: string | null;
+      description?: string;
       required: boolean;
       type: components["schemas"]["FormItemType"];
-      min?: number | null;
-      max?: number | null;
-      min_length?: number | null;
-      max_length?: number | null;
-      min_selection?: number | null;
-      max_selection?: number | null;
+      min?: number;
+      max?: number;
+      min_length?: number;
+      max_length?: number;
+      min_selection?: number;
+      max_selection?: number;
       /** @example false */
-      allow_newline?: boolean | null;
-      options?: string[] | null;
-      extensions?: string[] | null;
+      allow_newline?: boolean;
+      options?: string[];
+      extensions?: string[];
       /** @example 100 */
-      limit?: number | null;
+      limit?: number;
     };
     CreateForm: {
       /** @example 新しいフォーム */
@@ -1887,18 +510,18 @@ export interface components {
       description: string;
       required: boolean;
       type: components["schemas"]["FormItemType"];
-      min?: number | null;
-      max?: number | null;
-      min_length?: number | null;
-      max_length?: number | null;
-      min_selection?: number | null;
-      max_selection?: number | null;
+      min?: number;
+      max?: number;
+      min_length?: number;
+      max_length?: number;
+      min_selection?: number;
+      max_selection?: number;
       /** @example false */
-      allow_newline?: boolean | null;
-      options?: string[] | null;
-      extensions?: string[] | null;
+      allow_newline?: boolean;
+      options?: string[];
+      extensions?: string[];
       /** @example 100 */
-      limit?: number | null;
+      limit?: number;
     };
     Form: {
       /**
@@ -1925,9 +548,9 @@ export interface components {
       items: components["schemas"]["FormItem"][];
       attachments: string[];
       /** Format: uuid */
-      answer_id?: string | null;
+      answer_id?: string;
       /** Format: date-time */
-      answered_at?: string | null;
+      answered_at?: string;
       /**
        * Format: date-time
        * @example 2024-03-15T10:30:00Z
@@ -1942,7 +565,7 @@ export interface components {
        * Format: date-time
        * @example null
        */
-      deleted_at?: string | null;
+      deleted_at?: string;
     };
     UpdateForm: {
       /** @example 更新されたフォーム */
@@ -2000,16 +623,16 @@ export interface components {
       /** Format: uuid */
       form_id: string;
       form_title: string;
-      items: components["schemas"]["FormAnswerItem"];
+      items: components["schemas"]["FormAnswerItem"][];
       /** Format: date-time */
       created_at: string;
       /** Format: date-time */
       updated_at: string;
       /** Format: date-time */
-      deleted_at?: string | null;
+      deleted_at?: string;
     };
     UpdateFormAnswer: {
-      items: components["schemas"]["FormAnswerItem"];
+      items: components["schemas"]["FormAnswerItem"][];
     };
     ProjectApplicationPeriod: {
       /** Format: date-time */
@@ -2029,4 +652,1463 @@ export type $defs = Record<string, never>;
 
 export type external = Record<string, never>;
 
-export type operations = Record<string, never>;
+export interface operations {
+  /** サーバーの状態を確認する */
+  getHealth: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: never;
+      };
+    };
+  };
+  /** 企画一覧の取得 */
+  getProjects: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["ProjectSummary"][];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 企画の作成 */
+  postProject: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateProject"];
+      };
+    };
+    responses: {
+      /** @description Created */
+      201: {
+        content: {
+          "application/json": components["schemas"]["CreatedProject"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 企画一覧のエクスポート */
+  getProjectsExport: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "text/csv": string;
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 自分が企画責任者・副企画責任者になっている企画の取得 */
+  getMyProject: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Project"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 特定のIDの企画の取得 */
+  getProjectById: {
+    parameters: {
+      path: {
+        project_id: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Project"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 特定のIDの企画の更新 */
+  putProjectById: {
+    parameters: {
+      path: {
+        project_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateProject"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: never;
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 特定のIDの企画の削除 */
+  deleteProjectById: {
+    parameters: {
+      path: {
+        project_id: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** ユーザー一覧の取得 */
+  getUsers: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["UserSummary"][];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** ユーザーの作成 */
+  postUser: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateUser"];
+      };
+    };
+    responses: {
+      /** @description Created */
+      201: {
+        content: {
+          "application/json": components["schemas"]["CreatedUser"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** ユーザー一覧のエクスポート */
+  getUsersExport: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "text/csv": string;
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 自分のユーザーの取得 */
+  getMyUser: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["User"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 特定のIDのユーザーの取得 */
+  getUserById: {
+    parameters: {
+      path: {
+        user_id: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["User"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 特定のIDのユーザーの更新 */
+  putUserById: {
+    parameters: {
+      path: {
+        user_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateUser"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: never;
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 特定のIDのユーザーの削除 */
+  deleteUserById: {
+    parameters: {
+      path: {
+        user_id: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** ニュース一覧の取得 */
+  getNews: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["NewsSummary"][];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** ニュースの作成 */
+  postNews: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateNews"];
+      };
+    };
+    responses: {
+      /** @description Created */
+      201: {
+        content: {
+          "application/json": components["schemas"]["CreatedNews"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 特定のIDのニュースの取得 */
+  getNewsById: {
+    parameters: {
+      path: {
+        news_id: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["News"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 特定のIDのニュースの更新 */
+  putNewsById: {
+    parameters: {
+      path: {
+        news_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateNews"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: never;
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 特定のIDのニュースの削除 */
+  deleteNewsById: {
+    parameters: {
+      path: {
+        news_id: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** ニュースの添付ファイル一覧の取得 */
+  getFiles: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["FileInfo"][];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** ファイルの作成 */
+  postFiles: {
+    parameters: {
+      query?: {
+        visibility?: "private" | "public";
+      };
+    };
+    requestBody: {
+      content: {
+        "multipart/form-data": components["schemas"]["CreateFile"];
+      };
+    };
+    responses: {
+      /** @description Created */
+      201: {
+        content: {
+          "application/json": components["schemas"]["CreatedFile"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 特定のIDのファイルの取得 */
+  getFileById: {
+    parameters: {
+      path: {
+        file_id: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["File"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 特定のIDのファイルの削除 */
+  deleteFileById: {
+    parameters: {
+      path: {
+        file_id: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 招待一覧の取得 */
+  getInvitations: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Invitation"][];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 招待の作成 */
+  postInvitation: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateInvitation"];
+      };
+    };
+    responses: {
+      /** @description Created */
+      201: {
+        content: {
+          "application/json": components["schemas"]["CreatedInvitation"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 特定のIDの招待の取得 */
+  getInvitationById: {
+    parameters: {
+      path: {
+        invitation_id: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Invitation"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 特定のIDの招待の受諾 */
+  postInvitationById: {
+    parameters: {
+      path: {
+        invitation_id: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 招待の削除 */
+  deleteInvitationById: {
+    parameters: {
+      path: {
+        invitation_id: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 申請一覧の取得 */
+  getForms: {
+    parameters: {
+      query?: {
+        project_id?: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["FormSummary"][];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 申請の作成 */
+  postForm: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateForm"];
+      };
+    };
+    responses: {
+      /** @description Created */
+      201: {
+        content: {
+          "application/json": components["schemas"]["CreatedForm"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 特定のIDの申請を取得 */
+  getFormById: {
+    parameters: {
+      path: {
+        form_id: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Form"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 特定のIDの申請を更新 */
+  putFormById: {
+    parameters: {
+      path: {
+        form_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateForm"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: never;
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 特定のIDの申請を削除 */
+  deleteFormById: {
+    parameters: {
+      path: {
+        form_id: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 申請の回答一覧を取得 */
+  getFormAnswers: {
+    parameters: {
+      query?: {
+        project_id?: string;
+        form_id?: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["FormAnswerSummary"][];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 申請の回答を作成 */
+  postFormAnswer: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateFormAnswer"];
+      };
+    };
+    responses: {
+      /** @description Created */
+      201: {
+        content: {
+          "application/json": components["schemas"]["CreatedFormAnswer"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 申請の回答を取得 */
+  getFormAnswerById: {
+    parameters: {
+      path: {
+        form_answer_id: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["FormAnswer"][];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 申請の回答を更新 */
+  putFormAnswerById: {
+    parameters: {
+      path: {
+        form_answer_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateFormAnswer"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: never;
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** 企画募集期間を取得する */
+  getProjectApplicationPeriod: {
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["ProjectApplicationPeriod"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** @description Internal Server Error */
+      500: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+}
