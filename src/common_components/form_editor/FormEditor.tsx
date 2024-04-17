@@ -10,7 +10,7 @@ import { FormFieldEditor } from "./FormFieldEditor";
 import { sectionTitleStyle, descriptionStyle, checkboxGrpupStyle, checkboxStyle, textInputStyle } from "./styles";
 import { components } from "@/schema";
 import dayjs from "dayjs";
-import { deleteAllUploadedFiles, postFiles } from "@/lib/postFile";
+import { postFiles } from "@/lib/postFile";
 import toast from "react-hot-toast";
 import { FilesFormType, FileErrorsType } from "@/app/forms/[form_id]/FormItems";
 import { FilesField } from "@/common_components/formFields/Files";
@@ -133,8 +133,6 @@ export const FormEditor: FC<{
           };
 
           onSubmit(body);
-
-          deleteAllUploadedFiles(fileIds);
         })}>
         <fieldset
           className={stack({
