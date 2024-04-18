@@ -1,4 +1,4 @@
-import { array, custom, literal, minLength, object, Output, picklist, regex, string, union } from "valibot";
+import { array, custom, literal, minLength, object, Output, picklist, regex, string, union, unknown } from "valibot";
 import Graphemer from "graphemer";
 
 /**
@@ -171,6 +171,8 @@ export const NewNewsSchema = object({
   title: newsTitleSchema,
   body: newsBodySchema,
   categories: newsCategories,
+  // FileListが入る
+  attachments: unknown(),
 });
 
 export type NewNewsSchemaType = Output<typeof NewNewsSchema>;
@@ -179,6 +181,8 @@ export const UpdateNewsSchema = object({
   title: newsTitleSchema,
   body: newsBodySchema,
   categories: newsCategories,
+  // FileListが入る
+  attachments: unknown(),
 });
 
 export type UpdateNewsSchemaType = Output<typeof UpdateNewsSchema>;
