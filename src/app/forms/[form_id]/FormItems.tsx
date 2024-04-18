@@ -112,7 +112,23 @@ export const FormItems: FC<Props> = ({
             description={item.description}
             required={item.required ?? true}
             options={item.options ?? []}
-            register={register(item.id)}
+            register={register(item.id, {
+              validate: (v) => {
+                console.log(v);
+                const value = v ? JSON.parse(v) : undefined;
+                const nums = value ? value.length : undefined;
+                console.log(nums);
+                if ((!nums || nums === 0) && item.required) {
+                  return `選択してください`;
+                }
+                if (nums && item.min_selection && nums < item.min_selection) {
+                  return `最低${item.min_selection}個選択してください`;
+                }
+                if (nums && item.max_selection && nums < item.max_selection) {
+                  return `${item.max_selection}個以下選択してください`;
+                }
+              },
+            })}
             getValues={getValues}
             setValue={setValue}
             error={errors[item.id]?.message}

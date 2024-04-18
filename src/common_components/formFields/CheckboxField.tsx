@@ -3,7 +3,7 @@ import { UseFormGetValues, UseFormRegisterReturn, UseFormSetValue } from "react-
 
 import { css } from "@styled-system/css";
 import { basicFieldProps } from "./_components/types";
-import { basicFormLabelStyle, checkboxFormStyle } from "./styles";
+import { basicErrorMessageStyle, basicFormLabelStyle, checkboxFormStyle } from "./styles";
 import { RequiredBadge } from "./_components/RequiredBadge";
 import { FormFieldsType } from "@/app/forms/[form_id]/FormItems";
 
@@ -71,6 +71,9 @@ export const CheckboxField: FC<Props> = (props: Props) => {
           })}
         </div>
       </fieldset>
+      <div className={css({ sm: { marginInline: 3 }, marginBlock: 1 })}>
+        {props.error && <span className={basicErrorMessageStyle}>{props.error}</span>}
+      </div>
     </div>
   );
 };
