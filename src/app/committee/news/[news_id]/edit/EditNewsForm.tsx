@@ -37,7 +37,7 @@ export const EditNewsForm: FC<{
   const [attachments, setAttachments] = useState<FilesFormType>(new Map([["attachments", null]]));
   const [fileErrors, setFileErrors] = useState<FileErrorsType>(new Map([["attachments", null]]));
 
-  const { data, error, isLoading } = useSWR(`/news/${news_id}`);
+  const { data, error, isLoading, mutate } = useSWR(`/news/${news_id}`);
   if (isLoading) {
     return;
   }
@@ -85,6 +85,7 @@ export const EditNewsForm: FC<{
         }
 
         toast.success("お知らせを保存しました");
+        mutate();
         router.push(`/committee/news/${news_id}`);
       })
       .catch(() => {
