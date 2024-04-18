@@ -1,7 +1,7 @@
 "use client";
 import { vstack } from "@styled-system/patterns";
-import { Title } from "@/common_components/Title";
 import { css } from "@styled-system/css";
+import { stack, hstack } from "@styled-system/patterns";
 import { useState } from "react";
 import { Button } from "@/common_components/Button";
 import { ProjectTableView } from "@/common_components/project/ProjectView";
@@ -9,6 +9,8 @@ import { assignType } from "@/lib/openapi";
 import useSWR from "swr";
 import { basicErrorMessageStyle } from "@/common_components/formFields/styles";
 import { RegistrationProgress } from "@/common_components/RegistrationProgress";
+import formIcon from "@/assets/NotebookIcon.svg?url";
+import Image from "next/image";
 
 export const Project: React.FC = () => {
   const [editable, setEditable] = useState(false);
@@ -25,7 +27,7 @@ export const Project: React.FC = () => {
     data: rawFormData,
     error: formErr,
     isLoading: formIsLoading,
-    mutate: mutateForm,
+    // mutate: mutateForm,
   } = useSWR(projectIsLoading ? null : `/forms?project_id=${projectData.id}`);
   const formData = assignType("/forms", rawFormData);
 
@@ -55,7 +57,20 @@ export const Project: React.FC = () => {
 
   return (
     <>
-      <Title>企画情報</Title>
+      <div className={vstack({})}>
+        <div className={css({ textAlign: "center" })}>
+          <p>締切は5月10日となっております</p>
+          <p>締切日までにすべてのステップを完了済みにしてください。</p>
+        </div>
+        <RegistrationProgress step={step} />
+      </div>
+      <h3
+        className={css({
+          fontSize: "xl",
+          fontWeight: "bold",
+        })}>
+        企画情報
+      </h3>
       <div className={vstack({})}>
         {!editable && (
           <Button color="blue" className={css({ alignSelf: "end" })} onClick={() => setEditable((e) => !e)}>
@@ -78,12 +93,74 @@ export const Project: React.FC = () => {
                   }}
                   projectData={projectData}
                 />
-                <RegistrationProgress step={step} />
               </>
             )}
           </>
         )}
       </div>
+      <div
+        className={stack({
+          width: "4/5",
+          flex: 1,
+          gap: 6,
+          md: {
+            alignItems: "center",
+          },
+          maxWidth: "2xl",
+        })}>
+        {formErr ? (
+          <div className={basicErrorMessageStyle}>申請フォームの取得に失敗しました</div>
+        ) : formIsLoading || !formData ? (
+          "Loading"
+        ) : (
+          formData.map((data) => <FormItem title={data.title} key={data.id} />)
+        )}
+      </div>
     </>
+  );
+};
+
+interface FormItemProps {
+  title: string;
+}
+
+const FormItem = ({ title }: FormItemProps) => {
+  return (
+    <div
+      className={hstack({
+        width: "full",
+        gap: 4,
+        borderWidth: 3,
+        borderStyle: "solid",
+        borderRadius: 9,
+        paddingX: 4,
+        paddingY: 4,
+
+        cursor: "pointer",
+        borderColor: "gray.400",
+        transition: "all 0.2s",
+        "&:hover": {
+          background: "gray.200",
+        },
+        "&:has(> input:disabled": {
+          backgroundColor: "gray.300",
+          cursor: "not-allowed",
+          "& img": {
+            filter: "opacity(0.3)",
+          },
+          "& span": {
+            opacity: 0.5,
+          },
+        },
+      })}>
+      <Image src={formIcon} alt="" />
+      <span
+        className={css({
+          fontSize: "md",
+          fontWeight: "bold",
+        })}>
+        {title}
+      </span>
+    </div>
   );
 };
