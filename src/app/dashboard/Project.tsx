@@ -10,7 +10,9 @@ import useSWR from "swr";
 import { basicErrorMessageStyle } from "@/common_components/formFields/styles";
 import { RegistrationProgress } from "@/common_components/RegistrationProgress";
 import formIcon from "@/assets/NotebookIcon.svg?url";
+import warningIcon from "@/assets/Warning.svg?url";
 import Image from "next/image";
+import Link from "next/link";
 
 export const Project: React.FC = () => {
   const [editable, setEditable] = useState(false);
@@ -113,7 +115,9 @@ export const Project: React.FC = () => {
         ) : formIsLoading || !formData ? (
           "Loading"
         ) : (
-          formData.map((data) => <FormItem title={data.title} key={data.id} />)
+          formData.map((data) => (
+            <FormItem id={data.id} title={data.title} done={data.answer_id !== null} key={data.id} />
+          ))
         )}
       </div>
     </>
@@ -121,46 +125,60 @@ export const Project: React.FC = () => {
 };
 
 interface FormItemProps {
+  id: string;
   title: string;
+  done?: boolean;
 }
 
-const FormItem = ({ title }: FormItemProps) => {
+const FormItem = ({ id, title, done = false }: FormItemProps) => {
   return (
-    <div
-      className={hstack({
-        width: "full",
-        gap: 4,
-        borderWidth: 3,
-        borderStyle: "solid",
-        borderRadius: 9,
-        paddingX: 4,
-        paddingY: 4,
+    <Link href={`/forms/${id}`} className={css({ display: "block", width: "100%", position: "relative" })}>
+      {done || (
+        <div
+          className={css({
+            position: "absolute",
+            top: -3,
+            left: 0,
+          })}>
+          <Image src={warningIcon} alt="" />
+        </div>
+      )}
+      <div
+        className={hstack({
+          width: "full",
+          gap: 4,
+          borderWidth: 3,
+          borderStyle: "solid",
+          borderRadius: 9,
+          paddingX: 4,
+          paddingY: 4,
 
-        cursor: "pointer",
-        borderColor: "gray.400",
-        transition: "all 0.2s",
-        "&:hover": {
-          background: "gray.200",
-        },
-        "&:has(> input:disabled": {
-          backgroundColor: "gray.300",
-          cursor: "not-allowed",
-          "& img": {
-            filter: "opacity(0.3)",
+          cursor: "pointer",
+          borderColor: "gray.400",
+          transition: "all 0.2s",
+          "&:hover": {
+            background: "gray.200",
           },
-          "& span": {
-            opacity: 0.5,
+          "&:has(> input:disabled": {
+            backgroundColor: "gray.300",
+            cursor: "not-allowed",
+            "& img": {
+              filter: "opacity(0.3)",
+            },
+            "& span": {
+              opacity: 0.5,
+            },
           },
-        },
-      })}>
-      <Image src={formIcon} alt="" />
-      <span
-        className={css({
-          fontSize: "md",
-          fontWeight: "bold",
         })}>
-        {title}
-      </span>
-    </div>
+        <Image src={formIcon} alt="" />
+        <span
+          className={css({
+            fontSize: "md",
+            fontWeight: "bold",
+          })}>
+          {title}
+        </span>
+      </div>
+    </Link>
   );
 };
