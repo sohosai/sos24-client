@@ -16,7 +16,7 @@ import { BodyField } from "@/common_components/news/BodyField";
 import { FilesField } from "@/common_components/formFields/Files";
 import { useState } from "react";
 import { FileErrorsType, FilesFormType } from "@/app/forms/[form_id]/FormItems";
-import { postFiles } from "@/lib/postFile";
+import { deleteAllUploadedFiles, postFiles } from "@/lib/postFile";
 
 export const NewNewsForm = () => {
   const router = useRouter();
@@ -52,6 +52,7 @@ export const NewNewsForm = () => {
       .then(({ data, error }) => {
         if (error) {
           toast.error(`お知らせ作成中にエラーが発生しました`);
+          fileIds && deleteAllUploadedFiles(fileIds);
           return;
         }
 
@@ -59,6 +60,7 @@ export const NewNewsForm = () => {
         router.push(`/committee/news/${data.id}`);
       })
       .catch(() => {
+        fileIds && deleteAllUploadedFiles(fileIds);
         toast.error(`お知らせ保存中にエラーが発生しました`);
       });
   };
