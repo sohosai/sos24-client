@@ -29,9 +29,15 @@ const DashboardPage: NextPage = () => {
       <div className={stack({ gap: 8, marginY: 8 })}>
         <div className={stack({ gap: 6, alignItems: "center" })}>
           <div>
+            <Title>企画応募</Title>
+          </div>
+          <Project />
+        </div>
+        <div className={stack({ gap: 6, alignItems: "center" })}>
+          <div>
             <Title>お知らせ</Title>
           </div>
-          <div className={flex({ position: "absolute", top: 24, justifyContent: "flex-end", width: "90%" })}>
+          <div className={flex({ position: "relative", top: 14, justifyContent: "flex-end", width: "90%" })}>
             <Link
               href="/news"
               className={flex({
@@ -53,9 +59,6 @@ const DashboardPage: NextPage = () => {
             </Link>
           </div>
           <NewsView />
-        </div>
-        <div className={stack({ gap: 6, alignItems: "center" })}>
-          <Project />
         </div>
       </div>
     </div>
