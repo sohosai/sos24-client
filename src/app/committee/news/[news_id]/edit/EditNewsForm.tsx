@@ -17,7 +17,7 @@ import { TitleField } from "@/common_components/news/TitleField";
 import { BodyField } from "@/common_components/news/BodyField";
 import { FilesField } from "@/common_components/formFields/Files";
 import { FileErrorsType, FilesFormType } from "@/app/forms/[form_id]/FormItems";
-import { postFiles } from "@/lib/postFile";
+import { deleteAllUploadedFiles, postFiles } from "@/lib/postFile";
 
 export const EditNewsForm: FC<{
   news_id: string;
@@ -80,6 +80,7 @@ export const EditNewsForm: FC<{
       })
       .then(({ error }) => {
         if (error) {
+          fileIds && deleteAllUploadedFiles(fileIds);
           toast.error(`お知らせ保存中にエラーが発生しました`);
           return;
         }
@@ -89,6 +90,7 @@ export const EditNewsForm: FC<{
         router.push(`/committee/news/${news_id}`);
       })
       .catch(() => {
+        fileIds && deleteAllUploadedFiles(fileIds);
         toast.error(`お知らせ保存中にエラーが発生しました`);
       });
   };
