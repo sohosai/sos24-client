@@ -1,17 +1,23 @@
 name: CD(beta)
 run-name: CD (beta) - ${{ github.event_name }}
 
+on:
+  push:
+  pull_request:
+    branches:
+      - develop
+  workflow_dispatch:
+
 env:
   PROJECT_NAME:  ${{ vars.CLOUDFLARE_BETA_PROJECT_NAME }}
   PRODUCTION_BRANCH: develop
 
-on:
-#  push:
-  workflow_dispatch:
-
 jobs:
   build_and_deploy:
-
+    if: |
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.event.pull_request.merged == true) ||
+      github.event_name == 'workflow_dispatch'
     runs-on: [self-hosted, portainer]
     permissions:
       contents: read
@@ -22,7 +28,9 @@ jobs:
         with:
           ref: ${{ github.head_ref || github.ref_name }}
       - name: Symlink
-        run: mkdir -p /home/runner/work/${{ github.event.repository.name }}/ && ln -s ${{ github.workspace }} /home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}
+        run: |
+          mkdir -p /home/runner/work/${{ github.event.repository.name }}/
+          ln -s ${{ github.workspace }} /home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}
       - uses: actions/setup-node@v4
         with:
           node-version: "latest"
@@ -37,7 +45,7 @@ jobs:
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
           # If source files changed but packages didn't, rebuild from a prior cache.
           restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
       - name: build
         run: npx @cloudflare/next-on-pages@1
         env:
