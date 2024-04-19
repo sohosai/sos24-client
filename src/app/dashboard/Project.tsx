@@ -39,8 +39,8 @@ export const Project: React.FC = () => {
     for (const data of formData) {
       if (data.title === "誓約書提出フォーム") {
         hasAnsweredOathForm = data.answer_id !== null;
-      } else if (data.answer_id === null) {
-        hasAnsweredEveryForm = false;
+      } else if (data.answer_id !== null) {
+        hasAnsweredEveryForm = true;
       }
     }
 
