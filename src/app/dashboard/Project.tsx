@@ -46,10 +46,7 @@ export const Project: React.FC = () => {
 
     if (hasAnsweredEveryForm) {
       if (hasAnsweredOathForm) {
-        if (projectData.sub_owner_id !== null) {
-          step = 5;
-        }
-        step = 4;
+        step = projectData.sub_owner_id !== null ? 5 : 4;
       } else {
         step = 3;
       }
