@@ -16,7 +16,7 @@ import Link from "next/link";
 
 export const Project: React.FC = () => {
   const [editable, setEditable] = useState(false);
-  const [step, setStep] = useState<1 | 2 | 3 | 4 | 5>(1);
+  let step: 1 | 2 | 3 | 4 | 5 = 1;
   const {
     data: rawProjectData,
     error: projectErr,
@@ -47,13 +47,13 @@ export const Project: React.FC = () => {
     if (hasAnsweredEveryForm) {
       if (hasAnsweredOathForm) {
         if (projectData.sub_owner_id !== null) {
-          setStep(5);
+          step = 5;
         }
-        setStep(4);
+        step = 4;
       } else {
-        setStep(3);
+        step = 3;
       }
-      setStep(hasAnsweredOathForm ? 3 : 2);
+      step = hasAnsweredOathForm ? 3 : 2;
     }
   }
 
@@ -158,16 +158,6 @@ const FormItem = ({ id, title, done = false }: FormItemProps) => {
           transition: "all 0.2s",
           "&:hover": {
             background: "gray.200",
-          },
-          "&:has(> input:disabled": {
-            backgroundColor: "gray.300",
-            cursor: "not-allowed",
-            "& img": {
-              filter: "opacity(0.3)",
-            },
-            "& span": {
-              opacity: 0.5,
-            },
           },
         })}>
         <Image src={formIcon} alt="" />
