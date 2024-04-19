@@ -2,7 +2,7 @@ name: CD(beta)
 run-name: CD (beta) - ${{ github.event_name }}
 
 on:
-  push:
+#  push:
   pull_request:
     branches:
       - develop
