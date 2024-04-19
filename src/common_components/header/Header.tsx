@@ -103,13 +103,17 @@ export const Header: FC = () => {
   }, [path]);
 
   const handleSignOut = async () => {
-    try {
-      await signOut(auth);
-      setShowMobileMenu(false);
-    } catch (error) {
-      toast.error("サインアウトできませんでした");
-    }
-    toast.success("サインアウトしました");
+    toast.promise(
+      (async (): Promise<void> => {
+        await signOut(auth);
+        setShowMobileMenu(false);
+      })(),
+      {
+        loading: "サイン・アウトしています",
+        success: "サインアウトしました",
+        error: "サインアウトできませんで得した",
+      },
+    );
   };
 
   return (
