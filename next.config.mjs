@@ -40,7 +40,7 @@ export default withSentryConfig(
 
     // Suppresses source map uploading logs during build
     silent: true,
-    org: "jsys",
+    org: "sohosai-jsys",
     project: "sos24-client",
   },
   {
