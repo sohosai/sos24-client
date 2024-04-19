@@ -3,9 +3,16 @@ import { css, cx } from "@styled-system/css";
 import React, { ReactNode } from "react";
 
 const tableCellStyle = css({
-  paddingX: 14,
-  paddingY: 4,
-  alignSelf: "center",
+  base: {
+    paddingInlineStart: 2,
+    paddingInlineEnd: 0,
+    paddingY: 4,
+  },
+  sm: {
+    paddingX: 14,
+    paddingY: 4,
+    alignSelf: "center",
+  },
 });
 
 export const TableRow = ({ label, children, formId }: { label: ReactNode; children: ReactNode; formId?: string }) => (
