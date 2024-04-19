@@ -18,7 +18,7 @@ const authMiddleware: Middleware = {
       return;
     }
 
-    const accessToken = await user.getIdToken();
+    const accessToken = await user.getIdToken(true);
     req.headers.set("Authorization", `Bearer ${accessToken}`);
     return req;
   },
