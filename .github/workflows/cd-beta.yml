@@ -168,7 +168,7 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
-          content: "status: ${{ needs.build_and_deploy.result }} \n🔗 Preview URL: ${{ steps.publish.outputs.deployment-url }}"
+          content: "status: ${{ job.status }} \n🔗 Preview URL: ${{ steps.publish.outputs.deployment-url }}"
           title: "${{ github.workflow }}"
           description: "Build and deploy status of sos24-client-production."
           color: 0x6600CC

@@ -74,7 +74,7 @@ jobs:
             -H 'Content-Type: application/json' \
             -H 'Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}' \
             -d '{ "production_branch": "${{ env.PRODUCTION_BRANCH }}" }' \
-            https://api.cloudflare.com/client/v4/accounts/${{ vars.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/${{ env.PROJECT_NAME }})
+            https://api.cloudflare.com/client/v4/accounts/${{ vars.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/${{ env.PROJECT_NAME }}
           result=$(echo "$result" | jq  -r '
             if .success == true then
               "✅ Cloudflare Pages Production Branchの変更に成功しました。\n✨ \(.result.latest_deployment.production_branch)から\(.result.production_branch)に変更されました"
@@ -180,7 +180,7 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
-          content: "status: ${{ needs.build_and_deploy.result }} \n🔗 Preview URL: ${{ steps.publish.outputs.deployment-url }} \n📌 Branch Preview URL: ${{ steps.generate-alias-url.outputs.alias-url }}"
+          content: "status: ${{ job.status }} \n🔗 Preview URL: ${{ steps.publish.outputs.deployment-url }} \n📌 Branch Preview URL: ${{ steps.generate-alias-url.outputs.alias-url }}"
           title: "${{ github.workflow }}"
           description: "Build and deploy status of sos24-client."
           color: 0x6600CC
