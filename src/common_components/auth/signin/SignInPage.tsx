@@ -3,7 +3,6 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { FirebaseError } from "firebase/app";
 import { css, cx } from "@styled-system/css";
 import { basicErrorMessageStyle, basicFormStyle } from "@/common_components/formFields/styles";
 import { Button } from "@/common_components/Button";
@@ -27,16 +26,20 @@ export const SigninForm: React.FC = () => {
 
   const onSubmit = async (data: SignInInput) => {
     const auth = getAuth();
-    try {
-      await signInWithEmailAndPassword(auth, data.email, data.password);
-      reset();
-    } catch (e) {
-      if (e instanceof FirebaseError) {
-        setError("root", { message: "サインインできませんでした" });
-        toast.error("サインインできませんでした");
-        return;
-      }
-    }
+    toast.promise(
+      (async () => {
+        await signInWithEmailAndPassword(auth, data.email, data.password);
+        reset();
+      })(),
+      {
+        loading: "サインインしています",
+        success: "サインインしました",
+        error: () => {
+          setError("root", { message: "サインインできませんでした" });
+          return "サインインできませんでした";
+        },
+      },
+    );
   };
 
   return (
