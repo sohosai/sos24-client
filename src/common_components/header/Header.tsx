@@ -20,6 +20,7 @@ import { MobileMenu } from "./MobileMenu";
 import { HeaderMenuItems } from "./HeaderMenuItems";
 import { HeaderNavigation } from "./HeaderNavigation";
 import { components } from "@/schema";
+import dayjs from "dayjs";
 
 export type MenuData = {
   path: Route;
@@ -94,13 +95,37 @@ export const Header: FC = () => {
   const auth = getAuth();
   const { data: userRes, isLoading: userIsLoading } = useSWR("/users/me");
   const userInfo = !userIsLoading ? assignType("/users/me", userRes) : undefined;
+  const { data: _applicationPeriod, isLoading: isApplicationPeriodIsLoading } = useSWR(
+    "/project-application-period",
+    (url) =>
+      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}${url}`).then(async (res) => {
+        if (!res.ok) {
+          throw await res.json();
+        }
+        return await res.json();
+      }),
+  );
   const path = usePathname();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const menu = path.startsWith("/committee") ? menuForRole(userInfo?.role) : generalMenu;
 
   useEffect(() => {
     setShowMobileMenu(false);
   }, [path]);
+
+  if (isApplicationPeriodIsLoading) return;
+
+  const applicationPeriod = assignType("/project-application-period", _applicationPeriod);
+
+  const isInApplicationPeriod =
+    dayjs().isBefore(applicationPeriod.end_at) && dayjs().isAfter(applicationPeriod.start_at);
+
+  const menu = user
+    ? path.startsWith("/committee")
+      ? menuForRole(userInfo?.role)
+      : isInApplicationPeriod
+        ? []
+        : generalMenu
+    : [];
 
   const handleSignOut = async () => {
     try {
