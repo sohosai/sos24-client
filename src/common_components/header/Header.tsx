@@ -133,7 +133,7 @@ export const Header: FC = () => {
           display: "block",
         },
       })}>
-      {showMobileMenu && (
+      {userInfo?.owned_project_id && showMobileMenu && (
         <MobileMenu
           menu={menu}
           isCommittee={["committee", "committee_operator", "administrator"].includes(userInfo?.role ?? "")}
@@ -154,7 +154,7 @@ export const Header: FC = () => {
             height: "100%",
           },
         })}>
-        {user ? (
+        {userInfo?.owned_project_id ? (
           <button
             className={css({
               display: "flex",
@@ -242,7 +242,7 @@ export const Header: FC = () => {
           </nav>
         )}
       </div>
-      {user && <HeaderNavigation menu={menu} />}
+      {userInfo?.owned_project_id && <HeaderNavigation menu={menu} />}
     </header>
   );
 };
