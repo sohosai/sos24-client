@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  PROJECT_NAME: ${{ secrets.PROD_CLOUDFLARE_PROJECT_NAME }}
+  PROJECT_NAME: ${{ vars.PROD_CLOUDFLARE_PROJECT_NAME }}
   PRODUCTION_BRANCH: main
 
 jobs:
@@ -100,7 +100,7 @@ jobs:
         id: publish
       - name: generate alias url
         id: generate-alias-url
-        if: ${{ (github.head_ref || github.ref_name) != env.PRODUCTION_BRANCH && github.event.action == 'synchronized'}}
+        if: ${{ (github.head_ref || github.ref_name) != env.PRODUCTION_BRANCH }}
         env:
           BRANCH: ${{ github.ref_name }}
           PUBLISH_CFPAGES_URL: ${{ steps.publish.outputs.deployment-url }}
