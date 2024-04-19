@@ -16,7 +16,7 @@ import Link from "next/link";
 
 export const Project: React.FC = () => {
   const [editable, setEditable] = useState(false);
-  let step: 1 | 2 | 3 | 4 | 5 = 1;
+  let step: 1 | 2 | 3 | 4 | 5 = 2;
   const {
     data: rawProjectData,
     error: projectErr,
@@ -39,8 +39,8 @@ export const Project: React.FC = () => {
     for (const data of formData) {
       if (data.title === "誓約書提出フォーム") {
         hasAnsweredOathForm = data.answer_id !== null;
-      } else if (data.answer_id !== null) {
-        hasAnsweredEveryForm = true;
+      } else if (data.answer_id === null) {
+        hasAnsweredEveryForm = false;
       }
     }
 
@@ -53,7 +53,8 @@ export const Project: React.FC = () => {
       } else {
         step = 3;
       }
-      step = hasAnsweredOathForm ? 3 : 2;
+    } else {
+      step = 2;
     }
   }
 
