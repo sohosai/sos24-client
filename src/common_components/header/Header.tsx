@@ -20,7 +20,6 @@ import { MobileMenu } from "./MobileMenu";
 import { HeaderMenuItems } from "./HeaderMenuItems";
 import { HeaderNavigation } from "./HeaderNavigation";
 import { components } from "@/schema";
-import { relative } from "path";
 
 export type MenuData = {
   path: Route;

@@ -112,7 +112,14 @@ export const SignupForm = () => {
       </div>
       <div className={css({ display: "flex", alignItems: "center", gap: 3 })}>
         <input type="checkbox" id="agreement" className={checkboxFormStyle} {...register("agreement")} />
-        <label htmlFor="agreement">利用規約に同意する</label>
+        <label htmlFor="agreement">
+          <a
+            href="https://s3.isk01.sakurastorage.jp/sos24-prod/雙峰祭オンラインシステム利用規約.pdf"
+            className={css({ textDecoration: "underline" })}>
+            利用規約
+          </a>
+          に同意する
+        </label>
       </div>
       {errors.agreement && <span className={basicErrorMessageStyle}>{errors.agreement.message}</span>}
       {errors.root && <span className={basicErrorMessageStyle}>{errors.root.message}</span>}
