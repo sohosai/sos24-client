@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 
 export const ApplicationPeriodProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [_, setProjectApplicationPeriod] = useAtom(projectApplicationPeriodAtom);
+  // OpenApiFetchやSWRを使うと認証がないときにエラーが出るのでfetchを使っている
   const { data: _applicationPeriod, isLoading } = useSWR("/project-application-period", (url) =>
     fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}${url}`).then(async (res) => {
       if (!res.ok) {
