@@ -32,7 +32,7 @@ const projectTitleSchema = string([
  * @returns boolean: true if `str` is empty string
  */
 const isHiragana = (str: string): boolean => {
-  return /^[\u3040-\u309F\s]*$/.test(str);
+  return /^[\u3040-\u309F\s\u30FC]*$/.test(str);
 };
 
 const projectKanaTitleSchema = string([
