@@ -20,7 +20,8 @@ import { MobileMenu } from "./MobileMenu";
 import { HeaderMenuItems } from "./HeaderMenuItems";
 import { HeaderNavigation } from "./HeaderNavigation";
 import { components } from "@/schema";
-import dayjs from "dayjs";
+import { useAtom } from "jotai";
+import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
 
 export type MenuData = {
   path: Route;
@@ -95,16 +96,7 @@ export const Header: FC = () => {
   const auth = getAuth();
   const { data: userRes, isLoading: userIsLoading } = useSWR("/users/me");
   const userInfo = !userIsLoading ? assignType("/users/me", userRes) : undefined;
-  const { data: _applicationPeriod, isLoading: isApplicationPeriodIsLoading } = useSWR(
-    "/project-application-period",
-    (url) =>
-      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}${url}`).then(async (res) => {
-        if (!res.ok) {
-          throw await res.json();
-        }
-        return await res.json();
-      }),
-  );
+
   const path = usePathname();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
@@ -112,17 +104,12 @@ export const Header: FC = () => {
     setShowMobileMenu(false);
   }, [path]);
 
-  if (isApplicationPeriodIsLoading) return;
-
-  const applicationPeriod = assignType("/project-application-period", _applicationPeriod);
-
-  const isInApplicationPeriod =
-    dayjs().isBefore(applicationPeriod.end_at) && dayjs().isAfter(applicationPeriod.start_at);
+  const [applicationPeriod] = useAtom(projectApplicationPeriodAtom);
 
   const menu = user
     ? path.startsWith("/committee")
       ? menuForRole(userInfo?.role)
-      : isInApplicationPeriod
+      : applicationPeriod.isIn
         ? []
         : generalMenu
     : [];
@@ -235,7 +222,11 @@ export const Header: FC = () => {
               marginLeft: "10px",
             })}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="https://www.sakura.ad.jp/brand-assets/images/logo-3.png" alt="" className={css({ height: 6 })} />
+            <img
+              src="https://www.sakura.ad.jp/brand-assets/images/logo-3.png"
+              alt="SAKURA internet"
+              className={css({ height: 6 })}
+            />
           </a>
           {(userInfo?.owned_project_id || path.startsWith("/committee")) && <HeaderMenuItems menu={menu} />}
         </div>
