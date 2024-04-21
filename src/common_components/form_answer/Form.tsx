@@ -1,6 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { css } from "@styled-system/css";
 import toast from "react-hot-toast";
 
@@ -21,7 +20,6 @@ interface Props {
 }
 
 export const Form = ({ form, answerId, answerItems, editable }: Props) => {
-  const router = useRouter();
   const onSubmit: SubmitHandler<FormFieldsType> = async (data) => {
     if (Array.from(fileErrors).some((v) => v[1])) {
       toast.error(`正しいファイルをアップロードしてください`);
@@ -91,7 +89,7 @@ export const Form = ({ form, answerId, answerItems, editable }: Props) => {
             return;
           }
           toast.success("申請の修正に成功しました");
-          router.push("/forms");
+          window.location.reload();
         })
         .catch(async () => {
           toast.error(`申請の修正内容の送信中にエラーが発生しました`);
@@ -112,7 +110,7 @@ export const Form = ({ form, answerId, answerItems, editable }: Props) => {
             return;
           }
           toast.success("申請の送信に成功しました");
-          router.push("/forms");
+          window.location.reload();
         })
         .catch(async () => {
           toast.error(`申請の送信中にエラーが発生しました`);
