@@ -14,6 +14,11 @@ import { client } from "@/lib/openapi";
 import { components } from "@/schema";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import General from "@/assets/General.svg";
+import FoodsWithKitchen from "@/assets/Foods_with_kitchen.svg";
+import FoodsWithoutCooking from "@/assets/Foods_without_cooking.svg";
+import FoodsWithoutKitchent from "@/assets/Foods_without_kitchen.svg";
+import Stage from "@/assets/Stage.svg";
 
 const categoryItems = [
   {
@@ -21,6 +26,7 @@ const categoryItems = [
     label: "普通企画",
     hasTopSpacer: false,
     badges: [],
+    icon: <General />,
   },
   {
     value: "foods_with_kitchen",
@@ -31,6 +37,7 @@ const categoryItems = [
       { label: "調理", allowed: true },
       { label: "仕込場", allowed: true },
     ],
+    icon: <FoodsWithKitchen />,
   },
   {
     value: "foods_without_kitchen",
@@ -41,6 +48,7 @@ const categoryItems = [
       { label: "調理", allowed: true },
       { label: "仕込場", allowed: false },
     ],
+    icon: <FoodsWithoutKitchent />,
   },
   {
     value: "foods_without_cooking",
@@ -50,12 +58,14 @@ const categoryItems = [
       { label: "食品取り扱い", allowed: true },
       { label: "調理", allowed: false },
     ],
+    icon: <FoodsWithoutCooking />,
   },
   {
     value: "stage_united",
     label: "ステージ企画",
     hasTopSpacer: true,
     badges: [],
+    icon: <Stage />,
   },
 ];
 
