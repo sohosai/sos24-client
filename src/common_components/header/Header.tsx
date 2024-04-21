@@ -210,8 +210,9 @@ export const Header: FC = () => {
               _before: {
                 content: '"supported by"',
                 position: "absolute",
-                top: "-100%",
+                top: "-50%",
                 left: "-10%",
+                whiteSpace: "nowrap",
               },
               display: {
                 base: "none",
@@ -223,9 +224,9 @@ export const Header: FC = () => {
             })}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="https://www.sakura.ad.jp/brand-assets/images/logo-3.png"
+              src="https://s3.isk01.sakurastorage.jp/sos24-prod/sakura-logo.svg"
               alt="SAKURA internet"
-              className={css({ height: 6 })}
+              className={css({ height: 9, position: "relative", top: 1 })}
             />
           </a>
           {(userInfo?.owned_project_id || path.startsWith("/committee")) && <HeaderMenuItems menu={menu} />}
