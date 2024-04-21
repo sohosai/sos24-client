@@ -40,36 +40,38 @@ export const FileView = (props: Props) => {
   return (
     <div className={fileViewStyle({ isError: props.error })}>
       <span>{props.name}</span>
-      {props.link !== undefined && <DownloadBuutton link={props.link} />}
-      {props.delete !== undefined && (
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            if (props.delete !== undefined) {
-              props.delete();
-            }
-          }}
-          className={css({
-            height: 6,
-            width: 6,
-            cursor: "pointer",
-          })}>
-          <Image
-            src={deleteIcon}
-            alt="削除"
+      <div className={css({ display: "flex", flexDirection: "row", columnGap: 4, alignItems: "center" })}>
+        {props.link !== undefined && <DownloadBuutton link={props.link} />}
+        {props.delete !== undefined && (
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              if (props.delete !== undefined) {
+                props.delete();
+              }
+            }}
             className={css({
-              height: 5,
-              width: 5,
-            })}></Image>
-        </button>
-      )}
+              height: 6,
+              width: 6,
+              cursor: "pointer",
+            })}>
+            <Image
+              src={deleteIcon}
+              alt="削除"
+              className={css({
+                height: 5,
+                width: 5,
+              })}></Image>
+          </button>
+        )}
+      </div>
     </div>
   );
 };
 
 type DownloadButtonProps = { link: string };
 const DownloadBuutton: FC<DownloadButtonProps> = ({ link }) => (
-  <a href={link} download>
+  <a href={link} download className={css({ height: "fit-content" })}>
     <Image
       src={downloadIcon}
       alt="ダウンロード"
