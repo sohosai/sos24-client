@@ -13,11 +13,14 @@ import { Project } from "./Project";
 import { assignType } from "@/lib/openapi";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
+import { useAtomValue } from "jotai";
+import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
 
 const DashboardPage: NextPage = () => {
   const { data: userRes, isLoading, error } = useSWR("/users/me");
   const router = useRouter();
   const user = assignType("/users/me", userRes);
+  const applicationPeriod = useAtomValue(projectApplicationPeriodAtom);
   if (isLoading) return;
   if (error) return <p>エラーが発生しました</p>;
   if (!user.owned_project_id) {
@@ -31,27 +34,29 @@ const DashboardPage: NextPage = () => {
           <div>
             <Title>お知らせ</Title>
           </div>
-          <div className={flex({ position: "absolute", top: 24, justifyContent: "flex-end", width: "90%" })}>
-            <Link
-              href="/news"
-              className={flex({
-                backgroundColor: "tsukuba.purple",
-                borderRadius: 2,
-                paddingX: 4,
-                paddingY: 1,
-                gap: 2,
-              })}>
-              <Image src={pulldownIcon} alt="" />
-              <span
-                className={css({
-                  color: "white",
-                  fontSize: "xs",
-                  fontWeight: "bold",
+          {!applicationPeriod.isIn && (
+            <div className={flex({ position: "absolute", top: 24, justifyContent: "flex-end", width: "90%" })}>
+              <Link
+                href="/news"
+                className={flex({
+                  backgroundColor: "tsukuba.purple",
+                  borderRadius: 2,
+                  paddingX: 4,
+                  paddingY: 1,
+                  gap: 2,
                 })}>
-                お知らせ一覧へ
-              </span>
-            </Link>
-          </div>
+                <Image src={pulldownIcon} alt="" />
+                <span
+                  className={css({
+                    color: "white",
+                    fontSize: "xs",
+                    fontWeight: "bold",
+                  })}>
+                  お知らせ一覧へ
+                </span>
+              </Link>
+            </div>
+          )}
           <NewsView />
         </div>
         <div className={stack({ gap: 6, alignItems: "center" })}>

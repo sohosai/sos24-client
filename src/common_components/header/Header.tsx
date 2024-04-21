@@ -20,6 +20,8 @@ import { MobileMenu } from "./MobileMenu";
 import { HeaderMenuItems } from "./HeaderMenuItems";
 import { HeaderNavigation } from "./HeaderNavigation";
 import { components } from "@/schema";
+import { useAtom } from "jotai";
+import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
 
 export type MenuData = {
   path: Route;
@@ -94,13 +96,23 @@ export const Header: FC = () => {
   const auth = getAuth();
   const { data: userRes, isLoading: userIsLoading } = useSWR("/users/me");
   const userInfo = !userIsLoading ? assignType("/users/me", userRes) : undefined;
+
   const path = usePathname();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const menu = path.startsWith("/committee") ? menuForRole(userInfo?.role) : generalMenu;
 
   useEffect(() => {
     setShowMobileMenu(false);
   }, [path]);
+
+  const [applicationPeriod] = useAtom(projectApplicationPeriodAtom);
+
+  const menu = user
+    ? path.startsWith("/committee")
+      ? menuForRole(userInfo?.role)
+      : applicationPeriod.isIn
+        ? []
+        : generalMenu
+    : [];
 
   const handleSignOut = async () => {
     try {
@@ -213,7 +225,7 @@ export const Header: FC = () => {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="https://s3.isk01.sakurastorage.jp/sos24-prod/sakura-logo.svg"
-              alt=""
+              alt="SAKURA internet"
               className={css({ height: 9, position: "relative", top: 1 })}
             />
           </a>
