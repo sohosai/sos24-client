@@ -5,6 +5,7 @@ import { SWRConfig, useSWRConfig } from "swr";
 import { useAuthState } from "./firebase";
 import { fetcherWithToken } from "@/lib/swr";
 import { AuthUI } from "@/common_components/auth/AuthUI";
+import { captureException } from "@sentry/nextjs";
 
 export const AuthProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   const authState = useAuthState();
@@ -22,6 +23,11 @@ export const AuthProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
         onErrorRetry: (error) => {
           if (error.status === 404) return;
           authState.user?.getIdToken(true);
+        },
+        onError: (err) => {
+          if (err.status != 404 || err.status != 401) {
+            captureException(err);
+          }
         },
       }}>
       <AuthUI>{children}</AuthUI>
