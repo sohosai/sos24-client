@@ -25,7 +25,7 @@ export const AuthProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
           authState.user?.getIdToken(true);
         },
         onError: (err) => {
-          if (err.status != 404 || err.status != 401) {
+          if (err.status != 404 && err.status != 403 && err.status != 401) {
             captureException(err);
           }
         },
