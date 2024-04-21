@@ -16,6 +16,7 @@ interface Props extends basicFieldProps {
 }
 
 export const CheckboxField: FC<Props> = (props: Props) => {
+  props.setValue(props.id, JSON.stringify(JSON.parse(String(props.getValues(props.id) ?? "[]"))));
   return (
     <div>
       <fieldset>
@@ -54,7 +55,9 @@ export const CheckboxField: FC<Props> = (props: Props) => {
                         checks = checks.filter((v) => v !== option);
                       }
                     } else {
-                      checks.push(option);
+                      if (e.target.checked) {
+                        checks.push(option);
+                      }
                     }
                     props.setValue(props.id, JSON.stringify(checks));
                   }}
