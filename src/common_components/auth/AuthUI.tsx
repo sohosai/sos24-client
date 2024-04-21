@@ -14,7 +14,7 @@ export const authModeAtom = atom<"signIn" | "signUp">("signIn");
 export const AuthUI: FC<PropsWithChildren> = ({ children }) => {
   const authMode = useAtomValue(authModeAtom);
   const authState = useAuthState();
-  
+
   const path = usePathname();
   if (path === "/") {
     return (
