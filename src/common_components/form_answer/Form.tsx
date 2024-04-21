@@ -15,7 +15,7 @@ import { sosFileType } from "@/lib/file";
 
 interface Props {
   form: components["schemas"]["Form"];
-  answerId: string;
+  answerId: string | undefined;
   answerItems: FormFieldsType | undefined;
   editable: boolean;
 }
@@ -68,6 +68,10 @@ export const Form = ({ form, answerId, answerItems, editable }: Props) => {
     });
 
     if (answerItems) {
+      if (!answerId) {
+        toast.error(`申請の修正に失敗しました`);
+        return;
+      }
       client
         .PUT("/form-answers/{form_answer_id}", {
           params: {
