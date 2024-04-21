@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 import { LabelAndTime } from "./LabelAndTime";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { FilesFormType, FormItems } from "@/app/forms/[form_id]/FormItems";
+import { FilesFormType, FormItems } from "@/common_components/form_answer/FormItems";
 import { FormAnswerList } from "./FormAnswerList";
 import Image from "next/image";
 import deleteNewsButton from "@/assets/deleteFormButton.svg?url";
