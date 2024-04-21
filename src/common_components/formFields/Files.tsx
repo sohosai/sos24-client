@@ -10,8 +10,9 @@ import { RequiredBadge } from "./_components/RequiredBadge";
 
 import clickIcon from "@/assets/Click.svg?url";
 import driveIcon from "@/assets/Drive.svg?url";
-import { FileErrorsType, FilesFormType } from "@/app/forms/[form_id]/FormItems";
+import { FileErrorsType, FilesFormType } from "@/common_components/form_answer/FormItems";
 import { File } from "./_components/File";
+import { sosFileType } from "@/lib/file";
 
 interface Props extends basicFieldProps {
   disabled?: boolean;
@@ -50,7 +51,7 @@ export const FilesField = (props: Props) => {
     } else if (
       extensionsRegex &&
       files &&
-      [...Array(fileNumber)].some((_, i) => !extensionsRegex.test(files[i].name))
+      [...Array(fileNumber)].some((_, i) => files[i].type !== sosFileType && !extensionsRegex.test(files[i].name))
     ) {
       // ファイルの拡張子の検証
       message = `ファイルの拡張子は${props.extensions?.join("、")}のいずれかにしてください`;
@@ -255,7 +256,7 @@ export const FilesField = (props: Props) => {
                 return;
               }
 
-              const error = extensionsRegex ? !extensionsRegex.test(file.name) : false;
+              const error = extensionsRegex && file.type !== sosFileType ? !extensionsRegex.test(file.name) : false;
               return (
                 <File
                   key={fileIds[i]}
