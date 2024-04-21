@@ -5,7 +5,7 @@ import { css, cva } from "@styled-system/css";
 import { basicFieldProps } from "./_components/types";
 import { basicFormLabelStyle, checkboxFormStyle } from "./styles";
 import { RequiredBadge } from "./_components/RequiredBadge";
-import { FormFieldsType } from "@/app/forms/[form_id]/FormItems";
+import { FormFieldsType } from "@/common_components/form_answer/FormItems";
 
 interface Props extends basicFieldProps {
   disabled?: boolean;
