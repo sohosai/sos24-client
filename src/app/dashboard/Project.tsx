@@ -1,16 +1,11 @@
 "use client";
 import { vstack } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
-import { hstack } from "@styled-system/patterns";
 import { useState } from "react";
 import { Button } from "@/common_components/Button";
 import { ProjectTableView } from "@/common_components/project/ProjectView";
 import { basicErrorMessageStyle } from "@/common_components/formFields/styles";
 import { RegistrationProgress } from "@/common_components/RegistrationProgress";
-import formIcon from "@/assets/NotebookIcon.svg?url";
-import warningIcon from "@/assets/Warning.svg?url";
-import Image from "next/image";
-import Link from "next/link";
 import { components } from "@/schema";
 
 interface Props {
@@ -81,54 +76,5 @@ export const Project: React.FC<Props> = ({ projectData, step }) => {
       {/*   )} */}
       {/* </div> */}
     </>
-  );
-};
-
-interface FormItemProps {
-  id: string;
-  title: string;
-  done?: boolean;
-}
-
-const FormItem = ({ id, title, done = false }: FormItemProps) => {
-  return (
-    <Link href={`/forms/${id}`} className={css({ display: "block", width: "100%", position: "relative" })}>
-      {done || (
-        <div
-          className={css({
-            position: "absolute",
-            top: -3,
-            left: 0,
-          })}>
-          <Image src={warningIcon} alt="" />
-        </div>
-      )}
-      <div
-        className={hstack({
-          width: "full",
-          gap: 4,
-          borderWidth: 3,
-          borderStyle: "solid",
-          borderRadius: 9,
-          paddingX: 4,
-          paddingY: 4,
-
-          cursor: "pointer",
-          borderColor: "gray.400",
-          transition: "all 0.2s",
-          "&:hover": {
-            background: "gray.200",
-          },
-        })}>
-        <Image src={formIcon} alt="" />
-        <span
-          className={css({
-            fontSize: "md",
-            fontWeight: "bold",
-          })}>
-          {title}
-        </span>
-      </div>
-    </Link>
   );
 };
