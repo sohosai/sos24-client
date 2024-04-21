@@ -17,6 +17,7 @@ import { Button } from "@/common_components/Button";
 import { deleteAllUploadedFiles, postFiles } from "@/lib/postFile";
 import { components } from "@/schema";
 import { FileView } from "@/common_components/FileView";
+import { NotFound } from "@/common_components/NotFound";
 
 export const runtime = "edge";
 
@@ -128,6 +129,16 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
       .map((item) => [item.id, null]),
   );
   const [files, setFiles] = useState(filesState);
+
+  if (formError) {
+    switch (formError.name) {
+      case "form/not-found":
+      case "form/invalid-uuid":
+        return <NotFound message="申請が見つかりません" />;
+      default:
+        return "申請の読み込み中にエラーが発生しました";
+    }
+  }
 
   return (
     <>
