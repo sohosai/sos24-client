@@ -129,7 +129,10 @@ const userEmailSchema = string([
 
 const userPasswordSchema = string([minLength(1, "パスワードを入力してください")]);
 
-const userPhoneNumberSchema = string([minLength(1, "電話番号を入力してください")]);
+const userPhoneNumberSchema = string([
+  minLength(1, "電話番号を入力してください"),
+  regex(/^[0-9]+$/, "数字のみで入力してください"),
+]);
 
 const userAgreementSchema = literal(true, "利用規約に同意してください");
 
