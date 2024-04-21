@@ -15,7 +15,9 @@ import { useRouter } from "next/navigation";
 import { ProjectCategorySelector } from "@/common_components/ProjectCategorySelector";
 import { TitleField } from "@/common_components/news/TitleField";
 import { BodyField } from "@/common_components/news/BodyField";
-import { Heading } from "@/common_components/Heading";
+import { FilesField } from "@/common_components/formFields/Files";
+import { FileErrorsType, FilesFormType } from "@/common_components/form_answer/FormItems";
+import { deleteAllUploadedFiles, postFiles } from "@/lib/postFile";
 
 export const EditNewsForm: FC<{
   news_id: string;
@@ -32,7 +34,10 @@ export const EditNewsForm: FC<{
     resolver: valibotResolver(UpdateNewsSchema),
   });
 
-  const { data, error, isLoading } = useSWR(`/news/${news_id}`);
+  const [attachments, setAttachments] = useState<FilesFormType>(new Map([["attachments", null]]));
+  const [fileErrors, setFileErrors] = useState<FileErrorsType>(new Map([["attachments", null]]));
+
+  const { data, error, isLoading, mutate } = useSWR(`/news/${news_id}`);
   if (isLoading) {
     return;
   }
@@ -55,8 +60,12 @@ export const EditNewsForm: FC<{
       categories: news.categories,
     });
   }
-
   const onSubmit = async (data: UpdateNewsSchemaType) => {
+    if (fileErrors.get("attachments")) {
+      toast.error("添付ファイルを正しく選択してください");
+      return;
+    }
+    const fileIds = await postFiles("public", attachments);
     const categories = data.categories.length === 0 ? projectCategories : data.categories;
     client
       .PUT(`/news/{news_id}`, {
@@ -66,19 +75,22 @@ export const EditNewsForm: FC<{
           body: data.body,
           categories: categories as components["schemas"]["ProjectCategory"][],
           attributes: [...projectAttributes] as components["schemas"]["ProjectAttribute"][],
-          attachments: [],
+          attachments: fileIds ? fileIds["attachments"] ?? [] : [],
         },
       })
       .then(({ error }) => {
         if (error) {
+          fileIds && deleteAllUploadedFiles(fileIds);
           toast.error(`お知らせ保存中にエラーが発生しました`);
           return;
         }
 
         toast.success("お知らせを保存しました");
+        mutate();
         router.push(`/committee/news/${news_id}`);
       })
       .catch(() => {
+        fileIds && deleteAllUploadedFiles(fileIds);
         toast.error(`お知らせ保存中にエラーが発生しました`);
       });
   };
@@ -110,7 +122,13 @@ export const EditNewsForm: FC<{
       <ProjectCategorySelector register={register("categories")} error={errors.categories?.message} />
       <TitleField register={register("title")} error={errors.title?.message} />
       <BodyField register={register("body")} error={errors.body?.message} />
-      <Heading>添付ファイル</Heading>
+      <FilesField
+        register={register("attachments")}
+        id="attachments"
+        label="添付ファイル"
+        setErrorState={setFileErrors}
+        setFiles={setAttachments}
+      />
       <div className={center()}>
         <Button
           color="secondary"

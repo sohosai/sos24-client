@@ -1,4 +1,4 @@
-import { array, custom, literal, minLength, object, Output, picklist, regex, string, union } from "valibot";
+import { array, custom, literal, minLength, object, Output, picklist, regex, string, union, unknown } from "valibot";
 import Graphemer from "graphemer";
 
 /**
@@ -31,13 +31,13 @@ const projectTitleSchema = string([
 /**
  * @returns boolean: true if `str` is empty string
  */
-const isHiragana = (str: string): boolean => {
-  return /^[\u3040-\u309F\s]*$/.test(str);
+const isYomigana = (str: string): boolean => {
+  return /^[\u3040-\u309F\s\u30FC]*$/.test(str);
 };
 
 const projectKanaTitleSchema = string([
   minLength(1, "1文字以上で入力してください"),
-  custom((value) => isHiragana(value), "ひらがなで入力してください"),
+  custom((value) => isYomigana(value), "ひらがなで入力してください"),
 ]);
 
 const projectGroupName = string([
@@ -48,7 +48,7 @@ const projectGroupName = string([
 
 const projectKanaGroupName = string([
   minLength(1, "1文字以上で入力してください"),
-  custom((value) => isHiragana(value), "ひらがなで入力してください"),
+  custom((value) => isYomigana(value), "ひらがなで入力してください"),
 ]);
 
 export const projectCategories = [
@@ -119,7 +119,7 @@ const userNameSchema = string([minLength(1, "名前を入力してください")
 
 const userKanaNameSchema = string([
   minLength(1, "名前のふりがなを入力してください"),
-  regex(/^[ぁ-んー－゛゜]+$/, "ひらがなで入力してください"),
+  custom((input) => isYomigana(input), "ひらがなで入力してください"),
 ]);
 
 const userEmailSchema = string([
@@ -171,6 +171,8 @@ export const NewNewsSchema = object({
   title: newsTitleSchema,
   body: newsBodySchema,
   categories: newsCategories,
+  // FileListが入る
+  attachments: unknown(),
 });
 
 export type NewNewsSchemaType = Output<typeof NewNewsSchema>;
@@ -179,6 +181,8 @@ export const UpdateNewsSchema = object({
   title: newsTitleSchema,
   body: newsBodySchema,
   categories: newsCategories,
+  // FileListが入る
+  attachments: unknown(),
 });
 
 export type UpdateNewsSchemaType = Output<typeof UpdateNewsSchema>;
