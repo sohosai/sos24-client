@@ -2,13 +2,10 @@
 
 import { NextPage } from "next";
 import { NewsView } from "@/common_components/news/NewsView";
-import { container, flex, stack } from "@styled-system/patterns";
+import { container, stack } from "@styled-system/patterns";
 import { Title } from "@/common_components/Title";
-import Link from "next/link";
-import Image from "next/image";
 import { basicErrorMessageStyle } from "@/common_components/formFields/styles";
 
-import pulldownIcon from "@/assets/Pulldown.svg?url";
 import { css } from "@styled-system/css";
 import { Project } from "./Project";
 import { Forms } from "./Forms";
@@ -115,28 +112,7 @@ const DashboardPage: NextPage = () => {
             <div>
               <Title>お知らせ</Title>
             </div>
-            <div className={flex({ position: "relative", top: 14, justifyContent: "flex-end", width: "90%" })}>
-              <Link
-                href="/news"
-                className={flex({
-                  backgroundColor: "tsukuba.purple",
-                  borderRadius: 2,
-                  paddingX: 4,
-                  paddingY: 1,
-                  gap: 2,
-                })}>
-                <Image src={pulldownIcon} alt="" />
-                <span
-                  className={css({
-                    color: "white",
-                    fontSize: "xs",
-                    fontWeight: "bold",
-                  })}>
-                  お知らせ一覧へ
-                </span>
-              </Link>
-            </div>
-            <NewsView />
+            <NewsView isDashboard />
           </div>
         </div>
       </div>

@@ -67,7 +67,14 @@ export const FilterSelector: FC<{
   };
 
   return (
-    <fieldset className={hstack({})}>
+    <fieldset
+      className={css({
+        display: "flex",
+        gap: 2,
+        smDown: {
+          flexDirection: "column",
+        },
+      })}>
       {newsFilters.map((category) => (
         <FilterItem key={category} value={category} />
       ))}
