@@ -143,6 +143,13 @@ export const FilesField = (props: Props) => {
           <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
         )}
       </span>
+      <p
+        className={css({
+          fontSize: "sm",
+          color: "gray.500",
+        })}>
+        {props.description}
+      </p>
       <div
         role="form"
         onDragOver={(e) => {
