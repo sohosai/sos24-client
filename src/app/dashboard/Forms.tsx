@@ -23,15 +23,6 @@ export const Forms: React.FC<Props> = ({ formData }) => {
         },
         maxWidth: "2xl",
       })}>
-      {/* {false ? ( */}
-      {/*   <div className={basicErrorMessageStyle}>申請フォームの取得に失敗しました</div> */}
-      {/* ) : formIsLoading || !formData ? ( */}
-      {/*   "Loading" */}
-      {/* ) : ( */}
-      {/*   formData.map((data) => ( */}
-      {/*     <FormItem id={data.id} title={data.title} done={data.answer_id !== null} key={data.id} /> */}
-      {/*   )) */}
-      {/* )} */}
       {formData.map((data) => (
         <FormItem id={data.id} title={data.title} done={data.answer_id !== null} key={data.id} />
       ))}
