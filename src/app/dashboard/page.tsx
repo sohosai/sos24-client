@@ -15,6 +15,7 @@ import useSWR from "swr";
 import { useRouter } from "next/navigation";
 
 const DashboardPage: NextPage = () => {
+  let step: 1 | 2 | 3 | 4 | 5 = 2;
   const {
     data: rawProjectData,
     error: projectErr,
@@ -22,6 +23,14 @@ const DashboardPage: NextPage = () => {
     // mutate: mutateProject,
   } = useSWR("/projects/me");
   const projectData = assignType("/projects/me", rawProjectData);
+
+  const {
+    data: rawFormData,
+    error: formErr,
+    isLoading: formIsLoading,
+    // mutate: mutateForm,
+  } = useSWR(projectIsLoading ? null : `/forms?project_id=${projectData.id}`);
+  const formData = assignType("/forms", rawFormData);
 
   const router = useRouter();
   if (projectIsLoading) return;
@@ -31,27 +40,52 @@ const DashboardPage: NextPage = () => {
     return;
   }
 
+  if (!formIsLoading && formData) {
+    let hasAnsweredEveryForm = true;
+    let hasAnsweredOathForm = false;
+    for (const data of formData) {
+      if (data.title === "誓約書提出フォーム") {
+        hasAnsweredOathForm = data.answer_id !== null;
+      } else if (data.answer_id === null) {
+        hasAnsweredEveryForm = false;
+      }
+    }
+
+    if (hasAnsweredEveryForm) {
+      if (hasAnsweredOathForm) {
+        step = projectData.sub_owner_id !== null ? 5 : 4;
+      } else {
+        step = 3;
+      }
+    } else {
+      step = 2;
+    }
+  }
+
   return (
     <>
-      {/* <div */}
-      {/*   className={css({ */}
-      {/*     color: "white", */}
-      {/*     background: "error", */}
-      {/*     width: "100%", */}
-      {/*     maxWidth: "40rem", */}
-      {/*     marginInline: "auto", */}
-      {/*     textAlign: "center", */}
-      {/*     paddingY: 4, */}
-      {/*   })}> */}
-      {/*   まだ企画応募は完了していません */}
-      {/* </div> */}
+      {!formIsLoading &&
+        (step === 5 || (
+          <div
+            className={css({
+              color: "white",
+              background: "error",
+              width: "100%",
+              maxWidth: "40rem",
+              marginInline: "auto",
+              textAlign: "center",
+              paddingY: 4,
+            })}>
+            まだ企画応募は完了していません
+          </div>
+        ))}
       <div className={container()}>
         <div className={stack({ gap: 8, marginY: 8 })}>
           <div className={stack({ gap: 6, alignItems: "center" })}>
             <div>
               <Title>企画応募</Title>
             </div>
-            <Project />
+            <Project projectData={projectData} />
           </div>
           <div className={stack({ gap: 6, alignItems: "center" })}>
             <div>
