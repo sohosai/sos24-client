@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  PROJECT_NAME: ${{ vars.CLOUDFLARE_BETA_PROJECT_NAME }}
+  PROJECT_NAME:  ${{ vars.CLOUDFLARE_BETA_PROJECT_NAME }}
   PRODUCTION_BRANCH: develop
 
 jobs:
