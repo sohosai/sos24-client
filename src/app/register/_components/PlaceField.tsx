@@ -56,7 +56,7 @@ export const PlaceField = ({ categoryType, register, error }: PlaceFieldProps) =
         <PlaceFieldItem
           value="inside"
           label="屋内"
-          caption="調理：× 火気の使用：× 雨天時：◎"
+          caption="調理：◯ 火気の使用：× 雨天時：◎"
           register={register}
           disabled={categoryType === "stage"}
           icon={<Inside />}
