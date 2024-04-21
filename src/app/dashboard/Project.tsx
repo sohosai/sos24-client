@@ -1,12 +1,10 @@
 "use client";
 import { vstack } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
-import { stack, hstack } from "@styled-system/patterns";
+import { hstack } from "@styled-system/patterns";
 import { useState } from "react";
 import { Button } from "@/common_components/Button";
 import { ProjectTableView } from "@/common_components/project/ProjectView";
-import { assignType } from "@/lib/openapi";
-import useSWR from "swr";
 import { basicErrorMessageStyle } from "@/common_components/formFields/styles";
 import { RegistrationProgress } from "@/common_components/RegistrationProgress";
 import formIcon from "@/assets/NotebookIcon.svg?url";
@@ -17,41 +15,11 @@ import { components } from "@/schema";
 
 interface Props {
   projectData: components["schemas"]["Project"];
+  step: 1 | 2 | 3 | 4 | 5;
 }
 
-export const Project: React.FC<Props> = ({ projectData }) => {
+export const Project: React.FC<Props> = ({ projectData, step }) => {
   const [editable, setEditable] = useState(false);
-  let step: 1 | 2 | 3 | 4 | 5 = 2;
-
-  const {
-    data: rawFormData,
-    error: formErr,
-    isLoading: formIsLoading,
-    // mutate: mutateForm,
-  } = useSWR(true ? null : `/forms?project_id=${projectData.id}`);
-  const formData = assignType("/forms", rawFormData);
-
-  if (!formIsLoading && formData) {
-    let hasAnsweredEveryForm = true;
-    let hasAnsweredOathForm = false;
-    for (const data of formData) {
-      if (data.title === "誓約書提出フォーム") {
-        hasAnsweredOathForm = data.answer_id !== null;
-      } else if (data.answer_id === null) {
-        hasAnsweredEveryForm = false;
-      }
-    }
-
-    if (hasAnsweredEveryForm) {
-      if (hasAnsweredOathForm) {
-        step = projectData.sub_owner_id !== null ? 5 : 4;
-      } else {
-        step = 3;
-      }
-    } else {
-      step = 2;
-    }
-  }
 
   return (
     <>
@@ -75,47 +43,43 @@ export const Project: React.FC<Props> = ({ projectData }) => {
             {editable ? "保存" : "編集"}する
           </Button>
         )}
-        {true ? (
-          "Loading"
-        ) : (
-          <>
-            {false ? (
-              <div className={basicErrorMessageStyle}>企画取得に失敗しました</div>
-            ) : (
-              <>
-                <ProjectTableView
-                  isEditMode={editable}
-                  onSubmit={() => {
-                    // mutateProject(rawProjectData);
-                    setEditable(false);
-                  }}
-                  projectData={projectData}
-                />
-              </>
-            )}
-          </>
-        )}
+        <>
+          {false ? (
+            <div className={basicErrorMessageStyle}>企画取得に失敗しました</div>
+          ) : (
+            <>
+              <ProjectTableView
+                isEditMode={editable}
+                onSubmit={() => {
+                  // mutateProject(rawProjectData);
+                  setEditable(false);
+                }}
+                projectData={projectData}
+              />
+            </>
+          )}
+        </>
       </div>
-      <div
-        className={stack({
-          width: "4/5",
-          flex: 1,
-          gap: 6,
-          md: {
-            alignItems: "center",
-          },
-          maxWidth: "2xl",
-        })}>
-        {formErr ? (
-          <div className={basicErrorMessageStyle}>申請フォームの取得に失敗しました</div>
-        ) : formIsLoading || !formData ? (
-          "Loading"
-        ) : (
-          formData.map((data) => (
-            <FormItem id={data.id} title={data.title} done={data.answer_id !== null} key={data.id} />
-          ))
-        )}
-      </div>
+      {/* <div */}
+      {/*   className={stack({ */}
+      {/*     width: "4/5", */}
+      {/*     flex: 1, */}
+      {/*     gap: 6, */}
+      {/*     md: { */}
+      {/*       alignItems: "center", */}
+      {/*     }, */}
+      {/*     maxWidth: "2xl", */}
+      {/*   })}> */}
+      {/*   {formErr ? ( */}
+      {/*     <div className={basicErrorMessageStyle}>申請フォームの取得に失敗しました</div> */}
+      {/*   ) : formIsLoading || !formData ? ( */}
+      {/*     "Loading" */}
+      {/*   ) : ( */}
+      {/*     formData.map((data) => ( */}
+      {/*       <FormItem id={data.id} title={data.title} done={data.answer_id !== null} key={data.id} /> */}
+      {/*     )) */}
+      {/*   )} */}
+      {/* </div> */}
     </>
   );
 };

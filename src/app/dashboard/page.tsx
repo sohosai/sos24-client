@@ -10,6 +10,7 @@ import Image from "next/image";
 import pulldownIcon from "@/assets/Pulldown.svg?url";
 import { css } from "@styled-system/css";
 import { Project } from "./Project";
+import { Forms } from "./Forms";
 import { assignType } from "@/lib/openapi";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
@@ -20,7 +21,7 @@ const DashboardPage: NextPage = () => {
     data: rawProjectData,
     error: projectErr,
     isLoading: projectIsLoading,
-    // mutate: mutateProject,
+    mutate: mutateProject,
   } = useSWR("/projects/me");
   const projectData = assignType("/projects/me", rawProjectData);
 
@@ -85,7 +86,10 @@ const DashboardPage: NextPage = () => {
             <div>
               <Title>企画応募</Title>
             </div>
-            <Project projectData={projectData} />
+            <Project projectData={projectData} step={step} />
+          </div>
+          <div className={stack({ gap: 6, alignItems: "center" })}>
+            <Forms projectData={projectData} />
           </div>
           <div className={stack({ gap: 6, alignItems: "center" })}>
             <div>
