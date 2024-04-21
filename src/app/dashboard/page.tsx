@@ -6,6 +6,7 @@ import { container, flex, stack } from "@styled-system/patterns";
 import { Title } from "@/common_components/Title";
 import Link from "next/link";
 import Image from "next/image";
+import { basicErrorMessageStyle } from "@/common_components/formFields/styles";
 
 import pulldownIcon from "@/assets/Pulldown.svg?url";
 import { css } from "@styled-system/css";
@@ -89,7 +90,13 @@ const DashboardPage: NextPage = () => {
             <Project projectData={projectData} step={step} />
           </div>
           <div className={stack({ gap: 6, alignItems: "center" })}>
-            <Forms projectData={projectData} />
+            {formErr ? (
+              <div className={basicErrorMessageStyle}>申請フォームの取得に失敗しました</div>
+            ) : formIsLoading || !formData ? (
+              "Loading"
+            ) : (
+              <Forms formData={formData} />
+            )}
           </div>
           <div className={stack({ gap: 6, alignItems: "center" })}>
             <div>
