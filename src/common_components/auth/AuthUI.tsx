@@ -16,7 +16,7 @@ export const AuthUI: FC<PropsWithChildren> = ({ children }) => {
   const authState = useAuthState();
   const path = usePathname();
   if (path === "/how-to-use") {
-    return;
+    return children;
   }
 
   return (
