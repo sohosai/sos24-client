@@ -87,7 +87,17 @@ const DashboardPage: NextPage = () => {
             <div>
               <Title>企画応募</Title>
             </div>
-            <Project projectData={projectData} step={step} />
+            {projectErr ? (
+              <div className={basicErrorMessageStyle}>企画取得に失敗しました</div>
+            ) : (
+              <Project
+                projectData={projectData}
+                mutation={() => {
+                  mutateProject(rawProjectData);
+                }}
+                step={step}
+              />
+            )}
           </div>
           <div className={stack({ gap: 6, alignItems: "center" })}>
             {formErr ? (
