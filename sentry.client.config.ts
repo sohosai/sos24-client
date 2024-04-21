@@ -15,6 +15,8 @@ Sentry.init({
   replaysSessionSampleRate: 0.1,
   replaysOnErrorSampleRate: 1.0,
 
+  enabled: process.env.NODE_ENV !== "development",
+
   // ...
 
   // Note: if you want to override the automatic release value, do not set a
