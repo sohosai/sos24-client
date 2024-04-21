@@ -1,11 +1,9 @@
 import { css } from "@styled-system/css";
 import { UseFormRegisterReturn } from "react-hook-form";
 
-import categoryIcon from "@/assets/CategoryIcon.svg?url";
-import Image from "next/image";
 import { basicErrorMessageStyle, basicFormLabelStyle } from "@/common_components/formFields/styles";
-import { flex, stack, visuallyHidden } from "@styled-system/patterns";
-import React from "react";
+import { center, flex, stack, visuallyHidden } from "@styled-system/patterns";
+import React, { ReactElement } from "react";
 import { Separator } from "@/common_components/Separator";
 
 interface CategoryItem {
@@ -13,6 +11,7 @@ interface CategoryItem {
   value: string;
   hasTopSpacer: boolean;
   badges: BadgeProps[];
+  icon: ReactElement;
 }
 
 interface CategoryFieldProps {
@@ -32,7 +31,13 @@ export const CategoryField = ({ items, register, error }: CategoryFieldProps) =>
         {items.map((item) => (
           <React.Fragment key={item.value}>
             {item.hasTopSpacer && <Separator />}
-            <CategoryFieldItem label={item.label} value={item.value} register={register} badges={item.badges} />
+            <CategoryFieldItem
+              label={item.label}
+              value={item.value}
+              register={register}
+              badges={item.badges}
+              icon={item.icon}
+            />
           </React.Fragment>
         ))}
       </div>
@@ -46,9 +51,10 @@ interface CategoryFieldItemProps {
   value: string;
   register: UseFormRegisterReturn;
   badges: BadgeProps[];
+  icon: ReactElement;
 }
 
-const CategoryFieldItem = ({ label, value, register, badges }: CategoryFieldItemProps) => {
+const CategoryFieldItem = ({ label, value, register, badges, icon }: CategoryFieldItemProps) => {
   return (
     <label
       key={value}
@@ -71,7 +77,9 @@ const CategoryFieldItem = ({ label, value, register, badges }: CategoryFieldItem
         },
       })}>
       <input type="radio" value={value} {...register} className={visuallyHidden()} />
-      <Image src={categoryIcon} alt="" />
+      <div className={center({ width: 14, background: "tsukuba.purple", borderRadius: "full", padding: 2 })}>
+        {icon}
+      </div>
       <div
         className={css({
           base: {
