@@ -21,6 +21,7 @@ export const AuthProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
         errorRetryCount: 2,
         onErrorRetry: (error) => {
           if (error.status === 404) return;
+          authState.user?.getIdToken(true);
         },
       }}>
       <AuthUI>{children}</AuthUI>

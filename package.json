@@ -16,6 +16,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
     "@radix-ui/themes": "^2.0.3",
+    "@sentry/nextjs": "^7.111.0",
     "dayjs": "^1.11.10",
     "firebase": "^10.9.0",
     "graphemer": "^1.4.0",

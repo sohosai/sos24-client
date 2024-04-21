@@ -10,7 +10,11 @@ import { Route } from "next";
 import { Button } from "@/common_components/Button";
 import { css } from "@styled-system/css";
 import Image from "next/image";
+import Link from "next/link";
 import plusIcon from "@/assets/Plus.svg?url";
+import pulldownIcon from "@/assets/Pulldown.svg?url";
+import { useAtomValue } from "jotai";
+import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
 
 // 対象の企画であるかを確認する
 const isTargetProject = (
@@ -39,7 +43,8 @@ const filterNews = (
 
 export const NewsView: FC<{
   isCommittee?: boolean;
-}> = ({ isCommittee }) => {
+  isDashboard?: boolean;
+}> = ({ isCommittee, isDashboard = false }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -51,6 +56,7 @@ export const NewsView: FC<{
     },
     [searchParams],
   );
+  const applicationPeriod = useAtomValue(projectApplicationPeriodAtom);
 
   const filterParams = (searchParams.get("news_cateogry") ?? "me") as "me" | "all";
   const defaultFilter = newsFilters.includes(filterParams) ? filterParams : "me";
@@ -78,34 +84,68 @@ export const NewsView: FC<{
       <div
         className={flex({
           justifyContent: isCommittee ? "end" : "space-between",
+          alignItems: "center",
         })}>
         {!isCommittee && (
-          <FilterSelector
-            filter={filter}
-            setFilter={(filter) => {
-              setFilter(filter);
-              router.push((pathname + "?" + createQueryString("news_category", filter)) as Route);
-            }}
-          />
+          <>
+            <FilterSelector
+              filter={filter}
+              setFilter={(filter) => {
+                setFilter(filter);
+                router.push((pathname + "?" + createQueryString("news_category", filter)) as Route);
+              }}
+            />
+
+            {isDashboard && !applicationPeriod.isIn && (
+              <Link
+                href="/news"
+                className={flex({
+                  backgroundColor: "tsukuba.purple",
+                  borderRadius: 2,
+                  paddingX: 4,
+                  paddingY: 1,
+                  gap: 2,
+                })}>
+                <Image
+                  src={pulldownIcon}
+                  alt=""
+                  className={css({
+                    display: "block",
+                    height: "auto",
+                  })}
+                />
+                <span
+                  className={css({
+                    color: "white",
+                    fontSize: "xs",
+                    fontWeight: "bold",
+                  })}>
+                  お知らせ一覧へ
+                </span>
+              </Link>
+            )}
+          </>
         )}
         {isCommittee && (
-          <Button
-            color="blue"
-            onClick={() => router.push("/committee/news/new")}
-            className={flex({
-              alignItems: "center",
-              gap: 2,
-              paddingX: 6,
-            })}>
-            <Image src={plusIcon} alt="" />
-            <span
-              className={css({
-                fontSize: "xs",
-                fontWeight: "bold",
+          <>
+            <Button
+              color="blue"
+              onClick={() => router.push("/committee/news/new")}
+              className={flex({
+                alignItems: "center",
+                gap: 2,
+                paddingX: 6,
               })}>
-              新規作成
-            </span>
-          </Button>
+              <Image src={plusIcon} alt="" />
+              <span
+                className={css({
+                  fontSize: "xs",
+                  fontWeight: "bold",
+                })}>
+                新規作成
+              </span>
+            </Button>
+          </>
         )}
       </div>
       <NewsList newsList={filteredNewsList} isCommittee={isCommittee} />

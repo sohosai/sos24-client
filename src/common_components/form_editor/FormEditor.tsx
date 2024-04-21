@@ -12,7 +12,7 @@ import { components } from "@/schema";
 import dayjs from "dayjs";
 import { postFiles } from "@/lib/postFile";
 import toast from "react-hot-toast";
-import { FilesFormType, FileErrorsType } from "@/app/forms/[form_id]/FormItems";
+import { FilesFormType, FileErrorsType } from "@/common_components/form_answer/FormItems";
 import { FilesField } from "@/common_components/formFields/Files";
 import { Button, buttonStyle } from "@/recipes/button";
 
