@@ -4,6 +4,7 @@ import React, { ReactNode } from "react";
 
 const tableCellStyle = css({
   base: {
+    fontSize: "sm",
     paddingInlineStart: 2,
     paddingInlineEnd: 0,
     paddingY: 4,
