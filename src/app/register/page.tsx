@@ -25,7 +25,8 @@ const RegisterPage = () => {
     router.push("/dashboard");
   }
   const applicationPeriod = assignType("/project-application-period", _applicationPeriod);
-  const isApplicationPeriod = dayjs().isBefore(applicationPeriod.end_at) && dayjs().isAfter(applicationPeriod.start_at);
+  const isInApplicationPeriod =
+    dayjs().isBefore(applicationPeriod.end_at) && dayjs().isAfter(applicationPeriod.start_at);
   return (
     <div>
       <div
@@ -35,7 +36,7 @@ const RegisterPage = () => {
           marginY: 8,
         })}>
         <Title>企画登録</Title>
-        {isApplicationPeriod ? (
+        {isInApplicationPeriod ? (
           <>
             <div
               className={css({
