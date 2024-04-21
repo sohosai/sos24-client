@@ -17,6 +17,7 @@ export const CategoryBadges: FC<{
     display: "flex",
     alignItems: "center",
     alignContent: "center",
+    width: "fit-content",
     smDown: {
       gridColumn: "2/3",
       gridRow: "1/2",
