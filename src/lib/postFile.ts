@@ -1,6 +1,6 @@
 import { getAuth } from "firebase/auth";
 import { paths } from "@/schema";
-import { FilesFormType } from "@/app/forms/[form_id]/FormItems";
+import { FilesFormType } from "@/common_components/form_answer/FormItems";
 import { client } from "./openapi";
 import { sosFileType } from "./file";
 
@@ -48,19 +48,21 @@ export const postFiles = async (visibility: Visibilities, files: FilesFormType) 
     }
 
     const alreadyUploaded: string[] = [];
+
     const ids = (
       await Promise.all(
         [...Array(file[1].length)]
-          .filter((_, i) => {
+          .map((_, i) => i)
+          .filter((i, _) => {
             const f = file[1]?.item(i);
-            if (f?.type === sosFileType) {
+            if (f && f.type === sosFileType) {
               alreadyUploaded.push(f?.name);
               return false;
             } else {
               return true;
             }
           })
-          .map(async (_, i) => {
+          .map(async (i, _) => {
             const f = file[1]?.item(i);
             if (!f) {
               return;
