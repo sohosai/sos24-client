@@ -101,6 +101,7 @@ export const SignupForm = () => {
           パスワード
         </label>
         <input type="password" id="password" className={cx(basicFormStyle())} {...register("password")} />
+        <span className={css({ fontSize: "sm", color: "gray.600" })}>6字以上で入力してください</span>
         {errors.password && <span className={basicErrorMessageStyle}>{errors.password.message}</span>}
       </div>
       <div className={labelAndInputStyle}>
