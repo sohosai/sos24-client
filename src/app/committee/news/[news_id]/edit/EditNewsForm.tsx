@@ -16,7 +16,7 @@ import { ProjectCategorySelector } from "@/common_components/ProjectCategorySele
 import { TitleField } from "@/common_components/news/TitleField";
 import { BodyField } from "@/common_components/news/BodyField";
 import { FilesField } from "@/common_components/formFields/Files";
-import { FileErrorsType, FilesFormType } from "@/app/forms/[form_id]/FormItems";
+import { FileErrorsType, FilesFormType } from "@/common_components/form_answer/FormItems";
 import { deleteAllUploadedFiles, postFiles } from "@/lib/postFile";
 
 export const EditNewsForm: FC<{
