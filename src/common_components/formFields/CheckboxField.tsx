@@ -1,13 +1,14 @@
 import { FC } from "react";
 import { UseFormGetValues, UseFormRegisterReturn, UseFormSetValue } from "react-hook-form";
 
-import { css } from "@styled-system/css";
+import { css, cva } from "@styled-system/css";
 import { basicFieldProps } from "./_components/types";
 import { basicFormLabelStyle, checkboxFormStyle } from "./styles";
 import { RequiredBadge } from "./_components/RequiredBadge";
 import { FormFieldsType } from "@/app/forms/[form_id]/FormItems";
 
 interface Props extends basicFieldProps {
+  disabled?: boolean;
   register: UseFormRegisterReturn;
   getValues: UseFormGetValues<FormFieldsType>;
   setValue: UseFormSetValue<FormFieldsType>;
@@ -44,6 +45,8 @@ export const CheckboxField: FC<Props> = (props: Props) => {
                   value={option}
                   id={`${props.id}-${index}`}
                   className={checkboxFormStyle}
+                  checked={props.disabled ? JSON.parse(props.getValues(props.id) ?? "[]").includes(option) : undefined}
+                  disabled={props.disabled}
                   onChange={(e) => {
                     let checks = JSON.parse(String(props.getValues(props.id) ?? "[]")) as string[];
                     if (checks.includes(option)) {
@@ -58,12 +61,21 @@ export const CheckboxField: FC<Props> = (props: Props) => {
                 />
                 <label
                   htmlFor={`${props.id}-${index}`}
-                  className={css({
-                    paddingInline: 2,
-                    width: "100%",
-                    fontSize: 18,
-                    cursor: "pointer",
-                  })}>
+                  className={cva({
+                    base: {
+                      paddingInline: 2,
+                      width: "100%",
+                      fontSize: 18,
+                      cursor: "pointer",
+                    },
+                    variants: {
+                      isDisabled: {
+                        true: {
+                          cursor: "unset",
+                        },
+                      },
+                    },
+                  })({ isDisabled: props.disabled })}>
                   {option}
                 </label>
               </div>
