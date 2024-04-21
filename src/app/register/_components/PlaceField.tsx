@@ -5,6 +5,7 @@ import { UseFormRegisterReturn } from "react-hook-form";
 import { basicErrorMessageStyle, basicFormLabelStyle } from "@/common_components/formFields/styles";
 import { flex, hstack, stack, visuallyHidden } from "@styled-system/patterns";
 import { ProjectPlace } from "@/lib/valibot";
+import { ReactElement } from "react";
 
 export type CategoryType = "general" | "stage" | "none";
 
@@ -70,6 +71,7 @@ interface PlaceFieldItemProps {
   caption?: string;
   register: UseFormRegisterReturn;
   disabled: boolean;
+  icon: ReactElement;
 }
 
 const PlaceFieldItem = ({ label, value, caption, register, disabled }: PlaceFieldItemProps) => {
