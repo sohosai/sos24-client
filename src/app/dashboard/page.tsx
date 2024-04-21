@@ -30,16 +30,19 @@ const DashboardPage: NextPage = () => {
     data: rawFormData,
     error: formErr,
     isLoading: formIsLoading,
-    // mutate: mutateForm,
-  } = useSWR(projectIsLoading ? null : `/forms?project_id=${projectData.id}`);
+  } = useSWR(projectIsLoading && !projectData ? null : `/forms?project_id=${projectData?.id}`);
   const formData = assignType("/forms", rawFormData);
 
   const router = useRouter();
   if (projectIsLoading) return;
-  if (projectErr) return <p>エラーが発生しました</p>;
-  if (!projectData.id) {
-    router.push("/register");
-    return;
+  if (projectErr) {
+    switch (projectErr.name) {
+      case "project/no-project-found":
+        router.push("/register");
+        return;
+      default:
+        return <p>エラーが発生しました</p>;
+    }
   }
 
   if (!formIsLoading && formData) {
