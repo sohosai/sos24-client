@@ -11,6 +11,8 @@ import { stack } from "@styled-system/patterns";
 import { NotificationBadge } from "@/common_components/NotificationBadge";
 import { useAtomValue } from "jotai";
 import { hiddenFormIdsAtom } from "./hiddenFormIds";
+import { useRouter } from "next/navigation";
+import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
 
 const DashboardPage: NextPage = () => {
   const { data: projectRes, error: projectResError, isLoading: projectResIsLoading } = useSWR("/projects/me");
@@ -37,6 +39,14 @@ const DashboardPage: NextPage = () => {
 
   const [isSubmittedShown, setIsSubmittedShown] = useState(true);
   const [isHiddenFormsShown, setIsHiddenFormsShown] = useState(false);
+
+  const applicationPeriod = useAtomValue(projectApplicationPeriodAtom);
+  const router = useRouter();
+
+  if (applicationPeriod.isIn) {
+    router.push("/dashboard");
+    return;
+  }
 
   if (isLoading) {
     return <div>Loading...</div>;

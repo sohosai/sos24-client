@@ -20,6 +20,8 @@ import { MobileMenu } from "./MobileMenu";
 import { HeaderMenuItems } from "./HeaderMenuItems";
 import { HeaderNavigation } from "./HeaderNavigation";
 import { components } from "@/schema";
+import { useAtom } from "jotai";
+import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
 
 export type MenuData = {
   path: Route;
@@ -94,13 +96,23 @@ export const Header: FC = () => {
   const auth = getAuth();
   const { data: userRes, isLoading: userIsLoading } = useSWR("/users/me");
   const userInfo = !userIsLoading ? assignType("/users/me", userRes) : undefined;
+
   const path = usePathname();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const menu = path.startsWith("/committee") ? menuForRole(userInfo?.role) : generalMenu;
 
   useEffect(() => {
     setShowMobileMenu(false);
   }, [path]);
+
+  const [applicationPeriod] = useAtom(projectApplicationPeriodAtom);
+
+  const menu = user
+    ? path.startsWith("/committee")
+      ? menuForRole(userInfo?.role)
+      : applicationPeriod.isIn
+        ? []
+        : generalMenu
+    : [];
 
   const handleSignOut = async () => {
     try {
@@ -133,7 +145,7 @@ export const Header: FC = () => {
           display: "block",
         },
       })}>
-      {showMobileMenu && (
+      {userInfo?.owned_project_id && showMobileMenu && (
         <MobileMenu
           menu={menu}
           isCommittee={["committee", "committee_operator", "administrator"].includes(userInfo?.role ?? "")}
@@ -154,7 +166,7 @@ export const Header: FC = () => {
             height: "100%",
           },
         })}>
-        {user ? (
+        {userInfo?.owned_project_id ? (
           <button
             className={css({
               display: "flex",
@@ -198,8 +210,9 @@ export const Header: FC = () => {
               _before: {
                 content: '"supported by"',
                 position: "absolute",
-                top: "-100%",
+                top: "-50%",
                 left: "-10%",
+                whiteSpace: "nowrap",
               },
               display: {
                 base: "none",
@@ -210,7 +223,11 @@ export const Header: FC = () => {
               marginLeft: "10px",
             })}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="https://www.sakura.ad.jp/brand-assets/images/logo-3.png" alt="" className={css({ height: 6 })} />
+            <img
+              src="https://s3.isk01.sakurastorage.jp/sos24-prod/sakura-logo.svg"
+              alt="SAKURA internet"
+              className={css({ height: 9, position: "relative", top: 1 })}
+            />
           </a>
           {(userInfo?.owned_project_id || path.startsWith("/committee")) && <HeaderMenuItems menu={menu} />}
         </div>
@@ -242,7 +259,7 @@ export const Header: FC = () => {
           </nav>
         )}
       </div>
-      {user && <HeaderNavigation menu={menu} />}
+      {userInfo?.owned_project_id && <HeaderNavigation menu={menu} />}
     </header>
   );
 };
