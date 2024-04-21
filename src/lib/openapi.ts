@@ -2,6 +2,7 @@ import type { paths } from "@/schema";
 import type { PathsWithMethod } from "openapi-typescript-helpers";
 import createClient, { Middleware } from "openapi-fetch";
 import { getAuth } from "firebase/auth";
+import { captureMessage } from "@sentry/nextjs";
 
 export const assignType = <P extends PathsWithMethod<paths, "get">>(path: P, response_json: any) => {
   type responses = paths[P]["get"]["responses"];
@@ -24,5 +25,16 @@ const authMiddleware: Middleware = {
   },
 };
 
+const sentryMiddleware: Middleware = {
+  async onResponse(res) {
+    if (!res.ok) {
+      const resErr = await res.json();
+      captureMessage(resErr.message);
+    }
+    return res;
+  },
+};
+
 export const client = createClient<paths>({ baseUrl: process.env.NEXT_PUBLIC_API_ENDPOINT });
 client.use(authMiddleware);
+client.use(sentryMiddleware);
