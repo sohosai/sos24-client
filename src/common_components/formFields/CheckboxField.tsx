@@ -26,6 +26,13 @@ export const CheckboxField: FC<Props> = (props: Props) => {
             <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
           )}
         </legend>
+        <p
+          className={css({
+            fontSize: "sm",
+            color: "gray.500",
+          })}>
+          {props.description}
+        </p>
         <div
           className={css({
             display: "flex",
