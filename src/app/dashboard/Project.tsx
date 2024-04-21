@@ -13,24 +13,22 @@ import formIcon from "@/assets/NotebookIcon.svg?url";
 import warningIcon from "@/assets/Warning.svg?url";
 import Image from "next/image";
 import Link from "next/link";
+import { components } from "@/schema";
 
-export const Project: React.FC = () => {
+interface Props {
+  projectData: components["schemas"]["Project"];
+}
+
+export const Project: React.FC<Props> = ({ projectData }) => {
   const [editable, setEditable] = useState(false);
   let step: 1 | 2 | 3 | 4 | 5 = 2;
-  const {
-    data: rawProjectData,
-    error: projectErr,
-    isLoading: projectIsLoading,
-    mutate: mutateProject,
-  } = useSWR("/projects/me");
-  const projectData = assignType("/projects/me", rawProjectData);
 
   const {
     data: rawFormData,
     error: formErr,
     isLoading: formIsLoading,
     // mutate: mutateForm,
-  } = useSWR(projectIsLoading ? null : `/forms?project_id=${projectData.id}`);
+  } = useSWR(true ? null : `/forms?project_id=${projectData.id}`);
   const formData = assignType("/forms", rawFormData);
 
   if (!formIsLoading && formData) {
@@ -77,18 +75,18 @@ export const Project: React.FC = () => {
             {editable ? "保存" : "編集"}する
           </Button>
         )}
-        {projectIsLoading ? (
+        {true ? (
           "Loading"
         ) : (
           <>
-            {projectErr ? (
+            {false ? (
               <div className={basicErrorMessageStyle}>企画取得に失敗しました</div>
             ) : (
               <>
                 <ProjectTableView
                   isEditMode={editable}
                   onSubmit={() => {
-                    mutateProject(rawProjectData);
+                    // mutateProject(rawProjectData);
                     setEditable(false);
                   }}
                   projectData={projectData}
