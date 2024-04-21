@@ -7,12 +7,18 @@ import { useAuthState } from "@/lib/firebase";
 import { Loading } from "@/common_components/Loading";
 import { css } from "@styled-system/css";
 import { EmailVerification } from "@/common_components/auth/EmailVerification";
+import { usePathname } from "next/navigation";
 
 export const authModeAtom = atom<"signIn" | "signUp">("signIn");
 
 export const AuthUI: FC<PropsWithChildren> = ({ children }) => {
   const authMode = useAtomValue(authModeAtom);
   const authState = useAuthState();
+  const path = usePathname();
+  if (path === "/how-to-use") {
+    return;
+  }
+
   return (
     <>
       <Header />
