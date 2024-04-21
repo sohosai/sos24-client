@@ -152,6 +152,13 @@ const userRoleSchema = union(
   "いずれかの権限を選択してください",
 );
 
+export const UpdateMeSchema = object({
+  email: userEmailSchema,
+  phone_number: userPhoneNumberSchema,
+});
+
+export type UpdateMeSchemaType = Output<typeof UpdateMeSchema>;
+
 export const UpdateUserSchema = object({
   name: userNameSchema,
   kana_name: userKanaNameSchema,

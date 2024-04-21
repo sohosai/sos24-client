@@ -20,6 +20,7 @@ export const TableRow = ({ label, children, formId }: { label: ReactNode; childr
   <div
     className={grid({
       columns: 2,
+      width: "full",
       _even: {
         backgroundColor: "gray.100",
       },

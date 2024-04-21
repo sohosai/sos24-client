@@ -8,6 +8,7 @@ Sentry.init({
   // We recommend adjusting this value in production
   tracesSampleRate: 1.0,
 
+  enabled: process.env.NODE_ENV !== "development",
   // ...
 
   // Note: if you want to override the automatic release value, do not set a

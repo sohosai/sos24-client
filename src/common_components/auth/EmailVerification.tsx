@@ -44,7 +44,7 @@ export const EmailVerification = () => {
           メールアドレスの確認をお願いします
         </h1>
         <section className={css({ color: "gray.700", textAlign: "justify" })}>
-          <p>登録されたメールアドレスに確認メールをお送りしています</p>
+          <p>{authState.user?.email}に確認メールをお送りしています</p>
           <p>メールに記載されたリンクをクリックして登録を完了してください</p>
           <p>
             受信できない場合、system@sohosai.comからのメールが迷惑メールフォルダに配信されていないかご確認してください

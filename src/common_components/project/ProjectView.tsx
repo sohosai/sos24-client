@@ -10,7 +10,7 @@ import { css } from "@styled-system/css";
 import React from "react";
 import { ProjectCategoryFormatter } from "@/common_components/ProjectCategoryFormatter";
 import { components } from "@/schema";
-import { TableRow } from "@/app/dashboard/TableRow";
+import { TableRow } from "@/common_components/TableRow";
 import { UserWithAddress } from "./UserWithAddress";
 import { ProjectAttributesBadge } from "./ProjectAttributesBadge";
 
