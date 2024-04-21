@@ -1,11 +1,12 @@
 import { css } from "@styled-system/css";
-import Image from "next/image";
-import categoryIcon from "@/assets/CategoryIcon.svg?url";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { basicErrorMessageStyle, basicFormLabelStyle } from "@/common_components/formFields/styles";
-import { flex, hstack, stack, visuallyHidden } from "@styled-system/patterns";
+import { center, flex, hstack, stack, visuallyHidden } from "@styled-system/patterns";
 import { ProjectPlace } from "@/lib/valibot";
 import { ReactElement } from "react";
+import Outside from "@/assets/Outside.svg";
+import Inside from "@/assets/Inside.svg";
+import Stage from "@/assets/Stage.svg";
 
 export type CategoryType = "general" | "stage" | "none";
 
@@ -50,6 +51,7 @@ export const PlaceField = ({ categoryType, register, error }: PlaceFieldProps) =
           caption="調理：◎ 火気の使用：◎ 雨天時：△"
           register={register}
           disabled={categoryType === "stage"}
+          icon={<Outside />}
         />
         <PlaceFieldItem
           value="inside"
@@ -57,8 +59,15 @@ export const PlaceField = ({ categoryType, register, error }: PlaceFieldProps) =
           caption="調理：× 火気の使用：× 雨天時：◎"
           register={register}
           disabled={categoryType === "stage"}
+          icon={<Inside />}
         />
-        <PlaceFieldItem value="stage" label="ステージ" register={register} disabled={categoryType === "general"} />
+        <PlaceFieldItem
+          value="stage"
+          label="ステージ"
+          register={register}
+          disabled={categoryType === "general"}
+          icon={<Stage />}
+        />
       </div>
       {error && <span className={basicErrorMessageStyle}>{error}</span>}
     </fieldset>
@@ -74,7 +83,7 @@ interface PlaceFieldItemProps {
   icon: ReactElement;
 }
 
-const PlaceFieldItem = ({ label, value, caption, register, disabled }: PlaceFieldItemProps) => {
+const PlaceFieldItem = ({ label, value, caption, register, disabled, icon }: PlaceFieldItemProps) => {
   return (
     <div
       key={value}
@@ -116,7 +125,9 @@ const PlaceFieldItem = ({ label, value, caption, register, disabled }: PlaceFiel
           },
         })}>
         <input type="radio" value={value} {...register} disabled={disabled} className={visuallyHidden()} />
-        <Image src={categoryIcon} alt="" />
+        <div className={center({ width: 14, background: "tsukuba.purple", borderRadius: "full", padding: 2 })}>
+          {icon}
+        </div>
         <span
           className={css({
             fontSize: "md",
