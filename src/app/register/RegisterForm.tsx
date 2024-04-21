@@ -112,7 +112,7 @@ export const RegisterForm = () => {
         attributes.push("inside");
         break;
       case "stage":
-        // do nothing
+        attributes.push("outside");
         break;
     }
 
