@@ -108,6 +108,7 @@ export const SignupForm = () => {
           パスワード
         </label>
         <input type="password" id="password" className={cx(basicFormStyle())} {...register("password")} />
+        <span className={css({ fontSize: "sm", color: "gray.600" })}>6字以上で入力してください</span>
         {errors.password && <span className={basicErrorMessageStyle}>{errors.password.message}</span>}
       </div>
       <div className={labelAndInputStyle}>
@@ -115,11 +116,19 @@ export const SignupForm = () => {
           電話番号
         </label>
         <input type="tel" id="phone_number" className={cx(basicFormStyle())} {...register("phone_number")} />
+        <span className={css({ fontSize: "sm", color: "gray.600" })}>ハイフンを抜いて数字のみで入力してください</span>
         {errors.phone_number && <span className={basicErrorMessageStyle}>{errors.phone_number.message}</span>}
       </div>
       <div className={css({ display: "flex", alignItems: "center", gap: 3 })}>
         <input type="checkbox" id="agreement" className={checkboxFormStyle} {...register("agreement")} />
-        <label htmlFor="agreement">利用規約に同意する</label>
+        <label htmlFor="agreement">
+          <a
+            href="https://s3.isk01.sakurastorage.jp/sos24-prod/雙峰祭オンラインシステム利用規約.pdf"
+            className={css({ textDecoration: "underline" })}>
+            利用規約
+          </a>
+          に同意する
+        </label>
       </div>
       {errors.agreement && <span className={basicErrorMessageStyle}>{errors.agreement.message}</span>}
       {errors.root && <span className={basicErrorMessageStyle}>{errors.root.message}</span>}

@@ -10,7 +10,7 @@ import logo from "@/assets/Logo.svg?url";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import MenuButton from "@/assets/MenuButton.svg?url";
 import CloseButton from "@/assets/CloseButton.svg?url";
 import { hstack } from "@styled-system/patterns";
@@ -20,6 +20,8 @@ import { MobileMenu } from "./MobileMenu";
 import { HeaderMenuItems } from "./HeaderMenuItems";
 import { HeaderNavigation } from "./HeaderNavigation";
 import { components } from "@/schema";
+import { useAtom } from "jotai";
+import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
 
 export type MenuData = {
   path: Route;
@@ -90,17 +92,38 @@ const menuForRole = (role?: components["schemas"]["UserRole"]): MenuData[] => {
 };
 
 export const Header: FC = () => {
+  const router = useRouter();
   const { user, isLoading } = useAuthState();
   const auth = getAuth();
   const { data: userRes, isLoading: userIsLoading } = useSWR("/users/me");
   const userInfo = !userIsLoading ? assignType("/users/me", userRes) : undefined;
+
   const path = usePathname();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const menu = path.startsWith("/committee") ? menuForRole(userInfo?.role) : generalMenu;
 
   useEffect(() => {
     setShowMobileMenu(false);
   }, [path]);
+
+  const [applicationPeriod] = useAtom(projectApplicationPeriodAtom);
+
+  const menu = user
+    ? path.startsWith("/committee")
+      ? menuForRole(userInfo?.role)
+      : applicationPeriod.isIn
+        ? [
+            {
+              path: "/register",
+              name: "企画応募",
+            } as MenuData,
+          ]
+        : generalMenu
+    : [
+        {
+          path: "/register",
+          name: "ログイン/新規登録",
+        } as MenuData,
+      ];
 
   const handleSignOut = async () => {
     toast.promise(
@@ -137,7 +160,7 @@ export const Header: FC = () => {
           display: "block",
         },
       })}>
-      {showMobileMenu && (
+      {userInfo?.owned_project_id && showMobileMenu && (
         <MobileMenu
           menu={menu}
           isCommittee={["committee", "committee_operator", "administrator"].includes(userInfo?.role ?? "")}
@@ -158,7 +181,7 @@ export const Header: FC = () => {
             height: "100%",
           },
         })}>
-        {user ? (
+        {userInfo?.owned_project_id ? (
           <button
             className={css({
               display: "flex",
@@ -202,8 +225,9 @@ export const Header: FC = () => {
               _before: {
                 content: '"supported by"',
                 position: "absolute",
-                top: "-100%",
+                top: "-50%",
                 left: "-10%",
+                whiteSpace: "nowrap",
               },
               display: {
                 base: "none",
@@ -214,7 +238,11 @@ export const Header: FC = () => {
               marginLeft: "10px",
             })}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="https://www.sakura.ad.jp/brand-assets/images/logo-3.png" alt="" className={css({ height: 6 })} />
+            <img
+              src="https://s3.isk01.sakurastorage.jp/sos24-prod/sakura-logo.svg"
+              alt="SAKURA internet"
+              className={css({ height: 9, position: "relative", top: 1 })}
+            />
           </a>
           {(userInfo?.owned_project_id || path.startsWith("/committee")) && <HeaderMenuItems menu={menu} />}
         </div>
@@ -245,8 +273,30 @@ export const Header: FC = () => {
             )}
           </nav>
         )}
+        {!user && (
+          <nav
+            className={css({
+              display: "flex",
+              alignItems: "stretch",
+              height: "100%",
+              justifyContent: "center",
+            })}>
+            <button
+              onClick={() => router.push("/register")}
+              className={css({
+                cursor: "pointer",
+                fontSize: "sm",
+                px: 5,
+                height: "100%",
+                borderX: "solid 1px token(colors.gray.200)",
+                display: { base: "none", lg: "block" },
+              })}>
+              ログイン/新規登録
+            </button>
+          </nav>
+        )}
       </div>
-      {user && <HeaderNavigation menu={menu} />}
+      <HeaderNavigation menu={menu} />
     </header>
   );
 };

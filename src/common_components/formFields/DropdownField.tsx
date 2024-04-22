@@ -17,6 +17,13 @@ export const DropdownField: FC<Props> = (props: Props) => {
           <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
         )}
       </label>
+      <p
+        className={css({
+          fontSize: "sm",
+          color: "gray.500",
+        })}>
+        {props.description}
+      </p>
       <select id={props.id} {...props.register} className={cx(basicFormStyle(), dropdownStyle)}>
         <option value="" hidden></option>
         {props.options.map((option) => {
@@ -28,13 +35,6 @@ export const DropdownField: FC<Props> = (props: Props) => {
         })}
       </select>
       <div className={css({ sm: { marginInline: 3 }, marginBlock: 1 })}>
-        <p
-          className={css({
-            fontSize: "sm",
-            color: "gray.500",
-          })}>
-          {props.description}
-        </p>
         {props.error && <span className={basicErrorMessageStyle}>{props.error}</span>}
       </div>
     </div>
