@@ -2,20 +2,11 @@
 
 ## Setup
 
-1. `.sentryclirc`を作成し、必要な情報を記述する。
+`.sentryclirc`を作成し、必要な情報を記述する。
 
-- `.sentryclirc.example`を参考にしてください。
+※ `.sentryclirc.example`を参考にしてください。
 
-> [!CAUTION]
-> `.sentryclirc`は、絶対にpushしてはいけません。
-
-2. 正常にエラーが通知できているかの確認をする。
-
-- `npm run dev`でローカルサーバーを起動し、`/sentry-example-page`のパスにアクセスします。
-
-- `Throw error!`と書かれたボタンを押します。
-
-- 正常に通知できていたら成功です。
+> [!CAUTION] > `.sentryclirc`は、絶対にpushしてはいけません。
 
 ## 注意事項
 
