@@ -4,7 +4,7 @@ import Image from "next/image";
 import { css, cva } from "@styled-system/css";
 import { basicFieldProps } from "./_components/types";
 
-import { basicErrorMessageStyle, basicFormLabelStyle } from "./styles";
+import { basicDescriptionStyle, basicErrorMessageStyle, basicFormLabelStyle } from "./styles";
 
 import { RequiredBadge } from "./_components/RequiredBadge";
 
@@ -143,13 +143,7 @@ export const FilesField = (props: Props) => {
           <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
         )}
       </span>
-      <p
-        className={css({
-          fontSize: "sm",
-          color: "gray.500",
-        })}>
-        {props.description}
-      </p>
+      <p className={basicDescriptionStyle}>{props.description}</p>
       <div
         role="form"
         onDragOver={(e) => {
