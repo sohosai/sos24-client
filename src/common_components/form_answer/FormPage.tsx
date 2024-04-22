@@ -102,7 +102,7 @@ export const FormPage = ({ answer, answerError, answerLoading, form, formError, 
                 })}>
                 {form.description}
               </p>
-              {form.attachments.length && (
+              {form.attachments.length > 0 && (
                 <>
                   <h3 className={css({ fontSize: "xl" })}>添付ファイル</h3>
                   {form.attachments.map((fileId, index) => (
