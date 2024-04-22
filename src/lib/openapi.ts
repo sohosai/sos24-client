@@ -27,11 +27,15 @@ const authMiddleware: Middleware = {
 
 const sentryMiddleware: Middleware = {
   async onResponse(res) {
-    if (res.status !== 404 && res.status !== 403 && res.status !== 401) {
-      const resErr = await res.json();
-      const err = new Error(resErr.message);
-      err.name = resErr.code;
-      captureException(err);
+    if (res.status !== 404 && res.status !== 403 && res.status !== 401 && !res.ok) {
+      try {
+        const resErr = await res.json();
+        const err = new Error(resErr.message);
+        err.name = resErr.code;
+        captureException(err);
+      } catch {
+        captureException(res);
+      }
     }
     return res;
   },
