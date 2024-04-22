@@ -10,7 +10,7 @@ import logo from "@/assets/Logo.svg?url";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import MenuButton from "@/assets/MenuButton.svg?url";
 import CloseButton from "@/assets/CloseButton.svg?url";
 import { hstack } from "@styled-system/patterns";
@@ -92,6 +92,7 @@ const menuForRole = (role?: components["schemas"]["UserRole"]): MenuData[] => {
 };
 
 export const Header: FC = () => {
+  const router = useRouter();
   const { user, isLoading } = useAuthState();
   const auth = getAuth();
   const { data: userRes, isLoading: userIsLoading } = useSWR("/users/me");
@@ -110,9 +111,19 @@ export const Header: FC = () => {
     ? path.startsWith("/committee")
       ? menuForRole(userInfo?.role)
       : applicationPeriod.isIn
-        ? []
+        ? [
+            {
+              path: "/register",
+              name: "企画応募",
+            } as MenuData,
+          ]
         : generalMenu
-    : [];
+    : [
+        {
+          path: "/register",
+          name: "ログイン/新規登録",
+        } as MenuData,
+      ];
 
   const handleSignOut = async () => {
     try {
@@ -258,8 +269,30 @@ export const Header: FC = () => {
             )}
           </nav>
         )}
+        {!user && (
+          <nav
+            className={css({
+              display: "flex",
+              alignItems: "stretch",
+              height: "100%",
+              justifyContent: "center",
+            })}>
+            <button
+              onClick={() => router.push("/register")}
+              className={css({
+                cursor: "pointer",
+                fontSize: "sm",
+                px: 5,
+                height: "100%",
+                borderX: "solid 1px token(colors.gray.200)",
+                display: { base: "none", lg: "block" },
+              })}>
+              ログイン/新規登録
+            </button>
+          </nav>
+        )}
       </div>
-      {userInfo?.owned_project_id && <HeaderNavigation menu={menu} />}
+      <HeaderNavigation menu={menu} />
     </header>
   );
 };
