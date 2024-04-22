@@ -1,5 +1,5 @@
 import { css } from "@styled-system/css";
-import { basicErrorMessageStyle, basicFormLabelStyle, basicFormStyle } from "./styles";
+import { basicDescriptionStyle, basicErrorMessageStyle, basicFormLabelStyle, basicFormStyle } from "./styles";
 
 import { RequiredBadge } from "./_components/RequiredBadge";
 import type { basicFieldProps } from "./_components/types";
@@ -16,13 +16,7 @@ export const TextField = ({ type, id, label, placeholder, description, required,
         {label}
         {required !== undefined && <RequiredBadge isRequired={required} className={css({ marginInline: 2 })} />}
       </label>
-      <p
-        className={css({
-          fontSize: "sm",
-          color: "gray.500",
-        })}>
-        {description}
-      </p>
+      <p className={basicDescriptionStyle}>{description}</p>
       <div className={css({ width: { base: "100%", sm: "90%" } })}>
         {type === "text" ? (
           <input
