@@ -10,7 +10,7 @@ import { FormFieldEditor } from "./FormFieldEditor";
 import { sectionTitleStyle, descriptionStyle, checkboxGrpupStyle, checkboxStyle, textInputStyle } from "./styles";
 import { components } from "@/schema";
 import dayjs from "dayjs";
-import { postFiles } from "@/lib/postFile";
+import { FileIds, postFiles } from "@/lib/postFile";
 import toast from "react-hot-toast";
 import { FilesFormType, FileErrorsType } from "@/app/forms/[form_id]/FormItems";
 import { FilesField } from "@/common_components/formFields/Files";
@@ -97,42 +97,49 @@ export const FormEditor: FC<{
             toast.error("正しいファイルをアップロードしてください");
             return;
           }
+          let fileIds: FileIds | undefined = undefined;
+          toast.promise(
+            postFiles("public", files).then((res) => {
+              if (!res) {
+                throw new Error("ファイルのアップロードに失敗しました");
+              }
+              fileIds = res;
+              const body = {
+                ...data,
+                attributes: data.attributes.length === 0 ? [...projectAttributes] : data.attributes,
+                categories: data.categories.length === 0 ? [...projectCategories] : data.categories,
+                starts_at: (data.starts_at === "" ? dayjs() : dayjs(data.starts_at)).toISOString(),
+                ends_at: dayjs(data.ends_at).toISOString(),
+                attachments: fileIds.attachments ?? [],
+                items: [
+                  ...data.items.map((item) => {
+                    if (item.type === "choose_many" || item.type === "choose_one") {
+                      return {
+                        ...item,
+                        options: item.options.split("\n"),
+                      };
+                    }
 
-          const fileIds = await postFiles("public", files);
-          if (!fileIds) {
-            toast.error("ファイルのアップロードに失敗しました");
-            return;
-          }
+                    if (item.type === "file") {
+                      return {
+                        ...item,
+                        extensions: item.extensions.split("\n"),
+                      };
+                    }
 
-          const body = {
-            ...data,
-            attributes: data.attributes.length === 0 ? [...projectAttributes] : data.attributes,
-            categories: data.categories.length === 0 ? [...projectCategories] : data.categories,
-            starts_at: (data.starts_at === "" ? dayjs() : dayjs(data.starts_at)).toISOString(),
-            ends_at: dayjs(data.ends_at).toISOString(),
-            attachments: fileIds.attachments ?? [],
-            items: [
-              ...data.items.map((item) => {
-                if (item.type === "choose_many" || item.type === "choose_one") {
-                  return {
-                    ...item,
-                    options: item.options.split("\n"),
-                  };
-                }
+                    return item;
+                  }),
+                ],
+              };
 
-                if (item.type === "file") {
-                  return {
-                    ...item,
-                    extensions: item.extensions.split("\n"),
-                  };
-                }
-
-                return item;
-              }),
-            ],
-          };
-
-          onSubmit(body);
+              onSubmit(body);
+            }),
+            {
+              loading: "ファイルをアップロードしています",
+              success: "ファイルのアップロードに成功しました",
+              error: "ファイルのアップロードに失敗しました",
+            },
+          );
         })}>
         <fieldset
           className={stack({

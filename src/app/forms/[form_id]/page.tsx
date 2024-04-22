@@ -80,27 +80,31 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
           }
         : [];
     });
-
-    client
-      .POST("/form-answers", {
-        body: {
-          form_id: form.id,
-          items: items,
-        },
-      })
-      .then(async ({ error }) => {
-        if (error) {
-          toast.error(`申請の送信に失敗しました`);
+    toast.promise(
+      client
+        .POST("/form-answers", {
+          body: {
+            form_id: form.id,
+            items: items,
+          },
+        })
+        .then(async ({ error }) => {
+          if (error) {
+            await deleteAllUploadedFiles(fileIds);
+            throw new Error(error.message);
+          }
+          router.push("/forms");
+        })
+        .catch(async () => {
           await deleteAllUploadedFiles(fileIds);
-          return;
-        }
-        toast.success("申請の送信に成功しました");
-        router.push("/forms");
-      })
-      .catch(async () => {
-        toast.error(`申請の送信中にエラーが発生しました`);
-        await deleteAllUploadedFiles(fileIds);
-      });
+          throw new Error("申請の送信中にエラーが発生しました");
+        }),
+      {
+        loading: "申請を送信しています",
+        success: "申請の送信に成功しました",
+        error: "申請の送信中にエラーが発生しました",
+      },
+    );
   };
 
   const {

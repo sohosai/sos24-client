@@ -27,29 +27,36 @@ export const SignupForm = () => {
   });
 
   const onSubmit = async (data: SignupSchemaType) => {
-    const resp = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/users`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: data.name,
-        kana_name: data.kana_name,
-        phone_number: data.phone_number,
-        email: data.email,
-        password: data.password,
+    toast.promise(
+      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: data.name,
+          kana_name: data.kana_name,
+          phone_number: data.phone_number,
+          email: data.email,
+          password: data.password,
+        }),
+      }).then((res) => {
+        if (res.status === 201) {
+          const auth = getAuth();
+          signInWithEmailAndPassword(auth, data.email, data.password).then(() => {
+            sendEmailVerification(auth.currentUser!);
+          });
+        } else {
+          setError("root", { message: "ユーザ登録に失敗しました" });
+          throw new Error("ユーザ登録に失敗しました");
+        }
       }),
-    });
-
-    if (resp.status === 201) {
-      const auth = getAuth();
-      signInWithEmailAndPassword(auth, data.email, data.password).then(() => {
-        sendEmailVerification(auth.currentUser!);
-      });
-    } else {
-      setError("root", { message: "ユーザ登録に失敗しました" });
-      toast.error("ユーザ登録に失敗しました");
-    }
+      {
+        loading: "登録中...",
+        success: "登録に成功しました",
+        error: "ユーザー登録に失敗しました",
+      },
+    );
   };
 
   return (
