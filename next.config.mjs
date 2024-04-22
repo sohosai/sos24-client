@@ -30,10 +30,20 @@ const nextConfig = {
 
     return config;
   },
+
+  sentry: {
+    hideSourceMaps: true,
+  },
+};
+
+const sentryWebpackPluginOptions = {
+  //ソースマップのアップロードのログを表示する
+  silent: true,
 };
 
 export default withSentryConfig(
   nextConfig,
+  sentryWebpackPluginOptions,
   {
     // For all available options, see:
     // https://github.com/getsentry/sentry-webpack-plugin#options
