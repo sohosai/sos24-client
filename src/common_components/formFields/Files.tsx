@@ -54,7 +54,13 @@ export const FilesField = (props: Props) => {
       [...Array(fileNumber)].some((_, i) => files[i].type !== sosFileType && !extensionsRegex.test(files[i].name))
     ) {
       // ファイルの拡張子の検証
-      message = `ファイルの拡張子は${props.extensions?.join("、")}のいずれかにしてください`;
+      if (props.extensions) {
+        if (props.extensions.length >= 2) {
+          message = `ファイルの拡張子は${props.extensions.join("、")}のいずれかにしてください`;
+        } else if (props.extensions.length == 1) {
+          message = `ファイルの拡張子は${props.extensions[0]}にしてください`;
+        }
+      }
     }
 
     if (message) {
