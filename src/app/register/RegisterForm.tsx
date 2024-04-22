@@ -195,7 +195,7 @@ export const RegisterForm = () => {
         error={errors.agreement2?.message}
       />
       <Button type="submit" color="purple" className={css({ flexGrow: 0, alignSelf: "center" })}>
-        次へ
+        送信
       </Button>
     </form>
   );
