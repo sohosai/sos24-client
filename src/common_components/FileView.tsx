@@ -39,7 +39,7 @@ export const fileViewStyle = cva({
 export const FileView = (props: Props) => {
   return (
     <div className={fileViewStyle({ isError: props.error })}>
-      <span>{props.name}</span>
+      <span className={css({ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" })}>{props.name}</span>
       <div className={css({ display: "flex", flexDirection: "row", columnGap: 4, alignItems: "center" })}>
         {props.link !== undefined && <DownloadBuutton link={props.link} />}
         {props.delete !== undefined && (
