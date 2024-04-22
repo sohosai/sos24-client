@@ -42,11 +42,9 @@ export default function Home() {
           </div>
           <div>
             <p>応募方法</p>
-            <p>雙峰祭オンラインシステムよりご応募いただけます。</p>
             <p>
-              アカウント作成方法を
               <Link
-                href="/how-to-use"
+                href="/register"
                 className={css({
                   color: "tsukuba.purple",
                   textDecoration: "underline",
@@ -54,7 +52,19 @@ export default function Home() {
                 })}>
                 こちら
               </Link>
-              にて動画でご案内しております。
+              よりご応募いただけます。
+            </p>
+            <p>アカウント作成方法を以下のリンクにて動画でご案内しております。</p>
+            <p>
+              <Link
+                href="/how-to-use"
+                className={css({
+                  color: "tsukuba.purple",
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                })}>
+                2024年度 SOS使い方動画
+              </Link>
             </p>
           </div>
           <div>
