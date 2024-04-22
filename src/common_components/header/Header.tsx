@@ -134,7 +134,7 @@ export const Header: FC = () => {
       {
         loading: "サイン・アウトしています",
         success: "サインアウトしました",
-        error: "サインアウトできませんで得した",
+        error: "サインアウトできませんでした",
       },
     );
   };
