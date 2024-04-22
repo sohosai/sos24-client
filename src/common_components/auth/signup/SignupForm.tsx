@@ -108,6 +108,7 @@ export const SignupForm = () => {
           電話番号
         </label>
         <input type="tel" id="phone_number" className={cx(basicFormStyle())} {...register("phone_number")} />
+        <span className={css({ fontSize: "sm", color: "gray.600" })}>ハイフンを抜いて数字のみで入力してください</span>
         {errors.phone_number && <span className={basicErrorMessageStyle}>{errors.phone_number.message}</span>}
       </div>
       <div className={css({ display: "flex", alignItems: "center", gap: 3 })}>
