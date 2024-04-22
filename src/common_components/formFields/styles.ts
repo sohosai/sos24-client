@@ -12,6 +12,11 @@ export const basicFormStyle = cva({
     borderWidth: 2,
     borderStyle: "solid",
     borderColor: "gray.400",
+
+    "&:disabled": {
+      borderColor: "gray.200",
+      backgroundColor: "gray.200",
+    },
   },
   variants: {
     isInvalid: {
@@ -48,6 +53,10 @@ export const checkboxFormStyle = css({
   borderColor: "gray.400",
   cursor: "pointer",
   aspectRatio: "1/1",
+
+  "&:disabled": {
+    cursor: "unset",
+  },
 
   backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' width='18' height='12' viewBox='0 0 18 12'%3e%3cpath stroke='%23A59E9E' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M2 5.7L7.0541 10.5L16 2'/%3e%3c/svg%3e")`,
   backgroundRepeat: "no-repeat",

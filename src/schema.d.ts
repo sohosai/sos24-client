@@ -2004,7 +2004,7 @@ export interface operations {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["FormAnswer"][];
+          "application/json": components["schemas"]["FormAnswer"];
         };
       };
       /** @description Unauthorized */

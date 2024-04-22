@@ -12,12 +12,15 @@ import { FC } from "react";
 import deleteNewsButton from "@/assets/deleteNewsButton.svg?url";
 import { client } from "@/lib/openapi";
 import toast from "react-hot-toast";
+import { useAtomValue } from "jotai";
+import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
 
 export const News: FC<{
   news: components["schemas"]["News"];
   isCommittee?: boolean;
 }> = ({ news, isCommittee }) => {
   const router = useRouter();
+  const applicationPeriod = useAtomValue(projectApplicationPeriodAtom);
 
   return (
     <div
@@ -26,12 +29,12 @@ export const News: FC<{
         marginY: 8,
       })}>
       <Link
-        href={isCommittee ? "/committee/news" : "/news"}
+        href={isCommittee ? "/committee/news" : applicationPeriod.isIn ? "/dashboard" : "/news"}
         className={css({
           color: "tsukuba.purple",
           fontSize: "xs",
         })}>
-        ←お知らせ一覧に戻る
+        {isCommittee || !applicationPeriod.isIn ? "←お知らせ一覧に戻る" : "←戻る"}
       </Link>
       <p
         className={css({

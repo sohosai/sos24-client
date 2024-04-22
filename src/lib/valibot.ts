@@ -31,13 +31,13 @@ const projectTitleSchema = string([
 /**
  * @returns boolean: true if `str` is empty string
  */
-const isHiragana = (str: string): boolean => {
-  return /^[\u3040-\u309F\s]*$/.test(str);
+const isYomigana = (str: string): boolean => {
+  return /^[\u3040-\u309F\s\u30FC]*$/.test(str);
 };
 
 const projectKanaTitleSchema = string([
   minLength(1, "1文字以上で入力してください"),
-  custom((value) => isHiragana(value), "ひらがなで入力してください"),
+  custom((value) => isYomigana(value), "ひらがなで入力してください"),
 ]);
 
 const projectGroupName = string([
@@ -48,7 +48,7 @@ const projectGroupName = string([
 
 const projectKanaGroupName = string([
   minLength(1, "1文字以上で入力してください"),
-  custom((value) => isHiragana(value), "ひらがなで入力してください"),
+  custom((value) => isYomigana(value), "ひらがなで入力してください"),
 ]);
 
 export const projectCategories = [
@@ -119,7 +119,7 @@ const userNameSchema = string([minLength(1, "名前を入力してください")
 
 const userKanaNameSchema = string([
   minLength(1, "名前のふりがなを入力してください"),
-  regex(/^[ぁ-んー－゛゜]+$/, "ひらがなで入力してください"),
+  custom((input) => isYomigana(input), "ひらがなで入力してください"),
 ]);
 
 const userEmailSchema = string([
@@ -127,9 +127,12 @@ const userEmailSchema = string([
   regex(/.*@.*\.tsukuba\.ac\.jp$/, "筑波大学のメールアドレスを入力してください"),
 ]);
 
-const userPasswordSchema = string([minLength(1, "パスワードを入力してください")]);
+const userPasswordSchema = string([minLength(6, "パスワードを6字以上で入力してください")]);
 
-const userPhoneNumberSchema = string([minLength(1, "電話番号を入力してください")]);
+const userPhoneNumberSchema = string([
+  minLength(1, "電話番号を入力してください"),
+  regex(/^[0-9]+$/, "数字のみで入力してください"),
+]);
 
 const userAgreementSchema = literal(true, "利用規約に同意してください");
 

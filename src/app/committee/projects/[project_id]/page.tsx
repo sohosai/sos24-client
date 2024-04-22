@@ -15,9 +15,16 @@ import { Button } from "@/common_components/Button";
 export const runtime = "edge";
 
 const deleteProject = async (project_id: string) => {
-  await client.DELETE("/projects/{project_id}", { params: { path: { project_id } } }).catch((e) => {
-    throw e;
-  });
+  await client
+    .DELETE("/projects/{project_id}", { params: { path: { project_id } } })
+    .then((res) => {
+      if (res.error) {
+        throw res.error;
+      }
+    })
+    .catch((e) => {
+      throw e;
+    });
 };
 
 const NewsDetailsPage = ({ params }: { params: { project_id: string } }) => {

@@ -7,13 +7,15 @@ import { basicFieldProps } from "./_components/types";
 import { basicErrorMessageStyle, basicFormLabelStyle } from "./styles";
 
 import { RequiredBadge } from "./_components/RequiredBadge";
-import { FileView } from "@/common_components/FileView";
 
 import clickIcon from "@/assets/Click.svg?url";
 import driveIcon from "@/assets/Drive.svg?url";
-import { FileErrorsType, FilesFormType } from "@/app/forms/[form_id]/FormItems";
+import { FileErrorsType, FilesFormType } from "@/common_components/form_answer/FormItems";
+import { File } from "./_components/File";
+import { sosFileType } from "@/lib/file";
 
 interface Props extends basicFieldProps {
+  disabled?: boolean;
   extensions?: string[];
   limit?: number | null;
   files?: FilesFormType;
@@ -29,7 +31,9 @@ export const FilesField = (props: Props) => {
   const filesDOM = useRef<HTMLInputElement | null>(null);
   const [isDragged, setIsDragged] = useState(false);
 
-  //const files = props.files
+  if (filesDOM.current) {
+    filesDOM.current.files = props.files?.get(props.id) ?? null;
+  }
   const setFiles = props.setFiles;
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -47,7 +51,7 @@ export const FilesField = (props: Props) => {
     } else if (
       extensionsRegex &&
       files &&
-      [...Array(fileNumber)].some((_, i) => !extensionsRegex.test(files[i].name))
+      [...Array(fileNumber)].some((_, i) => files[i].type !== sosFileType && !extensionsRegex.test(files[i].name))
     ) {
       // ファイルの拡張子の検証
       message = `ファイルの拡張子は${props.extensions?.join("、")}のいずれかにしてください`;
@@ -70,7 +74,7 @@ export const FilesField = (props: Props) => {
       setFiles((prev) => prev.set(props.id, newFile));
     }
   };
-  const [updateFile, setUpdateFile] = useState(false);
+  const [_, setUpdateFile] = useState(false);
 
   const addFile = (oldFiles: FileList, newFiles: FileList) => {
     setFileIds(fileIds.concat([...Array(newFiles.length)].map((_, i) => i + maxFiles)));
@@ -117,6 +121,11 @@ export const FilesField = (props: Props) => {
           backgroundColor: "gray.300",
         },
       },
+      isDisabled: {
+        true: {
+          display: "none",
+        },
+      },
     },
   });
 
@@ -134,6 +143,13 @@ export const FilesField = (props: Props) => {
           <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
         )}
       </span>
+      <p
+        className={css({
+          fontSize: "sm",
+          color: "gray.500",
+        })}>
+        {props.description}
+      </p>
       <div
         role="form"
         onDragOver={(e) => {
@@ -148,7 +164,7 @@ export const FilesField = (props: Props) => {
           getFiles(e);
           validateFiles();
         }}
-        className={dropAreaStyle({ isDragged })}>
+        className={dropAreaStyle({ isDragged, isDisabled: props.disabled })}>
         <button
           onClick={(e) => {
             e.preventDefault();
@@ -220,7 +236,7 @@ export const FilesField = (props: Props) => {
           validateFiles();
 
           // 毎回確実にstateを更新して再レンダリングさせる
-          setUpdateFile(!updateFile);
+          setUpdateFile((prev) => !prev);
         }}
       />
       <span className={basicErrorMessageStyle}>{props.error ? props.error : errorMessage}</span>
@@ -230,32 +246,43 @@ export const FilesField = (props: Props) => {
           flexDirection: "column",
           rowGap: 2,
         })}>
-        {files &&
-          [...Array(files.length)].map((_, i) => {
-            const file = files && files[i];
-            if (!file) {
-              return;
-            }
+        {props.disabled
+          ? [...Array(props.files?.get(props.id)?.length)].map((_, i) => {
+              const files = props.files?.get(props.id);
+              const file = files && files[i];
+              if (!file) {
+                return;
+              }
 
-            const error = extensionsRegex ? !extensionsRegex.test(file.name) : false;
-            return (
-              <FileView
-                key={fileIds[i]}
-                name={file.name}
-                error={error}
-                delete={() => {
-                  if (!files) {
-                    return;
-                  }
+              return <File key={fileIds[i]} file={file} />;
+            })
+          : files &&
+            [...Array(files.length)].map((_, i) => {
+              const file = files && files[i];
+              if (!file) {
+                return;
+              }
 
-                  if (filesDOM.current) {
-                    filesDOM.current.files = deleteFile(files, i);
-                  }
-                  validateFiles();
-                }}
-              />
-            );
-          })}
+              const error = extensionsRegex && file.type !== sosFileType ? !extensionsRegex.test(file.name) : false;
+              return (
+                <File
+                  key={fileIds[i]}
+                  deleteFileFunc={() => {
+                    if (!files) {
+                      return;
+                    }
+                    if (filesDOM.current) {
+                      const newFiles = deleteFile(files, i);
+                      filesDOM.current.files = newFiles;
+                      setFiles((prev) => prev.set(props.id, newFiles));
+                    }
+                    validateFiles();
+                  }}
+                  file={file}
+                  error={error}
+                />
+              );
+            })}
       </div>
     </div>
   );
