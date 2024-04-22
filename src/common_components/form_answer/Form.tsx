@@ -70,31 +70,36 @@ export const Form = ({ form, answerId, answerItems, editable }: Props) => {
         toast.error(`申請の修正に失敗しました`);
         return;
       }
-      client
-        .PUT("/form-answers/{form_answer_id}", {
-          params: {
-            path: {
-              form_answer_id: answerId,
+      toast.promise(
+        client
+          .PUT("/form-answers/{form_answer_id}", {
+            params: {
+              path: {
+                form_answer_id: answerId,
+              },
             },
-          },
-          body: {
-            form_id: form.id,
-            items: items,
-          },
-        })
-        .then(async ({ error }) => {
-          if (error) {
-            toast.error(`申請の修正に失敗しました`);
+            body: {
+              form_id: form.id,
+              items: items,
+            },
+          })
+          .then(async ({ error }) => {
+            if (error) {
+              await deleteAllUploadedFiles(fileIds);
+              throw new Error(error.message);
+            }
+            window.location.reload();
+          })
+          .catch(async () => {
             await deleteAllUploadedFiles(fileIds);
-            return;
-          }
-          toast.success("申請の修正に成功しました");
-          window.location.reload();
-        })
-        .catch(async () => {
-          toast.error(`申請の修正内容の送信中にエラーが発生しました`);
-          await deleteAllUploadedFiles(fileIds);
-        });
+            throw new Error(`申請の修正に失敗しました`);
+          }),
+        {
+          loading: "申請の修正中",
+          success: "申請の修正に成功しました",
+          error: "申請の修正に失敗しました",
+        },
+      );
     } else {
       client
         .POST("/form-answers", {
