@@ -1,5 +1,5 @@
 import { basicErrorMessageStyle, basicFormStyle } from "@/common_components/formFields/styles";
-import { assignType, client } from "@/lib/openapi";
+import { client } from "@/lib/openapi";
 import { useForm } from "react-hook-form";
 import { UpdateProjectSchema, UpdateProjectSchemaType } from "@/lib/valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
@@ -14,7 +14,7 @@ import { TableRow } from "@/app/dashboard/TableRow";
 import { UserWithAddress } from "./UserWithAddress";
 import { ProjectAttributesBadge } from "./ProjectAttributesBadge";
 
-export const shareURL = async (url: string) => {
+const shareURL = async (url: string) => {
   navigator.clipboard
     .writeText(url)
     .then(() => {
@@ -48,35 +48,8 @@ export const getNewInvitationId = async (
   return res.data.id;
 };
 
-const getInvitationIdWithCache = async (
-  project_id: string,
-  position: components["schemas"]["Invitation"]["position"],
-): Promise<string> => {
-  const invitationId = localStorage.getItem("invitation_id");
-
-  if (!invitationId) {
-    return await getNewInvitationId(project_id, position);
-  }
-
-  const { data: dataFromAPI, error } = await client.GET("/invitations/{invitation_id}", {
-    params: { path: { invitation_id: invitationId ?? "" } },
-  });
-
-  if (!error && !assignType("/invitations/{invitation_id}", dataFromAPI).used_by) {
-    return invitationId;
-  } else {
-    return await getNewInvitationId(project_id, position);
-  }
-};
-
-export const handleShareInviteLink = async (
-  project_id: string,
-  position: "owner" | "sub_owner",
-  useCache?: boolean,
-) => {
-  const invitationId = useCache
-    ? await getInvitationIdWithCache(project_id, position)
-    : await getNewInvitationId(project_id, position);
+export const handleShareInviteLink = async (project_id: string, position: "owner" | "sub_owner") => {
+  const invitationId = await getNewInvitationId(project_id, position);
   shareURL(`${window.location.origin}/invitations/${invitationId}`);
 };
 
@@ -85,8 +58,7 @@ export const ProjectTableView: React.FC<{
   onSubmit?: () => unknown;
   hideSubOwner?: boolean;
   projectData: components["schemas"]["Project"];
-  isCommittee?: boolean;
-}> = ({ isEditMode = false, onSubmit = () => {}, hideSubOwner = false, projectData, isCommittee = false }) => {
+}> = ({ isEditMode = false, onSubmit = () => {}, hideSubOwner = false, projectData }) => {
   const {
     register,
     formState: { errors },
@@ -224,7 +196,7 @@ export const ProjectTableView: React.FC<{
             ) : (
               <button
                 className={css({ color: "tsukuba.purple", textDecoration: "underline", cursor: "pointer" })}
-                onClick={() => handleShareInviteLink(projectData.id, "sub_owner", !isCommittee)}
+                onClick={() => handleShareInviteLink(projectData.id, "sub_owner")}
                 type="button">
                 招待リンクを共有
               </button>
