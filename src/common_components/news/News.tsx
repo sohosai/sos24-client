@@ -60,25 +60,30 @@ export const News: FC<{
               className={css({ cursor: "pointer", pt: 2 })}
               onClick={() => {
                 window.confirm("本当に削除しますか？") &&
-                  client
-                    .DELETE("/news/{news_id}", {
-                      params: {
-                        path: {
-                          news_id: news.id,
+                  toast.promise(
+                    client
+                      .DELETE("/news/{news_id}", {
+                        params: {
+                          path: {
+                            news_id: news.id,
+                          },
                         },
-                      },
-                    })
-                    .then(({ error }) => {
-                      if (error) {
-                        toast.error("お知らせの削除に失敗しました");
-                        return;
-                      }
-                      toast.success("お知らせを削除しました");
-                      router.push("/committee/news");
-                    })
-                    .catch((e) => {
-                      throw e;
-                    });
+                      })
+                      .then(({ error }) => {
+                        if (error) {
+                          throw error;
+                        }
+                        router.push("/committee/news");
+                      })
+                      .catch((e) => {
+                        throw e;
+                      }),
+                    {
+                      loading: "お知らせを削除しています",
+                      success: "お知らせを削除しました",
+                      error: "お知らせの削除に失敗しました",
+                    },
+                  );
               }}
             />
             <Button
