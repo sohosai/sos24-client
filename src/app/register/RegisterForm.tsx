@@ -26,7 +26,7 @@ const categoryItems = [
     label: "普通企画",
     hasTopSpacer: false,
     badges: [],
-    icon: <General />,
+    icon: <General width={40} height={40} />,
   },
   {
     value: "foods_with_kitchen",
@@ -37,7 +37,7 @@ const categoryItems = [
       { label: "調理", allowed: true },
       { label: "仕込場", allowed: true },
     ],
-    icon: <FoodsWithKitchen />,
+    icon: <FoodsWithKitchen width={40} height={40} />,
   },
   {
     value: "foods_without_kitchen",
@@ -48,7 +48,7 @@ const categoryItems = [
       { label: "調理", allowed: true },
       { label: "仕込場", allowed: false },
     ],
-    icon: <FoodsWithoutKitchent />,
+    icon: <FoodsWithoutKitchent width={40} height={40} />,
   },
   {
     value: "foods_without_cooking",
@@ -58,14 +58,14 @@ const categoryItems = [
       { label: "食品取り扱い", allowed: true },
       { label: "調理", allowed: false },
     ],
-    icon: <FoodsWithoutCooking />,
+    icon: <FoodsWithoutCooking width={40} height={40} />,
   },
   {
     value: "stage_united",
     label: "ステージ企画",
     hasTopSpacer: true,
     badges: [],
-    icon: <Stage />,
+    icon: <Stage width={40} height={40} />,
   },
 ];
 
