@@ -49,6 +49,7 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
       - name: build (branch preview)
         if: ${{ ((github.head_ref || github.ref_name) != env.PRODUCTION_BRANCH) }}
+        id: build-preview
         run: npx @cloudflare/next-on-pages@1
         env:
           NEXT_PUBLIC_API_ENDPOINT: ${{vars.DEV_API_ENDPOINT}}
@@ -60,6 +61,7 @@ jobs:
           NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{vars.DEV_FIREBASE_STORAGE_BUCKET}}
       - name: build (production)
         if: ${{ ((github.head_ref || github.ref_name) == env.PRODUCTION_BRANCH) && github.event.pull_request.merged == true }}
+        id: build-production
         run: npx @cloudflare/next-on-pages@1
         env:
           NEXT_PUBLIC_API_ENDPOINT: ${{secrets.PROD_API_ENDPOINT}}
@@ -72,7 +74,7 @@ jobs:
       - name: deploy
         id: deploy
         uses: whatacotton/pages-action@v1.0.0
-        if: steps.set-production-branch.outcome == 'success'
+        if: steps.build-preview.outcome == 'success' || steps.build-production.outcome == 'success'
         with:
           apiToken: ${{secrets.CLOUDFLARE_API_TOKEN}}
           accountId: ${{vars.CLOUDFLARE_ACCOUNT_ID}}
