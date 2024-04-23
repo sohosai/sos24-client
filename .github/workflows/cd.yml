@@ -34,7 +34,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "latest"
-      - run: npm install
       - name: cache
         uses: actions/cache@v4
         with:
@@ -47,6 +46,7 @@ jobs:
           # If source files changed but packages didn't, rebuild from a prior cache.
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
+      - run: npm install
       - name: build (branch preview)
         if: ${{ ((github.head_ref || github.ref_name) != env.PRODUCTION_BRANCH) }}
         id: build-preview
@@ -73,7 +73,7 @@ jobs:
           NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{secrets.PROD_FIREBASE_STORAGE_BUCKET}}
       - name: deploy
         id: deploy
-        uses: whatacotton/pages-action@v1.0.0
+        uses: whatacotton/pages-action@v1
         if: steps.build-preview.outcome == 'success' || steps.build-production.outcome == 'success'
         with:
           apiToken: ${{secrets.CLOUDFLARE_API_TOKEN}}
