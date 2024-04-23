@@ -132,7 +132,7 @@ export const Header: FC = () => {
         setShowMobileMenu(false);
       })(),
       {
-        loading: "サイン・アウトしています",
+        loading: "サインアウトしています",
         success: "サインアウトしました",
         error: "サインアウトできませんでした",
       },
