@@ -33,24 +33,28 @@ export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project
   const lableAndInputStyle = css({ fontWeight: "bold", "& > input": { fontWeight: "normal", marginTop: 2 } });
   const updateProject = async (data: UpdateProjectCommitteeSchemaType) => {
     if (!project) return;
-    client
-      .PUT("/projects/{project_id}", {
-        params: {
-          path: {
-            project_id: project.id,
+    toast.promise(
+      client
+        .PUT("/projects/{project_id}", {
+          params: {
+            path: {
+              project_id: project.id,
+            },
           },
-        },
-        body: data as components["schemas"]["UpdateProject"],
-      })
-      .then((res) => {
-        if (res.error) {
-          toast.error("変更を保存できませんでした");
-          return;
-        }
-        toast.success("変更を保存しました");
-        router.push(`/committee/projects/${project.id}`);
-      })
-      .catch(() => toast.error("変更を保存できませんでした"));
+          body: data as components["schemas"]["UpdateProject"],
+        })
+        .then((res) => {
+          if (res.error) {
+            throw res.error;
+          }
+          router.push(`/committee/projects/${project.id}`);
+        }),
+      {
+        loading: "変更を保存しています",
+        success: "変更を保存しました",
+        error: "変更を保存できませんでした",
+      },
+    );
   };
 
   return (
