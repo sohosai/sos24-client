@@ -22,13 +22,13 @@ export const shareURL = async (url: string) => {
           url,
         })
         .catch(() => {
-          throw new Error("リンクを共有できませんでした");
+          throw new Error("リンクをコピーできませんでした");
         });
     }),
     {
       loading: "リンクをコピー中...",
       success: "リンクをコピーしました",
-      error: "リンクを共有できませんでした",
+      error: "リンクをコピーできませんでした",
     },
   );
 };

@@ -60,7 +60,7 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
                       params: { path: { form_id: form.id } },
                     })
                     .then(({ error }) => {
-                      throw error;
+                      if (error) throw error;
                     }),
                   {
                     loading: "申請を削除しています",

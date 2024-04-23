@@ -19,7 +19,7 @@ const CreateFormPage: NextPage = () => {
           body,
         })
         .then(({ error }) => {
-          throw error;
+          if (error) throw error;
         }),
       {
         loading: "申請を作成しています",
