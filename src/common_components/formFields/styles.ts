@@ -103,6 +103,6 @@ export const projectCategoryItemStyle = hstack({
 
 export const basicDescriptionStyle = css({
   fontSize: "sm",
-  color: "gray.500",
   whiteSpace: "pre-wrap",
+  marginBlock: 2,
 });
