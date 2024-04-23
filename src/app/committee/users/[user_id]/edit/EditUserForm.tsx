@@ -64,29 +64,30 @@ export const EditUserForm: FC<{
   }
 
   const onSubmit = async (data: UpdateUserSchemaType) => {
-    client
-      .PUT(`/users/{user_id}`, {
-        params: { path: { user_id: user_id } },
-        body: {
-          name: data.name,
-          kana_name: data.kana_name,
-          phone_number: data.phone_number,
-          email: data.email,
-          role: data.role as components["schemas"]["UserRole"],
-        },
-      })
-      .then(({ error }) => {
-        if (error) {
-          toast.error(`ユーザー保存中にエラーが発生しました`);
-          return;
-        }
-
-        toast.success("ユーザーを保存しました");
-        router.push(`/committee/users/${user_id}`);
-      })
-      .catch(() => {
-        toast.error(`ユーザー保存中にエラーが発生しました`);
-      });
+    toast.promise(
+      client
+        .PUT(`/users/{user_id}`, {
+          params: { path: { user_id: user_id } },
+          body: {
+            name: data.name,
+            kana_name: data.kana_name,
+            phone_number: data.phone_number,
+            email: data.email,
+            role: data.role as components["schemas"]["UserRole"],
+          },
+        })
+        .then(({ error }) => {
+          if (error) {
+            throw error;
+          }
+          router.push(`/committee/users/${user_id}`);
+        }),
+      {
+        loading: "ユーザーを保存しています",
+        success: "ユーザーを保存しました",
+        error: "ユーザーの保存中にエラーが発生しました",
+      },
+    );
   };
 
   return (
