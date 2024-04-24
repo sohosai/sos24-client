@@ -15,8 +15,8 @@ Sentryの通知について、開発環境と本番環境？の2つのプロジ�
 
 [開発環境 (プロジェクト名: `sos24-client-dev`)]
 
-`.env`ファイルにdsnとプロジェクト名を書き、`.sentryclirc`に適切な情報を書くと、Sentryが`sos24-client-dev`で通知をしてくれます。
+`.env`ファイルと`.sentryclirc`に適切な情報を書くと、Sentryが`sos24-client-dev`で通知をしてくれます。
 
 [本番環境？ (プロジェクト名: `sos24-client-prod`)]
 
-確認はしていませんが、本番環境？でSentryが`sos24-client-prod`で通知をしてくれるはずです。(未確認)
+確認はしていませんが、本番環境？でSentryが`sos24-client-prod`で通知をしてくれるはずです。
