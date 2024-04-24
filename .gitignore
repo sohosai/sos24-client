@@ -42,3 +42,7 @@ styled-system-studio
 
 # Sentry Config File
 .sentryclirc
+
+# sentry example
+src/app/sentry-example-page
+src/app/api/sentry-example-api
