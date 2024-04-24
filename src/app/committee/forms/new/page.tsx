@@ -13,19 +13,26 @@ const CreateFormPage: NextPage = () => {
   const router = useRouter();
 
   const onSubmit: HandleFormEditorSubmit = (body) => {
-    client
-      .POST("/forms", {
-        body,
-      })
-      .then((res) => {
-        if (!res.error) {
-          toast.success("申請を作成しました");
+    toast.promise(
+      client
+        .POST("/forms", {
+          body,
+        })
+        .then(({ error }) => {
+          if (error) throw error;
+        }),
+      {
+        loading: "申請を作成しています",
+        error: () => {
+          deleteMultipleUploadedFiles(body.attachments);
+          return "申請を作成できませんでした";
+        },
+        success: () => {
           router.push("/committee/forms");
-        } else {
-          deleteMultipleUploadedFiles(body.attributes);
-          toast.error("申請の作成に失敗しました");
-        }
-      });
+          return "申請を作成しました";
+        },
+      },
+    );
   };
 
   return (
