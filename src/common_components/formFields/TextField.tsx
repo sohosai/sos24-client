@@ -23,7 +23,7 @@ export const TextField = ({ type, id, label, placeholder, description, required,
         })}>
         {description}
       </p>
-      <div className={css({ width: { base: "100%", sm: "90%" } })}>
+      <div>
         {type === "text" ? (
           <input
             type="text"
