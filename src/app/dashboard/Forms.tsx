@@ -1,5 +1,5 @@
 import { components } from "@/schema";
-import { stack, hstack } from "@styled-system/patterns";
+import { stack, hstack, center } from "@styled-system/patterns";
 import Link from "next/link";
 import formIcon from "@/assets/NotebookIcon.svg?url";
 import warningIcon from "@/assets/Warning.svg?url";
@@ -66,7 +66,17 @@ const FormItem = ({ id, title, done = false }: FormItemProps) => {
             background: "gray.200",
           },
         })}>
-        <Image src={formIcon} alt="" />
+        <div className={center({ width: "58px", height: "58px", background: "tsukuba.purple", borderRadius: "full" })}>
+          <Image
+            src={formIcon}
+            className={css({
+              transform: "scale(0.75)",
+            })}
+            width={58 * 4}
+            height={57 * 4}
+            alt=""
+          />
+        </div>
         <span
           className={css({
             fontSize: "md",
