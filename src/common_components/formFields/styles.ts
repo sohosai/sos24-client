@@ -100,3 +100,9 @@ export const projectCategoryItemStyle = hstack({
     backgroundColor: "tsukuba.purple",
   },
 });
+
+export const basicDescriptionStyle = css({
+  fontSize: "sm",
+  whiteSpace: "pre-wrap",
+  marginBlock: 2,
+});

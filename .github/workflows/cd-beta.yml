@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  PROJECT_NAME:  ${{ vars.CLOUDFLARE_BETA_PROJECT_NAME }}
+  PROJECT_NAME: ${{ vars.CLOUDFLARE_BETA_PROJECT_NAME }}
   PRODUCTION_BRANCH: develop
 
 jobs:
@@ -85,4 +85,3 @@ jobs:
           url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           username: GitHub Actions
           avatar_url: https://r2.sohosai.com/logo.png
-

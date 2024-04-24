@@ -1,7 +1,13 @@
 import { FC } from "react";
 import { RequiredBadge } from "./_components/RequiredBadge";
 import { css, cx } from "@styled-system/css";
-import { basicFormLabelStyle, basicFormStyle, dropdownStyle, basicErrorMessageStyle } from "./styles";
+import {
+  basicFormLabelStyle,
+  basicFormStyle,
+  dropdownStyle,
+  basicErrorMessageStyle,
+  basicDescriptionStyle,
+} from "./styles";
 import { basicFieldProps } from "./_components/types";
 
 interface Props extends basicFieldProps {
@@ -17,13 +23,7 @@ export const DropdownField: FC<Props> = (props: Props) => {
           <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
         )}
       </label>
-      <p
-        className={css({
-          fontSize: "sm",
-          color: "gray.500",
-        })}>
-        {props.description}
-      </p>
+      <p className={basicDescriptionStyle}>{props.description}</p>
       <select id={props.id} {...props.register} className={cx(basicFormStyle(), dropdownStyle)}>
         <option value="" hidden></option>
         {props.options.map((option) => {
