@@ -54,21 +54,23 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
             alt="delete"
             onClick={() => {
               window.confirm("本当に削除しますか？") &&
-                client
-                  .DELETE(`/forms/{form_id}`, {
-                    params: { path: { form_id: form.id } },
-                  })
-                  .then(({ error }) => {
-                    if (error) {
-                      toast.error(`申請削除中にエラーが発生しました`);
-                      return;
-                    }
-                    toast.success("申請を削除しました");
-                    router.push(`/committee/forms`);
-                  })
-                  .catch(() => {
-                    toast.error(`申請削除中にエラーが発生しました`);
-                  });
+                toast.promise(
+                  client
+                    .DELETE(`/forms/{form_id}`, {
+                      params: { path: { form_id: form.id } },
+                    })
+                    .then(({ error }) => {
+                      if (error) throw error;
+                    }),
+                  {
+                    loading: "申請を削除しています",
+                    error: "申請削除中にエラーが発生しました",
+                    success: () => {
+                      router.push("/committee/forms");
+                      return "申請を削除しました";
+                    },
+                  },
+                );
             }}
           />
           <Link href={`/committee/forms/${form.id}/edit`} className={buttonStyle({ color: "blue", visual: "outline" })}>
