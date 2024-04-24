@@ -7,25 +7,29 @@
 ## 環境構築
 
 ### 環境変数
+
 `.env.example`を参考にFirebase・バックエンドURLを設定します。
 
 ### セットアップ
+
 `npm i`で依存関係がインストールされます。
 
 `npm run dev`で開発用サーバが起動します。
 
 ### ビルド
+
 `npm run build`でビルドできます
 
 Cloudflare Pagesにデプロイする場合は`npx @cloudflare/next-on-pages@1`で静的アセットを生成できます。
 
 ## APIからのresponseにスキーマに応じた型を付ける方法
+
 ### SWRを使ってGETするとき編
 
 ```typescript
 import { assignType } from "@/lib/openapi";
-  
-const newsId = "<uuid>"
+
+const newsId = "<uuid>";
 
 const { data: newsRes, error: newsErr, isLoading } = useSWR(`/news/${newsId}`);
 if (isLoading) {
@@ -46,4 +50,5 @@ path parametersはurlに文字列として直接埋め込みます。
 openapi-fetchを使います。
 
 ## ベータについて
+
 [GitHub Actions](https://github.com/sohosai/sos24-client/actions/workflows/cd-beta.yml)を手動実行することでベータをデプロイできます。

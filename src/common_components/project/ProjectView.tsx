@@ -14,21 +14,23 @@ import { TableRow } from "@/app/dashboard/TableRow";
 import { UserWithAddress } from "./UserWithAddress";
 import { ProjectAttributesBadge } from "./ProjectAttributesBadge";
 
-const shareURL = async (url: string) => {
-  navigator.clipboard
-    .writeText(url)
-    .then(() => {
-      toast.success("リンクをコピーしました");
-    })
-    .catch(() => {
+export const shareURL = async (url: string) => {
+  toast.promise(
+    navigator.clipboard.writeText(url).catch(() => {
       navigator
         .share({
           url,
         })
         .catch(() => {
-          toast.error("リンクを共有できませんでした");
+          throw new Error("リンクをコピーできませんでした");
         });
-    });
+    }),
+    {
+      loading: "リンクをコピー中...",
+      success: "リンクをコピーしました",
+      error: "リンクをコピーできませんでした",
+    },
+  );
 };
 
 export const getNewInvitationId = async (
@@ -68,26 +70,31 @@ export const ProjectTableView: React.FC<{
     resolver: valibotResolver(UpdateProjectSchema),
   });
   const submitForm = async (e: UpdateProjectSchemaType) => {
-    await client
-      .PUT(`/projects/{project_id}`, {
-        params: {
-          path: {
-            project_id: projectData.id,
+    toast.promise(
+      client
+        .PUT(`/projects/{project_id}`, {
+          params: {
+            path: {
+              project_id: projectData.id,
+            },
           },
-        },
-        body: { ...projectData, ...e },
-      })
-      .then(({ error }) => {
-        if (error) {
-          toast.error("企画情報が更新できませんでした");
-          if (error["code"] == "bounded-string/invalid-character") {
-            setError("title", { message: "絵文字は使えません" });
+          body: { ...projectData, ...e },
+        })
+        .then(({ error }) => {
+          if (error) {
+            if (error["code"] == "bounded-string/invalid-character") {
+              setError("title", { message: "絵文字は使えません" });
+            }
+            throw error;
           }
-          return;
-        }
-        toast.success("企画情報を更新しました");
-        onSubmit();
-      });
+          onSubmit();
+        }),
+      {
+        loading: "企画情報を更新しています",
+        success: "企画情報を更新しました",
+        error: "企画情報が更新できませんでした",
+      },
+    );
   };
   return (
     <form className={vstack({ width: "full" })} onSubmit={handleSubmit(submitForm)}>
