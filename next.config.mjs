@@ -30,18 +30,28 @@ const nextConfig = {
 
     return config;
   },
+
+  sentry: {
+    hideSourceMaps: true,
+  },
+};
+
+const sentryWebpackPluginOptions = {
+  //ソースマップのアップロードのログを表示する
+  silent: true,
 };
 
 export default withSentryConfig(
   nextConfig,
+  sentryWebpackPluginOptions,
   {
     // For all available options, see:
     // https://github.com/getsentry/sentry-webpack-plugin#options
 
     // Suppresses source map uploading logs during build
     silent: true,
-    org: "sohosai-jsys",
-    project: "sos24-client",
+    org: "jsys",
+    project: process.env.SENTRY_PROJECT,
   },
   {
     // For all available options, see:
