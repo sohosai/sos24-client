@@ -10,12 +10,12 @@ import { hstack, stack, visuallyHidden } from "@styled-system/patterns";
 import { useForm } from "react-hook-form";
 import Arrow from "./three_arrow_left.svg?url";
 import Image from "next/image";
-import { getNewInvitationId, shareURL } from "@/common_components/project/ProjectView";
 import { components } from "@/schema";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { ProjectCategoryEditor } from "./ProjectCategoryEditor";
 import { attributeSelectorStyle } from "@/common_components/project/ProjectAttributesBadge";
+import { handleShareInviteLink } from "@/common_components/project/ProjectView";
 export const runtime = "edge";
 
 export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project"] }> = ({ project }) => {
@@ -108,12 +108,7 @@ export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project
         <div className={hstack()}>
           <span>{project?.owner_name}</span>
           <Image src={Arrow} alt="" />
-          <Button
-            type="button"
-            color="secondary"
-            onClick={async () =>
-              shareURL(`${window.location.origin}/invitation/${await getNewInvitationId(project.id, "owner")}`)
-            }>
+          <Button type="button" color="secondary" onClick={async () => handleShareInviteLink(project.id, "owner")}>
             変更用URLを発行
           </Button>
         </div>
@@ -123,10 +118,7 @@ export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project
         <div className={hstack()}>
           <span>{project?.sub_owner_name ?? "未設定"}</span>
           <Image src={Arrow} alt="" />
-          <Button
-            type="button"
-            color="secondary"
-            onClick={async () => shareURL(await getNewInvitationId(project.id, "sub_owner"))}>
+          <Button type="button" color="secondary" onClick={async () => handleShareInviteLink(project.id, "sub_owner")}>
             変更用URLを発行
           </Button>
         </div>
