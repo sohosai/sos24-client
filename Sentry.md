@@ -4,7 +4,7 @@
 
 `.sentryclirc`と`.env`を作成し、必要な情報を記述する。
 
-※ `.sentryclirc.example`と`.env`を参考にしてください。
+※ `.sentryclirc.example`と`.env.exmaple`を参考にしてください。
 
 > [!CAUTION]
 > `.sentryclirc`と`.env`は、絶対にpushしてはいけません。
@@ -15,7 +15,7 @@ Sentryの通知について、開発環境と本番環境の2つのプロジェ�
 
 [開発環境 (プロジェクト名: `sos24-client-dev`)]
 
-`.env`ファイルにdsnとプロジェクト名を書くと、Sentryが`sos24-client-dev`で通知をしてくれます。
+`.env`ファイルにdsnとプロジェクト名を書き、`.sentryclirc`に適切な情報を書くと、Sentryが`sos24-client-dev`で通知をしてくれます。
 
 [本番環境 (プロジェクト名: `sos24-client-prod`)]
 
