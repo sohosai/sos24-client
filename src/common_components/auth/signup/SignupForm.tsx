@@ -27,29 +27,36 @@ export const SignupForm = () => {
   });
 
   const onSubmit = async (data: SignupSchemaType) => {
-    const resp = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/users`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: data.name,
-        kana_name: data.kana_name,
-        phone_number: data.phone_number,
-        email: data.email,
-        password: data.password,
+    toast.promise(
+      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: data.name,
+          kana_name: data.kana_name,
+          phone_number: data.phone_number,
+          email: data.email,
+          password: data.password,
+        }),
+      }).then((res) => {
+        if (res.status === 201) {
+          const auth = getAuth();
+          signInWithEmailAndPassword(auth, data.email, data.password).then(() => {
+            sendEmailVerification(auth.currentUser!);
+          });
+        } else {
+          setError("root", { message: "ユーザ登録に失敗しました" });
+          throw new Error("ユーザ登録に失敗しました");
+        }
       }),
-    });
-
-    if (resp.status === 201) {
-      const auth = getAuth();
-      signInWithEmailAndPassword(auth, data.email, data.password).then(() => {
-        sendEmailVerification(auth.currentUser!);
-      });
-    } else {
-      setError("root", { message: "ユーザ登録に失敗しました" });
-      toast.error("ユーザ登録に失敗しました");
-    }
+      {
+        loading: "登録中...",
+        success: "登録に成功しました",
+        error: "ユーザー登録に失敗しました",
+      },
+    );
   };
 
   return (
@@ -101,6 +108,7 @@ export const SignupForm = () => {
           パスワード
         </label>
         <input type="password" id="password" className={cx(basicFormStyle())} {...register("password")} />
+        <span className={css({ fontSize: "sm", color: "gray.600" })}>6字以上で入力してください</span>
         {errors.password && <span className={basicErrorMessageStyle}>{errors.password.message}</span>}
       </div>
       <div className={labelAndInputStyle}>
@@ -108,6 +116,7 @@ export const SignupForm = () => {
           電話番号
         </label>
         <input type="tel" id="phone_number" className={cx(basicFormStyle())} {...register("phone_number")} />
+        <span className={css({ fontSize: "sm", color: "gray.600" })}>ハイフンを抜いて数字のみで入力してください</span>
         {errors.phone_number && <span className={basicErrorMessageStyle}>{errors.phone_number.message}</span>}
       </div>
       <div className={css({ display: "flex", alignItems: "center", gap: 3 })}>

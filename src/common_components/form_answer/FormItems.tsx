@@ -31,6 +31,7 @@ type Props = {
   getValues: UseFormGetValues<FormFieldsType>;
   setValue: UseFormSetValue<FormFieldsType>;
   register: UseFormRegister<FormFieldsType>;
+  disabled?: boolean;
   errors: FieldErrors<FormFieldsType>;
   files: FilesFormType;
   setFiles: Dispatch<SetStateAction<FilesFormType>>;
@@ -42,6 +43,7 @@ export const FormItems: FC<Props> = ({
   getValues,
   setValue,
   register,
+  disabled,
   errors,
   files,
   setFiles,
@@ -66,6 +68,7 @@ export const FormItems: FC<Props> = ({
               required: { value: item.required, message: "数字を入力してください" },
               max: item.max ? { value: item.max, message: `${item.max}以下の数字を入力してください` } : undefined,
               min: item.min ? { value: item.min, message: `${item.min}以上の数字を入力してください` } : undefined,
+              disabled,
             })}
             error={errors[item.id]?.message}
           />
@@ -86,6 +89,7 @@ export const FormItems: FC<Props> = ({
               minLength: item.min_length
                 ? { value: item.min_length, message: `${item.min_length}文字以上で入力してください` }
                 : undefined,
+              disabled,
             })}
             error={errors[item.id]?.message}
           />
@@ -100,6 +104,7 @@ export const FormItems: FC<Props> = ({
             options={item.options ?? []}
             register={register(item.id, {
               required: { value: item.required, message: "項目を選択してください。" },
+              disabled,
             })}
             error={errors[item.id]?.message}
           />
@@ -112,7 +117,10 @@ export const FormItems: FC<Props> = ({
             description={item.description}
             required={item.required ?? true}
             options={item.options ?? []}
-            register={register(item.id)}
+            register={register(item.id, {
+              disabled,
+            })}
+            disabled={disabled}
             getValues={getValues}
             setValue={setValue}
             error={errors[item.id]?.message}
@@ -127,7 +135,10 @@ export const FormItems: FC<Props> = ({
             required={item.required ?? true}
             extensions={item.extensions ?? []}
             limit={item.limit ?? null}
-            register={register(item.id)}
+            register={register(item.id, {
+              disabled,
+            })}
+            disabled={disabled}
             files={files}
             setFiles={setFiles}
             setErrorState={setFileErrors}

@@ -1,3 +1,5 @@
+import { captureException } from "@sentry/nextjs";
+
 export const fetcherWithToken = async (url: string, token?: string, _init?: RequestInit) => {
   if (!token) {
     const error = new Error("Not Authorized");
@@ -13,6 +15,9 @@ export const fetcherWithToken = async (url: string, token?: string, _init?: Requ
     const error = new Error(res.statusText);
     error.name = resObject.code;
     error.message = resObject.message;
+    if (res.status != 404 && res.status != 403 && res.status != 401) {
+      captureException(error);
+    }
     throw error;
   }
   return resObject;
