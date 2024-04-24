@@ -39,30 +39,30 @@ export const NewNewsForm = () => {
     const fileIds = await postFiles("public", attachments);
     const categories = data.categories.length === 0 ? projectCategories : data.categories;
 
-    client
-      .POST("/news", {
-        body: {
-          title: data.title,
-          body: data.body,
-          categories: categories as components["schemas"]["ProjectCategory"][],
-          attributes: [...projectAttributes] as components["schemas"]["ProjectAttribute"][],
-          attachments: fileIds ? fileIds["attachments"] ?? [] : [],
-        },
-      })
-      .then(({ data, error }) => {
-        if (error) {
-          toast.error(`お知らせ作成中にエラーが発生しました`);
-          fileIds && deleteAllUploadedFiles(fileIds);
-          return;
-        }
-
-        toast.success("お知らせを作成しました");
-        router.push(`/committee/news/${data.id}`);
-      })
-      .catch(() => {
-        fileIds && deleteAllUploadedFiles(fileIds);
-        toast.error(`お知らせ保存中にエラーが発生しました`);
-      });
+    toast.promise(
+      client
+        .POST("/news", {
+          body: {
+            title: data.title,
+            body: data.body,
+            categories: categories as components["schemas"]["ProjectCategory"][],
+            attributes: [...projectAttributes] as components["schemas"]["ProjectAttribute"][],
+            attachments: fileIds ? fileIds["attachments"] ?? [] : [],
+          },
+        })
+        .then(({ data, error }) => {
+          if (error) {
+            fileIds && deleteAllUploadedFiles(fileIds);
+            throw error;
+          }
+          router.push(`/committee/news/${data.id}`);
+        }),
+      {
+        loading: "お知らせを作成しています",
+        error: "お知らせの作成中にエラーが発生しました",
+        success: "お知らせを作成しました",
+      },
+    );
   };
 
   return (
