@@ -4,6 +4,7 @@ import { FC, useState } from "react";
 import { assignType } from "@/lib/openapi";
 import { css } from "@styled-system/css";
 import dayjs from "dayjs";
+import ja from "dayjs/locale/ja";
 
 import { FormFieldsType } from "./FormItems";
 import { getTimeLeftText, getSubmitStatusFromDate } from "@/lib/formHelpers";
@@ -51,6 +52,7 @@ export const FormPage = ({ answer, answerError, answerLoading, form, formError, 
 
   const [editable, setEdiatable] = useState(false);
 
+  const deadlineText = form && getTimeLeftText(dayjs(), dayjs(form.ends_at), status);
   return (
     <>
       <div
@@ -78,10 +80,10 @@ export const FormPage = ({ answer, answerError, answerLoading, form, formError, 
               <div
                 className={css({ display: "flex", justifyContent: "space-between", flexWrap: "wrap", marginBlock: 3 })}>
                 <p>
-                  <span>
-                    {form && dayjs(form.ends_at).format("YYYY/MM/DD")} (
-                    {form && getTimeLeftText(dayjs(), dayjs(form.ends_at), status)})
+                  <span className={css({ marginInlineEnd: 2 })}>
+                    {form && dayjs(form.ends_at).locale(ja).format("YYYY/MM/DD(ddd) HH:mm")}
                   </span>
+                  <span>{deadlineText ? ` (${deadlineText})` : ""}</span>
                   <SubmitStatusBadge status={status} className={css({ marginInline: 3 })} />
                 </p>
                 {answerItems && dayjs().isBefore(dayjs(form.ends_at)) && !editable && (
