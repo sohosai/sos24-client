@@ -10,10 +10,16 @@ export const UserWithAddress: React.FC<{ name: string; email: string }> = ({ nam
     <button
       className={hstack({ alignItems: "center", cursor: "pointer" })}
       onClick={() => {
-        navigator.clipboard
-          .writeText(email)
-          .then(() => toast.success("メールアドレスをコピーしました"))
-          .catch(() => toast.error("コピーに失敗しました"));
+        toast.promise(
+          navigator.clipboard.writeText(email).catch(() => {
+            throw new Error("メールアドレスのコピーに失敗しました");
+          }),
+          {
+            loading: "メールアドレスをコピー中...",
+            success: "メールアドレスをコピーしました",
+            error: "メールアドレスのコピーに失敗しました",
+          },
+        );
       }}>
       <Image src={MailAddressIcon} alt="" className={css({ height: "full" })} />
       {name}
