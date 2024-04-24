@@ -15,22 +15,11 @@ import { UserWithAddress } from "./UserWithAddress";
 import { ProjectAttributesBadge } from "./ProjectAttributesBadge";
 
 export const shareURL = async (url: string) => {
-  toast.promise(
-    navigator.clipboard.writeText(url).catch(() => {
-      navigator
-        .share({
-          url,
-        })
-        .catch(() => {
-          throw new Error("リンクをコピーできませんでした");
-        });
-    }),
-    {
-      loading: "リンクをコピー中...",
-      success: "リンクをコピーしました",
-      error: "リンクをコピーできませんでした",
-    },
-  );
+  navigator.clipboard.writeText(url).catch(() => {
+    navigator.share({
+      url,
+    });
+  });
 };
 
 export const getNewInvitationId = async (
@@ -46,7 +35,6 @@ export const getNewInvitationId = async (
   if (res.error) {
     throw res.error;
   }
-  localStorage.setItem("invitation_id", res.data.id ?? "");
   return res.data.id;
 };
 
@@ -203,7 +191,13 @@ export const ProjectTableView: React.FC<{
             ) : (
               <button
                 className={css({ color: "tsukuba.purple", textDecoration: "underline", cursor: "pointer" })}
-                onClick={() => handleShareInviteLink(projectData.id, "sub_owner")}
+                onClick={() =>
+                  toast.promise(handleShareInviteLink(projectData.id, "sub_owner"), {
+                    loading: "招待リンクをコピーしています",
+                    success: "招待リンクをコピーしました",
+                    error: "招待リンクをコピーできませんでした",
+                  })
+                }
                 type="button">
                 招待リンクを共有
               </button>
