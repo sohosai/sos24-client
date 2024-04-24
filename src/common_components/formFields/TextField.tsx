@@ -17,7 +17,7 @@ export const TextField = ({ type, id, label, placeholder, description, required,
         {required !== undefined && <RequiredBadge isRequired={required} className={css({ marginInline: 2 })} />}
       </label>
       <p className={basicDescriptionStyle}>{description}</p>
-      <div className={css({ width: { base: "100%", sm: "90%" } })}>
+      <div>
         {type === "text" ? (
           <input
             type="text"

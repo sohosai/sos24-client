@@ -38,9 +38,9 @@ export const getSubmitStatusFromDate = (deadline: string | null | undefined, ans
 
 export const getTimeLeft = (now: dayjs.Dayjs, deadline: dayjs.Dayjs) => deadline.diff(now, "d");
 
-export const getTimeLeftText = (now: dayjs.Dayjs, deadline: dayjs.Dayjs, status: SubmitStatus) => {
+export const getTimeLeftText = (now: dayjs.Dayjs, deadline: dayjs.Dayjs, status: SubmitStatus): string => {
   const diff = getTimeLeft(now, deadline);
-  return status === "未提出" ? (diff >= 0 ? `残り${diff}日` : "締切を過ぎています") : "";
+  return diff >= 0 ? `残り${diff}日` : status === "未提出" ? "締切を過ぎています" : "";
 };
 
 export const getCommitteeTimeLeftText = (now: dayjs.Dayjs, deadline: dayjs.Dayjs) => {
