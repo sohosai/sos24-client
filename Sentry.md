@@ -2,13 +2,21 @@
 
 ## Setup
 
-`.sentryclirc`を作成し、必要な情報を記述する。
+`.sentryclirc`と`.env`を作成し、必要な情報を記述する。
 
-※ `.sentryclirc.example`を参考にしてください。
+※ `.sentryclirc.example`と`.env`を参考にしてください。
 
-> [!CAUTION] > `.sentryclirc`は、絶対にpushしてはいけません。
+> [!CAUTION]
+> `.sentryclirc`と`.env`は、絶対にpushしてはいけません。
 
-## 注意事項
+## Sentryの通知について
 
-> [!IMPORTANT]
-> ブラウザの拡張機能である`uBlock Origin`を入れている人は、無効にしてから開発を始めてください。無効にしない場合、正常に通知ができない可能性があります。
+Sentryの通知について、開発環境と本番環境の2つのプロジェクト(`sos24-client-dev`と`sos24-client-prod`)を用意しています。
+
+[開発環境 (プロジェクト名: `sos24-client-dev`)]
+
+`.env`ファイルにdsnとプロジェクト名を書くと、Sentryが`sos24-client-dev`で通知をしてくれます。
+
+[本番環境 (プロジェクト名: `sos24-client-prod`)]
+
+確認はしていませんが、本番環境でSentryが`sos24-client-prod`で通知をしてくれるはずです。(未確認)
