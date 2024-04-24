@@ -80,14 +80,14 @@ const NewsDetailsPage = ({ params }: { params: { project_id: string } }) => {
               className={css({ cursor: "pointer" })}
               onClick={() => {
                 window.confirm("本当に削除しますか？") &&
-                  deleteProject(project.id)
-                    .then(() => {
-                      toast.success("企画を削除しました。");
+                  toast.promise(deleteProject(project.id), {
+                    loading: "企画を削除しています",
+                    error: "企画の削除中にエラーが発生しました",
+                    success: () => {
                       router.push("/committee/projects");
-                    })
-                    .catch(() => {
-                      toast.error("企画を削除できませんでした");
-                    });
+                      return "企画を削除しました";
+                    },
+                  });
               }}
             />
           </div>
