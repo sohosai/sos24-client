@@ -16,7 +16,7 @@ import { ProjectCategorySelector } from "@/common_components/ProjectCategorySele
 import { TitleField } from "@/common_components/news/TitleField";
 import { BodyField } from "@/common_components/news/BodyField";
 import { FilesField } from "@/common_components/formFields/Files";
-import { FileErrorsType, FilesFormType } from "@/app/forms/[form_id]/FormItems";
+import { FileErrorsType, FilesFormType } from "@/common_components/form_answer/FormItems";
 import { deleteAllUploadedFiles, postFiles } from "@/lib/postFile";
 
 export const EditNewsForm: FC<{
@@ -67,32 +67,35 @@ export const EditNewsForm: FC<{
     }
     const fileIds = await postFiles("public", attachments);
     const categories = data.categories.length === 0 ? projectCategories : data.categories;
-    client
-      .PUT(`/news/{news_id}`, {
-        params: { path: { news_id: news_id } },
-        body: {
-          title: data.title,
-          body: data.body,
-          categories: categories as components["schemas"]["ProjectCategory"][],
-          attributes: [...projectAttributes] as components["schemas"]["ProjectAttribute"][],
-          attachments: fileIds ? fileIds["attachments"] ?? [] : [],
-        },
-      })
-      .then(({ error }) => {
-        if (error) {
+    toast.promise(
+      client
+        .PUT(`/news/{news_id}`, {
+          params: { path: { news_id: news_id } },
+          body: {
+            title: data.title,
+            body: data.body,
+            categories: categories as components["schemas"]["ProjectCategory"][],
+            attributes: [...projectAttributes] as components["schemas"]["ProjectAttribute"][],
+            attachments: fileIds ? fileIds["attachments"] ?? [] : [],
+          },
+        })
+        .then(({ error }) => {
+          if (error) {
+            fileIds && deleteAllUploadedFiles(fileIds);
+            throw error;
+          }
+          mutate();
+          router.push(`/committee/news/${news_id}`);
+        }),
+      {
+        loading: "お知らせを保存しています",
+        error: () => {
           fileIds && deleteAllUploadedFiles(fileIds);
-          toast.error(`お知らせ保存中にエラーが発生しました`);
-          return;
-        }
-
-        toast.success("お知らせを保存しました");
-        mutate();
-        router.push(`/committee/news/${news_id}`);
-      })
-      .catch(() => {
-        fileIds && deleteAllUploadedFiles(fileIds);
-        toast.error(`お知らせ保存中にエラーが発生しました`);
-      });
+          return "お知らせの保存中にエラーが発生しました";
+        },
+        success: "お知らせを保存しました",
+      },
+    );
   };
 
   return (
@@ -135,21 +138,23 @@ export const EditNewsForm: FC<{
           className={css({ w: "269px" })}
           onClick={() => {
             window.confirm("本当に削除しますか？") &&
-              client
-                .DELETE(`/news/{news_id}`, {
-                  params: { path: { news_id: news_id } },
-                })
-                .then(({ error }) => {
-                  if (error) {
-                    toast.error(`お知らせ削除中にエラーが発生しました`);
-                    return;
-                  }
-                  toast.success("お知らせを削除しました");
-                  router.push(`/committee/news`);
-                })
-                .catch(() => {
-                  toast.error(`お知らせ削除中にエラーが発生しました`);
-                });
+              toast.promise(
+                client
+                  .DELETE(`/news/{news_id}`, {
+                    params: { path: { news_id: news_id } },
+                  })
+                  .then(({ error }) => {
+                    if (error) {
+                      throw error;
+                    }
+                    router.push(`/committee/news`);
+                  }),
+                {
+                  loading: "お知らせを削除しています",
+                  error: "お知らせの削除中にエラーが発生しました",
+                  success: "お知らせを削除しました",
+                },
+              );
           }}>
           お知らせを削除する
         </Button>

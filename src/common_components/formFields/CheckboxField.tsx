@@ -1,13 +1,14 @@
 import { FC } from "react";
 import { UseFormGetValues, UseFormRegisterReturn, UseFormSetValue } from "react-hook-form";
 
-import { css } from "@styled-system/css";
+import { css, cva } from "@styled-system/css";
 import { basicFieldProps } from "./_components/types";
-import { basicFormLabelStyle, checkboxFormStyle } from "./styles";
+import { basicDescriptionStyle, basicFormLabelStyle, checkboxFormStyle } from "./styles";
 import { RequiredBadge } from "./_components/RequiredBadge";
-import { FormFieldsType } from "@/app/forms/[form_id]/FormItems";
+import { FormFieldsType } from "@/common_components/form_answer/FormItems";
 
 interface Props extends basicFieldProps {
+  disabled?: boolean;
   register: UseFormRegisterReturn;
   getValues: UseFormGetValues<FormFieldsType>;
   setValue: UseFormSetValue<FormFieldsType>;
@@ -15,6 +16,7 @@ interface Props extends basicFieldProps {
 }
 
 export const CheckboxField: FC<Props> = (props: Props) => {
+  props.setValue(props.id, JSON.stringify(JSON.parse(String(props.getValues(props.id) ?? "[]"))));
   return (
     <div>
       <fieldset>
@@ -24,6 +26,7 @@ export const CheckboxField: FC<Props> = (props: Props) => {
             <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
           )}
         </legend>
+        <p className={basicDescriptionStyle}>{props.description}</p>
         <div
           className={css({
             display: "flex",
@@ -44,6 +47,8 @@ export const CheckboxField: FC<Props> = (props: Props) => {
                   value={option}
                   id={`${props.id}-${index}`}
                   className={checkboxFormStyle}
+                  checked={props.disabled ? JSON.parse(props.getValues(props.id) ?? "[]").includes(option) : undefined}
+                  disabled={props.disabled}
                   onChange={(e) => {
                     let checks = JSON.parse(String(props.getValues(props.id) ?? "[]")) as string[];
                     if (checks.includes(option)) {
@@ -51,19 +56,30 @@ export const CheckboxField: FC<Props> = (props: Props) => {
                         checks = checks.filter((v) => v !== option);
                       }
                     } else {
-                      checks.push(option);
+                      if (e.target.checked) {
+                        checks.push(option);
+                      }
                     }
                     props.setValue(props.id, JSON.stringify(checks));
                   }}
                 />
                 <label
                   htmlFor={`${props.id}-${index}`}
-                  className={css({
-                    paddingInline: 2,
-                    width: "100%",
-                    fontSize: 18,
-                    cursor: "pointer",
-                  })}>
+                  className={cva({
+                    base: {
+                      paddingInline: 2,
+                      width: "100%",
+                      fontSize: 18,
+                      cursor: "pointer",
+                    },
+                    variants: {
+                      isDisabled: {
+                        true: {
+                          cursor: "unset",
+                        },
+                      },
+                    },
+                  })({ isDisabled: props.disabled })}>
                   {option}
                 </label>
               </div>
