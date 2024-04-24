@@ -53,23 +53,28 @@ const EditFormPage: NextPage<{ params: { form_id: string } }> = ({ params }) => 
   };
 
   const onSubmit: HandleFormEditorSubmit = (body) => {
-    client
-      .PUT(`/forms/{form_id}`, {
-        params: {
-          path: {
-            form_id: params.form_id,
+    toast.promise(
+      client
+        .PUT(`/forms/{form_id}`, {
+          params: {
+            path: {
+              form_id: params.form_id,
+            },
           },
-        },
-        body,
-      })
-      .then((res) => {
-        if (!res.error) {
-          toast.success("申請を更新しました");
+          body,
+        })
+        .then(({ error }) => {
+          if (error) throw error;
+        }),
+      {
+        loading: "申請を更新しています",
+        success: () => {
           router.push("/committee/forms");
-        } else {
-          toast.error("申請の更新に失敗しました");
-        }
-      });
+          return "申請を更新しました";
+        },
+        error: "申請の更新に失敗しました",
+      },
+    );
   };
 
   return (

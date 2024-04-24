@@ -115,30 +115,33 @@ export const RegisterForm = () => {
         attributes.push("outside");
         break;
     }
-
-    client
-      .POST("/projects", {
-        body: {
-          title: data.title,
-          kana_title: data.kana_title,
-          group_name: data.group_name,
-          kana_group_name: data.kana_group_name,
-          category: data.category as components["schemas"]["ProjectCategory"],
-          attributes: attributes,
-        },
-      })
-      .then(({ error }) => {
-        if (error) {
-          toast.error(`企画応募中にエラーが発生しました`);
-          return;
-        }
-
-        toast.success("企画応募に成功しました");
-        router.push("/dashboard");
-      })
-      .catch(() => {
-        toast.error(`企画応募中にエラーが発生しました`);
-      });
+    toast.promise(
+      client
+        .POST("/projects", {
+          body: {
+            title: data.title,
+            kana_title: data.kana_title,
+            group_name: data.group_name,
+            kana_group_name: data.kana_group_name,
+            category: data.category as components["schemas"]["ProjectCategory"],
+            attributes: attributes,
+          },
+        })
+        .then(({ error }) => {
+          if (error) {
+            throw error;
+          }
+          router.push("/dashboard");
+        })
+        .catch(() => {
+          throw new Error(`企画応募中にエラーが発生しました`);
+        }),
+      {
+        loading: "企画応募中",
+        success: "企画応募に成功しました",
+        error: "企画応募中にエラーが発生しました",
+      },
+    );
   };
 
   return (
