@@ -7,7 +7,7 @@ import Image from "next/image";
 import Triangle from "@/assets/Triangle.svg?url";
 import { authModeAtom } from "@/common_components/auth/AuthUI";
 import { useSetAtom } from "jotai";
-import { center } from "@styled-system/patterns";
+import { center, vstack } from "@styled-system/patterns";
 
 const SigninPage: NextPage = () => {
   const setAuthMode = useSetAtom(authModeAtom);
@@ -18,10 +18,7 @@ const SigninPage: NextPage = () => {
         minHeight: "calc(100vh - token(spacing.20))",
       })}>
       <div
-        className={css({
-          display: "flex",
-          flexDir: "column",
-          alignItems: "center",
+        className={vstack({
           boxShadow: "token(shadows.md)",
           paddingY: 11,
           paddingX: 20,
@@ -31,7 +28,22 @@ const SigninPage: NextPage = () => {
         })}>
         <h1 className={css({ fontSize: "2xl", fontWeight: "bold", marginBottom: 8 })}>ログイン</h1>
         <SigninForm />
-        <div className={css({ marginTop: 4, display: "flex", gap: 3.5 })}>
+        <div className={css({ display: "flex", gap: 3.5 })}>
+          <Image src={Triangle} alt="" />
+          <button
+            onClick={() => setAuthMode("resetPassword")}
+            className={css({
+              textDecoration: "underline",
+              fontWeight: "bold",
+              cursor: "pointer",
+              wordBreak: "auto-phrase",
+            })}>
+            パスワードを忘れた場合
+            <wbr />
+            はこちら
+          </button>
+        </div>
+        <div className={css({ display: "flex", gap: 3.5 })}>
           <Image src={Triangle} alt="" />
           <button
             onClick={() => setAuthMode("signUp")}

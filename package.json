@@ -21,6 +21,7 @@
     "firebase": "^10.9.0",
     "graphemer": "^1.4.0",
     "jotai": "^2.7.1",
+    "jotai-location": "^0.5.4",
     "next": "14.1.4",
     "openapi-fetch": "^0.9.3",
     "openapi-typescript-helpers": "^0.0.7",

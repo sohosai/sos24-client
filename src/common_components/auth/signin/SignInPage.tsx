@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { css, cx } from "@styled-system/css";
 import { basicErrorMessageStyle, basicFormStyle } from "@/common_components/formFields/styles";
-import { Button } from "@/common_components/Button";
+import { buttonStyle } from "@/recipes/button";
 
 type SignInInput = { email: string; password: string };
 
@@ -88,9 +88,17 @@ export const SigninForm: React.FC = () => {
           {errors.password && <span className={basicErrorMessageStyle}>{errors.password.message}</span>}
           {errors.root && <span className={basicErrorMessageStyle}>{errors.root.message}</span>}
         </div>
-        <Button type="submit" color="purple" className={css({ flexGrow: 0, alignSelf: "center" })}>
+        <button
+          type="submit"
+          className={cx(
+            buttonStyle({
+              color: "purple",
+              visual: "solid",
+            }),
+            css({ flexGrow: 0, alignSelf: "center" }),
+          )}>
           送信
-        </Button>
+        </button>
       </form>
     </>
   );
