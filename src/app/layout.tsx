@@ -6,6 +6,7 @@ import "./globals.css";
 import "@radix-ui/themes/styles.css";
 import { Toaster } from "react-hot-toast";
 import { ApplicationPeriodProvider } from "./ApplicationPeriodProvider";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 export const metadata: Metadata = {
   title: "雙峰祭オンラインシステム",
@@ -24,6 +25,7 @@ export default function RootLayout({
         <ApplicationPeriodProvider>
           <AuthProvider>{children}</AuthProvider>
         </ApplicationPeriodProvider>
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GAID ?? ""} />
       </body>
     </html>
   );
