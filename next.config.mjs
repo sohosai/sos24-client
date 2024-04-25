@@ -51,7 +51,7 @@ export default withSentryConfig(
     // Suppresses source map uploading logs during build
     silent: true,
     org: "jsys",
-    project: process.env.SENTRY_PROJECT,
+    project: process.env.NEXT_PUBLIC_SENTRY_PROJECT,
   },
   {
     // For all available options, see:
