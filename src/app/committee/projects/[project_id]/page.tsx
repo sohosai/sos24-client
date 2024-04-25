@@ -12,7 +12,6 @@ import { notFound, useRouter } from "next/navigation";
 import deleteButton from "@/assets/deleteProjectButton.svg?url";
 import Image from "next/image";
 import { Button } from "@/common_components/Button";
-import { FormAnswerList } from "@/app/committee/forms/[form_id]/FormAnswerList";
 import { NoResultNotice } from "@/common_components/NoResultNotice";
 import { getSubmitStatusFromDate } from "@/lib/formHelpers";
 import { components } from "@/schema";
