@@ -3,7 +3,7 @@ import { UseFormGetValues, UseFormRegisterReturn, UseFormSetValue } from "react-
 
 import { css, cva } from "@styled-system/css";
 import { basicFieldProps } from "./_components/types";
-import { basicFormLabelStyle, checkboxFormStyle } from "./styles";
+import { basicDescriptionStyle, basicFormLabelStyle, checkboxFormStyle } from "./styles";
 import { RequiredBadge } from "./_components/RequiredBadge";
 import { FormFieldsType } from "@/common_components/form_answer/FormItems";
 
@@ -26,13 +26,7 @@ export const CheckboxField: FC<Props> = (props: Props) => {
             <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
           )}
         </legend>
-        <p
-          className={css({
-            fontSize: "sm",
-            color: "gray.500",
-          })}>
-          {props.description}
-        </p>
+        <p className={basicDescriptionStyle}>{props.description}</p>
         <div
           className={css({
             display: "flex",
