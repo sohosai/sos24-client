@@ -20,22 +20,21 @@ interface Props {
 }
 
 export const Form = ({ form, answerId, answerItems, editable }: Props) => {
-  const handleBeforeunload = useCallback(
-    (event: BeforeUnloadEvent) => {
+  const beforeUnloadController = new AbortController();
+
+  useEffect(() => {
+    const handleBeforeunload = (event: BeforeUnloadEvent) => {
       if (editable || !answerItems) {
         event.preventDefault();
         event.returnValue = "";
       }
-    },
-    [answerItems, editable],
-  );
-  useEffect(() => {
-    window.addEventListener("beforeunload", handleBeforeunload);
+    };
+    window.addEventListener("beforeunload", handleBeforeunload, { signal: beforeUnloadController.signal });
 
     return () => {
       window.removeEventListener("beforeunload", handleBeforeunload);
     };
-  }, [handleBeforeunload]);
+  }, [editable, answerItems, beforeUnloadController.signal]);
   const onSubmit: SubmitHandler<FormFieldsType> = async (data) => {
     if (Array.from(fileErrors).some((v) => v[1])) {
       toast.error(`正しいファイルをアップロードしてください`);
@@ -104,7 +103,7 @@ export const Form = ({ form, answerId, answerItems, editable }: Props) => {
               await deleteAllUploadedFiles(fileIds);
               throw new Error(error.message);
             }
-            window.removeEventListener("beforeunload", handleBeforeunload);
+            beforeUnloadController.abort();
             window.location.reload();
           })
           .catch(async () => {
@@ -132,7 +131,7 @@ export const Form = ({ form, answerId, answerItems, editable }: Props) => {
             return;
           }
           toast.success("申請の送信に成功しました");
-          window.removeEventListener("beforeunload", handleBeforeunload);
+          beforeUnloadController.abort();
           window.location.reload();
         })
         .catch(async () => {
