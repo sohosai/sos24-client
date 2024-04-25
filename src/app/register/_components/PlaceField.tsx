@@ -51,7 +51,7 @@ export const PlaceField = ({ categoryType, register, error }: PlaceFieldProps) =
           caption="調理：◎ 火気の使用：◎ 雨天時：△"
           register={register}
           disabled={categoryType === "stage"}
-          icon={<Outside />}
+          icon={<Outside width={40} height={40} />}
         />
         <PlaceFieldItem
           value="inside"
@@ -59,14 +59,14 @@ export const PlaceField = ({ categoryType, register, error }: PlaceFieldProps) =
           caption="調理：◯ 火気の使用：× 雨天時：◎"
           register={register}
           disabled={categoryType === "stage"}
-          icon={<Inside />}
+          icon={<Inside width={40} height={40} />}
         />
         <PlaceFieldItem
           value="stage"
           label="ステージ"
           register={register}
           disabled={categoryType === "general"}
-          icon={<Stage />}
+          icon={<Stage width={40} height={40} />}
         />
       </div>
       {error && <span className={basicErrorMessageStyle}>{error}</span>}

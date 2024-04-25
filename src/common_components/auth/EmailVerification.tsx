@@ -12,10 +12,16 @@ export const EmailVerification = () => {
   const authState = useAuthState();
   const [isSent, setIsSent] = useState(false);
   const handleResend = () => {
-    sendEmailVerification(authState.user!).then(() => {
-      setIsSent(true);
-      toast.success("確認メールを再送しました");
-    });
+    toast.promise(
+      sendEmailVerification(authState.user!).then(() => {
+        setIsSent(true);
+      }),
+      {
+        loading: "メールを送信中...",
+        success: "メールを送信しました",
+        error: "メールの送信に失敗しました",
+      },
+    );
   };
   return (
     <div

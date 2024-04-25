@@ -4,7 +4,7 @@ import Image from "next/image";
 import { css, cva } from "@styled-system/css";
 import { basicFieldProps } from "./_components/types";
 
-import { basicErrorMessageStyle, basicFormLabelStyle } from "./styles";
+import { basicDescriptionStyle, basicErrorMessageStyle, basicFormLabelStyle } from "./styles";
 
 import { RequiredBadge } from "./_components/RequiredBadge";
 
@@ -54,7 +54,13 @@ export const FilesField = (props: Props) => {
       [...Array(fileNumber)].some((_, i) => files[i].type !== sosFileType && !extensionsRegex.test(files[i].name))
     ) {
       // ファイルの拡張子の検証
-      message = `ファイルの拡張子は${props.extensions?.join("、")}のいずれかにしてください`;
+      if (props.extensions) {
+        if (props.extensions.length >= 2) {
+          message = `ファイルの拡張子は${props.extensions.join("、")}のいずれかにしてください`;
+        } else if (props.extensions.length == 1) {
+          message = `ファイルの拡張子は${props.extensions[0]}にしてください`;
+        }
+      }
     }
 
     if (message) {
@@ -143,13 +149,7 @@ export const FilesField = (props: Props) => {
           <RequiredBadge isRequired={props.required} className={css({ marginInline: 2 })} />
         )}
       </span>
-      <p
-        className={css({
-          fontSize: "sm",
-          color: "gray.500",
-        })}>
-        {props.description}
-      </p>
+      <p className={basicDescriptionStyle}>{props.description}</p>
       <div
         role="form"
         onDragOver={(e) => {

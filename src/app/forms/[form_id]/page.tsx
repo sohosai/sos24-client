@@ -3,6 +3,7 @@
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 
+import { NotFound } from "@/common_components/NotFound";
 import { FormPage } from "@/common_components/form_answer/FormPage";
 
 export const runtime = "edge";
@@ -19,6 +20,16 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
     isLoading: answerLoading,
   } = useSWR(form?.answer_id ? `/form-answers/${form.answer_id}` : null);
   const answer = answerRes ? assignType("/form-answers/{form_answer_id}", answerRes) : undefined;
+
+  if (formError) {
+    switch (formError.name) {
+      case "form/not-found":
+      case "form/invalid-uuid":
+        return <NotFound message="申請が見つかりません" />;
+      default:
+        return "申請の読み込み中にエラーが発生しました";
+    }
+  }
 
   return (
     <FormPage

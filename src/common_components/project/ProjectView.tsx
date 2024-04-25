@@ -1,5 +1,5 @@
 import { basicErrorMessageStyle, basicFormStyle } from "@/common_components/formFields/styles";
-import { assignType, client } from "@/lib/openapi";
+import { client } from "@/lib/openapi";
 import { useForm } from "react-hook-form";
 import { UpdateProjectSchema, UpdateProjectSchemaType } from "@/lib/valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
@@ -15,20 +15,11 @@ import { UserWithAddress } from "./UserWithAddress";
 import { ProjectAttributesBadge } from "./ProjectAttributesBadge";
 
 export const shareURL = async (url: string) => {
-  navigator.clipboard
-    .writeText(url)
-    .then(() => {
-      toast.success("リンクをコピーしました");
-    })
-    .catch(() => {
-      navigator
-        .share({
-          url,
-        })
-        .catch(() => {
-          toast.error("リンクを共有できませんでした");
-        });
+  navigator.clipboard.writeText(url).catch(() => {
+    navigator.share({
+      url,
     });
+  });
 };
 
 export const getNewInvitationId = async (
@@ -44,39 +35,11 @@ export const getNewInvitationId = async (
   if (res.error) {
     throw res.error;
   }
-  localStorage.setItem("invitation_id", res.data.id ?? "");
   return res.data.id;
 };
 
-const getInvitationIdWithCache = async (
-  project_id: string,
-  position: components["schemas"]["Invitation"]["position"],
-): Promise<string> => {
-  const invitationId = localStorage.getItem("invitation_id");
-
-  if (!invitationId) {
-    return await getNewInvitationId(project_id, position);
-  }
-
-  const { data: dataFromAPI, error } = await client.GET("/invitations/{invitation_id}", {
-    params: { path: { invitation_id: invitationId ?? "" } },
-  });
-
-  if (!error && !assignType("/invitations/{invitation_id}", dataFromAPI).used_by) {
-    return invitationId;
-  } else {
-    return await getNewInvitationId(project_id, position);
-  }
-};
-
-export const handleShareInviteLink = async (
-  project_id: string,
-  position: "owner" | "sub_owner",
-  useCache?: boolean,
-) => {
-  const invitationId = useCache
-    ? await getInvitationIdWithCache(project_id, position)
-    : await getNewInvitationId(project_id, position);
+export const handleShareInviteLink = async (project_id: string, position: "owner" | "sub_owner") => {
+  const invitationId = await getNewInvitationId(project_id, position);
   shareURL(`${window.location.origin}/invitations/${invitationId}`);
 };
 
@@ -85,8 +48,7 @@ export const ProjectTableView: React.FC<{
   onSubmit?: () => unknown;
   hideSubOwner?: boolean;
   projectData: components["schemas"]["Project"];
-  isCommittee?: boolean;
-}> = ({ isEditMode = false, onSubmit = () => {}, hideSubOwner = false, projectData, isCommittee = false }) => {
+}> = ({ isEditMode = false, onSubmit = () => {}, hideSubOwner = false, projectData }) => {
   const {
     register,
     formState: { errors },
@@ -96,26 +58,31 @@ export const ProjectTableView: React.FC<{
     resolver: valibotResolver(UpdateProjectSchema),
   });
   const submitForm = async (e: UpdateProjectSchemaType) => {
-    await client
-      .PUT(`/projects/{project_id}`, {
-        params: {
-          path: {
-            project_id: projectData.id,
+    toast.promise(
+      client
+        .PUT(`/projects/{project_id}`, {
+          params: {
+            path: {
+              project_id: projectData.id,
+            },
           },
-        },
-        body: { ...projectData, ...e },
-      })
-      .then(({ error }) => {
-        if (error) {
-          toast.error("企画情報が更新できませんでした");
-          if (error["code"] == "bounded-string/invalid-character") {
-            setError("title", { message: "絵文字は使えません" });
+          body: { ...projectData, ...e },
+        })
+        .then(({ error }) => {
+          if (error) {
+            if (error["code"] == "bounded-string/invalid-character") {
+              setError("title", { message: "絵文字は使えません" });
+            }
+            throw error;
           }
-          return;
-        }
-        toast.success("企画情報を更新しました");
-        onSubmit();
-      });
+          onSubmit();
+        }),
+      {
+        loading: "企画情報を更新しています",
+        success: "企画情報を更新しました",
+        error: "企画情報が更新できませんでした",
+      },
+    );
   };
   return (
     <form className={vstack({ width: "full" })} onSubmit={handleSubmit(submitForm)}>
@@ -224,7 +191,13 @@ export const ProjectTableView: React.FC<{
             ) : (
               <button
                 className={css({ color: "tsukuba.purple", textDecoration: "underline", cursor: "pointer" })}
-                onClick={() => handleShareInviteLink(projectData.id, "sub_owner", !isCommittee)}
+                onClick={() =>
+                  toast.promise(handleShareInviteLink(projectData.id, "sub_owner"), {
+                    loading: "招待リンクをコピーしています",
+                    success: "招待リンクをコピーしました",
+                    error: "招待リンクをコピーできませんでした",
+                  })
+                }
                 type="button">
                 招待リンクを共有
               </button>
