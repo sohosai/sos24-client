@@ -62,7 +62,7 @@ npm run gen
 npm run format
 ```
 
-現在はopenapi-fetchのバグ（ https://github.com/drwpow/openapi-typescript/issues/1464
+現在はopenapi-typescriptのバグ（ https://github.com/drwpow/openapi-typescript/issues/1464
 ）により、正しい型定義が生成されません。そのため、以下のコマンドを実行して型定義を修正してください。
 
 ```shell
