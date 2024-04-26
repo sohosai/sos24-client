@@ -61,7 +61,7 @@ const FormAnswerItem: React.FC<{ answer: components["schemas"]["FormAnswerSummar
   );
 };
 
-const NewsDetailsPage = ({ params }: { params: { project_id: string } }) => {
+const ProjectDetailsPage = ({ params }: { params: { project_id: string } }) => {
   const { data, error, isLoading } = useSWR(`/projects/${params.project_id}`);
   const {
     data: formAnswers,
@@ -153,4 +153,4 @@ const NewsDetailsPage = ({ params }: { params: { project_id: string } }) => {
   );
 };
 
-export default NewsDetailsPage;
+export default ProjectDetailsPage;
