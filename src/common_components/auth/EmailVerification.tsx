@@ -59,12 +59,11 @@ export const EmailVerification = () => {
         <p className={css({ color: "gray.700" })}>再送しても届かない場合は時間を空けてからお試しください</p>
         <div className={css({ display: "flex", flexDir: "column", gap: 2 })}>
           <button
-            color={"secondary"}
             className={cx(
-              buttonStyle(),
+              buttonStyle({ visual: "outline", color: "purple" }),
               css({
                 alignSelf: "center",
-                display: "flex",
+                display: "flex!",
                 alignItems: "flex-end",
                 gap: 2,
                 _disabled: {
