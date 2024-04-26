@@ -6,6 +6,15 @@ on:
       - develop
 
 jobs:
+  status_check:
+    runs-on: ubuntu-latest
+    name: Check status
+    steps:
+      - name: Check status
+        run: echo "Check status"
+      - name: logging status
+        run: echo status ${{ github }}
+
   prettier:
     runs-on: [self-hosted, garm]
     steps:
