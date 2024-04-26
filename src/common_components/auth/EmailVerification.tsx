@@ -1,12 +1,12 @@
 import { center } from "@styled-system/patterns";
-import { css } from "@styled-system/css";
-import { Button } from "@/common_components/Button";
+import { css, cx } from "@styled-system/css";
 import SendButton from "@/assets/SendButton.svg?url";
 import Image from "next/image";
 import { sendEmailVerification } from "firebase/auth";
 import { useAuthState } from "@/lib/firebase";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { buttonStyle } from "@/recipes/button";
 
 export const EmailVerification = () => {
   const authState = useAuthState();
@@ -58,24 +58,26 @@ export const EmailVerification = () => {
         </section>
         <p className={css({ color: "gray.700" })}>再送しても届かない場合は時間を空けてからお試しください</p>
         <div className={css({ display: "flex", flexDir: "column", gap: 2 })}>
-          <Button
-            color={"secondary"}
-            className={css({
-              alignSelf: "center",
-              display: "flex",
-              alignItems: "flex-end",
-              gap: 2,
-              _disabled: {
-                opacity: 0.5,
-                cursor: "default",
-                "&:hover": { opacity: 0.5 },
-              },
-            })}
+          <button
+            className={cx(
+              buttonStyle({ visual: "outline", color: "purple" }),
+              css({
+                alignSelf: "center",
+                display: "flex!",
+                alignItems: "flex-end",
+                gap: 2,
+                _disabled: {
+                  opacity: 0.5,
+                  cursor: "default",
+                  "&:hover": { opacity: 0.5 },
+                },
+              }),
+            )}
             onClick={handleResend}
             disabled={isSent}>
             <span>確認メールを再送する</span>
             <Image src={SendButton} alt="" width={20} height={20} />
-          </Button>
+          </button>
           {isSent && (
             <p className={css({ color: "gray.700", fontSize: "sm" })}>
               確認メールを再送しました

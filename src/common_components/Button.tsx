@@ -12,7 +12,6 @@ export const Button: FC<Props> = ({ color, size = "medium", className, children,
   const button = cva({
     base: {
       borderRadius: "sm",
-      display: "block",
       cursor: "pointer",
       borderWidth: 2,
       borderStyle: "solid",
