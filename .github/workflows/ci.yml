@@ -6,6 +6,15 @@ on:
       - develop
 
 jobs:
+  status_check:
+    runs-on: ubuntu-latest
+    name: Check status
+    steps:
+      - name: Check status
+        run: echo "Check status"
+      - name: logging status
+        run: echo status && echo event_name ":" ${{ github.event_name }} && echo head_ref ":" ${{github.head_ref}} && echo ref_name ":" ${{github.ref_name}} && echo event.pull_request.merged ${{github.event.pull_request.merged}}
+
   prettier:
     runs-on: [self-hosted, garm]
     steps:
