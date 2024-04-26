@@ -26,7 +26,7 @@ const SigninPage: NextPage = () => {
           width: "fit-content",
           maxWidth: "90%",
         })}>
-        <h1 className={css({ fontSize: "2xl", fontWeight: "bold", marginBottom: 8 })}>ログイン</h1>
+        <h1 className={css({ fontSize: "2xl", fontWeight: "bold", marginBottom: 8 })}>サインイン</h1>
         <SigninForm />
         <div className={css({ display: "flex", gap: 3.5 })}>
           <Image src={Triangle} alt="" />
