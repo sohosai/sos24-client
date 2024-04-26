@@ -13,7 +13,7 @@ jobs:
       - name: Check status
         run: echo "Check status"
       - name: logging status
-        run: echo status ${{ github }}
+        run: echo status \n event_name ":" ${{ github.event_name }} \n echo head_ref ":" ${{github.head_ref}} \n echo ref_name ":" ${{github.ref_name}} \n echo event.pull_request.merged ${{github.event.pull_request.merged}}
 
   prettier:
     runs-on: [self-hosted, garm]
