@@ -21,7 +21,6 @@ jobs:
         run: echo "Check status"
       - name: logging status
         run: echo "GitHub Context:"&&echo "------------------------------------------------"&&echo "${{ toJson(github) }}"&&echo "------------------------------------------------"
-
   build_and_deploy:
     if: |
       (github.event_name == 'push' && ((github.head_ref || github.ref_name) != 'main' )) || 
