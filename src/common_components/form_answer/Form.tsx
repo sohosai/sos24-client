@@ -7,7 +7,7 @@ import { client } from "@/lib/openapi";
 import { deleteAllUploadedFiles, postFiles } from "@/lib/postFile";
 
 import { components } from "@/schema";
-import { FormItems, FileErrorsType, FormFieldsType, FilesFormType } from "./FormItems";
+import { FileErrorsType, FilesFormType, FormFieldsType, FormItems } from "./FormItems";
 
 import { buttonStyle } from "@/recipes/button";
 import { sosFileType } from "@/lib/file";
@@ -39,30 +39,24 @@ export const Form = ({ form, answerId, answerItems, editable }: Props) => {
 
     type formAnswerItems = components["schemas"]["CreateFormAnswer"]["items"];
     const items: formAnswerItems = form.items.flatMap((item): formAnswerItems[number] | [] => {
-      const value = (() => {
-        switch (item.type) {
-          case "string":
-            return data[item.id] || null;
-          case "int":
-            const datum = data[item.id];
-            return datum ? parseInt(datum ?? "") : null;
-          case "file":
-            return fileIds[item.id] || null;
-          case "choose_many":
-            const options = JSON.parse(String(data[item.id] ?? "[]")) as string[];
-            return options.length ? options : null;
-          default:
-            return data[item.id] || null;
-        }
-      })();
-
-      return value
-        ? {
-            item_id: item.id,
-            type: item.type,
-            value: value,
-          }
-        : [];
+      const datum = data[item.id];
+      switch (item.type) {
+        case "string":
+          if (!datum) return [];
+          return { item_id: item.id, type: item.type, value: datum };
+        case "int":
+          if (!datum) return [];
+          return { item_id: item.id, type: item.type, value: parseInt(datum) };
+        case "choose_one":
+          if (!datum) return [];
+          return { item_id: item.id, type: item.type, value: datum };
+        case "choose_many":
+          if (!datum) return [];
+          const options = JSON.parse(datum) as string[];
+          return options.length ? { item_id: item.id, type: item.type, value: options } : [];
+        case "file":
+          return { item_id: item.id, type: item.type, value: fileIds[item.id] };
+      }
     });
 
     if (answerItems) {
