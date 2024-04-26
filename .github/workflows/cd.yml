@@ -20,7 +20,7 @@ jobs:
       - name: Check status
         run: echo "Check status"
       - name: logging status
-        run: echo status && echo event_name ":" ${{ github.event_name }} && echo head_ref ":" ${{github.head_ref}} && echo ref_name ":" ${{github.ref_name}} && echo event.pull_request ${{github.event.pull_request}}
+        run: echo status  ":" ${{ github.*}}
 
   build_and_deploy:
     if: |
