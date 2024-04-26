@@ -1,19 +1,17 @@
 "use client";
-import { assignType } from "@/lib/openapi";
 import { css } from "@styled-system/css";
 import { hstack } from "@styled-system/patterns";
 import Link from "next/link";
-import useSWR from "swr";
 import { NoResultNotice } from "@/common_components/NoResultNotice";
 import { getSubmitStatusFromDate } from "@/lib/formHelpers";
 import { SubmitStatusBadge } from "@/common_components/SubmitStatus";
 import dayjs from "dayjs";
+import { components } from "@/schema";
 
-export const FormAnswerList: React.FC<{ formId: string; deadline: string }> = ({ formId, deadline }) => {
-  const { data, isLoading, error } = useSWR(`/form-answers?form_id=${formId}`);
-  const answers = assignType("/form-answers", data);
-  if (isLoading) return;
-  if (error) return `エラーが発生しました${error}`;
+export const FormAnswerList: React.FC<{ answers: components["schemas"]["FormAnswerSummary"][]; deadline: string }> = ({
+  answers,
+  deadline,
+}) => {
   return (
     <>
       <h2 className={css({ fontSize: "lg", fontWeight: "bold" })}>個別回答一覧</h2>

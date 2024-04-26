@@ -1,15 +1,18 @@
+"use client";
 import React, { FC, PropsWithChildren } from "react";
 import { Header } from "@/common_components/header/Header";
 import SigninPage from "@/common_components/auth/signin/page";
 import SignupPage from "@/common_components/auth/signup/page";
-import { atom, useAtomValue } from "jotai";
+import { useAtomValue } from "jotai";
 import { useAuthState } from "@/lib/firebase";
 import { Loading } from "@/common_components/Loading";
 import { css } from "@styled-system/css";
 import { EmailVerification } from "@/common_components/auth/EmailVerification";
 import { usePathname } from "next/navigation";
+import { atomWithHash } from "jotai-location";
+import { ResetPassword } from "./resetPassword/ResetPassword";
 
-export const authModeAtom = atom<"signIn" | "signUp">("signIn");
+export const authModeAtom = atomWithHash<"signIn" | "signUp" | "resetPassword">("authMode", "signIn");
 
 export const AuthUI: FC<PropsWithChildren> = ({ children }) => {
   const authMode = useAtomValue(authModeAtom);
@@ -27,6 +30,22 @@ export const AuthUI: FC<PropsWithChildren> = ({ children }) => {
     return children;
   }
 
+  const Component: React.FC = () => {
+    switch (authMode) {
+      case "signIn":
+        return <SigninPage />;
+
+      case "signUp":
+        return <SignupPage />;
+
+      case "resetPassword":
+        return <ResetPassword />;
+
+      default:
+        return <></>;
+    }
+  };
+
   return (
     <>
       <Header />
@@ -40,7 +59,7 @@ export const AuthUI: FC<PropsWithChildren> = ({ children }) => {
       ) : authState.user ? (
         <>{authState.user.emailVerified ? <>{children}</> : <EmailVerification />}</>
       ) : (
-        <>{authMode === "signIn" ? <SigninPage /> : <SignupPage />}</>
+        <Component />
       )}
     </>
   );
