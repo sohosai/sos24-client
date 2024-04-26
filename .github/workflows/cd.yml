@@ -13,18 +13,10 @@ env:
   PRODUCTION_BRANCH: main
 
 jobs:
-  status_check:
-    runs-on: ubuntu-latest
-    name: Check status
-    steps:
-      - name: Check status
-        run: echo "Check status"
-      - name: logging status
-        run: echo "GitHub Context:"&&echo "------------------------------------------------"&&echo "${{ toJson(github) }}"&&echo "------------------------------------------------"
   build_and_deploy:
     if: |
       (github.event_name == 'push' && ((github.head_ref || github.ref_name) != 'main' )) || 
-      github.event.pull_request.merged == true ||
+      github.event.pull_request.merged  ||
       github.event_name == 'workflow_dispatch'
     runs-on: [self-hosted, garm]
     permissions:
