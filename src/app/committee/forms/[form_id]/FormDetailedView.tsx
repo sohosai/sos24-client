@@ -42,6 +42,10 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
   const [_, setState] = useState<FilesFormType>(new Map());
   const [__, setFileErrors] = useState(new Map());
 
+  const { data, isLoading, error } = useSWR(`/form-answers?form_id=${form.id}`);
+  const answers = assignType("/form-answers", data);
+  if (isLoading) return;
+  if (error) return `エラーが発生しました${error}`;
   return (
     <div className={vstack({ gap: 4, alignItems: "start", width: "full" })}>
       <div className={hstack({ gap: 6 })}>
@@ -141,7 +145,7 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
           setFileErrors={setFileErrors}
         />
       </form>
-      <FormAnswerList formId={form.id} deadline={form.ends_at} />
+      <FormAnswerList answers={answers} deadline={form.ends_at} />
     </div>
   );
 };
