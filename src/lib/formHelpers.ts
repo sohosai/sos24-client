@@ -47,3 +47,24 @@ export const getCommitteeTimeLeftText = (now: dayjs.Dayjs, deadline: dayjs.Dayjs
   const diff = getTimeLeft(now, deadline);
   return diff >= 0 ? `残り${diff}日` : "締切を過ぎています";
 };
+
+export const multipleSelectValidater = (
+  value: string[],
+  required: boolean,
+  maxSelection: number,
+  minSelection: number,
+) => {
+  {
+    // 必須回答の場合
+    if (required) {
+      if (value.length < 1) return "1個以上選択してください";
+      if (value.length < minSelection) return `${minSelection}個以上選択してください`;
+      if (value.length > maxSelection) return `${maxSelection}個以下選択してください`;
+    } else {
+      // 任意回答で無選択の場合バリデーションを実施しない
+      if (value.length == 0) return;
+      if (value.length < minSelection) return `回答する場合は${minSelection}個以上選択してください`;
+      if (value.length > maxSelection) return `回答する場合は${maxSelection}個以下選択してください`;
+    }
+  }
+};
