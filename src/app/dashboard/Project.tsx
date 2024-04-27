@@ -43,6 +43,7 @@ export const Project: React.FC<Props> = ({ projectData, mutation, step }) => {
             mutation();
             setEditable(false);
           }}
+          hideSubOwner={step < 4}
           projectData={projectData}
         />
       </div>
