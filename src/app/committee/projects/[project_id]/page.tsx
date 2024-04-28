@@ -53,7 +53,7 @@ const FormAnswerItem: React.FC<{ answer: components["schemas"]["FormAnswerSummar
         borderBottom: "2px solid token(colors.gray.300)",
       })}>
       <div className={hstack({ gap: 5 })}>
-        <span>{dayjs(answer.updated_at).format("MM/DD hh:mm")}</span>
+        <span>{dayjs(answer.updated_at).format("MM/DD HH:mm")}</span>
         <span className={css({ fontWeight: "bold" })}>{form.title}</span>
       </div>
       <SubmitStatusBadge status={status} />
