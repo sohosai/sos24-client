@@ -19,8 +19,7 @@ export const ApplicationPeriodProvider: React.FC<{ children: React.ReactNode }> 
 
   const applicationPeriod = assignType("/project-application-period", _applicationPeriod);
   const startsAt = isLoading ? null : dayjs(applicationPeriod.start_at);
-  //const endsAt = isLoading ? null : dayjs(applicationPeriod.end_at);
-  const endsAt = startsAt;
+  const endsAt = isLoading ? null : dayjs(applicationPeriod.end_at);
   setProjectApplicationPeriod((prev) =>
     Object.assign(
       prev,
