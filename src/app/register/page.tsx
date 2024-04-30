@@ -15,14 +15,9 @@ const RegisterPage = () => {
   const { data: userRes, isLoading: userIsLoading, error: userError } = useSWR("/users/me");
   const router = useRouter();
   const user = assignType("/users/me", userRes);
-  const {
-    data: _applicationPeriod,
-    isLoading: isApplicationPeriodLoading,
-    error: applicationPeriodError,
-  } = useSWR("/project-application-period");
   const applicationPeriod = useAtomValue(projectApplicationPeriodAtom);
-  if (userIsLoading || isApplicationPeriodLoading) return;
-  if (userError || applicationPeriodError) return <p>エラーが発生しました</p>;
+  if (userIsLoading) return;
+  if (userError) return <p>エラーが発生しました</p>;
   if (user.owned_project_id) {
     router.push("/dashboard");
   }
