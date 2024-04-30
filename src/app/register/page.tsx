@@ -8,7 +8,7 @@ import { RegistrationProgress } from "@/common_components/RegistrationProgress";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
 import { assignType } from "@/lib/openapi";
-import { useAtomValue } from "jotai/react/useAtomValue";
+import { useAtomValue } from "jotai";
 import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
 
 const RegisterPage = () => {
