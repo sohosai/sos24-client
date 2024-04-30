@@ -39,7 +39,7 @@ export const FormAnswerList: React.FC<{ answers: components["schemas"]["FormAnsw
                   borderBottom: "2px solid token(colors.gray.300)",
                 })}>
                 <div className={hstack({ gap: 5 })}>
-                  <span>{dayjs(answer.updated_at).format("MM/DD hh:mm")}</span>
+                  <span>{dayjs(answer.updated_at).format("MM/DD HH:mm")}</span>
                   <span className={css({ fontWeight: "bold" })}>{answer.project_title}</span>
                 </div>
                 <SubmitStatusBadge status={status} />
