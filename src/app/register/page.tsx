@@ -8,7 +8,8 @@ import { RegistrationProgress } from "@/common_components/RegistrationProgress";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
 import { assignType } from "@/lib/openapi";
-import dayjs from "dayjs";
+import { useAtomValue } from "jotai/react/useAtomValue";
+import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
 
 const RegisterPage = () => {
   const { data: userRes, isLoading: userIsLoading, error: userError } = useSWR("/users/me");
@@ -19,14 +20,12 @@ const RegisterPage = () => {
     isLoading: isApplicationPeriodLoading,
     error: applicationPeriodError,
   } = useSWR("/project-application-period");
+  const applicationPeriod = useAtomValue(projectApplicationPeriodAtom);
   if (userIsLoading || isApplicationPeriodLoading) return;
   if (userError || applicationPeriodError) return <p>エラーが発生しました</p>;
   if (user.owned_project_id) {
     router.push("/dashboard");
   }
-  const applicationPeriod = assignType("/project-application-period", _applicationPeriod);
-  const isInApplicationPeriod =
-    dayjs().isBefore(applicationPeriod.end_at) && dayjs().isAfter(applicationPeriod.start_at);
   return (
     <div>
       <div
@@ -36,7 +35,7 @@ const RegisterPage = () => {
           marginY: 8,
         })}>
         <Title>企画登録</Title>
-        {isInApplicationPeriod ? (
+        {applicationPeriod.isIn ? (
           <>
             <div
               className={css({
