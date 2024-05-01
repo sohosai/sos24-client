@@ -22,6 +22,8 @@ import { buttonStyle } from "@/recipes/button";
 import Link from "next/link";
 import useSWR from "swr";
 import { FileView } from "@/common_components/FileView";
+import { useAuthState } from "@/lib/firebase";
+import { handleExport } from "@/lib/export";
 
 const FileViewInstance: React.FC<{ fileId: string }> = ({ fileId }) => {
   const { data, isLoading, error } = useSWR(`/files/${fileId}`);
@@ -44,8 +46,10 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
 
   const { data, isLoading, error } = useSWR(`/form-answers?form_id=${form.id}`);
   const answers = assignType("/form-answers", data);
+  const authState = useAuthState();
   if (isLoading) return;
   if (error) return `エラーが発生しました${error}`;
+
   return (
     <div className={vstack({ gap: 4, alignItems: "start", width: "full" })}>
       <div className={hstack({ gap: 6 })}>
@@ -80,6 +84,24 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
           <Link href={`/committee/forms/${form.id}/edit`} className={buttonStyle({ color: "blue", visual: "outline" })}>
             編集
           </Link>
+          <button
+            className={buttonStyle()}
+            onClick={() =>
+              toast.promise(
+                handleExport({
+                  path: `/form-answers/export?form_id=${form.id}`,
+                  fileName: `${form.title}回答一覧.csv`,
+                  user: authState.user,
+                }),
+                {
+                  loading: "エクスポートしています",
+                  success: "エクスポートに成功しました",
+                  error: "エクスポートに失敗しました",
+                },
+              )
+            }>
+            CSVダウンロード
+          </button>
         </div>
       </div>
       <div className={hstack({ justifyContent: "space-between", width: "full" })}>
