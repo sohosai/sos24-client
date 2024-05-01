@@ -52,3 +52,21 @@ openapi-fetchを使います。
 ## ベータについて
 
 [GitHub Actions](https://github.com/sohosai/sos24-client/actions/workflows/cd-beta.yml)を手動実行することでベータをデプロイできます。
+
+## スキーマの更新
+
+schema.ymlを更新したのち、以下のコマンドを実行してください
+
+```shell
+npm run gen
+npm run format
+```
+
+現在はopenapi-typescriptのバグ（ https://github.com/drwpow/openapi-typescript/issues/1464
+）により、正しい型定義が生成されません。そのため、以下のコマンドを実行して型定義を修正してください。
+
+```shell
+sed -i '/type: "FormItem";/d' ./src/schema.d.ts
+sed -i '/type: "NewFormItem";/d' ./src/schema.d.ts
+sed -i 's/Omit<components\["schemas"\]\["FormItemKind"\], "type">/components["schemas"]["FormItemKind"]/' ./src/schema.d.ts
+```
