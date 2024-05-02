@@ -1,11 +1,10 @@
-name: CD
-run-name: CD - ${{ github.event_name }}
+name: CD(Production)
+run-name: CD(Production) - ${{ github.event_name }}
 
 on:
   push:
-  pull_request:
-    branches:
-      - main
+    tags:
+      - v*
   workflow_dispatch:
 
 env:
@@ -14,10 +13,6 @@ env:
 
 jobs:
   build_and_deploy:
-    if: |
-      (github.event_name == 'push' && ((github.head_ref || github.ref_name) != 'main' )) ||
-      (github.event_name == 'pull_request' && github.event.pull_request.merged == true) ||
-      github.event_name == 'workflow_dispatch'
     runs-on: [self-hosted, garm]
     permissions:
       contents: read
@@ -26,7 +21,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref || github.ref_name }}
+          ref: main
+      - name: Check tagged branch
+        run: |
+          BRANCHS=$(git branch --contains ${{ github.ref_name }})
+          set -- $BRANCHS
+          for BRANCH in $BRANCHS ; do
+            if [[ "$BRANCH" == "main" ]]; then
+              exit 0
+            fi
+          done
+          exit 1
       - name: Symlink
         run: |
           mkdir -p /home/runner/work/${{ github.event.repository.name }}/
