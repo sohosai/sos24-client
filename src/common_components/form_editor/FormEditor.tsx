@@ -3,16 +3,16 @@
 import { css } from "@styled-system/css";
 import { FC, useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
-import { ProjectAttribute, ProjectCategory, projectAttributes, projectCategories } from "@/lib/valibot";
-import { getProjectCategoryText, getProjectAttributeText } from "@/lib/textUtils";
+import { ProjectAttribute, projectAttributes, projectCategories, ProjectCategory } from "@/lib/valibot";
+import { getProjectAttributeText, getProjectCategoryText } from "@/lib/textUtils";
 import { stack, visuallyHidden } from "@styled-system/patterns";
 import { FormFieldEditor } from "./FormFieldEditor";
-import { sectionTitleStyle, descriptionStyle, checkboxGrpupStyle, checkboxStyle, textInputStyle } from "./styles";
+import { checkboxGrpupStyle, checkboxStyle, descriptionStyle, sectionTitleStyle, textInputStyle } from "./styles";
 import { components } from "@/schema";
 import dayjs from "dayjs";
 import { FileIds, postFiles } from "@/lib/postFile";
 import toast from "react-hot-toast";
-import { FilesFormType, FileErrorsType } from "@/common_components/form_answer/FormItems";
+import { FileErrorsType, FilesFormType } from "@/common_components/form_answer/FormItems";
 import { FilesField } from "@/common_components/formFields/Files";
 import { Button, buttonStyle } from "@/recipes/button";
 
@@ -30,7 +30,7 @@ export type FormField = {
       type: "string";
       min_length?: number;
       max_length?: number;
-      allow_newline?: boolean;
+      allow_newline: boolean;
     }
   | {
       type: "choose_one";
@@ -272,6 +272,7 @@ export const FormEditor: FC<{
                   name: "",
                   required: false,
                   type: "string",
+                  allow_newline: false,
                 });
               }}>
               テキスト項目
