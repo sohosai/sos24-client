@@ -12,6 +12,11 @@ import { notFound, useRouter } from "next/navigation";
 import deleteButton from "@/assets/deleteProjectButton.svg?url";
 import Image from "next/image";
 import { Button } from "@/common_components/Button";
+import { NoResultNotice } from "@/common_components/NoResultNotice";
+import { getSubmitStatusFromDate } from "@/lib/formHelpers";
+import { components } from "@/schema";
+import { SubmitStatusBadge } from "@/common_components/SubmitStatus";
+import dayjs from "dayjs";
 export const runtime = "edge";
 
 const deleteProject = async (project_id: string) => {
@@ -27,14 +32,48 @@ const deleteProject = async (project_id: string) => {
     });
 };
 
-const NewsDetailsPage = ({ params }: { params: { project_id: string } }) => {
+const FormAnswerItem: React.FC<{ answer: components["schemas"]["FormAnswerSummary"] }> = ({ answer }) => {
+  const { data, isLoading, error } = useSWR(`/forms/${answer.form_id}`);
+  const form = assignType("/forms/{form_id}", data);
+  if (isLoading) return;
+  if (error) "エラーが発生しました";
+  const status = getSubmitStatusFromDate(form.ends_at, answer.updated_at);
+  return (
+    <Link
+      href={`/committee/form-answers/${answer.id}`}
+      key={answer.id}
+      className={hstack({
+        width: "full",
+        justifyContent: "space-between",
+        paddingX: 5,
+        paddingY: 3,
+        "&:first-child": {
+          borderTop: "2px solid black",
+        },
+        borderBottom: "2px solid token(colors.gray.300)",
+      })}>
+      <div className={hstack({ gap: 5 })}>
+        <span>{dayjs(answer.updated_at).format("MM/DD HH:mm")}</span>
+        <span className={css({ fontWeight: "bold" })}>{form.title}</span>
+      </div>
+      <SubmitStatusBadge status={status} />
+    </Link>
+  );
+};
+
+const ProjectDetailsPage = ({ params }: { params: { project_id: string } }) => {
   const { data, error, isLoading } = useSWR(`/projects/${params.project_id}`);
+  const {
+    data: formAnswers,
+    isLoading: formAnswersIsLoading,
+    error: formAnswersError,
+  } = useSWR(`/form-answers?project_id=${params.project_id}`);
   const router = useRouter();
 
-  if (isLoading) {
+  if (isLoading || formAnswersIsLoading) {
     return;
   }
-  if (error) {
+  if (error || formAnswersError) {
     switch (error.name) {
       case "project/not-found":
       case "project/invalid-uuid":
@@ -45,6 +84,7 @@ const NewsDetailsPage = ({ params }: { params: { project_id: string } }) => {
   }
 
   const project = assignType("/projects/{project_id}", data);
+  const answers = assignType("/form-answers", formAnswers);
 
   return (
     <div className={container({ maxWidth: "4xl" })}>
@@ -93,9 +133,24 @@ const NewsDetailsPage = ({ params }: { params: { project_id: string } }) => {
           </div>
         </span>
         <ProjectTableView projectData={project} />
+        <>
+          <h2 className={css({ fontSize: "lg", fontWeight: "bold" })}>回答一覧</h2>
+          {answers.length == 0 ? (
+            <NoResultNotice message="回答はまだありません" />
+          ) : (
+            <div
+              className={css({
+                width: "full",
+              })}>
+              {answers.map((answer) => (
+                <FormAnswerItem answer={answer} key={answer.id} />
+              ))}
+            </div>
+          )}
+        </>
       </div>
     </div>
   );
 };
 
-export default NewsDetailsPage;
+export default ProjectDetailsPage;

@@ -121,7 +121,7 @@ export const Header: FC = () => {
     : [
         {
           path: "/register",
-          name: "ログイン/新規登録",
+          name: "サインイン/新規登録",
         } as MenuData,
       ];
 
@@ -291,7 +291,7 @@ export const Header: FC = () => {
                 borderX: "solid 1px token(colors.gray.200)",
                 display: { base: "none", lg: "block" },
               })}>
-              ログイン/新規登録
+              サインイン/新規登録
             </button>
           </nav>
         )}
