@@ -32,7 +32,6 @@ projectApplicationPeriodAtom.onMount = (setAtom) => {
         Object.assign(prev, {
           startsAt: startsAt,
           endsAt: endsAt,
-          // isIn: false,
           isIn: dayjs().isAfter(startsAt) && dayjs().isBefore(endsAt),
         }),
       );
