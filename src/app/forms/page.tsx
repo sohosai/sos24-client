@@ -5,7 +5,6 @@ import { NextPage } from "next";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 import { css } from "@styled-system/css";
-import { Button } from "@/common_components/Button";
 import { FormsList } from "./FormsList";
 import { stack } from "@styled-system/patterns";
 import { NotificationBadge } from "@/common_components/NotificationBadge";
@@ -13,6 +12,7 @@ import { useAtomValue } from "jotai";
 import { hiddenFormIdsAtom } from "./hiddenFormIds";
 import { useRouter } from "next/navigation";
 import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
+import { buttonStyle } from "@/recipes/button";
 
 const DashboardPage: NextPage = () => {
   const { data: projectRes, error: projectResError, isLoading: projectResIsLoading } = useSWR("/projects/me");
@@ -37,7 +37,7 @@ const DashboardPage: NextPage = () => {
   const isLoading = projectResIsLoading || formsResIsLoading || answersResIsLoading;
   const error = projectResError || formsResError || answersResError;
 
-  const [isSubmittedShown, setIsSubmittedShown] = useState(true);
+  const [isSubmittedShown, setIsSubmittedShown] = useState(false);
   const [isHiddenFormsShown, setIsHiddenFormsShown] = useState(false);
 
   const applicationPeriod = useAtomValue(projectApplicationPeriodAtom);
@@ -89,12 +89,16 @@ const DashboardPage: NextPage = () => {
           </h2>
         </div>
         <div className={stack({ padding: 10, gap: 4, alignItems: "flex-start", width: "100%" })}>
-          <Button color={isSubmittedShown ? "secondary" : "purple"} onClick={toggleFilter} onTouchEnd={toggleFilter}>
+          <button
+            className={buttonStyle({ visual: isSubmittedShown ? "outline" : "solid", color: "purple" })}
+            onClick={toggleFilter}
+            onTouchEnd={toggleFilter}
+            aria-pressed={!isSubmittedShown}>
             未提出のみ表示
-          </Button>
+          </button>
           <FormsList
             forms={forms.filter((form) => !hiddenFormIds.includes(form.id))}
-            showSubmitted={!isSubmittedShown}
+            showSubmitted={isSubmittedShown}
           />
 
           <button
