@@ -246,9 +246,9 @@ export const Header: FC = () => {
           </a>
           {(userInfo?.owned_project_id || path.startsWith("/committee")) && <HeaderMenuItems menu={menu} />}
         </div>
-        {isLoading || !user ? (
+        {isLoading ? (
           <></>
-        ) : (
+        ) : user ? (
           <nav
             className={css({
               display: "flex",
@@ -272,8 +272,7 @@ export const Header: FC = () => {
               <SwitchModeButton isCommitteeMode={path.startsWith("/committee")} showMobileMenu={showMobileMenu} />
             )}
           </nav>
-        )}
-        {!user && (
+        ) : (
           <nav
             className={css({
               display: "flex",
