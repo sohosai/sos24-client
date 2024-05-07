@@ -4,7 +4,11 @@ Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
   // Replay may only be enabled for the client-side
   integrations: [
-    Sentry.replayIntegration(),
+    Sentry.replayIntegration({
+      // Additional Replay configuration goes in here, for example:
+      maskAllText: true,
+      blockAllMedia: true,
+    }),
     Sentry.feedbackIntegration({
       colorScheme: "system",
       //名前は必ず必要かどうか
