@@ -2,13 +2,9 @@
 
 ## Setup
 
-`.sentryclirc`を作成し、必要な情報を記述する。
+`.sentryclirc`と`.env`を作成し、必要な情報を記述する。
 
-※ `.sentryclirc.example`を参考にしてください。
+※ `.sentryclirc.example`と`.env.example`を参考にしてください。
 
-> [!CAUTION] > `.sentryclirc`は、絶対にpushしてはいけません。
-
-## 注意事項
-
-> [!IMPORTANT]
-> ブラウザの拡張機能である`uBlock Origin`を入れている人は、無効にしてから開発を始めてください。無効にしない場合、正常に通知ができない可能性があります。
+> [!CAUTION]
+> `.sentryclirc`と`.env`は、絶対にpushしてはいけません。

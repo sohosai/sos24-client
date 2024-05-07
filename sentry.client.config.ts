@@ -2,6 +2,21 @@ import * as Sentry from "@sentry/nextjs";
 
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+
+  // Adjust this value in production, or use tracesSampler for greater control
+  tracesSampleRate: 1,
+
+  // Setting this option to true will print useful information to the console while you're setting up Sentry.
+  debug: false,
+
+  replaysOnErrorSampleRate: 1.0,
+
+  // This sets the sample rate to be 10%. You may want this to be 100% while
+  // in development and sample at a lower rate in production
+  replaysSessionSampleRate: 0.1,
+
+  // enabled: process.env.NODE_ENV !== "development",
+
   // Replay may only be enabled for the client-side
   integrations: [
     Sentry.replayIntegration({
@@ -10,29 +25,19 @@ Sentry.init({
       blockAllMedia: true,
     }),
     Sentry.feedbackIntegration({
-      colorScheme: "system",
-      //名前は必ず必要かどうか
-      isNameRequired: true,
-      //メールは必ず必要かどうか
-      isEmailRequired: true,
+      colorScheme: "light",
+      showName: false,
+      isNameRequired: false,
+      isEmailRequired: false,
+      showBranding: false,
+      buttonLabel: "問題の報告はこちら",
+      formTitle: "問題の報告フォーム",
+      emailLabel: "メールアドレス（任意）",
+      emailPlaceholder: "メールアドレスを書いてください。",
+      messageLabel: "問題の内容（必須）",
+      messagePlaceholder: "問題の内容を書いてください。",
+      submitButtonLabel: "問題を報告",
+      cancelButtonLabel: "キャンセル",
     }),
   ],
-
-  // Set tracesSampleRate to 1.0 to capture 100%
-  // of transactions for performance monitoring.
-  // We recommend adjusting this value in production
-  tracesSampleRate: 1.0,
-
-  // Capture Replay for 10% of all sessions,
-  // plus for 100% of sessions with an error
-  replaysSessionSampleRate: 0.1,
-  replaysOnErrorSampleRate: 1.0,
-
-  enabled: process.env.NODE_ENV !== "development",
-
-  // ...
-
-  // Note: if you want to override the automatic release value, do not set a
-  // `release` value here - use the environment variable `SENTRY_RELEASE`, so
-  // that it will also get attached to your source maps
 });
