@@ -5,6 +5,8 @@ import { Button } from "@/common_components/Button";
 import { ProjectTableView } from "@/common_components/project/ProjectView";
 import { RegistrationProgress } from "@/common_components/RegistrationProgress";
 import { components } from "@/schema";
+import { useAtomValue } from "jotai";
+import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
 
 interface Props {
   projectData: components["schemas"]["Project"];
@@ -14,12 +16,13 @@ interface Props {
 
 export const Project: React.FC<Props> = ({ projectData, mutation, step }) => {
   const [editable, setEditable] = useState(false);
+  const { endsAt } = useAtomValue(projectApplicationPeriodAtom);
 
   return (
     <>
       <div className={vstack({})}>
         <div className={css({ textAlign: "center" })}>
-          <p>締切は5月10日となっております</p>
+          <p>締切は{endsAt?.format("M月D日")}となっております</p>
           <p>締切日までにすべてのステップを完了済みにしてください。</p>
         </div>
         <RegistrationProgress step={step} />
