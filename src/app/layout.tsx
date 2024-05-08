@@ -5,7 +5,6 @@ import { AuthProvider } from "@/lib/auth";
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
 import { Toaster } from "react-hot-toast";
-import { ApplicationPeriodProvider } from "./ApplicationPeriodProvider";
 import { GoogleTagManager } from "@next/third-parties/google";
 
 export const metadata: Metadata = {
@@ -22,9 +21,7 @@ export default function RootLayout({
     <html lang="ja">
       <body>
         <Toaster />
-        <ApplicationPeriodProvider>
-          <AuthProvider>{children}</AuthProvider>
-        </ApplicationPeriodProvider>
+        <AuthProvider>{children}</AuthProvider>
         {process.env.NEXT_PUBLIC_GTMID && <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTMID} />}
       </body>
     </html>
