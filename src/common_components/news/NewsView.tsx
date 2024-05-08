@@ -77,7 +77,9 @@ export const NewsView: FC<{
   const project = assignType("/projects/me", projectData);
   const newsList = assignType("/news", newsData);
 
-  const filteredNewsList = isCommittee ? newsList : filterNews(filter, project, newsList);
+  const filteredNewsList = isCommittee
+    ? newsList
+    : filterNews(filter, project, newsList).slice(0, isDashboard ? 5 : undefined);
 
   return (
     <div className={stack({ gap: 2, width: "full" })}>

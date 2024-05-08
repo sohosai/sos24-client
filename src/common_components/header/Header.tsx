@@ -107,23 +107,25 @@ export const Header: FC = () => {
 
   const [applicationPeriod] = useAtom(projectApplicationPeriodAtom);
 
-  const menu = user
-    ? path.startsWith("/committee")
-      ? menuForRole(userInfo?.role)
-      : applicationPeriod.isIn
-        ? [
-            {
-              path: "/register",
-              name: "企画応募",
-            } as MenuData,
-          ]
-        : generalMenu
-    : [
-        {
-          path: "/register",
-          name: "サインイン/新規登録",
-        } as MenuData,
-      ];
+  const menu = isLoading
+    ? []
+    : user
+      ? path.startsWith("/committee")
+        ? menuForRole(userInfo?.role)
+        : applicationPeriod.isIn
+          ? [
+              {
+                path: "/register",
+                name: "企画応募",
+              } as MenuData,
+            ]
+          : generalMenu
+      : [
+          {
+            path: "/register",
+            name: "サインイン/新規登録",
+          } as MenuData,
+        ];
 
   const handleSignOut = async () => {
     toast.promise(
@@ -246,9 +248,9 @@ export const Header: FC = () => {
           </a>
           {(userInfo?.owned_project_id || path.startsWith("/committee")) && <HeaderMenuItems menu={menu} />}
         </div>
-        {isLoading || !user ? (
+        {isLoading ? (
           <></>
-        ) : (
+        ) : user ? (
           <nav
             className={css({
               display: "flex",
@@ -272,8 +274,7 @@ export const Header: FC = () => {
               <SwitchModeButton isCommitteeMode={path.startsWith("/committee")} showMobileMenu={showMobileMenu} />
             )}
           </nav>
-        )}
-        {!user && (
+        ) : (
           <nav
             className={css({
               display: "flex",
