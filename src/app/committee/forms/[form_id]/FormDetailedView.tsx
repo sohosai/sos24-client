@@ -46,13 +46,13 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
 
   const { data, isLoading, error } = useSWR(`/form-answers?form_id=${form.id}`);
   const answers = assignType("/form-answers", data);
-  const authState = useAuthState();
+  const { user } = useAuthState();
   if (isLoading) return;
   if (error) return `エラーが発生しました${error}`;
 
   return (
     <div className={vstack({ gap: 4, alignItems: "start", width: "full" })}>
-      <div className={hstack({ gap: 6 })}>
+      <div className={hstack({ justifyContent: "space-between", width: "full" })}>
         <div>
           作成日: <time dateTime={form.created_at}> {dayjs(form.created_at).format("YYYY/MM/DD")}</time>
         </div>
@@ -85,13 +85,13 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
             編集
           </Link>
           <button
-            className={buttonStyle()}
+            className={buttonStyle({ visual: "outline", color: "purple" })}
             onClick={() =>
               toast.promise(
                 handleExport({
                   path: `/form-answers/export?form_id=${form.id}`,
                   fileName: `${form.title}回答一覧.csv`,
-                  user: authState.user,
+                  user,
                 }),
                 {
                   loading: "エクスポートしています",
