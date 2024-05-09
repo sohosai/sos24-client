@@ -38,6 +38,11 @@ Sentry.init({
       messagePlaceholder: "不具合の内容を書いてください。",
       submitButtonLabel: "不具合を報告",
       cancelButtonLabel: "キャンセル",
+      themeLight: {
+        submitBorder: "#6600cc",
+        submitBackground: "#6600cc",
+        submitBackgroundHover: "#761ad1",
+      },
     }),
   ],
 });
