@@ -89,7 +89,7 @@ const DashboardPage: NextPage = () => {
             onClick={toggleFilter}
             onTouchEnd={toggleFilter}
             aria-pressed={!isSubmittedShown}>
-            未提出のみ表示
+            {isSubmittedShown ? "すべて" : "未提出のみ"}表示
           </button>
           <FormsList
             forms={forms.filter((form) => !hiddenFormIds.includes(form.id))}
