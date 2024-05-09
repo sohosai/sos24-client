@@ -108,10 +108,7 @@ const DashboardPage: NextPage = () => {
             {isHiddenFormsShown ? "-" : "+"} 非表示中の申請
           </button>
           {isHiddenFormsShown && (
-            <FormsList
-              forms={forms.filter((form) => hiddenFormIds.includes(form.id))}
-              showSubmitted={isSubmittedShown}
-            />
+            <FormsList forms={forms.filter((form) => hiddenFormIds.includes(form.id))} showSubmitted={false} />
           )}
         </div>
       </div>
