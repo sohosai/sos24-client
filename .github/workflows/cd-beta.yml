@@ -71,7 +71,7 @@ jobs:
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           productionBranch: ${{ env.PRODUCTION_BRANCH }}
           branch: ${{ github.head_ref || github.ref_name }}
-          wranglerVersion: '3'
+          wranglerVersion: "3"
       - name: Notify
         uses: sarisia/actions-status-discord@v1
         if: always() && !cancelled()
