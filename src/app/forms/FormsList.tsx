@@ -59,7 +59,7 @@ export const FormsList: FC<{
         <div>タイトル</div>
         <div>締切まで</div>
       </div>
-      {filteredForm.length == 0 && (
+      {filteredForm.length == 0 ? (
         <div className={css({ gridColumn: "1/7" })}>
           <NoResultNotice message="申請はありません" />
         </div>
