@@ -29,7 +29,7 @@ Sentry.init({
       showName: false,
       isNameRequired: false,
       isEmailRequired: true,
-      showBranding: false,
+      showBranding: true,
       buttonLabel: "不具合の報告はこちら",
       formTitle: "不具合の報告フォーム",
       emailLabel: "メールアドレス",
