@@ -23,14 +23,17 @@ export const FormsList: FC<{
   showSubmitted: boolean;
 }> = ({ forms, showSubmitted }) => {
   const [hiddenFormIds, setHiddenFormIds] = useAtom(hiddenFormIdsAtom);
-
+  const filteredForm = forms.filter((form) => {
+    const status = getSubmitStatusFromDate(form.ends_at, form.answered_at);
+    return (!showSubmitted && status !== "未提出") || hiddenFormIds.includes(form.id);
+  });
   return (
     <div
       className={css({
         width: "full",
         display: "grid",
         alignItems: "center",
-        gridTemplateColumns: "1fr 1fr 1fr 1fr 3fr 2fr",
+        gridTemplateColumns: "0.5fr 1fr 1fr 1fr 3fr 2fr",
         "& > * > *": {
           pr: 4,
           lineHeight: 2,
@@ -53,22 +56,15 @@ export const FormsList: FC<{
         <div>タイトル</div>
         <div>締切まで</div>
       </div>
-      {forms.length == 0 && (
+      {filteredForm.length == 0 && (
         <div className={css({ gridColumn: "1/7" })}>
           <NoResultNotice message="申請はありません" />
         </div>
       )}
-      {forms.map((form) => {
+      {filteredForm.map((form) => {
         const startsAt = dayjs(form.starts_at);
         const endsAt = dayjs(form.ends_at);
         const status = getSubmitStatusFromDate(form.ends_at, form.answered_at);
-
-        if (!showSubmitted && status !== "未提出") {
-          return;
-        }
-
-        const isShown = hiddenFormIds.includes(form.id);
-
         return (
           <div
             key={form.id}
@@ -87,7 +83,11 @@ export const FormsList: FC<{
                   }
                 });
               }}>
-              {isShown ? <Image src={EyesClosedIcon} alt="非表示" /> : <Image src={EyesOpenIcon} alt="表示" />}
+              {hiddenFormIds.includes(form.id) ? (
+                <Image src={EyesClosedIcon} alt="非表示" />
+              ) : (
+                <Image src={EyesOpenIcon} alt="表示" />
+              )}
             </button>
             <Link
               href={`/forms/${form.id}`}

@@ -7,12 +7,13 @@ import { assignType } from "@/lib/openapi";
 import { css } from "@styled-system/css";
 import { Button } from "@/common_components/Button";
 import { FormsList } from "./FormsList";
-import { stack } from "@styled-system/patterns";
+import { container, stack } from "@styled-system/patterns";
 import { NotificationBadge } from "@/common_components/NotificationBadge";
 import { useAtomValue } from "jotai";
 import { hiddenFormIdsAtom } from "./hiddenFormIds";
 import { useRouter } from "next/navigation";
 import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
+import { Title } from "@/common_components/Title";
 
 const DashboardPage: NextPage = () => {
   const { data: projectRes, error: projectResError, isLoading: projectResIsLoading } = useSWR("/projects/me");
@@ -71,22 +72,16 @@ const DashboardPage: NextPage = () => {
   return (
     <>
       <div
-        className={css({
+        className={container({
           padding: 5,
-          maxWidth: "900px",
+          maxWidth: "6xl",
           marginInline: "auto",
         })}>
         <div>
-          <h2
-            className={css({
-              fontSize: "xl",
-              fontWeight: "bold",
-              display: "flex",
-              gap: 1,
-            })}>
+          <Title>
             申請一覧
             {notifications > 0 && <NotificationBadge count={notifications} />}
-          </h2>
+          </Title>
         </div>
         <div className={stack({ padding: 10, gap: 4, alignItems: "flex-start", width: "100%" })}>
           <Button color={isSubmittedShown ? "secondary" : "purple"} onClick={toggleFilter} onTouchEnd={toggleFilter}>
