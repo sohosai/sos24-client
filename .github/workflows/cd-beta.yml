@@ -59,6 +59,8 @@ jobs:
           NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{vars.BETA_FIREBASE_MESSAGING_SENDER_ID}}
           NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{vars.BETA_FIREBASE_PROJECT_ID}}
           NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{vars.BETA_FIREBASE_STORAGE_BUCKET}}
+          NEXT_PUBLIC_SENTRY_DSN: ${{vars.SENTRY_DSN}}
+          NEXT_PUBLIC_SENTRY_PROJECT: ${{vars.SENTRY_PROJECT}}
       - name: deploy
         id: deploy
         uses: whatacotton/pages-action@v1
