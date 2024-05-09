@@ -18,11 +18,14 @@ import Link from "next/link";
 
 type Form = components["schemas"]["FormSummary"];
 
+const formListItemStyle = css({ paddingInline: 3 });
+
 export const FormsList: FC<{
   forms: Form[];
   showSubmitted: boolean;
 }> = ({ forms, showSubmitted }) => {
   const [hiddenFormIds, setHiddenFormIds] = useAtom(hiddenFormIdsAtom);
+
   const filteredForm = forms.filter((form) => {
     const status = getSubmitStatusFromDate(form.ends_at, form.answered_at);
     return (!showSubmitted && status !== "未提出") || hiddenFormIds.includes(form.id);
@@ -60,6 +63,25 @@ export const FormsList: FC<{
         <div className={css({ gridColumn: "1/7" })}>
           <NoResultNotice message="申請はありません" />
         </div>
+      ) : (
+        <div
+          className={css({
+            display: "contents",
+            color: "gray.500",
+            fontSize: "sm",
+            "& > *": {
+              borderColor: "gray.500",
+              borderBottom: "1px solid",
+              paddingInline: 3,
+            },
+          })}>
+          <div>非表示</div>
+          <div>状態</div>
+          <div>配信日</div>
+          <div>締切日</div>
+          <div>タイトル</div>
+          <div>締切まで</div>
+        </div>
       )}
       {filteredForm.map((form) => {
         const startsAt = dayjs(form.starts_at);
@@ -94,13 +116,13 @@ export const FormsList: FC<{
               className={css({
                 display: "contents",
               })}>
-              <div className={css({ paddingBlock: 2 })}>
+              <div className={css({ paddingBlock: 2, paddingInline: 2 })}>
                 <SubmitStatusBadge status={status} />
               </div>
-              <div>{startsAt.format("YYYY/MM/DD")}</div>
-              <div>{endsAt.format("YYYY/MM/DD")}</div>
-              <div>{form.title}</div>
-              <div>{getTimeLeftText(dayjs(), endsAt, status)}</div>
+              <div className={formListItemStyle}>{startsAt.format("YYYY/MMDD")}</div>
+              <div className={formListItemStyle}>{endsAt.format("YYYY/MM/DD")}</div>
+              <div className={formListItemStyle}>{form.title}</div>
+              <div className={formListItemStyle}>{getTimeLeftText(dayjs(), endsAt, status)}</div>
             </Link>
           </div>
         );
