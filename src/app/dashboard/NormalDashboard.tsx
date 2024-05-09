@@ -70,7 +70,7 @@ const FormListForDashboard: React.FC<{ projectId: string }> = ({ projectId }) =>
     // これが効かなくて困っている
     .slice(0, 3);
 
-  return <FormList forms={formsToBeDisplayed} showSubmitted={false} />;
+  return <FormList forms={formsToBeDisplayed} showHiddenToggle={false} />;
 };
 
 export const NormalDashboard: React.FC = () => {
