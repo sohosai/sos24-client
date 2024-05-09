@@ -1,7 +1,7 @@
 "use client";
 import { NewsView } from "@/common_components/news/NewsView";
 import Image from "next/image";
-import { container, flex, hstack, stack, vstack } from "@styled-system/patterns";
+import { container, flex, stack, vstack } from "@styled-system/patterns";
 import { Title } from "@/common_components/Title";
 import { basicErrorMessageStyle } from "@/common_components/formFields/styles";
 import { assignType } from "@/lib/openapi";
