@@ -1,8 +1,7 @@
 "use client";
 import { NewsView } from "@/common_components/news/NewsView";
 import Image from "next/image";
-import { container, flex, hstack, stack, vstack } from "@styled-system/patterns";
-import Triangle from "@/assets/Triangle.svg?url";
+import { container, flex, stack, vstack } from "@styled-system/patterns";
 import { Title } from "@/common_components/Title";
 import { basicErrorMessageStyle } from "@/common_components/formFields/styles";
 import { assignType } from "@/lib/openapi";
@@ -11,14 +10,12 @@ import { useRouter } from "next/navigation";
 import { ProjectTableView } from "@/common_components/project/ProjectView";
 import { components } from "@/schema";
 import { css } from "@styled-system/css";
-import { NoResultNotice } from "@/common_components/NoResultNotice";
-import dayjs from "dayjs";
-import { getSubmitStatusFromDate, getTimeLeftText } from "@/lib/formHelpers";
+import { getSubmitStatusFromDate } from "@/lib/formHelpers";
 import { useAtomValue } from "jotai";
 import Link from "next/link";
-import { SubmitStatusBadge } from "@/common_components/SubmitStatus";
-import { hiddenFormIdsAtom } from "@/app/forms/hiddenFormIds";
+import { hiddenFormIdsAtom } from "@/common_components/form_list/hiddenFormIds";
 import pulldownIcon from "@/assets/Pulldown.svg?url";
+import { FormList } from "@/common_components/form_list/formList";
 
 const ProjectView: React.FC<{
   projectData: components["schemas"]["Project"];
@@ -73,92 +70,7 @@ const FormListForDashboard: React.FC<{ projectId: string }> = ({ projectId }) =>
     // これが効かなくて困っている
     .slice(0, 3);
 
-  return (
-    <div
-      className={css({
-        width: "full",
-        sm: {
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr 1fr 3fr 2fr",
-        },
-        alignItems: "center",
-        "& > * > *": {
-          pr: 4,
-          lineHeight: 2,
-        },
-      })}>
-      <div
-        className={css({
-          sm: {
-            display: "contents",
-            color: "gray.500",
-            fontSize: "sm",
-            "& > *": {
-              borderColor: "gray.500",
-              borderBottom: "1px solid",
-            },
-          },
-          base: {
-            display: "none",
-          },
-        })}>
-        <div>状態</div>
-        <div>配信日</div>
-        <div>締切日</div>
-        <div>タイトル</div>
-        <div>締切まで</div>
-      </div>
-      {formsToBeDisplayed.length == 0 && (
-        <div className={css({ gridColumn: "1/7" })}>
-          <NoResultNotice message="表示する申請はありません" />
-        </div>
-      )}
-      {formsToBeDisplayed.map((form) => {
-        const startsAt = dayjs(form.starts_at);
-        const endsAt = dayjs(form.ends_at);
-        const status = "未提出";
-        return (
-          <div
-            key={form.id}
-            className={css({
-              display: "contents",
-            })}>
-            <Link href={`/forms/${form.id}`} className={css({ display: "contents" })}>
-              <div
-                className={css({
-                  sm: { display: "none" },
-                  base: {
-                    borderStyle: "dotted",
-                    borderBlockEnd: 4,
-                    borderColor: "gray.200",
-                    padding: 3,
-                  },
-                })}>
-                <h4 className={css({ display: "flex", gap: 2 })}>
-                  <Image src={Triangle} alt="" /> {form.title}
-                </h4>
-                <div className={hstack()}>
-                  <time dateTime={startsAt.toISOString()}>{startsAt.format("YYYY/MM/DD")}</time>→
-                  <time dateTime={endsAt.toISOString()}>{endsAt.format("YYYY/MM/DD")}</time>
-                  <SubmitStatusBadge status={status} />
-                </div>
-              </div>
-              {/* Desktop */}
-              <div className={css({ base: { display: "none" }, sm: { display: "contents" } })}>
-                <div className={css({ paddingBlock: 2 })}>
-                  <SubmitStatusBadge status={status} />
-                </div>
-                <div>{startsAt.format("YYYY/MM/DD")}</div>
-                <div>{endsAt.format("YYYY/MM/DD")}</div>
-                <div>{form.title}</div>
-                <div>{getTimeLeftText(dayjs(), endsAt, status)}</div>
-              </div>
-            </Link>
-          </div>
-        );
-      })}
-    </div>
-  );
+  return <FormList forms={formsToBeDisplayed} showHiddenToggle={false} />;
 };
 
 export const NormalDashboard: React.FC = () => {
