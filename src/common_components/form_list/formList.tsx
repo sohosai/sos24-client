@@ -7,7 +7,7 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 
 import { components } from "@/schema";
-import { getTimeLeftText } from "@/lib/formHelpers";
+import { getSubmitStatusFromDate, getTimeLeftText } from "@/lib/formHelpers";
 import { hiddenFormIdsAtom } from "./hiddenFormIds";
 
 import { NoResultNotice } from "@/common_components/NoResultNotice";
@@ -100,7 +100,7 @@ export const FormList = ({ forms, showHiddenToggle }: Props) => {
         {forms.map((form) => {
           const startsAt = dayjs(form.starts_at);
           const endsAt = dayjs(form.ends_at);
-          const status = "未提出";
+          const status = getSubmitStatusFromDate(form.ends_at, form.answered_at);
           return (
             <div key={form.id}>
               {showHiddenToggle && (
