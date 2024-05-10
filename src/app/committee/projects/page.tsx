@@ -82,8 +82,9 @@ const ProjectsPage: NextPage = () => {
             toast.promise(
               handleExport({
                 path: `/projects/export`,
-                fileName: `企画一覧.csv`,
                 user,
+                fileName: `企画一覧.csv`,
+                fileType: "text/csv",
               }),
               {
                 loading: "エクスポートしています",
