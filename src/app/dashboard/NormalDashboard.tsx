@@ -1,7 +1,8 @@
 "use client";
 import { NewsView } from "@/common_components/news/NewsView";
 import Image from "next/image";
-import { container, flex, stack, vstack } from "@styled-system/patterns";
+import { container, flex, hstack, stack, vstack } from "@styled-system/patterns";
+import Triangle from "@/assets/Triangle.svg?url";
 import { Title } from "@/common_components/Title";
 import { basicErrorMessageStyle } from "@/common_components/formFields/styles";
 import { assignType } from "@/lib/openapi";
@@ -76,9 +77,11 @@ const FormListForDashboard: React.FC<{ projectId: string }> = ({ projectId }) =>
     <div
       className={css({
         width: "full",
-        display: "grid",
+        sm: {
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr 1fr 3fr 2fr",
+        },
         alignItems: "center",
-        gridTemplateColumns: "1fr 1fr 1fr 3fr 2fr",
         "& > * > *": {
           pr: 4,
           lineHeight: 2,
@@ -86,12 +89,17 @@ const FormListForDashboard: React.FC<{ projectId: string }> = ({ projectId }) =>
       })}>
       <div
         className={css({
-          display: "contents",
-          color: "gray.500",
-          fontSize: "sm",
-          "& > *": {
-            borderColor: "gray.500",
-            borderBottom: "1px solid",
+          sm: {
+            display: "contents",
+            color: "gray.500",
+            fontSize: "sm",
+            "& > *": {
+              borderColor: "gray.500",
+              borderBottom: "1px solid",
+            },
+          },
+          base: {
+            display: "none",
           },
         })}>
         <div>状態</div>
@@ -115,18 +123,36 @@ const FormListForDashboard: React.FC<{ projectId: string }> = ({ projectId }) =>
             className={css({
               display: "contents",
             })}>
-            <Link
-              href={`/forms/${form.id}`}
-              className={css({
-                display: "contents",
-              })}>
-              <div className={css({ paddingBlock: 2 })}>
-                <SubmitStatusBadge status={status} />
+            <Link href={`/forms/${form.id}`} className={css({ display: "contents" })}>
+              <div
+                className={css({
+                  sm: { display: "none" },
+                  base: {
+                    borderStyle: "dotted",
+                    borderBlockEnd: 4,
+                    borderColor: "gray.200",
+                    padding: 3,
+                  },
+                })}>
+                <h4 className={css({ display: "flex", gap: 2 })}>
+                  <Image src={Triangle} alt="" /> {form.title}
+                </h4>
+                <div className={hstack()}>
+                  <time dateTime={startsAt.toISOString()}>{startsAt.format("YYYY/MM/DD")}</time>→
+                  <time dateTime={endsAt.toISOString()}>{endsAt.format("YYYY/MM/DD")}</time>
+                  <SubmitStatusBadge status={status} />
+                </div>
               </div>
-              <div>{startsAt.format("YYYY/MM/DD")}</div>
-              <div>{endsAt.format("YYYY/MM/DD")}</div>
-              <div>{form.title}</div>
-              <div>{getTimeLeftText(dayjs(), endsAt, status)}</div>
+              {/* Desktop */}
+              <div className={css({ base: { display: "none" }, sm: { display: "contents" } })}>
+                <div className={css({ paddingBlock: 2 })}>
+                  <SubmitStatusBadge status={status} />
+                </div>
+                <div>{startsAt.format("YYYY/MM/DD")}</div>
+                <div>{endsAt.format("YYYY/MM/DD")}</div>
+                <div>{form.title}</div>
+                <div>{getTimeLeftText(dayjs(), endsAt, status)}</div>
+              </div>
             </Link>
           </div>
         );
