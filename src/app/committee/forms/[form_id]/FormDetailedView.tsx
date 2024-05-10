@@ -91,6 +91,7 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
                 handleExport({
                   path: `/form-answers/export?form_id=${form.id}`,
                   fileName: `${form.title}回答一覧.csv`,
+                  fileType: "text/csv",
                   user,
                 }),
                 {
@@ -109,6 +110,7 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
                 handleExport({
                   path: `/files/export?form_id=${form.id}`,
                   fileName: `${form.title}ファイル一覧.zip`,
+                  fileType: "application/zip",
                   user,
                 }),
                 {
