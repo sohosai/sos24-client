@@ -15,8 +15,6 @@ Sentry.init({
   // in development and sample at a lower rate in production
   replaysSessionSampleRate: 0.1,
 
-  // enabled: process.env.NODE_ENV !== "development",
-
   // Replay may only be enabled for the client-side
   integrations: [
     Sentry.replayIntegration({
