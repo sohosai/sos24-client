@@ -1,7 +1,17 @@
 import { captureException } from "@sentry/nextjs";
 import { User } from "firebase/auth";
 
-export const handleExport = async ({ path, user, fileName }: { path: string; user: User | null; fileName: string }) => {
+export const handleExport = async ({
+  path,
+  user,
+  fileName,
+  fileType,
+}: {
+  path: string;
+  user: User | null;
+  fileName: string;
+  fileType: string;
+}) => {
   // OpenAPI FetchでやるとJSONとしてパースされてエラーが出るのでfetchを利用している
   if (!user) throw "Not Authorized";
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}${path}`, {
@@ -14,6 +24,6 @@ export const handleExport = async ({ path, user, fileName }: { path: string; use
     }
     throw error;
   }
-  const file = new File([await res.blob()], fileName, { type: "text/csv" });
+  const file = new File([await res.blob()], fileName, { type: fileType });
   window.location.href = URL.createObjectURL(file);
 };
