@@ -14,7 +14,7 @@ interface Props {
   step: 1 | 2 | 3 | 4 | 5;
 }
 
-export const Project: React.FC<Props> = ({ projectData, mutation, step }) => {
+export const ApplicationPeriodProject: React.FC<Props> = ({ projectData, mutation, step }) => {
   const [editable, setEditable] = useState(false);
   const { endsAt } = useAtomValue(projectApplicationPeriodAtom);
 
