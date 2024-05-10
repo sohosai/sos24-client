@@ -9,7 +9,10 @@ import { ApplicationPeriodProvider } from "./ApplicationPeriodProvider";
 import { GoogleTagManager } from "@next/third-parties/google";
 
 export const metadata: Metadata = {
-  title: "雙峰祭オンラインシステム",
+  title: {
+    template: "%s | 雙峰祭オンラインシステム",
+    default: "雙峰祭オンラインシステム",
+  },
   description: "",
 };
 
