@@ -65,6 +65,8 @@ jobs:
           NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{vars.DEV_FIREBASE_MESSAGING_SENDER_ID}}
           NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{vars.DEV_FIREBASE_PROJECT_ID}}
           NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{vars.DEV_FIREBASE_STORAGE_BUCKET}}
+          NEXT_PUBLIC_SENTRY_DSN: ${{vars.SENTRY_DSN}}
+          NEXT_PUBLIC_SENTRY_PROJECT: ${{vars.SENTRY_PROJECT}}
       - name: build (production)
         if: ${{ ((github.head_ref || github.ref_name) == env.PRODUCTION_BRANCH) && github.event.pull_request.merged == true }}
         id: build-production
