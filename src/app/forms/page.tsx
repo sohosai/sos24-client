@@ -88,7 +88,6 @@ const DashboardPage: NextPage = () => {
           <button
             className={buttonStyle({ visual: isSubmittedShown ? "outline" : "solid", color: "purple" })}
             onClick={toggleFilter}
-            onTouchEnd={toggleFilter}
             aria-pressed={!isSubmittedShown}>
             {isSubmittedShown ? "すべて" : "未提出のみ"}表示
           </button>
