@@ -49,7 +49,12 @@ const EditFormPage: NextPage<{ params: { form_id: string } }> = ({ params }) => 
     categories: previousValues.categories,
     attributes: previousValues.attributes,
     attachments: previousValues.attachments,
-    items: previousValues.items as FormField[],
+    items: (previousValues.items as FormField[]).map((item) => {
+      // カンマ区切りを改行に変更する
+      if (item.type == "choose_many" || item.type == "choose_one")
+        item.options = item.options.toString().replaceAll(",", "\n");
+      return item;
+    }),
   };
 
   const onSubmit: HandleFormEditorSubmit = (body) => {
