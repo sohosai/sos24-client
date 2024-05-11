@@ -52,7 +52,7 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
 
   return (
     <div className={vstack({ gap: 4, alignItems: "start", width: "full" })}>
-      <div className={hstack({ justifyContent: "space-between", width: "full" })}>
+      <div className={hstack({ justifyContent: "space-between", width: "full", flexWrap: "wrap" })}>
         <div>
           作成日: <time dateTime={form.created_at}> {dayjs(form.created_at).format("YYYY/MM/DD")}</time>
         </div>
@@ -91,6 +91,7 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
                 handleExport({
                   path: `/form-answers/export?form_id=${form.id}`,
                   fileName: `${form.title}回答一覧.csv`,
+                  fileType: "text/csv",
                   user,
                 }),
                 {
@@ -101,6 +102,25 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
               )
             }>
             CSVダウンロード
+          </button>
+          <button
+            className={buttonStyle({ visual: "outline", color: "purple" })}
+            onClick={() =>
+              toast.promise(
+                handleExport({
+                  path: `/files/export?form_id=${form.id}`,
+                  fileName: `${form.title}ファイル一覧.zip`,
+                  fileType: "application/zip",
+                  user,
+                }),
+                {
+                  loading: "エクスポートしています",
+                  success: "エクスポートに成功しました",
+                  error: "エクスポートに失敗しました",
+                },
+              )
+            }>
+            ファイルダウンロード
           </button>
         </div>
       </div>
