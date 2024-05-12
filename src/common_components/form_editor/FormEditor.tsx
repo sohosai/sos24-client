@@ -258,7 +258,8 @@ export const FormEditor: FC<{
                 field={field}
                 index={index}
                 register={register}
-                move={move}
+                moveDown={index + 1 !== fields.length ? () => move(index, index + 1) : undefined}
+                moveUp={index !== 0 ? () => move(index, index - 1) : undefined}
                 remove={() => {
                   remove(index);
                 }}
