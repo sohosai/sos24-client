@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { UseFieldArrayMove, UseFormRegister } from "react-hook-form";
+import { UseFormRegister } from "react-hook-form";
 import { checkboxFormStyle } from "@/common_components/formFields/styles";
 import { css } from "@styled-system/css";
 import { textInputStyle } from "./styles";
@@ -31,8 +31,9 @@ export const FormFieldEditor: FC<{
   index: number;
   register: UseFormRegister<CreateFormInput>;
   remove: () => void;
-  move: UseFieldArrayMove;
-}> = ({ field, index, register, remove, move }) => {
+  moveDwon?: () => void;
+  moveUp?: () => void;
+}> = ({ field, index, register, remove, moveDwon, moveUp }) => {
   return (
     <div
       className={stack({
@@ -42,22 +43,22 @@ export const FormFieldEditor: FC<{
         display: "grid",
         gap: 2,
       })}>
-      <button
-        type="button"
-        onClick={() => {
-          move(index, index - 1);
-        }}
-        className={css({
-          justifySelf: "center",
-        })}
-        aria-label="上">
-        <PulldownMenu
+      {moveUp && (
+        <button
+          type="button"
+          onClick={moveUp}
           className={css({
-            rotate: "180deg",
-            color: "sohosai.blue",
+            justifySelf: "center",
           })}
-        />
-      </button>
+          aria-label="上">
+          <PulldownMenu
+            className={css({
+              rotate: "180deg",
+              color: "sohosai.blue",
+            })}
+          />
+        </button>
+      )}
       <div
         className={css({
           display: "flex",
@@ -228,12 +229,10 @@ export const FormFieldEditor: FC<{
         }
       })()}
 
-      {
+      {moveDwon && (
         <button
           type="button"
-          onClick={() => {
-            move(index, index + 1);
-          }}
+          onClick={moveDwon}
           className={css({
             justifySelf: "center",
           })}
@@ -244,7 +243,7 @@ export const FormFieldEditor: FC<{
             })}
           />
         </button>
-      }
+      )}
     </div>
   );
 };
