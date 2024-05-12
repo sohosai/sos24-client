@@ -31,9 +31,9 @@ export const FormFieldEditor: FC<{
   index: number;
   register: UseFormRegister<CreateFormInput>;
   remove: () => void;
-  moveDwon?: () => void;
+  moveDown?: () => void;
   moveUp?: () => void;
-}> = ({ field, index, register, remove, moveDwon, moveUp }) => {
+}> = ({ field, index, register, remove, moveDown, moveUp }) => {
   return (
     <div
       className={stack({
@@ -229,10 +229,10 @@ export const FormFieldEditor: FC<{
         }
       })()}
 
-      {moveDwon && (
+      {moveDown && (
         <button
           type="button"
-          onClick={moveDwon}
+          onClick={moveDown}
           className={css({
             justifySelf: "center",
           })}
