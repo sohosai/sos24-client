@@ -22,8 +22,7 @@ Sentry.init({
       buttonLabel: "不具合の報告はこちら",
       formTitle: "不具合の報告フォーム",
       messageLabel: "不具合の内容",
-      messagePlaceholder:
-        "企画に関するお問い合わせは、project50th@sohosai.comまでお送りください。（返信は致しません。）",
+      messagePlaceholder: "企画に関するお問い合わせは、project50th@sohosai.comまでお送りください。",
       submitButtonLabel: "不具合を報告",
       cancelButtonLabel: "キャンセル",
       themeLight: {
