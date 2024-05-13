@@ -247,6 +247,27 @@ export const FormEditor: FC<{
 
         <Divider />
 
+        <div
+          className={stack({
+            gap: 4,
+          })}>
+          {fields.map((field, index) => {
+            return (
+              <FormFieldEditor
+                key={index}
+                field={field}
+                index={index}
+                register={register}
+                moveDown={index + 1 !== fields.length ? () => move(index, index + 1) : undefined}
+                moveUp={index !== 0 ? () => move(index, index - 1) : undefined}
+                remove={() => {
+                  remove(index);
+                }}
+              />
+            );
+          })}
+        </div>
+
         <fieldset>
           <legend>質問項目</legend>
           <div
@@ -351,26 +372,6 @@ export const FormEditor: FC<{
             </button>
           </div>
         </fieldset>
-
-        <div
-          className={stack({
-            gap: 4,
-          })}>
-          {fields.map((field, index) => {
-            return (
-              <FormFieldEditor
-                key={index}
-                field={field}
-                index={index}
-                register={register}
-                move={move}
-                remove={() => {
-                  remove(index);
-                }}
-              />
-            );
-          })}
-        </div>
 
         <Button
           visual="solid"
