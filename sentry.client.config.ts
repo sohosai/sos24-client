@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/nextjs";
+import { token } from "@styled-system/tokens";
 
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
@@ -25,21 +26,22 @@ Sentry.init({
     Sentry.feedbackIntegration({
       colorScheme: "light",
       showName: false,
+      showEmail: false,
       isNameRequired: false,
-      isEmailRequired: true,
-      showBranding: true,
+      isEmailRequired: false,
+      showBranding: false,
       buttonLabel: "不具合の報告はこちら",
       formTitle: "不具合の報告フォーム",
-      emailLabel: "メールアドレス",
-      emailPlaceholder: "メールアドレスを書いてください。",
       messageLabel: "不具合の内容",
-      messagePlaceholder: "不具合の内容を書いてください。",
+      messagePlaceholder:
+        "企画に関するお問い合わせは、project50th@sohosai.comまでお送りください。（返信は致しません。）",
       submitButtonLabel: "不具合を報告",
       cancelButtonLabel: "キャンセル",
       themeLight: {
-        submitBorder: "#6600cc",
-        submitBackground: "#6600cc",
-        submitBackgroundHover: "#761ad1",
+        submitBorder: token("colors.tsukuba.purple"),
+        submitOutlineFocus: "rgba(102, 0, 204, 0.75)",
+        submitBackground: token("colors.tsukuba.purple"),
+        submitBackgroundHover: "rgba(102, 0, 204, 0.75)",
       },
     }),
   ],
