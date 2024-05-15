@@ -50,7 +50,12 @@ export const FormPage = ({ answer, answerError, answerLoading, form, formError, 
 
   const status: SubmitStatus = getSubmitStatusFromDate(form?.ends_at, form?.answered_at);
 
+  const { data, isLoading } = useSWR("/users/me");
+  const me = assignType("/users/me", data);
+
   const [editable, setEdiatable] = useState(false);
+
+  if (isLoading) return;
 
   const deadlineText = form && getTimeLeftText(dayjs(), dayjs(form.ends_at), status);
   return (
@@ -86,15 +91,18 @@ export const FormPage = ({ answer, answerError, answerLoading, form, formError, 
                   <span>{deadlineText ? ` (${deadlineText})` : ""}</span>
                   <SubmitStatusBadge status={status} className={css({ marginInline: 3 })} />
                 </p>
-                {answerItems && dayjs().isBefore(dayjs(form.ends_at)) && !editable && (
-                  <button
-                    className={buttonStyle({ visual: "outline", color: "blue", size: "medium", shadow: "md" })}
-                    onClick={() => {
-                      setEdiatable((prev) => !prev);
-                    }}>
-                    修正
-                  </button>
-                )}
+                {answerItems &&
+                  (["committee_operator", "administrator"].includes(me.role) ||
+                    dayjs().isBefore(dayjs(form.ends_at))) &&
+                  !editable && (
+                    <button
+                      className={buttonStyle({ visual: "outline", color: "blue", size: "medium", shadow: "md" })}
+                      onClick={() => {
+                        setEdiatable((prev) => !prev);
+                      }}>
+                      修正
+                    </button>
+                  )}
               </div>
               <h2 className={css({ fontSize: "2xl", fontWeight: "bold" })}>{form?.title}</h2>
               <p
