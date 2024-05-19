@@ -23,7 +23,7 @@ export const FormAnswerList: React.FC<{ answers: components["schemas"]["FormAnsw
             width: "full",
           })}>
           {answers.map((answer) => {
-            const status = getSubmitStatusFromDate(deadline, answer.updated_at);
+            const status = getSubmitStatusFromDate(deadline, answer.created_at);
             return (
               <Link
                 href={`/committee/form-answers/${answer.id}`}

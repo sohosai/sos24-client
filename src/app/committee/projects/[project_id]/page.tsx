@@ -37,7 +37,7 @@ const FormAnswerItem: React.FC<{ answer: components["schemas"]["FormAnswerSummar
   const form = assignType("/forms/{form_id}", data);
   if (isLoading) return;
   if (error) "エラーが発生しました";
-  const status = getSubmitStatusFromDate(form.ends_at, answer.updated_at);
+  const status = getSubmitStatusFromDate(form.ends_at, answer.created_at);
   return (
     <Link
       href={`/committee/form-answers/${answer.id}`}
