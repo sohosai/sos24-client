@@ -21,7 +21,7 @@ export const getFormStatus = (now: dayjs.Dayjs, startsAt: dayjs.Dayjs, endsAt: d
 };
 
 export const getSubmitStatus = (deadline: string | undefined, answer: Answer | undefined): SubmitStatus => {
-  return getSubmitStatusFromDate(deadline, answer?.updated_at);
+  return getSubmitStatusFromDate(deadline, answer?.created_at);
 };
 
 export const getSubmitStatusFromDate = (deadline: string | null | undefined, answer: string | null | undefined) => {
