@@ -355,3 +355,88 @@ classDiagram
     ・datetime
   }
 ```
+
+```mermaid
+classDiagram
+  申請回答 -->ID
+  申請回答 --|>回答企画ID
+  申請回答 --|>申請ID
+  申請回答 --|>回答項目
+  申請回答 --|>作成日
+  申請回答 --|>更新日
+
+  class 申請回答{
+    ・ID
+    ・回答企画ID
+    ・申請ID
+    ・回答項目
+    ・作成日
+    ・更新日
+  }
+
+  class ID{
+    ・UUID
+  }
+
+  class 回答企画ID{
+    ・UUID
+  }
+
+  class 申請ID{
+    ・UUID
+  }
+
+  class 回答項目{
+    ・項目ID
+    ・種類
+  }
+
+  回答項目 --|>項目ID
+  class 項目ID{
+    ・UUID
+  }
+
+  回答項目 --|>種類
+  class 種類{
+    ・文字列
+    ・数値
+    ・選択
+    ・複数選択
+    ・ファイル
+  }
+
+  種類 --|>文字列
+  class 文字列{
+    ・文字列
+  }
+
+  種類 --|>数値
+  class 数値{
+    ・数値
+  }
+
+  種類 --|>選択
+  class 選択{
+    ・文字列
+  }
+
+  種類 --|>複数選択
+  class 複数選択{
+    ・文字列配列
+  }
+
+  種類 --|>ファイル
+  class ファイル{
+    ・UUID配列
+  }
+
+  class 作成日{
+    ・datetime
+  }
+
+  class 更新日{
+    ・datetime
+  }
+
+
+
