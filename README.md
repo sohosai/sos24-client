@@ -354,4 +354,68 @@ classDiagram
   class 更新日 {
     ・datetime
   }
+
+  class enum {
+  }
+```
+
+
+
+
+```mermaid
+classDiagram
+招待--|>ID
+招待--|>招待者
+招待--|>招待先の企画
+招待--|>招待先のポジション
+招待--|>招待を受け取ったユーザー
+招待--|>作成日
+招待--|>更新日
+招待先のポジション--|>enum
+
+ class 招待 {
+ ・ID
+ ・招待者
+ ・招待先の企画
+ ・招待先のポジション
+ ・招待を受け取ったユーザー
+ ・作成日
+ ・更新日
+  }
+ class ID {
+　・UUID
+ }
+
+ class 招待者 {
+ ・UUID
+ ・ユーザーID
+ }
+
+ class 招待先の企画 {
+ ・UUID
+ ・企画ID
+ }
+
+ class 招待先のポジション{
+ ・enum
+ }
+
+ class 招待を受け取ったユーザー{
+ ・UUID(nullable)
+ ・ユーザーID
+ }
+
+ class 作成日{
+ ・datetime
+ }
+ 
+ class 更新日{
+ ・datetime
+ }
+
+ class enum{
+ ・企画責任者
+ ・副企画責任者
+ }
+
 ```
