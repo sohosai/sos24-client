@@ -531,6 +531,7 @@ classDiagram
 
 ```
 
+
 ```mermaid
 classDiagram
 
@@ -612,6 +613,54 @@ classDiagram
   class 更新日{
     ・datetime
   }
+```
+
+```mermaid
+classDiagram
+
+  ファイル --|>ID
+  ファイル --|>ファイル名
+  ファイル --|>S3におけるオブジェクトキー
+  ファイル --|>作成企画
+  ファイル --|>作成日
+  ファイル --|>更新日
+  class ファイル{
+    ・ID
+    ・ファイル名
+    ・S3におけるオブジェクトキー
+    ・作成企画
+    ・作成日
+    ・更新日
+  }
+
+  class ID{
+    ・UUID
+  }
+
+  class ファイル名{
+    ・文字列
+  }
+
+  class S3におけるオブジェクトキー{
+    ・文字列
+  }
+
+  class 作成企画{
+    ・UUID(nullable)
+    ・企画ID
+  }
+
+  class 作成日{
+    ・datetime
+  }
+
+  class 更新日{
+    ・datetime
+  }
+```
+
+
+
 
 
 
