@@ -143,7 +143,6 @@ export const Header: FC = () => {
         fontWeight: "bold",
         background: "white",
         display: "grid",
-        // gap: 4,
         paddingY: 4,
         gridTemplateRows: "1fr, 1fr",
         zIndex: 2,
