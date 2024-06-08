@@ -4,8 +4,22 @@ import { container, stack } from "@styled-system/patterns";
 import { Title } from "@/common_components/Title";
 import { css } from "@styled-system/css";
 import Link from "next/link";
+import { useAtomValue } from "jotai";
+import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
+import useSWR from "swr";
+import { assignType } from "@/lib/openapi";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const { isIn } = useAtomValue(projectApplicationPeriodAtom);
+  const router = useRouter();
+  const { data: userRes, isLoading: userIsLoading } = useSWR("/users/me");
+  const userInfo = !userIsLoading ? assignType("/users/me", userRes) : undefined;
+  if (userIsLoading) return;
+  if (!isIn) {
+    if (userInfo?.owned_project_id) router.push("/dashboard");
+    else router.push("/register");
+  }
   return (
     <div className={container()}>
       <div className={stack({ gap: 6, marginY: 8 })}>

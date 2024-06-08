@@ -5,14 +5,17 @@ import { NextPage } from "next";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 import { css } from "@styled-system/css";
-import { Button } from "@/common_components/Button";
-import { FormsList } from "./FormsList";
-import { stack } from "@styled-system/patterns";
+import { container, stack } from "@styled-system/patterns";
 import { NotificationBadge } from "@/common_components/NotificationBadge";
 import { useAtomValue } from "jotai";
-import { hiddenFormIdsAtom } from "./hiddenFormIds";
+import { hiddenFormIdsAtom } from "@/common_components/form_list/hiddenFormIds";
 import { useRouter } from "next/navigation";
 import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
+import { buttonStyle } from "@/recipes/button";
+import { Title } from "@/common_components/Title";
+import { components } from "@/schema";
+import { getSubmitStatusFromDate } from "@/lib/formHelpers";
+import { FormList } from "@/common_components/form_list/formList";
 
 const DashboardPage: NextPage = () => {
   const { data: projectRes, error: projectResError, isLoading: projectResIsLoading } = useSWR("/projects/me");
@@ -37,7 +40,7 @@ const DashboardPage: NextPage = () => {
   const isLoading = projectResIsLoading || formsResIsLoading || answersResIsLoading;
   const error = projectResError || formsResError || answersResError;
 
-  const [isSubmittedShown, setIsSubmittedShown] = useState(true);
+  const [isSubmittedShown, setIsSubmittedShown] = useState(false);
   const [isHiddenFormsShown, setIsHiddenFormsShown] = useState(false);
 
   const applicationPeriod = useAtomValue(projectApplicationPeriodAtom);
@@ -62,7 +65,6 @@ const DashboardPage: NextPage = () => {
       </p>
     );
   }
-
   const notifications = forms.filter(
     (form) => !answers.map((answer) => answer.form_id).includes(form.id) && !hiddenFormIds.includes(form.id),
   ).length;
@@ -71,31 +73,25 @@ const DashboardPage: NextPage = () => {
   return (
     <>
       <div
-        className={css({
+        className={container({
           padding: 5,
-          maxWidth: "900px",
+          maxWidth: "6xl",
           marginInline: "auto",
         })}>
         <div>
-          <h2
-            className={css({
-              fontSize: "xl",
-              fontWeight: "bold",
-              display: "flex",
-              gap: 1,
-            })}>
+          <Title>
             申請一覧
             {notifications > 0 && <NotificationBadge count={notifications} />}
-          </h2>
+          </Title>
         </div>
-        <div className={stack({ padding: 10, gap: 4, alignItems: "flex-start", width: "100%" })}>
-          <Button color={isSubmittedShown ? "secondary" : "purple"} onClick={toggleFilter} onTouchEnd={toggleFilter}>
-            未提出のみ表示
-          </Button>
-          <FormsList
-            forms={forms.filter((form) => !hiddenFormIds.includes(form.id))}
-            showSubmitted={!isSubmittedShown}
-          />
+        <div className={stack({ paddingBlock: 10, gap: 4, alignItems: "flex-start", width: "100%" })}>
+          <button
+            className={buttonStyle({ visual: isSubmittedShown ? "outline" : "solid", color: "purple" })}
+            onClick={toggleFilter}
+            aria-pressed={!isSubmittedShown}>
+            {isSubmittedShown ? "すべて" : "未提出のみ"}表示
+          </button>
+          <FormList forms={filterForm(forms, isSubmittedShown, hiddenFormIds, false)} showHiddenToggle={true} />
 
           <button
             className={css({
@@ -109,15 +105,28 @@ const DashboardPage: NextPage = () => {
             {isHiddenFormsShown ? "-" : "+"} 非表示中の申請
           </button>
           {isHiddenFormsShown && (
-            <FormsList
-              forms={forms.filter((form) => hiddenFormIds.includes(form.id))}
-              showSubmitted={isSubmittedShown}
-            />
+            <FormList forms={filterForm(forms, isSubmittedShown, hiddenFormIds, true)} showHiddenToggle={true} />
           )}
         </div>
       </div>
     </>
   );
+};
+
+type form = components["schemas"]["FormSummary"];
+const filterForm = (forms: form[], showSubmitted: boolean, hiddenFormIds: string[], isHiddenList: boolean) => {
+  return forms.filter((form) => {
+    const hidden = hiddenFormIds.includes(form.id);
+    if ((isHiddenList && !hidden) || (!isHiddenList && hidden)) {
+      return false;
+    }
+
+    const status = getSubmitStatusFromDate(form.ends_at, form.answered_at);
+    if (showSubmitted) {
+      if (status !== "未提出") return false;
+    }
+    return true;
+  });
 };
 
 export default DashboardPage;

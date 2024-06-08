@@ -7,6 +7,7 @@ import { NextPage } from "next";
 import { useAtomValue } from "jotai";
 import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
 import { useRouter } from "next/navigation";
+import { Title } from "@/common_components/Title";
 
 const NewsPage: NextPage = () => {
   const router = useRouter();
@@ -17,9 +18,11 @@ const NewsPage: NextPage = () => {
   }
 
   return (
-    <div className={container()}>
+    <div className={container({ maxWidth: "6xl" })}>
       <div className={stack({ gap: 8, marginY: 8 })}>
-        <h2 className={css({ fontSize: "2xl", fontWeight: "bold" })}>お知らせ一覧</h2>
+        <div>
+          <Title className={css({ fontSize: "2xl", fontWeight: "bold" })}>お知らせ一覧</Title>
+        </div>
         <div className={center()}>
           <div className={css({ width: "90%" })}>
             <NewsView />
