@@ -3,7 +3,7 @@
 import { useAuthState } from "@/lib/firebase";
 import { css } from "@styled-system/css";
 import { getAuth, signOut } from "firebase/auth";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import logo from "@/assets/Logo.svg?url";
@@ -11,12 +11,9 @@ import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import MenuButton from "@/assets/MenuButton.svg?url";
-import CloseButton from "@/assets/CloseButton.svg?url";
 import { hstack } from "@styled-system/patterns";
 import { Route } from "next";
 import { SwitchModeButton } from "./SwitchModeButton";
-import { MobileMenu } from "./MobileMenu";
 import { HeaderMenuItems } from "./HeaderMenuItems";
 import { HeaderNavigation } from "./HeaderNavigation";
 import { components } from "@/schema";
@@ -99,11 +96,6 @@ export const Header: FC = () => {
   const userInfo = !userIsLoading ? assignType("/users/me", userRes) : undefined;
 
   const path = usePathname();
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
-
-  useEffect(() => {
-    setShowMobileMenu(false);
-  }, [path]);
 
   const [applicationPeriod] = useAtom(projectApplicationPeriodAtom);
 
@@ -131,7 +123,6 @@ export const Header: FC = () => {
     toast.promise(
       (async (): Promise<void> => {
         await signOut(auth);
-        setShowMobileMenu(false);
       })(),
       {
         loading: "サインアウトしています",
@@ -162,15 +153,6 @@ export const Header: FC = () => {
           display: "block",
         },
       })}>
-      {userInfo?.owned_project_id && showMobileMenu && (
-        <MobileMenu
-          menu={menu}
-          isCommittee={["committee", "committee_operator", "administrator"].includes(userInfo?.role ?? "")}
-          show={showMobileMenu}
-          signOutFunc={handleSignOut}
-          isCommitteeMode={path.startsWith("/committee")}
-        />
-      )}
       <div
         className={css({
           zIndex: 100,
@@ -183,20 +165,6 @@ export const Header: FC = () => {
             height: "100%",
           },
         })}>
-        {userInfo?.owned_project_id ? (
-          <button
-            className={css({
-              display: "flex",
-              justifyContent: "center",
-              lg: { display: "none" },
-            })}
-            onClick={() => setShowMobileMenu((e) => !e)}>
-            {showMobileMenu ? <Image src={CloseButton} alt="" /> : <Image src={MenuButton} alt="" />}
-          </button>
-        ) : (
-          <div className={css({ lg: { display: "none" } })} />
-        )}
-
         <div
           className={css({
             display: "flex",
@@ -212,7 +180,7 @@ export const Header: FC = () => {
             <Image src={logo} alt="" className={css({ width: { lg: 10, base: 8 } })} />
             <h1
               className={css({
-                color: showMobileMenu ? "white" : "black",
+                color: "black",
                 fontSize: { base: "lg", lg: "2xl" },
               })}>
               雙峰祭オンラインシステム
@@ -271,7 +239,7 @@ export const Header: FC = () => {
               サインアウト
             </button>
             {!userIsLoading && ["committee", "committee_operator", "administrator"].includes(userInfo?.role ?? "") && (
-              <SwitchModeButton isCommitteeMode={path.startsWith("/committee")} showMobileMenu={showMobileMenu} />
+              <SwitchModeButton isCommitteeMode={path.startsWith("/committee")} />
             )}
           </nav>
         ) : (
