@@ -40,7 +40,7 @@ export const News: FC<{
         className={css({
           fontSize: "xs",
         })}>
-        最終更新: {dayjs(news.updated_at).format("YYYY/MM/DD H:m:s")}
+        最終更新: {dayjs(news.updated_at).format("YYYY/MM/DD HH:mm")}
       </p>
       <div
         className={flex({
