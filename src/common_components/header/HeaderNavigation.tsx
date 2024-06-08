@@ -4,8 +4,13 @@ import { FC } from "react";
 import Link from "next/link";
 import { MenuData } from "./Header";
 import { hstack } from "@styled-system/patterns";
+import useSWR from "swr";
+import { assignType } from "@/lib/openapi";
 
-export const HeaderNavigation: FC<{ menu: MenuData[] }> = ({ menu }) => {
+export const HeaderNavigation: FC<{ menu: MenuData[] }> = ({ menu, path }) => {
+  const { data: userRes, isLoading: userIsLoading } = useSWR("/users/me");
+  const userInfo = !userIsLoading ? assignType("/users/me", userRes) : undefined;
+  
   const commonItemStyle = css({
     display: "block",
     height: "100%",
@@ -18,15 +23,24 @@ export const HeaderNavigation: FC<{ menu: MenuData[] }> = ({ menu }) => {
           flexGrow: 1,
         },
         textAlign: "center",
-        lg: { display: "none" },
+        marginTop: {
+          base: '5px',
+          lg: '0'
+        },
+        lg: { display: "none" }, 
       })}>
-      {menu.map((menu) => (
-        <li key={menu.path}>
-          <Link href={menu.path} className={commonItemStyle}>
-            {menu.name}
-          </Link>
-        </li>
-      ))}
+      
+      {
+        (userInfo?.owned_project_id || path.startsWith("/committee")) &&
+        menu.map((menu) => (
+          <li key={menu.path}>
+            <Link href={menu.path} className={commonItemStyle}>
+              {menu.name}
+              {/* (HeaderNavigation) */}
+            </Link>
+          </li>
+        ))
+      }
     </ul>
   );
 };
