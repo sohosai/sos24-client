@@ -14,7 +14,7 @@ jobs:
     if: |
       (github.event_name == 'push' && ((github.head_ref || github.ref_name) != 'main' )) ||
       github.event_name == 'workflow_dispatch'
-    runs-on: [self-hosted, garm]
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       deployments: write
