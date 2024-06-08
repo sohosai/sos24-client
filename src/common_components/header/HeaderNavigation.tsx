@@ -10,7 +10,7 @@ import { assignType } from "@/lib/openapi";
 export const HeaderNavigation: FC<{ menu: MenuData[] }> = ({ menu, path }) => {
   const { data: userRes, isLoading: userIsLoading } = useSWR("/users/me");
   const userInfo = !userIsLoading ? assignType("/users/me", userRes) : undefined;
-  
+
   const commonItemStyle = css({
     display: "block",
     height: "100%",
@@ -24,14 +24,12 @@ export const HeaderNavigation: FC<{ menu: MenuData[] }> = ({ menu, path }) => {
         },
         textAlign: "center",
         marginTop: {
-          base: '5px',
-          lg: '0'
+          base: "5px",
+          lg: "0",
         },
-        lg: { display: "none" }, 
+        lg: { display: "none" },
       })}>
-      
-      {
-        (userInfo?.owned_project_id || path.startsWith("/committee")) &&
+      {(userInfo?.owned_project_id || path.startsWith("/committee")) &&
         menu.map((menu) => (
           <li key={menu.path}>
             <Link href={menu.path} className={commonItemStyle}>
@@ -39,8 +37,7 @@ export const HeaderNavigation: FC<{ menu: MenuData[] }> = ({ menu, path }) => {
               {/* (HeaderNavigation) */}
             </Link>
           </li>
-        ))
-      }
+        ))}
     </ul>
   );
 };

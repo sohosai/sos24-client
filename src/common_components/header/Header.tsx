@@ -165,12 +165,13 @@ export const Header: FC = () => {
             height: "100%",
           },
         })}>
-        <div className={css({
-          display: {
-            base: "block",
-            lg: "none"
-          }
-        })}></div>
+        <div
+          className={css({
+            display: {
+              base: "block",
+              lg: "none",
+            },
+          })}></div>
         <div
           className={css({
             display: "flex",

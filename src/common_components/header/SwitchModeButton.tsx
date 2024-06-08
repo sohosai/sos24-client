@@ -38,7 +38,8 @@ export const SwitchModeButton: FC<{ isCommitteeMode: boolean; showMobileMenu: bo
         })}
       />
       <span>
-        <span className={css({ display: { base: "none", lg: "inline" } })}>{isCommitteeMode ? "一般" : "実委人"}</span>切り替え
+        <span className={css({ display: { base: "none", lg: "inline" } })}>{isCommitteeMode ? "一般" : "実委人"}</span>
+        切り替え
       </span>
     </button>
   </Link>
