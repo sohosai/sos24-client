@@ -6,10 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
 
-export const SwitchModeButton: FC<{ isCommitteeMode: boolean; showMobileMenu: boolean }> = ({
-  isCommitteeMode,
-  showMobileMenu,
-}) => (
+export const SwitchModeButton: FC<{ isCommitteeMode: boolean }> = ({ isCommitteeMode }) => (
   <Link href={isCommitteeMode ? "/dashboard" : "/committee"}>
     <button
       className={css({
@@ -29,7 +26,7 @@ export const SwitchModeButton: FC<{ isCommitteeMode: boolean; showMobileMenu: bo
         localStorage.removeItem("invitation_id");
       }}>
       <Image
-        src={showMobileMenu ? ModeSwitchWhite : ModeSwitch}
+        src={ModeSwitch}
         alt=""
         className={css({
           filter: "drop-shadow(0 0 5px rgb(0 0 0 / 0.1))",
