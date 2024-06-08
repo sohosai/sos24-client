@@ -1,25 +1,36 @@
 import * as Sentry from "@sentry/nextjs";
+import { token } from "@styled-system/tokens";
 
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
-  // Replay may only be enabled for the client-side
-  integrations: [Sentry.replayIntegration()],
-
-  // Set tracesSampleRate to 1.0 to capture 100%
-  // of transactions for performance monitoring.
-  // We recommend adjusting this value in production
-  tracesSampleRate: 1.0,
-
-  // Capture Replay for 10% of all sessions,
-  // plus for 100% of sessions with an error
-  replaysSessionSampleRate: 0.1,
+  tracesSampleRate: 1,
+  debug: false,
   replaysOnErrorSampleRate: 1.0,
-
-  enabled: process.env.NODE_ENV !== "development",
-
-  // ...
-
-  // Note: if you want to override the automatic release value, do not set a
-  // `release` value here - use the environment variable `SENTRY_RELEASE`, so
-  // that it will also get attached to your source maps
+  replaysSessionSampleRate: 0.1,
+  integrations: [
+    Sentry.replayIntegration({
+      maskAllText: true,
+      blockAllMedia: true,
+    }),
+    Sentry.feedbackIntegration({
+      colorScheme: "light",
+      showName: false,
+      showEmail: false,
+      isNameRequired: false,
+      isEmailRequired: false,
+      showBranding: false,
+      buttonLabel: "不具合の報告はこちら",
+      formTitle: "不具合の報告フォーム",
+      messageLabel: "不具合の内容",
+      messagePlaceholder: "企画に関するお問い合わせは、project50th@sohosai.comまでお送りください。",
+      submitButtonLabel: "不具合を報告",
+      cancelButtonLabel: "キャンセル",
+      themeLight: {
+        submitBorder: token("colors.tsukuba.purple"),
+        submitOutlineFocus: "rgba(102, 0, 204, 0.75)",
+        submitBackground: token("colors.tsukuba.purple"),
+        submitBackgroundHover: "rgba(102, 0, 204, 0.75)",
+      },
+    }),
+  ],
 });

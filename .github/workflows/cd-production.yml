@@ -1,11 +1,10 @@
-name: CD
-run-name: CD - ${{ github.event_name }}
+name: CD(Production)
+run-name: CD(Production) - ${{ github.event_name }}
 
 on:
   push:
-  pull_request:
-    branches:
-      - main
+    tags:
+      - v*
   workflow_dispatch:
 
 env:
@@ -14,11 +13,7 @@ env:
 
 jobs:
   build_and_deploy:
-    if: |
-      (github.event_name == 'push' && ((github.head_ref || github.ref_name) != 'main' )) || 
-      github.event.pull_request.merged  ||
-      github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, garm]
     permissions:
       contents: read
       deployments: write
@@ -26,7 +21,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref || github.ref_name }}
+          ref: main
+      - name: Check tagged branch
+        run: |
+          BRANCHS=$(git branch --contains ${{ github.ref_name }})
+          set -- $BRANCHS
+          for BRANCH in $BRANCHS ; do
+            if [[ "$BRANCH" == "main" ]]; then
+              exit 0
+            fi
+          done
+          exit 1
       - name: Symlink
         run: |
           mkdir -p /home/runner/work/${{ github.event.repository.name }}/
@@ -60,6 +65,8 @@ jobs:
           NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{vars.DEV_FIREBASE_MESSAGING_SENDER_ID}}
           NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{vars.DEV_FIREBASE_PROJECT_ID}}
           NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{vars.DEV_FIREBASE_STORAGE_BUCKET}}
+          NEXT_PUBLIC_SENTRY_DSN: ${{vars.SENTRY_DSN}}
+          NEXT_PUBLIC_SENTRY_PROJECT: ${{vars.SENTRY_PROJECT}}
       - name: build (production)
         if: ${{ ((github.head_ref || github.ref_name) == env.PRODUCTION_BRANCH) && github.event.pull_request.merged == true }}
         id: build-production
@@ -88,6 +95,14 @@ jobs:
           productionBranch: ${{ env.PRODUCTION_BRANCH }}
           branch: ${{ github.head_ref || github.ref_name }}
           wranglerVersion: "3"
+      - name: Sentry
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          environment: production
       - name: Notify
         uses: sarisia/actions-status-discord@v1
         if: always() && !cancelled()

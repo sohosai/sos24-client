@@ -2,7 +2,6 @@
 
 import { css } from "@styled-system/css";
 import { Title } from "@/common_components/Title";
-import { RegisterForm } from "@/app/register/RegisterForm";
 import { container, stack } from "@styled-system/patterns";
 import { RegistrationProgress } from "@/common_components/RegistrationProgress";
 import useSWR from "swr";
@@ -10,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { assignType } from "@/lib/openapi";
 import { useAtomValue } from "jotai";
 import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
+import dynamic from "next/dynamic";
 
 const RegisterPage = () => {
   const { data: userRes, isLoading: userIsLoading, error: userError } = useSWR("/users/me");
@@ -21,6 +21,7 @@ const RegisterPage = () => {
   if (user.owned_project_id) {
     router.push("/dashboard");
   }
+  const RegisterForm = dynamic(() => import("@/app/register/RegisterForm"));
   return (
     <div>
       <div

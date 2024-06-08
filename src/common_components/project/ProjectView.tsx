@@ -145,7 +145,6 @@ export const ProjectTableView: React.FC<{
               <input
                 type="text"
                 id="kana_group_name"
-                value={projectData.kana_group_name ?? ""}
                 {...register("kana_group_name", {
                   value: projectData.kana_group_name ?? "",
                 })}

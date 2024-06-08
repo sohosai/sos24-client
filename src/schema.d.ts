@@ -5,252 +5,129 @@
 
 export interface paths {
   "/files": {
-    /**
-     * ファイル一覧の取得
-     * @description ファイル一覧の取得
-     */
+    /** ファイル一覧の取得 */
     get: operations["getFiles"];
-    /**
-     * ファイルの作成
-     * @description ファイルの作成
-     */
+    /** ファイルの作成 */
     post: operations["postFiles"];
   };
   "/files/export": {
-    /**
-     * ファイル一覧のエクスポート
-     * @description ファイル一覧のエクスポート
-     */
+    /** ファイル一覧のエクスポート */
     get: operations["getFilesExport"];
   };
   "/files/{file_id}": {
-    /**
-     * 特定のIDのファイルの取得
-     * @description 特定のIDのファイルの取得
-     */
+    /** 特定のIDのファイルの取得 */
     get: operations["getFileById"];
-    /**
-     * 特定のIDのファイルの削除
-     * @description 特定のIDのファイルの削除
-     */
+    /** 特定のIDのファイルの削除 */
     delete: operations["deleteFileById"];
   };
   "/form-answers": {
-    /**
-     * 申請回答一覧を取得
-     * @description 申請回答一覧を取得
-     */
+    /** 申請回答一覧を取得 */
     get: operations["getFormAnswers"];
-    /**
-     * 申請回答を作成
-     * @description 申請回答を作成
-     */
+    /** 申請回答を作成 */
     post: operations["postFormAnswer"];
   };
   "/form-answers/export": {
-    /**
-     * 申請回答一覧のエクスポート
-     * @description 申請回答一覧のエクスポート
-     */
+    /** 申請回答一覧のエクスポート */
     get: operations["getFormAnswersExport"];
   };
   "/form-answers/{form_answer_id}": {
-    /**
-     * 特定のIDの申請回答を取得
-     * @description 特定のIDの申請回答を取得
-     */
+    /** 特定のIDの申請回答を取得 */
     get: operations["getFormAnswerById"];
-    /**
-     * 特定のIDの申請回答を更新
-     * @description 特定のIDの申請回答を更新
-     */
+    /** 特定のIDの申請回答を更新 */
     put: operations["putFormAnswerById"];
   };
   "/forms": {
-    /**
-     * 申請一覧の取得
-     * @description 申請一覧の取得
-     */
+    /** 申請一覧の取得 */
     get: operations["getForms"];
-    /**
-     * 申請の作成
-     * @description 申請の作成
-     */
+    /** 申請の作成 */
     post: operations["postForm"];
   };
   "/forms/{form_id}": {
-    /**
-     * 特定のIDの申請を取得
-     * @description 特定のIDの申請を取得
-     */
+    /** 特定のIDの申請を取得 */
     get: operations["getFormById"];
-    /**
-     * 特定のIDの申請を更新
-     * @description 特定のIDの申請を更新
-     */
+    /** 特定のIDの申請を更新 */
     put: operations["putFormById"];
-    /**
-     * 特定のIDの申請を削除
-     * @description 特定のIDの申請を削除
-     */
+    /** 特定のIDの申請を削除 */
     delete: operations["deleteFormById"];
   };
   "/health": {
-    /**
-     * サーバーの状態を確認する
-     * @description サーバーの状態を確認する
-     */
+    /** サーバーの状態を確認する */
     get: operations["getHealth"];
   };
   "/invitations": {
-    /**
-     * 招待一覧の取得
-     * @description 招待一覧の取得
-     */
+    /** 招待一覧の取得 */
     get: operations["getInvitations"];
-    /**
-     * 招待の作成
-     * @description 招待の作成
-     */
+    /** 招待の作成 */
     post: operations["postInvitation"];
   };
   "/invitations/{invitation_id}": {
-    /**
-     * 特定のIDの招待の取得
-     * @description 特定のIDの招待の取得
-     */
+    /** 特定のIDの招待の取得 */
     get: operations["getInvitationById"];
-    /**
-     * 特定のIDの招待の受諾
-     * @description 特定のIDの招待の受諾
-     */
+    /** 特定のIDの招待の受諾 */
     post: operations["postInvitationById"];
-    /**
-     * 特定のIDの招待の削除
-     * @description 特定のIDの招待の削除
-     */
+    /** 特定のIDの招待の削除 */
     delete: operations["deleteInvitationById"];
   };
   "/news": {
-    /**
-     * お知らせ一覧の取得
-     * @description お知らせ一覧の取得
-     */
+    /** お知らせ一覧の取得 */
     get: operations["getNews"];
-    /**
-     * お知らせの作成
-     * @description お知らせの作成
-     */
+    /** お知らせの作成 */
     post: operations["postNews"];
   };
   "/news/{news_id}": {
-    /**
-     * 特定のIDのお知らせの取得
-     * @description 特定のIDのお知らせの取得
-     */
+    /** 特定のIDのお知らせの取得 */
     get: operations["getNewsById"];
-    /**
-     * 特定のIDのお知らせを更新
-     * @description 特定のIDのお知らせを更新
-     */
+    /** 特定のIDのお知らせを更新 */
     put: operations["putNewsById"];
-    /**
-     * 特定のIDのお知らせの削除
-     * @description 特定のIDのお知らせの削除
-     */
+    /** 特定のIDのお知らせの削除 */
     delete: operations["deleteNewsById"];
   };
   "/project-application-period": {
-    /**
-     * 企画募集期間を取得する
-     * @description 企画募集期間を取得する
-     */
+    /** 企画募集期間を取得する */
     get: operations["getProjectApplicationPeriod"];
   };
   "/projects": {
-    /**
-     * 企画一覧の取得
-     * @description 企画一覧の取得
-     */
+    /** 企画一覧の取得 */
     get: operations["getProjects"];
-    /**
-     * 企画の作成
-     * @description 企画の作成
-     */
+    /** 企画の作成 */
     post: operations["postProject"];
   };
   "/projects/export": {
-    /**
-     * 企画一覧のエクスポート
-     * @description 企画一覧のエクスポート
-     */
+    /** 企画一覧のエクスポート */
     get: operations["getProjectsExport"];
   };
   "/projects/me": {
-    /**
-     * 自分が企画責任者・副企画責任者になっている企画の取得
-     * @description 自分が企画責任者・副企画責任者になっている企画の取得
-     */
+    /** 自分が企画責任者・副企画責任者になっている企画の取得 */
     get: operations["getMyProject"];
   };
   "/projects/{project_id}": {
-    /**
-     * 特定のIDの企画の取得
-     * @description 特定のIDの企画の取得
-     */
+    /** 特定のIDの企画の取得 */
     get: operations["getProjectById"];
-    /**
-     * 特定のIDの企画を更新
-     * @description 特定のIDの企画を更新
-     */
+    /** 特定のIDの企画を更新 */
     put: operations["putProjectById"];
-    /**
-     * 特定のIDの企画の削除
-     * @description 特定のIDの企画の削除
-     */
+    /** 特定のIDの企画の削除 */
     delete: operations["deleteProjectById"];
   };
   "/users": {
-    /**
-     * ユーザー一覧の取得
-     * @description ユーザー一覧の取得
-     */
+    /** ユーザー一覧の取得 */
     get: operations["getUsers"];
-    /**
-     * ユーザーの作成
-     * @description ユーザーの作成
-     */
+    /** ユーザーの作成 */
     post: operations["postUser"];
   };
   "/users/export": {
-    /**
-     * ユーザー一覧のエクスポート
-     * @description ユーザー一覧のエクスポート
-     */
+    /** ユーザー一覧のエクスポート */
     get: operations["getUsersExport"];
   };
   "/users/me": {
-    /**
-     * 自分のユーザーの取得
-     * @description 自分のユーザーの取得
-     */
+    /** 自分のユーザーの取得 */
     get: operations["getMyUser"];
   };
   "/users/{user_id}": {
-    /**
-     * 特定のIDのユーザーの取得
-     * @description 特定のIDのユーザーの取得
-     */
+    /** 特定のIDのユーザーの取得 */
     get: operations["getUserById"];
-    /**
-     * 特定のIDのユーザーの更新
-     * @description 特定のIDのユーザーの更新
-     */
+    /** 特定のIDのユーザーの更新 */
     put: operations["putUserById"];
-    /**
-     * 特定のIDのユーザーの削除
-     * @description 特定のIDのユーザーの削除
-     */
+    /** 特定のIDのユーザーの削除 */
     delete: operations["deleteUserById"];
   };
 }
@@ -261,8 +138,8 @@ export interface components {
   schemas: {
     CreateForm: {
       attachments: string[];
-      attributes: components["schemas"]["ProjectAttribute"][];
-      categories: components["schemas"]["ProjectCategory"][];
+      attributes: components["schemas"]["ProjectAttributes"];
+      categories: components["schemas"]["ProjectCategories"];
       description: string;
       /** Format: date-time */
       ends_at: string;
@@ -283,13 +160,13 @@ export interface components {
     };
     CreateNews: {
       attachments: string[];
-      attributes: components["schemas"]["ProjectAttribute"][];
+      attributes: components["schemas"]["ProjectAttributes"];
       body: string;
-      categories: components["schemas"]["ProjectCategory"][];
+      categories: components["schemas"]["ProjectCategories"];
       title: string;
     };
     CreateProject: {
-      attributes: components["schemas"]["ProjectAttribute"][];
+      attributes: components["schemas"]["ProjectAttributes"];
       category: components["schemas"]["ProjectCategory"];
       group_name: string;
       kana_group_name: string;
@@ -337,8 +214,6 @@ export interface components {
     File: {
       /** Format: date-time */
       created_at: string;
-      /** Format: date-time */
-      deleted_at?: string | null;
       /** Format: uuid */
       id: string;
       name: string;
@@ -352,8 +227,6 @@ export interface components {
     FileInfo: {
       /** Format: date-time */
       created_at: string;
-      /** Format: date-time */
-      deleted_at?: string | null;
       filename: string;
       /** Format: uuid */
       id: string;
@@ -368,12 +241,10 @@ export interface components {
       /** Format: date-time */
       answered_at?: string | null;
       attachments: string[];
-      attributes: components["schemas"]["ProjectAttribute"][];
-      categories: components["schemas"]["ProjectCategory"][];
+      attributes: components["schemas"]["ProjectAttributes"];
+      categories: components["schemas"]["ProjectCategories"];
       /** Format: date-time */
       created_at: string;
-      /** Format: date-time */
-      deleted_at?: string | null;
       description: string;
       /** Format: date-time */
       ends_at: string;
@@ -389,8 +260,6 @@ export interface components {
     FormAnswer: {
       /** Format: date-time */
       created_at: string;
-      /** Format: date-time */
-      deleted_at?: string | null;
       /** Format: uuid */
       form_id: string;
       form_title: string;
@@ -441,6 +310,8 @@ export interface components {
           value: string[];
         };
     FormAnswerSummary: {
+      /** Format: date-time */
+      created_at: string;
       /** Format: uuid */
       form_id: string;
       form_title: string;
@@ -503,8 +374,8 @@ export interface components {
       answer_id?: string | null;
       /** Format: date-time */
       answered_at?: string | null;
-      attributes: components["schemas"]["ProjectAttribute"][];
-      categories: components["schemas"]["ProjectCategory"][];
+      attributes: components["schemas"]["ProjectAttributes"];
+      categories: components["schemas"]["ProjectCategories"];
       description: string;
       /** Format: date-time */
       ends_at: string;
@@ -519,8 +390,6 @@ export interface components {
     Invitation: {
       /** Format: date-time */
       created_at: string;
-      /** Format: date-time */
-      deleted_at?: string | null;
       /** Format: uuid */
       id: string;
       inviter: string;
@@ -542,13 +411,11 @@ export interface components {
       };
     News: {
       attachments: string[];
-      attributes: components["schemas"]["ProjectAttribute"][];
+      attributes: components["schemas"]["ProjectAttributes"];
       body: string;
-      categories: components["schemas"]["ProjectCategory"][];
+      categories: components["schemas"]["ProjectCategories"];
       /** Format: date-time */
       created_at: string;
-      /** Format: date-time */
-      deleted_at?: string | null;
       /** Format: uuid */
       id: string;
       title: string;
@@ -556,8 +423,8 @@ export interface components {
       updated_at: string;
     };
     NewsSummary: {
-      attributes: components["schemas"]["ProjectAttribute"][];
-      categories: components["schemas"]["ProjectCategory"][];
+      attributes: components["schemas"]["ProjectAttributes"];
+      categories: components["schemas"]["ProjectCategories"];
       /** Format: uuid */
       id: string;
       title: string;
@@ -565,12 +432,10 @@ export interface components {
       updated_at: string;
     };
     Project: {
-      attributes: components["schemas"]["ProjectAttribute"][];
+      attributes: components["schemas"]["ProjectAttributes"];
       category: components["schemas"]["ProjectCategory"];
       /** Format: date-time */
       created_at: string;
-      /** Format: date-time */
-      deleted_at?: string | null;
       group_name: string;
       /** Format: uuid */
       id: string;
@@ -597,6 +462,8 @@ export interface components {
     };
     /** @enum {string} */
     ProjectAttribute: "academic" | "art" | "official" | "inside" | "outside";
+    ProjectAttributes: components["schemas"]["ProjectAttribute"][];
+    ProjectCategories: components["schemas"]["ProjectCategory"][];
     /** @enum {string} */
     ProjectCategory:
       | "general"
@@ -607,7 +474,7 @@ export interface components {
       | "stage_university_hall"
       | "stage_united";
     ProjectSummary: {
-      attributes: components["schemas"]["ProjectAttribute"][];
+      attributes: components["schemas"]["ProjectAttributes"];
       category: components["schemas"]["ProjectCategory"];
       /** Format: uuid */
       id: string;
@@ -620,8 +487,8 @@ export interface components {
     };
     UpdateForm: {
       attachments: string[];
-      attributes: components["schemas"]["ProjectAttribute"][];
-      categories: components["schemas"]["ProjectCategory"][];
+      attributes: components["schemas"]["ProjectAttributes"];
+      categories: components["schemas"]["ProjectCategories"];
       description: string;
       /** Format: date-time */
       ends_at: string;
@@ -635,13 +502,13 @@ export interface components {
     };
     UpdateNews: {
       attachments: string[];
-      attributes: components["schemas"]["ProjectAttribute"][];
+      attributes: components["schemas"]["ProjectAttributes"];
       body: string;
-      categories: components["schemas"]["ProjectCategory"][];
+      categories: components["schemas"]["ProjectCategories"];
       title: string;
     };
     UpdateProject: {
-      attributes: components["schemas"]["ProjectAttribute"][];
+      attributes: components["schemas"]["ProjectAttributes"];
       category: components["schemas"]["ProjectCategory"];
       group_name: string;
       kana_group_name: string;
@@ -659,8 +526,6 @@ export interface components {
     User: {
       /** Format: date-time */
       created_at: string;
-      /** Format: date-time */
-      deleted_at?: string | null;
       email: string;
       id: string;
       kana_name: string;
@@ -694,10 +559,7 @@ export type $defs = Record<string, never>;
 export type external = Record<string, never>;
 
 export interface operations {
-  /**
-   * ファイル一覧の取得
-   * @description ファイル一覧の取得
-   */
+  /** ファイル一覧の取得 */
   getFiles: {
     responses: {
       /** @description OK */
@@ -726,10 +588,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * ファイルの作成
-   * @description ファイルの作成
-   */
+  /** ファイルの作成 */
   postFiles: {
     parameters: {
       query: {
@@ -783,10 +642,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * ファイル一覧のエクスポート
-   * @description ファイル一覧のエクスポート
-   */
+  /** ファイル一覧のエクスポート */
   getFilesExport: {
     parameters: {
       query?: {
@@ -821,10 +677,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 特定のIDのファイルの取得
-   * @description 特定のIDのファイルの取得
-   */
+  /** 特定のIDのファイルの取得 */
   getFileById: {
     parameters: {
       path: {
@@ -858,10 +711,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 特定のIDのファイルの削除
-   * @description 特定のIDのファイルの削除
-   */
+  /** 特定のIDのファイルの削除 */
   deleteFileById: {
     parameters: {
       path: {
@@ -893,10 +743,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 申請回答一覧を取得
-   * @description 申請回答一覧を取得
-   */
+  /** 申請回答一覧を取得 */
   getFormAnswers: {
     parameters: {
       query?: {
@@ -931,10 +778,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 申請回答を作成
-   * @description 申請回答を作成
-   */
+  /** 申請回答を作成 */
   postFormAnswer: {
     requestBody: {
       content: {
@@ -980,10 +824,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 申請回答一覧のエクスポート
-   * @description 申請回答一覧のエクスポート
-   */
+  /** 申請回答一覧のエクスポート */
   getFormAnswersExport: {
     parameters: {
       query?: {
@@ -1017,10 +858,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 特定のIDの申請回答を取得
-   * @description 特定のIDの申請回答を取得
-   */
+  /** 特定のIDの申請回答を取得 */
   getFormAnswerById: {
     parameters: {
       path: {
@@ -1060,10 +898,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 特定のIDの申請回答を更新
-   * @description 特定のIDの申請回答を更新
-   */
+  /** 特定のIDの申請回答を更新 */
   putFormAnswerById: {
     parameters: {
       path: {
@@ -1118,10 +953,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 申請一覧の取得
-   * @description 申請一覧の取得
-   */
+  /** 申請一覧の取得 */
   getForms: {
     parameters: {
       query?: {
@@ -1161,10 +993,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 申請の作成
-   * @description 申請の作成
-   */
+  /** 申請の作成 */
   postForm: {
     requestBody: {
       content: {
@@ -1210,10 +1039,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 特定のIDの申請を取得
-   * @description 特定のIDの申請を取得
-   */
+  /** 特定のIDの申請を取得 */
   getFormById: {
     parameters: {
       path: {
@@ -1247,10 +1073,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 特定のIDの申請を更新
-   * @description 特定のIDの申請を更新
-   */
+  /** 特定のIDの申請を更新 */
   putFormById: {
     parameters: {
       path: {
@@ -1305,10 +1128,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 特定のIDの申請を削除
-   * @description 特定のIDの申請を削除
-   */
+  /** 特定のIDの申請を削除 */
   deleteFormById: {
     parameters: {
       path: {
@@ -1346,10 +1166,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * サーバーの状態を確認する
-   * @description サーバーの状態を確認する
-   */
+  /** サーバーの状態を確認する */
   getHealth: {
     responses: {
       /** @description OK */
@@ -1358,10 +1175,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 招待一覧の取得
-   * @description 招待一覧の取得
-   */
+  /** 招待一覧の取得 */
   getInvitations: {
     responses: {
       /** @description OK */
@@ -1390,10 +1204,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 招待の作成
-   * @description 招待の作成
-   */
+  /** 招待の作成 */
   postInvitation: {
     requestBody: {
       content: {
@@ -1439,10 +1250,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 特定のIDの招待の取得
-   * @description 特定のIDの招待の取得
-   */
+  /** 特定のIDの招待の取得 */
   getInvitationById: {
     parameters: {
       path: {
@@ -1482,10 +1290,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 特定のIDの招待の受諾
-   * @description 特定のIDの招待の受諾
-   */
+  /** 特定のIDの招待の受諾 */
   postInvitationById: {
     parameters: {
       path: {
@@ -1523,10 +1328,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 特定のIDの招待の削除
-   * @description 特定のIDの招待の削除
-   */
+  /** 特定のIDの招待の削除 */
   deleteInvitationById: {
     parameters: {
       path: {
@@ -1564,10 +1366,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * お知らせ一覧の取得
-   * @description お知らせ一覧の取得
-   */
+  /** お知らせ一覧の取得 */
   getNews: {
     responses: {
       /** @description OK */
@@ -1590,10 +1389,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * お知らせの作成
-   * @description お知らせの作成
-   */
+  /** お知らせの作成 */
   postNews: {
     requestBody: {
       content: {
@@ -1639,10 +1435,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 特定のIDのお知らせの取得
-   * @description 特定のIDのお知らせの取得
-   */
+  /** 特定のIDのお知らせの取得 */
   getNewsById: {
     parameters: {
       path: {
@@ -1676,10 +1469,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 特定のIDのお知らせを更新
-   * @description 特定のIDのお知らせを更新
-   */
+  /** 特定のIDのお知らせを更新 */
   putNewsById: {
     parameters: {
       path: {
@@ -1734,10 +1524,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 特定のIDのお知らせの削除
-   * @description 特定のIDのお知らせの削除
-   */
+  /** 特定のIDのお知らせの削除 */
   deleteNewsById: {
     parameters: {
       path: {
@@ -1775,10 +1562,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 企画募集期間を取得する
-   * @description 企画募集期間を取得する
-   */
+  /** 企画募集期間を取得する */
   getProjectApplicationPeriod: {
     responses: {
       /** @description OK */
@@ -1801,10 +1585,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 企画一覧の取得
-   * @description 企画一覧の取得
-   */
+  /** 企画一覧の取得 */
   getProjects: {
     responses: {
       /** @description OK */
@@ -1833,10 +1614,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 企画の作成
-   * @description 企画の作成
-   */
+  /** 企画の作成 */
   postProject: {
     requestBody: {
       content: {
@@ -1876,10 +1654,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 企画一覧のエクスポート
-   * @description 企画一覧のエクスポート
-   */
+  /** 企画一覧のエクスポート */
   getProjectsExport: {
     responses: {
       /** @description OK */
@@ -1908,10 +1683,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 自分が企画責任者・副企画責任者になっている企画の取得
-   * @description 自分が企画責任者・副企画責任者になっている企画の取得
-   */
+  /** 自分が企画責任者・副企画責任者になっている企画の取得 */
   getMyProject: {
     responses: {
       /** @description OK */
@@ -1940,10 +1712,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 特定のIDの企画の取得
-   * @description 特定のIDの企画の取得
-   */
+  /** 特定のIDの企画の取得 */
   getProjectById: {
     parameters: {
       path: {
@@ -1983,10 +1752,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 特定のIDの企画を更新
-   * @description 特定のIDの企画を更新
-   */
+  /** 特定のIDの企画を更新 */
   putProjectById: {
     parameters: {
       path: {
@@ -2041,10 +1807,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 特定のIDの企画の削除
-   * @description 特定のIDの企画の削除
-   */
+  /** 特定のIDの企画の削除 */
   deleteProjectById: {
     parameters: {
       path: {
@@ -2082,10 +1845,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * ユーザー一覧の取得
-   * @description ユーザー一覧の取得
-   */
+  /** ユーザー一覧の取得 */
   getUsers: {
     responses: {
       /** @description OK */
@@ -2114,10 +1874,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * ユーザーの作成
-   * @description ユーザーの作成
-   */
+  /** ユーザーの作成 */
   postUser: {
     requestBody: {
       content: {
@@ -2151,10 +1908,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * ユーザー一覧のエクスポート
-   * @description ユーザー一覧のエクスポート
-   */
+  /** ユーザー一覧のエクスポート */
   getUsersExport: {
     responses: {
       /** @description OK */
@@ -2183,10 +1937,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 自分のユーザーの取得
-   * @description 自分のユーザーの取得
-   */
+  /** 自分のユーザーの取得 */
   getMyUser: {
     responses: {
       /** @description OK */
@@ -2209,10 +1960,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 特定のIDのユーザーの取得
-   * @description 特定のIDのユーザーの取得
-   */
+  /** 特定のIDのユーザーの取得 */
   getUserById: {
     parameters: {
       path: {
@@ -2252,10 +2000,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 特定のIDのユーザーの更新
-   * @description 特定のIDのユーザーの更新
-   */
+  /** 特定のIDのユーザーの更新 */
   putUserById: {
     parameters: {
       path: {
@@ -2310,10 +2055,7 @@ export interface operations {
       };
     };
   };
-  /**
-   * 特定のIDのユーザーの削除
-   * @description 特定のIDのユーザーの削除
-   */
+  /** 特定のIDのユーザーの削除 */
   deleteUserById: {
     parameters: {
       path: {

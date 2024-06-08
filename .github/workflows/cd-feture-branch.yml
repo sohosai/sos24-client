@@ -1,22 +1,18 @@
-name: CD(beta)
-run-name: CD (beta) - ${{ github.event_name }}
+name: CD(Feature Branch)
+run-name: CD(Feature Branch) - ${{ github.event_name }}
 
 on:
-  pull_request:
-    branches:
-      - develop
-    types:
-      - closed
+  push:
   workflow_dispatch:
 
 env:
-  PROJECT_NAME: ${{ vars.CLOUDFLARE_BETA_PROJECT_NAME }}
-  PRODUCTION_BRANCH: develop
+  PROJECT_NAME: ${{ vars.PROD_CLOUDFLARE_PROJECT_NAME }}
+  PRODUCTION_BRANCH: main
 
 jobs:
   build_and_deploy:
     if: |
-      github.event.pull_request.merged == true ||
+      (github.event_name == 'push' && ((github.head_ref || github.ref_name) != 'main' )) ||
       github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
@@ -48,23 +44,39 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
       - run: npm install
-      - name: build
-        id: build
+      - name: build (branch preview)
+        if: ${{ ((github.head_ref || github.ref_name) != env.PRODUCTION_BRANCH) }}
+        id: build-preview
         run: npx @cloudflare/next-on-pages@1
         env:
-          NEXT_PUBLIC_API_ENDPOINT: ${{vars.BETA_API_ENDPOINT}}
-          NEXT_PUBLIC_FIREBASE_API_KEY: ${{vars.BETA_FIREBASE_API_KEY}}
-          NEXT_PUBLIC_FIREBASE_APP_ID: ${{vars.BETA_FIREBASE_APP_ID}}
-          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{vars.BETA_FIREBASE_AUTH_DOMAIN}}
-          NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{vars.BETA_FIREBASE_MESSAGING_SENDER_ID}}
-          NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{vars.BETA_FIREBASE_PROJECT_ID}}
-          NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{vars.BETA_FIREBASE_STORAGE_BUCKET}}
+          NEXT_PUBLIC_API_ENDPOINT: ${{vars.DEV_API_ENDPOINT}}
+          NEXT_PUBLIC_FIREBASE_API_KEY: ${{vars.DEV_FIREBASE_API_KEY}}
+          NEXT_PUBLIC_FIREBASE_APP_ID: ${{vars.DEV_FIREBASE_APP_ID}}
+          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{vars.DEV_FIREBASE_AUTH_DOMAIN}}
+          NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{vars.DEV_FIREBASE_MESSAGING_SENDER_ID}}
+          NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{vars.DEV_FIREBASE_PROJECT_ID}}
+          NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{vars.DEV_FIREBASE_STORAGE_BUCKET}}
           NEXT_PUBLIC_SENTRY_DSN: ${{vars.SENTRY_DSN}}
           NEXT_PUBLIC_SENTRY_PROJECT: ${{vars.SENTRY_PROJECT}}
+      - name: build (production)
+        if: ${{ ((github.head_ref || github.ref_name) == env.PRODUCTION_BRANCH) && github.event.pull_request.merged == true }}
+        id: build-production
+        run: npx @cloudflare/next-on-pages@1
+        env:
+          NEXT_PUBLIC_API_ENDPOINT: ${{secrets.PROD_API_ENDPOINT}}
+          NEXT_PUBLIC_FIREBASE_API_KEY: ${{secrets.PROD_FIREBASE_API_KEY}}
+          NEXT_PUBLIC_FIREBASE_APP_ID: ${{secrets.PROD_FIREBASE_APP_ID}}
+          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{secrets.PROD_FIREBASE_AUTH_DOMAIN}}
+          NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{secrets.PROD_FIREBASE_MESSAGING_SENDER_ID}}
+          NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{secrets.PROD_FIREBASE_PROJECT_ID}}
+          NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{secrets.PROD_FIREBASE_STORAGE_BUCKET}}
+          NEXT_PUBLIC_SENTRY_DSN: ${{vars.SENTRY_DSN}}
+          NEXT_PUBLIC_SENTRY_PROJECT: ${{vars.SENTRY_PROJECT}}
+          NEXT_PUBLIC_GTMID: ${{vars.GTMID}}
       - name: deploy
         id: deploy
         uses: whatacotton/pages-action@v1
-        if: steps.build.outcome == 'success'
+        if: steps.build-preview.outcome == 'success' || steps.build-production.outcome == 'success'
         with:
           apiToken: ${{secrets.CLOUDFLARE_API_TOKEN}}
           accountId: ${{vars.CLOUDFLARE_ACCOUNT_ID}}
@@ -80,7 +92,7 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-        with:
+          with:
           environment: production
       - name: Notify
         uses: sarisia/actions-status-discord@v1
@@ -88,9 +100,9 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
-          content: "status: ${{ job.status }} \n🔗 Preview URL: ${{ steps.publish.outputs.deployment-url }}"
+          content: "status: ${{ job.status }} \n🔗 Preview URL: ${{ steps.deploy.outputs.url }} \n📌 Branch Preview URL: ${{ steps.deploy.outputs.alias }}"
           title: "${{ github.workflow }}"
-          description: "Build and deploy status of sos24-client-beta."
+          description: "Build and deploy status of sos24-client."
           color: 0x6600CC
           url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           username: GitHub Actions

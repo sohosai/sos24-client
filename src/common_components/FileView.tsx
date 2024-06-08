@@ -41,7 +41,7 @@ export const FileView = (props: Props) => {
     <div className={fileViewStyle({ isError: props.error })}>
       <span className={css({ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" })}>{props.name}</span>
       <div className={css({ display: "flex", flexDirection: "row", columnGap: 4, alignItems: "center" })}>
-        {props.link !== undefined && <DownloadBuutton link={props.link} />}
+        {props.link !== undefined && <DownloadBuutton link={props.link} fileName={props.name} />}
         {props.delete !== undefined && (
           <button
             onClick={(e) => {
@@ -69,9 +69,9 @@ export const FileView = (props: Props) => {
   );
 };
 
-type DownloadButtonProps = { link: string };
-const DownloadBuutton: FC<DownloadButtonProps> = ({ link }) => (
-  <a href={link} download className={css({ height: "fit-content" })}>
+type DownloadButtonProps = { link: string; fileName: string };
+const DownloadBuutton: FC<DownloadButtonProps> = ({ link, fileName }) => (
+  <a href={link} download={fileName} className={css({ height: "fit-content" })}>
     <Image
       src={downloadIcon}
       alt="ダウンロード"
