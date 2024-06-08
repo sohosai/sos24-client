@@ -143,7 +143,7 @@ export const Header: FC = () => {
         fontWeight: "bold",
         background: "white",
         display: "grid",
-        gap: 4,
+        // gap: 4,
         paddingY: 4,
         gridTemplateRows: "1fr, 1fr",
         zIndex: 2,
@@ -165,6 +165,12 @@ export const Header: FC = () => {
             height: "100%",
           },
         })}>
+        <div className={css({
+          display: {
+            base: "block",
+            lg: "none"
+          }
+        })}></div>
         <div
           className={css({
             display: "flex",
@@ -214,6 +220,7 @@ export const Header: FC = () => {
               className={css({ height: 9, position: "relative", top: 1 })}
             />
           </a>
+          {/* PCユーザーメニュー */}
           {(userInfo?.owned_project_id || path.startsWith("/committee")) && <HeaderMenuItems menu={menu} />}
         </div>
         {isLoading ? (
@@ -265,7 +272,8 @@ export const Header: FC = () => {
           </nav>
         )}
       </div>
-      <HeaderNavigation menu={menu} />
+      {/* モバイル用*/}
+      <HeaderNavigation menu={menu} path={path} />
     </header>
   );
 };
