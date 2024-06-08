@@ -23,7 +23,7 @@ export const SwitchModeButton: FC<{ isCommitteeMode: boolean; showMobileMenu: bo
         justifyContent: "center",
         gap: { lg: 2, base: 0 },
         textDecoration: "underline",
-        color: showMobileMenu ? "white" : "black",
+        color: "black",
       })}
       onClick={() => {
         localStorage.removeItem("invitation_id");
@@ -34,7 +34,7 @@ export const SwitchModeButton: FC<{ isCommitteeMode: boolean; showMobileMenu: bo
         className={css({
           filter: "drop-shadow(0 0 5px rgb(0 0 0 / 0.1))",
           height: { base: 6, lg: 10 },
-          color: showMobileMenu ? "white" : "black",
+          color: "black",
         })}
       />
       <span>
