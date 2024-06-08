@@ -7,7 +7,7 @@ import { hstack } from "@styled-system/patterns";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 
-export const HeaderNavigation: FC<{ menu: MenuData[] }> = ({ menu, path }) => {
+export const HeaderNavigation: FC<{ menu: MenuData[]; path: any }> = ({ menu, path }) => {
   const { data: userRes, isLoading: userIsLoading } = useSWR("/users/me");
   const userInfo = !userIsLoading ? assignType("/users/me", userRes) : undefined;
 
