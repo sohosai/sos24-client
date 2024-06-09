@@ -47,6 +47,7 @@
     "eslint-plugin-unused-imports": "^2.0.0",
     "openapi-typescript": "^6.7.5",
     "prettier": "^3.2.5",
+    "sass": "^1.77.4",
     "typescript": "<5.4.0"
   }
 }
