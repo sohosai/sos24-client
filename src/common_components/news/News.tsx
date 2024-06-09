@@ -119,28 +119,32 @@ export const News: FC<{
         })}>
         {news.body}
       </div>
-      <h3
-        className={flex({
-          marginTop: 8,
-          gap: 3,
-        })}>
-        <Image src={triangleIcon} alt="" />
-        <span
-          className={css({
-            fontSize: "md",
-            fontWeight: "bold",
-          })}>
-          添付ファイル
-        </span>
-      </h3>
-      <div
-        className={stack({
-          gap: 2,
-        })}>
-        {news.attachments.map((file_id) => (
-          <FileItem key={file_id} file_id={file_id} />
-        ))}
-      </div>
+      {news.attachments.length > 0 && (
+        <>
+          <h3
+            className={flex({
+              marginTop: 8,
+              gap: 3,
+            })}>
+            <Image src={triangleIcon} alt="" />
+            <span
+              className={css({
+                fontSize: "md",
+                fontWeight: "bold",
+              })}>
+              添付ファイル
+            </span>
+          </h3>
+          <div
+            className={stack({
+              gap: 2,
+            })}>
+            {news.attachments.map((file_id) => (
+              <FileItem key={file_id} file_id={file_id} />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };
