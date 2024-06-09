@@ -54,6 +54,9 @@ const EditFormPage: NextPage<{ params: { form_id: string } }> = ({ params }) => 
       // カンマ区切りを改行に変更する
       if (item.type == "choose_many" || item.type == "choose_one")
         item_clone.options = item_clone.options.toString().replaceAll(",", "\n");
+      if (item.type == "file") {
+        item_clone.extensions = item_clone.extensions.toString().replaceAll(",", "\n");
+      }
       return item_clone;
     }),
   };
