@@ -1,0 +1,9 @@
+.roleChangeBtn {
+  transition: all 0.3s;
+  padding: 8px 10px 3px;
+  border-radius: 5px;
+  background: transparent;
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+}

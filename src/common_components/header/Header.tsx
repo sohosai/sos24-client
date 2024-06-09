@@ -112,12 +112,7 @@ export const Header: FC = () => {
               } as MenuData,
             ]
           : generalMenu
-      : [
-          {
-            path: "/register",
-            name: "サインイン/新規登録",
-          } as MenuData,
-        ];
+      : [];
 
   const handleSignOut = async () => {
     toast.promise(
@@ -273,7 +268,7 @@ export const Header: FC = () => {
         )}
       </div>
       {/* モバイル用*/}
-      <HeaderNavigation menu={menu} path={path} />
+      <HeaderNavigation menu={menu} path={path} handleSignOut={handleSignOut} router={router} />
     </header>
   );
 };
