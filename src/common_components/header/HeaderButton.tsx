@@ -14,7 +14,7 @@ export const HeaderButton: FC<{
       fontSize: {base: "sm", lg: "md"},
       px: { lg: 5, base: 0 },
       width: "fit-content",
-      height: "100%",
+      height: "full",
       display: "flex",
       flexDir: { base: "column", lg: "row" },
       alignItems: "center",
