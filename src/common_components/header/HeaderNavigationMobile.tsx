@@ -34,11 +34,11 @@ export const HeaderNavigationMobile: FC<{ menu: MenuData[]; path: any }> = ({ me
         },
         textAlign: "center",
         marginTop: {
-          base: "20px",
+          base: 5,
           lg: "0",
         },
         marginX: {
-          base: "10px",
+          base: 2.5,
           lg: "0",
         },
         lg: { display: "none" },
