@@ -11,7 +11,7 @@ export const HeaderButton: FC<{
   <button
     className={css({
       cursor: "pointer",
-      fontSize: "sm",
+      fontSize: {base: "sm", lg: "md"},
       px: { lg: 5, base: 0 },
       width: "fit-content",
       height: "100%",
