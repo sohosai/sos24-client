@@ -11,7 +11,7 @@ export const HeaderButton: FC<{
   <button
     className={css({
       cursor: "pointer",
-      fontSize: {base: "sm", lg: "md"},
+      fontSize: { base: "sm", lg: "md" },
       px: { lg: 5, base: 0 },
       width: "fit-content",
       height: "full",
@@ -23,17 +23,10 @@ export const HeaderButton: FC<{
       textDecoration: "underline",
       color: "black",
       transition: "all 0.3s",
-      p: 2 2.5 0.5,
+      p: "2 2.5 0.5",
       rounded: "sm",
       bg: "transparent",
       outline: "2px solid transparent",
-      _hover: {
-        bg: "rgba(237, 109, 31, 0.1)",
-      },
-      _focus: {
-        outline: "2px solid #ed6d1f",
-        bg: "rgba(237, 109, 31, 0.2)",
-      },
     })}
     onClick={clickev}>
     <Image
@@ -52,7 +45,7 @@ export const HeaderButton: FC<{
         fontSize: "12px",
         mt: 1,
       })}>
-      {text}
+      {children}
     </span>
   </button>
 );

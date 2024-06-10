@@ -172,7 +172,11 @@ export const Header: FC = () => {
             height: "100%",
             justifyContent: "center",
           })}>
-          {!userIsLoading && user && <HeaderButton text="サインアウト" clickev={handleSignOut} icon={icon_Signout} />}
+          {!userIsLoading && user && (
+            <HeaderButton clickev={handleSignOut} icon={icon_Signout}>
+              サインアウト
+            </HeaderButton>
+          )}
         </nav>
         <div
           className={css({
@@ -251,19 +255,15 @@ export const Header: FC = () => {
             {!userIsLoading && ["committee", "committee_operator", "administrator"].includes(userInfo?.role ?? "") && (
               <HeaderButton
                 icon={icon_ModeSwitch}
-                text={
-                  <>
-                    <span className={css({ display: { base: "none", lg: "inline" } })}>
-                      {path.startsWith("/committee") ? "一般" : "実委人"}
-                    </span>
-                    切り替え
-                  </>
-                }
                 clickev={() => {
                   router.push(path.startsWith("/committee") ? "/dashboard" : "/committee");
                   localStorage.removeItem("invitation_id");
-                }}
-              />
+                }}>
+                <span className={css({ display: { base: "none", lg: "inline" } })}>
+                  {path.startsWith("/committee") ? "一般" : "実委人"}
+                </span>
+                切り替え
+              </HeaderButton>
             )}
           </nav>
         ) : (
