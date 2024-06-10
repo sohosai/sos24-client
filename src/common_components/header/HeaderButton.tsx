@@ -4,10 +4,10 @@ import Image from "next/image";
 import { FC, MouseEventHandler, ReactNode } from "react";
 
 export const HeaderButton: FC<{
-  text: ReactNode;
+  children: ReactNode;
   icon: string;
   clickev: MouseEventHandler<HTMLButtonElement>;
-}> = ({ text, icon, clickev }) => (
+}> = ({ children, icon, clickev }) => (
   <button
     className={css({
       cursor: "pointer",
