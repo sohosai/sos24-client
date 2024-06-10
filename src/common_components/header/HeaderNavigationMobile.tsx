@@ -23,9 +23,6 @@ export const HeaderNavigationMobile: FC<{ menu: MenuData[]; path: any }> = ({ me
           whiteSpace: "nowrap",
           "&:not(.signoutBtn):not(.signinBtn)": {
             transition: "all 0.1s",
-            _hover: {
-              color: "#ed6d1f",
-            },
           },
         },
       })} ${hstack({
