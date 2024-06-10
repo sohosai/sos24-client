@@ -23,8 +23,8 @@ export const HeaderButton: FC<{
       textDecoration: "underline",
       color: "black",
       transition: "all 0.3s",
-      p: "8px 10px 3px",
-      rounded: "5px",
+      p: 2 2.5 0.5,
+      rounded: "sm",
       bg: "transparent",
       outline: "2px solid transparent",
       _hover: {
