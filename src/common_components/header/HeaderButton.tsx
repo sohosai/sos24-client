@@ -42,7 +42,6 @@ export const HeaderButton: FC<{
     <span
       className={css({
         whiteSpace: "nowrap",
-        fontSize: "12px",
         mt: 1,
       })}>
       {children}
