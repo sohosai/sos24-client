@@ -67,6 +67,7 @@ const FormListForDashboard: React.FC<{ projectId: string }> = ({ projectId }) =>
 
       return true;
     })
+    // これが効かなくて困っている
     .slice(0, 3);
 
   return <FormList forms={formsToBeDisplayed} showHiddenToggle={false} />;
