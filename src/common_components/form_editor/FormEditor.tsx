@@ -87,6 +87,52 @@ export const FormEditor: FC<{
   const [files, setFiles] = useState<FilesFormType>(new Map([["attachments", null]]));
   const [fileErrors, setFileErrors] = useState<FileErrorsType>(new Map([["attachments", null]]));
 
+  function postFiles_promise(
+    fileIds: FileIds | undefined,
+    files: FilesFormType,
+    data: any, // @todo 型を指定する
+  ): Promise<FileIds | undefined> {
+    return new Promise((resolve, reject) => {
+      postFiles("public", files).then((res) => {
+        if (!res) {
+          reject(new Error("ファイルのアップロードに失敗しました"));
+          // throw new Error("ファイルのアップロードに失敗しました");
+        }
+        fileIds = res;
+        const body = {
+          ...data,
+          attributes: data.attributes.length === 0 ? [...projectAttributes] : data.attributes,
+          categories: data.categories.length === 0 ? [...projectCategories] : data.categories,
+          starts_at: (data.starts_at === "" ? dayjs() : dayjs(data.starts_at)).toISOString(),
+          ends_at: dayjs(data.ends_at).toISOString(),
+          attachments: fileIds?.attachments ?? [],
+          items: [
+            // @todo item の型を指定する
+            ...data.items.map((item: any) => {
+              if (item.type === "choose_many" || item.type === "choose_one") {
+                return {
+                  ...item,
+                  options: item.options.split("\n"),
+                };
+              }
+
+              if (item.type === "file") {
+                return {
+                  ...item,
+                  extensions: item.extensions.split("\n"),
+                };
+              }
+
+              return item;
+            }),
+          ],
+        };
+        onSubmit(body);
+        resolve(fileIds);
+      });
+    });
+  }
+
   return (
     <>
       <Divider />
@@ -98,48 +144,12 @@ export const FormEditor: FC<{
             return;
           }
           let fileIds: FileIds | undefined = undefined;
-          toast.promise(
-            postFiles("public", files).then((res) => {
-              if (!res) {
-                throw new Error("ファイルのアップロードに失敗しました");
-              }
-              fileIds = res;
-              const body = {
-                ...data,
-                attributes: data.attributes.length === 0 ? [...projectAttributes] : data.attributes,
-                categories: data.categories.length === 0 ? [...projectCategories] : data.categories,
-                starts_at: (data.starts_at === "" ? dayjs() : dayjs(data.starts_at)).toISOString(),
-                ends_at: dayjs(data.ends_at).toISOString(),
-                attachments: fileIds.attachments ?? [],
-                items: [
-                  ...data.items.map((item) => {
-                    if (item.type === "choose_many" || item.type === "choose_one") {
-                      return {
-                        ...item,
-                        options: item.options.split("\n"),
-                      };
-                    }
-
-                    if (item.type === "file") {
-                      return {
-                        ...item,
-                        extensions: item.extensions.split("\n"),
-                      };
-                    }
-
-                    return item;
-                  }),
-                ],
-              };
-
-              onSubmit(body);
-            }),
-            {
-              loading: "ファイルをアップロードしています",
-              success: "ファイルのアップロードに成功しました",
-              error: "ファイルのアップロードに失敗しました",
-            },
-          );
+          alert("before postFiles_promise");
+          toast.promise(postFiles_promise(fileIds, files, data), {
+            loading: "ファイルをアップロードしています",
+            success: "ファイルのアップロードに成功しました",
+            error: "ファイルのアップロードに失敗しました",
+          });
         })}>
         <fieldset
           className={stack({

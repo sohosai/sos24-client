@@ -42,7 +42,7 @@ export type FileIds = { [itemId: string]: string[] };
 
 export const postFiles = async (visibility: Visibilities, files: FilesFormType) => {
   const fileIds: FileIds = {};
-  for (const file of Array.from(files)) {
+  for await (const file of Array.from(files)) {
     if (!file[1]) {
       continue;
     }
