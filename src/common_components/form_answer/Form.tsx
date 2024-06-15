@@ -4,7 +4,7 @@ import { css } from "@styled-system/css";
 import toast from "react-hot-toast";
 
 import { client } from "@/lib/openapi";
-import { deleteAllUploadedFiles, postFiles, FileIds } from "@/lib/postFile";
+import { deleteAllUploadedFiles, postFiles } from "@/lib/postFile";
 
 import { components } from "@/schema";
 import { FileErrorsType, FilesFormType, FormFieldsType, FormItems } from "./FormItems";
