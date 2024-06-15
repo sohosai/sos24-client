@@ -65,10 +65,6 @@ export const Form = ({ form, answerId, answerItems, editable }: Props) => {
       return;
     }
 
-    console.debug(`[DEBUG] ${new Date().toISOString()}`);
-    console.debug("File Uploaded");
-    console.debug(fileIds);
-
     type formAnswerItems = components["schemas"]["CreateFormAnswer"]["items"];
     const items: formAnswerItems = form.items.flatMap((item): formAnswerItems[number] | [] => {
       const datum = data[item.id];
