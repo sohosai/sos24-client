@@ -18,6 +18,10 @@ interface Props {
   answerItems: FormFieldsType | undefined;
   editable: boolean;
 }
+// import と競合しないよう、あえて Interface と付けています
+interface FileIdsInterface {
+  [key: string]: any;
+}
 
 export const Form = ({ form, answerId, answerItems, editable }: Props) => {
   const onSubmit: SubmitHandler<FormFieldsType> = async (data) => {
@@ -31,7 +35,31 @@ export const Form = ({ form, answerId, answerItems, editable }: Props) => {
       return;
     }
 
-    const fileIds = await postFiles("private", files);
+    let fileIds: FileIdsInterface = {};
+    const isFileIds = (arg: unknown): arg is FileIdsInterface =>
+      typeof arg === "object" &&
+      arg !== null &&
+      Object.keys(arg).every((key: unknown) => typeof key === "string" && typeof (arg as any)[key] === "string");
+    fileIds = await toast.promise(
+      new Promise((resolve, reject) => {
+        let res = postFiles("public", files);
+        if (!res) {
+          reject(new Error("ファイルのアップロードに失敗しました"));
+        }
+        if (!isFileIds(res)) {
+          reject(new Error("ファイルのアップロードに失敗しました (形式エラー)"));
+        } else {
+          resolve(res);
+        }
+        return res;
+      }),
+      {
+        loading: "ファイルをアップロード中...",
+        success: "ファイルをアップロードしました",
+        error: "ファイルのアップロードに失敗しました",
+      },
+    );
+    // const fileIds = await postFiles("private", files);
     if (!fileIds) {
       toast.error("ファイルのアップロード中にエラーが発生しました");
       return;
@@ -55,6 +83,9 @@ export const Form = ({ form, answerId, answerItems, editable }: Props) => {
           const options = JSON.parse(datum) as string[];
           return options.length ? { item_id: item.id, type: item.type, value: options } : [];
         case "file":
+          if (!fileIds.hasOwnProperty(item.id)) {
+            return [];
+          }
           return { item_id: item.id, type: item.type, value: fileIds[item.id] };
       }
     });
@@ -82,7 +113,9 @@ export const Form = ({ form, answerId, answerItems, editable }: Props) => {
               await deleteAllUploadedFiles(fileIds);
               throw new Error(error.message);
             }
-            window.location.reload();
+            setTimeout(() => {
+              window.location.reload();
+            }, 1500);
           })
           .catch(async () => {
             await deleteAllUploadedFiles(fileIds);
@@ -109,7 +142,9 @@ export const Form = ({ form, answerId, answerItems, editable }: Props) => {
             return;
           }
           toast.success("申請の送信に成功しました");
-          window.location.reload();
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
         })
         .catch(async () => {
           toast.error(`申請の送信中にエラーが発生しました`);
