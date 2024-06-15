@@ -13,12 +13,15 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { hstack } from "@styled-system/patterns";
 import { Route } from "next";
-import { SwitchModeButton } from "./SwitchModeButton";
+import { HeaderButton } from "./HeaderButton";
 import { HeaderMenuItems } from "./HeaderMenuItems";
-import { HeaderNavigation } from "./HeaderNavigation";
+import { HeaderNavigationMobile } from "./HeaderNavigationMobile";
 import { components } from "@/schema";
 import { useAtom } from "jotai";
 import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
+
+import icon_ModeSwitch from "@/assets/SwitchMode.svg?url";
+import icon_Signout from "@/assets/Signout.svg?url";
 
 export type MenuData = {
   path: Route;
@@ -159,13 +162,22 @@ export const Header: FC = () => {
             height: "100%",
           },
         })}>
-        <div
+        <nav
           className={css({
             display: {
-              base: "block",
+              base: "flex",
               lg: "none",
             },
-          })}></div>
+            alignItems: "stretch",
+            height: "100%",
+            justifyContent: "center",
+          })}>
+          {!userIsLoading && user && (
+            <HeaderButton clickev={handleSignOut} icon={icon_Signout}>
+              サインアウト
+            </HeaderButton>
+          )}
+        </nav>
         <div
           className={css({
             display: "flex",
@@ -241,7 +253,17 @@ export const Header: FC = () => {
               サインアウト
             </button>
             {!userIsLoading && ["committee", "committee_operator", "administrator"].includes(userInfo?.role ?? "") && (
-              <SwitchModeButton isCommitteeMode={path.startsWith("/committee")} />
+              <HeaderButton
+                icon={icon_ModeSwitch}
+                clickev={() => {
+                  router.push(path.startsWith("/committee") ? "/dashboard" : "/committee");
+                  localStorage.removeItem("invitation_id");
+                }}>
+                <span className={css({ display: { base: "none", lg: "inline" } })}>
+                  {path.startsWith("/committee") ? "一般" : "実委人"}
+                </span>
+                切り替え
+              </HeaderButton>
             )}
           </nav>
         ) : (
@@ -267,8 +289,7 @@ export const Header: FC = () => {
           </nav>
         )}
       </div>
-      {/* モバイル用*/}
-      <HeaderNavigation menu={menu} path={path} handleSignOut={handleSignOut} router={router} />
+      <HeaderNavigationMobile menu={menu} path={path} />
     </header>
   );
 };

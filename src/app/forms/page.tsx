@@ -25,14 +25,14 @@ const DashboardPage: NextPage = () => {
     data: formsRes,
     error: formsResError,
     isLoading: formsResIsLoading,
-  } = useSWR(() => `/forms?project_id=` + project?.id);
+  } = useSWR(() => project && `/forms?project_id=` + project?.id);
   const forms = formsRes ? assignType("/forms", formsRes) : undefined;
 
   const {
     data: answersRes,
     error: answersResError,
     isLoading: answersResIsLoading,
-  } = useSWR(() => `/form-answers?project_id=` + project?.id);
+  } = useSWR(() => project && `/form-answers?project_id=` + project?.id);
   const answers = answersRes ? assignType("/form-answers", answersRes) : undefined;
 
   const hiddenFormIds = useAtomValue(hiddenFormIdsAtom);
