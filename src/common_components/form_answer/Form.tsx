@@ -55,7 +55,7 @@ export const Form = ({ form, answerId, answerItems, editable }: Props) => {
           const options = JSON.parse(datum) as string[];
           return options.length ? { item_id: item.id, type: item.type, value: options } : [];
         case "file":
-          return { item_id: item.id, type: item.type, value: fileIds[item.id] };
+          return { item_id: item.id, type: item.type, value: fileIds[item.id] ?? [] };
       }
     });
 
