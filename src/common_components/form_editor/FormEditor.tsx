@@ -2,7 +2,7 @@
 
 import { css } from "@styled-system/css";
 import { FC, useState } from "react";
-import { Controller, set, useFieldArray, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { ProjectAttribute, projectAttributes, projectCategories, ProjectCategory } from "@/lib/valibot";
 import { getProjectAttributeText, getProjectCategoryText } from "@/lib/textUtils";
 import { stack, visuallyHidden } from "@styled-system/patterns";

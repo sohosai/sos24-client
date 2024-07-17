@@ -77,7 +77,9 @@ export const FilesField = ({
     },
   });
 
-  const fileDataResults = fileStatuses.map((status) => useSWR(status.uploaded ? `/files/${status.uuid}` : null));
+  // const fileDataResults = fileStatuses.map((status) => useSWR(status.uploaded ? `/files/${status.uuid}` : null));
+  const fileUUIDs = fileStatuses.filter((status) => status.uploaded).map((status) => `/files/${status.uuid}`);
+  const { data: filesData } = useSWR(fileUUIDs.length > 0 ? fileUUIDs : null);
 
   return (
     <div>
@@ -170,7 +172,7 @@ export const FilesField = ({
         })}>
         {fileStatuses.map((fileStatus, i) => {
           const fileData = fileStatus?.uploaded
-            ? fileDataResults[i]?.data
+            ? filesData?.[i]
             : {
                 name: fileStatus.name,
                 url: "",
