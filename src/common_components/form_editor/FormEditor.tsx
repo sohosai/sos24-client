@@ -2,7 +2,7 @@
 
 import { css } from "@styled-system/css";
 import { FC, useState } from "react";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { Controller, set, useFieldArray, useForm } from "react-hook-form";
 import { ProjectAttribute, projectAttributes, projectCategories, ProjectCategory } from "@/lib/valibot";
 import { getProjectAttributeText, getProjectCategoryText } from "@/lib/textUtils";
 import { stack, visuallyHidden } from "@styled-system/patterns";
@@ -10,10 +10,9 @@ import { FormFieldEditor } from "./FormFieldEditor";
 import { checkboxGrpupStyle, checkboxStyle, descriptionStyle, sectionTitleStyle, textInputStyle } from "./styles";
 import { components } from "@/schema";
 import dayjs from "dayjs";
-import { FileIds, postFiles } from "@/lib/postFile";
+import { FileIds } from "@/lib/postFile";
 import toast from "react-hot-toast";
-import { FileErrorsType, FilesFormType } from "@/common_components/form_answer/FormItems";
-import { FilesField } from "@/common_components/formFields/Files";
+import { FilesField } from "./FormFiles";
 import { Button, buttonStyle } from "@/recipes/button";
 
 export type FormField = {
@@ -49,6 +48,9 @@ export type FormField = {
     }
 );
 
+export type FilesFormType = Map<string, string | null>;
+export type FileErrorsType = Map<string, string | null>;
+
 type ExtractFormFieldType<T> = T extends { type: infer U } ? U : never;
 export type FormFieldType = ExtractFormFieldType<FormField>;
 
@@ -71,10 +73,21 @@ export type HandleFormEditorSubmit = (
   _: components["schemas"]["CreateForm"] | components["schemas"]["UpdateForm"],
 ) => void;
 
+import { FileStatus } from "./FormInterfaces";
+// import useSWR from "swr";
+
 export const FormEditor: FC<{
   defaultValues?: CreateFormInput;
   onSubmit: HandleFormEditorSubmit;
 }> = ({ onSubmit, defaultValues }) => {
+  const fileDatas =
+    defaultValues?.attachments.map((uuid) => ({
+      name: null,
+      uuid: uuid,
+      uploaded: true,
+    })) ?? [];
+  const [fileStatuses, setFileStatuses] = useState<FileStatus[]>(fileDatas ?? []);
+
   const { register, control, handleSubmit } = useForm<CreateFormInput>({
     defaultValues: defaultValues ?? {
       categories: [],
@@ -84,7 +97,9 @@ export const FormEditor: FC<{
   });
   const { fields, append, remove, move } = useFieldArray({ name: "items", control });
 
-  const [files, setFiles] = useState<FilesFormType>(new Map([["attachments", null]]));
+  // // FilesField は別でも使用しているため、attachments に使用
+  // setFiles("attachments", filesDOM.current?.files ?? null);
+  // const [files, setFiles] = useState<FilesFormType>(new Map([["attachments", null]]));
   const [fileErrors, setFileErrors] = useState<FileErrorsType>(new Map([["attachments", null]]));
 
   return (
@@ -97,49 +112,33 @@ export const FormEditor: FC<{
             toast.error("正しいファイルをアップロードしてください");
             return;
           }
-          let fileIds: FileIds | undefined = undefined;
-          toast.promise(
-            postFiles("public", files).then((res) => {
-              if (!res) {
-                throw new Error("ファイルのアップロードに失敗しました");
-              }
-              fileIds = res;
-              const body = {
-                ...data,
-                attributes: data.attributes.length === 0 ? [...projectAttributes] : data.attributes,
-                categories: data.categories.length === 0 ? [...projectCategories] : data.categories,
-                starts_at: (data.starts_at === "" ? dayjs() : dayjs(data.starts_at)).toISOString(),
-                ends_at: dayjs(data.ends_at).toISOString(),
-                attachments: fileIds.attachments ?? [],
-                items: [
-                  ...data.items.map((item) => {
-                    if (item.type === "choose_many" || item.type === "choose_one") {
-                      return {
-                        ...item,
-                        options: item.options.split("\n"),
-                      };
-                    }
-
-                    if (item.type === "file") {
-                      return {
-                        ...item,
-                        extensions: item.extensions.split("\n"),
-                      };
-                    }
-
-                    return item;
-                  }),
-                ],
-              };
-
-              onSubmit(body);
-            }),
-            {
-              loading: "ファイルをアップロードしています",
-              success: "ファイルのアップロードに成功しました",
-              error: "ファイルのアップロードに失敗しました",
-            },
-          );
+          let fileIds: FileIds = { attachments: fileStatuses.map((fileStatus) => fileStatus.uuid) };
+          const body = {
+            ...data,
+            attributes: data.attributes.length === 0 ? [...projectAttributes] : data.attributes,
+            categories: data.categories.length === 0 ? [...projectCategories] : data.categories,
+            starts_at: (data.starts_at === "" ? dayjs() : dayjs(data.starts_at)).toISOString(),
+            ends_at: dayjs(data.ends_at).toISOString(),
+            attachments: fileIds.attachments ?? [],
+            items: [
+              ...data.items.map((item) => {
+                if (item.type === "choose_many" || item.type === "choose_one") {
+                  return {
+                    ...item,
+                    options: item.options.split("\n"),
+                  };
+                }
+                if (item.type === "file") {
+                  return {
+                    ...item,
+                    extensions: item.extensions.split("\n"),
+                  };
+                }
+                return item;
+              }),
+            ],
+          };
+          onSubmit(body);
         })}>
         <fieldset
           className={stack({
@@ -228,8 +227,9 @@ export const FormEditor: FC<{
               id="attachments"
               label="添付ファイル"
               register={register("attachments")}
-              setFiles={setFiles}
               setErrorState={setFileErrors}
+              fileStatuses={fileStatuses}
+              setFileStatuses={setFileStatuses}
             />
           </div>
           <div>
