@@ -1,11 +1,7 @@
 import { Dispatch, DragEvent, SetStateAction, useState, useRef } from "react";
 import Image from "next/image";
 import { css, cva } from "@styled-system/css";
-import {
-  basicDescriptionStyle,
-  basicErrorMessageStyle,
-  basicFormLabelStyle,
-} from "@/common_components/formFields/styles";
+import { basicDescriptionStyle, basicFormLabelStyle } from "@/common_components/formFields/styles";
 import { RequiredBadge } from "@/common_components/formFields/_components/RequiredBadge";
 import clickIcon from "@/assets/Click.svg?url";
 import driveIcon from "@/assets/Drive.svg?url";
@@ -31,12 +27,10 @@ async function uploadFiles(files: FileList): Promise<FileStatus[]> {
 }
 
 export const FilesField = ({
-  id,
   label,
   description,
   required,
   register,
-  setErrorState,
   fileStatuses,
   setFileStatuses,
 }: {
@@ -52,7 +46,7 @@ export const FilesField = ({
   const [isDragged, setIsDragged] = useState(false);
   const fileRef = useRef<HTMLInputElement>();
 
-  const getFiles = async (event: DragEvent<HTMLDivElement>) => {
+  const getFiles = async (event: DragEvent<HTMLDivElement | HTMLButtonElement>) => {
     setIsDragged(false);
     if (event.dataTransfer && event.dataTransfer.files.length > 0) {
       const newFileStatuses = await uploadFiles(event.dataTransfer.files);
@@ -83,6 +77,8 @@ export const FilesField = ({
     },
   });
 
+  const fileDataResults = fileStatuses.map((status) => useSWR(status.uploaded ? `/files/${status.uuid}` : null));
+
   return (
     <div>
       <span className={basicFormLabelStyle}>
@@ -90,8 +86,7 @@ export const FilesField = ({
         {required !== undefined && <RequiredBadge isRequired={required} className={css({ marginInline: 2 })} />}
       </span>
       {description && <p className={basicDescriptionStyle}>{description}</p>}
-      <div
-        role="form"
+      <button
         onDragOver={(e) => {
           e.preventDefault();
           setIsDragged(true);
@@ -105,6 +100,7 @@ export const FilesField = ({
         }}
         className={`${dropAreaStyle({ isDragged })} ${css({
           cursor: "pointer",
+          width: "full",
         })}`}
         onClick={(e) => {
           e.preventDefault();
@@ -149,7 +145,7 @@ export const FilesField = ({
             <Image src={driveIcon} alt="ファイルをドロップ" className={css({ height: 6, width: 6, marginInline: 1 })} />
           </div>
         </div>
-      </div>
+      </button>
       <input
         type="file"
         multiple
@@ -174,7 +170,7 @@ export const FilesField = ({
         })}>
         {fileStatuses.map((fileStatus, i) => {
           const fileData = fileStatus?.uploaded
-            ? useSWR(`/files/${fileStatus.uuid}`)?.data
+            ? fileDataResults[i]?.data
             : {
                 name: fileStatus.name,
                 url: "",
