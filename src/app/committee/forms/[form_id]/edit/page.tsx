@@ -78,7 +78,7 @@ const EditFormPage: NextPage<{ params: { form_id: string } }> = ({ params }) => 
       {
         loading: "申請を更新しています",
         success: () => {
-          router.push("/committee/forms");
+          router.push(`/committee/forms/${params.form_id}`);
           return "申請を更新しました";
         },
         error: "申請の更新に失敗しました",
@@ -102,6 +102,8 @@ const EditFormPage: NextPage<{ params: { form_id: string } }> = ({ params }) => 
           })}>
           申請編集
         </h1>
+        {/* @todo-push Delete Comment */}
+        {/* <p>{JSON.stringify(defaultValues)}</p> */}
         <FormEditor onSubmit={onSubmit} defaultValues={defaultValues} />
       </div>
     </>
