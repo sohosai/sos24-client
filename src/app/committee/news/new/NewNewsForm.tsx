@@ -23,7 +23,7 @@ export const NewNewsForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<NewNewsSchemaType>({
     mode: "onBlur",
     resolver: valibotResolver(NewNewsSchema),
@@ -39,7 +39,7 @@ export const NewNewsForm = () => {
     const fileIds = await postFiles("public", attachments);
     const categories = data.categories.length === 0 ? projectCategories : data.categories;
 
-    toast.promise(
+    await toast.promise(
       client
         .POST("/news", {
           body: {
@@ -78,7 +78,8 @@ export const NewNewsForm = () => {
           color="purple"
           className={hstack({
             gap: 3,
-          })}>
+          })}
+          disabled={isSubmitting}>
           <span
             className={css({
               fontSize: "xs",
