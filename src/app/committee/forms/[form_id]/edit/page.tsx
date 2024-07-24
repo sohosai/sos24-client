@@ -61,7 +61,7 @@ const EditFormPage: NextPage<{ params: { form_id: string } }> = ({ params }) => 
     }),
   };
 
-  const onSubmit: HandleFormEditorSubmit = (body) => {
+  const onSubmit: HandleFormEditorSubmit = async (body) => {
     await toast.promise(
       client
         .PUT(`/forms/{form_id}`, {
