@@ -69,13 +69,18 @@ const Divider: FC = () => {
 
 export type HandleFormEditorSubmit = (
   _: components["schemas"]["CreateForm"] | components["schemas"]["UpdateForm"],
-) => void;
+) => Promise<void>;
 
 export const FormEditor: FC<{
   defaultValues?: CreateFormInput;
   onSubmit: HandleFormEditorSubmit;
 }> = ({ onSubmit, defaultValues }) => {
-  const { register, control, handleSubmit } = useForm<CreateFormInput>({
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { isSubmitting, isSubmitSuccessful },
+  } = useForm<CreateFormInput>({
     defaultValues: defaultValues ?? {
       categories: [],
       attributes: [],
@@ -98,7 +103,7 @@ export const FormEditor: FC<{
             return;
           }
           let fileIds: FileIds | undefined = undefined;
-          toast.promise(
+          await toast.promise(
             postFiles("public", files).then((res) => {
               if (!res) {
                 throw new Error("ファイルのアップロードに失敗しました");
@@ -132,7 +137,7 @@ export const FormEditor: FC<{
                 ],
               };
 
-              onSubmit(body);
+              return onSubmit(body);
             }),
             {
               loading: "ファイルをアップロードしています",
@@ -378,7 +383,8 @@ export const FormEditor: FC<{
           color="purple"
           className={css({
             alignSelf: "center",
-          })}>
+          })}
+          disabled={isSubmitting || isSubmitSuccessful}>
           送信
         </Button>
       </form>
