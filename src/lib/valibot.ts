@@ -10,7 +10,7 @@ import {
   regex,
   string,
   union,
-  unknown
+  unknown,
 } from "valibot";
 import Graphemer from "graphemer";
 
