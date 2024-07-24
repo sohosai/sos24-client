@@ -27,7 +27,7 @@ export const EditNewsForm: FC<{
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitted, isSubmitSuccessful },
     reset,
   } = useForm<UpdateNewsSchemaType>({
     mode: "onBlur",
@@ -111,7 +111,8 @@ export const EditNewsForm: FC<{
           color="purple"
           className={hstack({
             gap: 3,
-          })}>
+          })}
+          disabled={isSubmitted || isSubmitSuccessful}>
           <span
             className={css({
               fontSize: "xs",
