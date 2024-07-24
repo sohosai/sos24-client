@@ -67,7 +67,7 @@ export const EditNewsForm: FC<{
     }
     const fileIds = await postFiles("public", attachments);
     const categories = data.categories.length === 0 ? projectCategories : data.categories;
-    toast.promise(
+    await toast.promise(
       client
         .PUT(`/news/{news_id}`, {
           params: { path: { news_id: news_id } },
