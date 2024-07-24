@@ -12,8 +12,8 @@ import { deleteMultipleUploadedFiles } from "@/lib/postFile";
 const CreateFormPage: NextPage = () => {
   const router = useRouter();
 
-  const onSubmit: HandleFormEditorSubmit = (body) => {
-    toast.promise(
+  const onSubmit: HandleFormEditorSubmit = async (body) => {
+    await toast.promise(
       client
         .POST("/forms", {
           body,
