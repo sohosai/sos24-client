@@ -79,7 +79,7 @@ export const FormEditor: FC<{
     register,
     control,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isSubmitSuccessful },
   } = useForm<CreateFormInput>({
     defaultValues: defaultValues ?? {
       categories: [],
@@ -384,7 +384,7 @@ export const FormEditor: FC<{
           className={css({
             alignSelf: "center",
           })}
-          disabled={isSubmitting}>
+          disabled={isSubmitting || isSubmitSuccessful}>
           送信
         </Button>
       </form>

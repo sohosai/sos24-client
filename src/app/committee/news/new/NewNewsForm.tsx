@@ -23,7 +23,7 @@ export const NewNewsForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<NewNewsSchemaType>({
     mode: "onBlur",
     resolver: valibotResolver(NewNewsSchema),
@@ -79,7 +79,7 @@ export const NewNewsForm = () => {
           className={hstack({
             gap: 3,
           })}
-          disabled={isSubmitting}>
+          disabled={isSubmitting || isSubmitSuccessful}>
           <span
             className={css({
               fontSize: "xs",
