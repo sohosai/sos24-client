@@ -27,7 +27,7 @@ export const EditNewsForm: FC<{
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitted, isSubmitSuccessful },
     reset,
   } = useForm<UpdateNewsSchemaType>({
     mode: "onBlur",
@@ -67,7 +67,7 @@ export const EditNewsForm: FC<{
     }
     const fileIds = await postFiles("public", attachments);
     const categories = data.categories.length === 0 ? projectCategories : data.categories;
-    toast.promise(
+    await toast.promise(
       client
         .PUT(`/news/{news_id}`, {
           params: { path: { news_id: news_id } },
@@ -111,7 +111,8 @@ export const EditNewsForm: FC<{
           color="purple"
           className={hstack({
             gap: 3,
-          })}>
+          })}
+          disabled={isSubmitted || isSubmitSuccessful}>
           <span
             className={css({
               fontSize: "xs",

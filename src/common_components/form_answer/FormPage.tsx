@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import ja from "dayjs/locale/ja";
 
 import { FormFieldsType } from "./FormItems";
-import { getTimeLeftText, getSubmitStatusFromDate } from "@/lib/formHelpers";
+import { getSubmitStatusFromDate, getTimeLeftText } from "@/lib/formHelpers";
 import { type SubmitStatus, SubmitStatusBadge } from "@/common_components/SubmitStatus";
 import { Loading } from "@/common_components/Loading";
 import { FileView } from "@/common_components/FileView";
@@ -34,15 +34,15 @@ export const FormPage = ({ answer, answerError, answerLoading, form, formError, 
           answer.items.map((item) => {
             switch (item.type) {
               case "string":
-                return [item.item_id, item.value ? (item.value as string) : null];
+                return [item.item_id, item.value];
               case "int":
-                return [item.item_id, item.value ? String(item.value) : null];
+                return [item.item_id, item.value];
               case "choose_one":
-                return [item.item_id, item.value ? (item.value as string) : null];
+                return [item.item_id, item.value];
               case "choose_many":
-                return [item.item_id, item.value ? JSON.stringify(item.value) : null];
+                return [item.item_id, JSON.stringify(item.value)];
               case "file":
-                return [item.item_id, item.value ? (item.value as string[]) : null];
+                return [item.item_id, item.value];
             }
           }),
         )
