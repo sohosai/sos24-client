@@ -413,15 +413,17 @@ export const FormEditor: FC<{
               </div>
             </fieldset>
 
-        <Button
-          visual="solid"
-          color="purple"
-          className={css({
-            alignSelf: "center",
-          })}
-          disabled={isSubmitting || isSubmitSuccessful}>
-          送信
-        </Button>
+            <Button
+              visual="solid"
+              color="purple"
+              className={css({
+                alignSelf: "center",
+              })}
+              disabled={isSubmitting || isSubmitSuccessful}>
+              送信
+            </Button>
+          </>
+        )}
       </form>
     </>
   );
