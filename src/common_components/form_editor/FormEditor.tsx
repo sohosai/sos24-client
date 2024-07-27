@@ -258,7 +258,7 @@ export const FormEditor: FC<{
                 setFilesStatus={setFilesStatus}
               />
             ) : (
-              filesStatus.map((file) => <FileView key={file.uuid} name={file.name} link={file.uuid} />)
+              filesStatus.map((file) => <FileView key={file.uuid} name={file.name ?? ""} link={file.uuid} />)
             )}
           </div>
           <div>
