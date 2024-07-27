@@ -1,4 +1,4 @@
-import { Dispatch, DragEvent, SetStateAction, useState, useRef, useEffect } from "react";
+import { Dispatch, DragEvent, SetStateAction, useState, useRef } from "react";
 import Image from "next/image";
 import { css, cva } from "@styled-system/css";
 import { basicDescriptionStyle, basicFormLabelStyle } from "@/common_components/formFields/styles";
@@ -9,8 +9,7 @@ import { FileView } from "@/common_components/FileView";
 import { postFiles } from "@/lib/postFile";
 import toast from "react-hot-toast";
 
-import { filesStatus, FilesData } from "./FilesInterfaces";
-import useSWR from "swr";
+import { filesStatus } from "./FilesInterfaces";
 
 async function uploadFiles(files: FileList): Promise<filesStatus[]> {
   const res = await toast.promise(postFiles("public", new Map<string, FileList>([["attachments", files]])), {
@@ -44,7 +43,6 @@ export const FilesField = ({
   setFilesStatus: Dispatch<SetStateAction<filesStatus[]>>;
 }) => {
   const [isDragged, setIsDragged] = useState(false);
-  const [filesData, setFilesData] = useState<FilesData[]>([]);
   const fileRef = useRef<HTMLInputElement>();
 
   const getFiles = async (event: DragEvent<HTMLDivElement | HTMLButtonElement>) => {
@@ -54,31 +52,6 @@ export const FilesField = ({
       setFilesStatus((prev) => [...prev, ...newFileStatuses]);
     }
   };
-
-  // const fileUUIDs = filesStatus
-  //   .filter((fileStatus) => fileStatus.uploaded)
-  //   .map((fileStatus) => `/files/${fileStatus.uuid}`);
-
-  // const { data: swrData } = useSWR(fileUUIDs.length > 0 ? fileUUIDs : null);
-
-  // useEffect(() => {
-  //   console.log(swrData);
-  //   /*
-  //   if (swrData) {
-  //     console.log(swrData);
-  //     setFilesData(
-  //       swrData.map((data: any) => {
-  //         return {
-  //           ...data,
-  //           uuid: data.id,
-  //         };
-  //       }),
-  //     );
-  //   } else {
-  //     console.log("Error in fetching files data");
-  //   }
-  //   */
-  // }, [swrData]);
 
   const dropAreaStyle = cva({
     base: {
@@ -195,10 +168,6 @@ export const FilesField = ({
         })}>
         {filesStatus &&
           filesStatus.map((fileStatus, i) => {
-            // const fileData = filesData?.[filesData.findIndex((fileData) => fileData?.uuid === fileStatus.uuid)] ?? {
-            //   name: fileStatus.name,
-            //   url: "",
-            // };
             return (
               <FileView
                 key={fileStatus.uuid}

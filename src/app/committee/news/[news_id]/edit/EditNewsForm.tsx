@@ -37,7 +37,7 @@ export const EditNewsForm: FC<{
   });
 
   const [filesStatus, setFilesStatus] = useState<filesStatus[]>([]);
-  const [attachments, setAttachments] = useState<FilesFormType>(new Map([["attachments", null]]));
+  const [attachments] = useState<FilesFormType>(new Map([["attachments", null]]));
   const [fileErrors, setFileErrors] = useState<FileErrorsType>(new Map([["attachments", null]]));
 
   const { data, error, isLoading, mutate } = useSWR(`/news/${news_id}`);

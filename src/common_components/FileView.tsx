@@ -47,10 +47,12 @@ export const FileView = (props: Props) => {
     name: props.name,
     url: props.link,
   };
+  const { data, error, isLoading } = useSWR((!props.name || !props.link) && props.uuid ? `/files/${props.uuid}` : null);
   if ((!props.name || !props.link) && props.uuid) {
-    const { data, error, isLoading } = useSWR(`/files/${props.uuid}`);
     if (isLoading) {
       return <div>Loading...</div>;
+    } else if (error) {
+      return <div>読み込みエラーが発生しました</div>;
     }
     fileProps = {
       name: data?.name,
