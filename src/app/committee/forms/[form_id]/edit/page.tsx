@@ -29,11 +29,7 @@ const EditFormPage: NextPage<{ params: { form_id: string } }> = ({ params }) => 
     return `/forms/` + params.form_id;
   });
 
-  const {
-    data: answerRes,
-    error: answerError,
-    isLoading: answerLoading,
-  } = useSWR(`/form-answers?form_id=${params.form_id}`);
+  const { error: answerError, isLoading: answerLoading } = useSWR(`/form-answers?form_id=${params.form_id}`);
 
   if (answerLoading) {
     return (

@@ -75,8 +75,6 @@ export type HandleFormEditorSubmit = (
 ) => void;
 
 import { filesStatus } from "./FilesInterfaces";
-import Link from "next/link";
-// import useSWR from "swr";
 
 export const FormEditor: FC<{
   defaultValues?: CreateFormInput;
@@ -100,9 +98,6 @@ export const FormEditor: FC<{
   });
   const { fields, append, remove, move } = useFieldArray({ name: "items", control });
 
-  // // FilesField は別でも使用しているため、attachments に使用
-  // setFiles("attachments", filesDOM.current?.files ?? null);
-  // const [files, setFiles] = useState<FilesFormType>(new Map([["attachments", null]]));
   const [fileErrors, setFileErrors] = useState<FileErrorsType>(new Map([["attachments", null]]));
 
   return (
