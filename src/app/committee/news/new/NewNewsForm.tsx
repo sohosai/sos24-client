@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 import { ProjectCategorySelector } from "@/common_components/ProjectCategorySelector";
 import { TitleField } from "@/common_components/news/TitleField";
 import { BodyField } from "@/common_components/news/BodyField";
-import { FilesField } from "@/common_components/formFields/Files";
+import { FilesField } from "@/common_components/formFields/FilesField";
 import { useState } from "react";
 import { FileErrorsType, FilesFormType } from "@/common_components/form_answer/FormItems";
 import { deleteAllUploadedFiles, postFiles } from "@/lib/postFile";
