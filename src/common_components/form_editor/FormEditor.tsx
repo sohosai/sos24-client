@@ -12,8 +12,9 @@ import { components } from "@/schema";
 import dayjs from "dayjs";
 import { FileIds } from "@/lib/postFile";
 import toast from "react-hot-toast";
-import { FilesField } from "./FormFiles";
+import { FilesField } from "./FilesEditor";
 import { Button, buttonStyle } from "@/recipes/button";
+import { FileView } from "@/common_components/FileView";
 
 export type FormField = {
   name: string;
@@ -73,20 +74,22 @@ export type HandleFormEditorSubmit = (
   _: components["schemas"]["CreateForm"] | components["schemas"]["UpdateForm"],
 ) => void;
 
-import { FileStatus } from "./FormInterfaces";
+import { filesStatus } from "./FilesInterfaces";
+import Link from "next/link";
 // import useSWR from "swr";
 
 export const FormEditor: FC<{
   defaultValues?: CreateFormInput;
   onSubmit: HandleFormEditorSubmit;
-}> = ({ onSubmit, defaultValues }) => {
+  editable?: boolean;
+}> = ({ onSubmit, defaultValues, editable }) => {
   const fileDatas =
     defaultValues?.attachments.map((uuid) => ({
       name: null,
       uuid: uuid,
       uploaded: true,
     })) ?? [];
-  const [fileStatuses, setFileStatuses] = useState<FileStatus[]>(fileDatas ?? []);
+  const [filesStatus, setFilesStatus] = useState<filesStatus[]>(fileDatas ?? []);
 
   const { register, control, handleSubmit } = useForm<CreateFormInput>({
     defaultValues: defaultValues ?? {
@@ -105,6 +108,18 @@ export const FormEditor: FC<{
   return (
     <>
       <Divider />
+      {editable === false && (
+        <>
+          <p
+            className={css({
+              color: "red.500",
+              fontSize: "sm",
+              textAlign: "center",
+            })}>
+            すでに回答が存在するため、このフォームは編集できません。
+          </p>
+        </>
+      )}
       <form
         className={stack({ gap: 4 })}
         onSubmit={handleSubmit(async (data) => {
@@ -112,7 +127,7 @@ export const FormEditor: FC<{
             toast.error("正しいファイルをアップロードしてください");
             return;
           }
-          let fileIds: FileIds = { attachments: fileStatuses.map((fileStatus) => fileStatus.uuid) };
+          let fileIds: FileIds = { attachments: filesStatus.map((fileStatus) => fileStatus.uuid) };
           const body = {
             ...data,
             attributes: data.attributes.length === 0 ? [...projectAttributes] : data.attributes,
@@ -169,6 +184,7 @@ export const FormEditor: FC<{
                         checked={value.includes(category)}
                         ref={ref}
                         className={visuallyHidden()}
+                        disabled={editable === false ? true : undefined}
                       />
                       {getProjectCategoryText(category)}
                     </label>
@@ -200,6 +216,7 @@ export const FormEditor: FC<{
                         checked={value.includes(attribute)}
                         ref={ref}
                         className={visuallyHidden()}
+                        disabled={editable === false ? true : undefined}
                       />
                       {getProjectAttributeText(attribute)}
                     </label>
@@ -215,32 +232,52 @@ export const FormEditor: FC<{
         <div className={stack({ gap: 4 })}>
           <div>
             <label htmlFor="title">タイトル</label>
-            <input {...register("title", { required: true })} className={textInputStyle} />
+            <input
+              {...register("title", { required: true })}
+              className={textInputStyle}
+              disabled={editable === false ? true : undefined}
+            />
           </div>
           <div>
             <label htmlFor="description">説明</label>
-            <textarea {...register("description", { required: true })} className={textInputStyle} />
+            <textarea
+              {...register("description", { required: true })}
+              className={textInputStyle}
+              disabled={editable === false ? true : undefined}
+            />
           </div>
           <div>
             <label htmlFor="attachments">添付ファイル</label>
-            <FilesField
-              id="attachments"
-              label="添付ファイル"
-              register={register("attachments")}
-              setErrorState={setFileErrors}
-              fileStatuses={fileStatuses}
-              setFileStatuses={setFileStatuses}
-            />
+            {editable !== false ? (
+              <FilesField
+                id="attachments"
+                label="添付ファイル"
+                register={register("attachments")}
+                setErrorState={setFileErrors}
+                filesStatus={filesStatus}
+                setFilesStatus={setFilesStatus}
+              />
+            ) : (
+              filesStatus.map((file) => <FileView key={file.uuid} name={file.name} link={file.uuid} />)
+            )}
           </div>
           <div>
             <p className={descriptionStyle}>受付開始日時を選択しなかった場合現在時刻が入力されます</p>
             <div>
               <label htmlFor="starts_at">受付開始日時</label>
-              <input type="datetime-local" {...register("starts_at")} />
+              <input
+                type="datetime-local"
+                {...register("starts_at")}
+                disabled={editable === false ? true : undefined}
+              />
             </div>
             <div>
               <label htmlFor="ends_at">受付終了日時</label>
-              <input type="datetime-local" {...register("ends_at", { required: true })} />
+              <input
+                type="datetime-local"
+                {...register("ends_at", { required: true })}
+                disabled={editable === false ? true : undefined}
+              />
             </div>
           </div>
         </div>
@@ -263,124 +300,129 @@ export const FormEditor: FC<{
                 remove={() => {
                   remove(index);
                 }}
+                disabled={editable !== false ? true : false}
               />
             );
           })}
         </div>
 
-        <fieldset>
-          <legend>質問項目</legend>
-          <div
-            className={css({
-              width: "full",
-              display: "flex",
-              alignItems: "center",
-              gap: 1,
-              "& > button": {
-                flexGrow: 1,
-              },
-            })}>
-            <button
-              className={buttonStyle({
-                shadow: "md",
-                color: "blue",
-                visual: "outline",
-                size: "y",
-              })}
-              type="button"
-              onClick={() => {
-                append({
-                  name: "",
-                  required: false,
-                  type: "string",
-                  allow_newline: false,
-                });
-              }}>
-              テキスト項目
-            </button>
-            <button
-              className={buttonStyle({
-                shadow: "md",
-                color: "blue",
-                visual: "outline",
-                size: "y",
-              })}
-              type="button"
-              onClick={() => {
-                append({
-                  name: "",
-                  required: false,
-                  type: "int",
-                });
-              }}>
-              数値項目
-            </button>
-            <button
-              className={buttonStyle({
-                shadow: "md",
-                color: "blue",
-                visual: "outline",
-                size: "y",
-              })}
-              type="button"
-              onClick={() => {
-                append({
-                  name: "",
-                  type: "choose_many",
-                  required: false,
-                  options: "",
-                });
-              }}>
-              チェックボックス項目
-            </button>
-            <button
-              className={buttonStyle({
-                shadow: "md",
-                color: "blue",
-                visual: "outline",
-                size: "y",
-              })}
-              type="button"
-              onClick={() => {
-                append({
-                  name: "",
-                  type: "choose_one",
-                  required: false,
-                  options: "",
-                });
-              }}>
-              ドロップダウン項目
-            </button>
-            <button
-              className={buttonStyle({
-                shadow: "md",
-                color: "blue",
-                visual: "outline",
-                size: "y",
-              })}
-              type="button"
-              onClick={() => {
-                append({
-                  name: "",
-                  type: "file",
-                  required: false,
-                  extensions: "",
-                  limit: 0,
-                });
-              }}>
-              ファイル項目
-            </button>
-          </div>
-        </fieldset>
+        {editable !== false && (
+          <>
+            <fieldset>
+              <legend>質問項目</legend>
+              <div
+                className={css({
+                  width: "full",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  "& > button": {
+                    flexGrow: 1,
+                  },
+                })}>
+                <button
+                  className={buttonStyle({
+                    shadow: "md",
+                    color: "blue",
+                    visual: "outline",
+                    size: "y",
+                  })}
+                  type="button"
+                  onClick={() => {
+                    append({
+                      name: "",
+                      required: false,
+                      type: "string",
+                      allow_newline: false,
+                    });
+                  }}>
+                  テキスト項目
+                </button>
+                <button
+                  className={buttonStyle({
+                    shadow: "md",
+                    color: "blue",
+                    visual: "outline",
+                    size: "y",
+                  })}
+                  type="button"
+                  onClick={() => {
+                    append({
+                      name: "",
+                      required: false,
+                      type: "int",
+                    });
+                  }}>
+                  数値項目
+                </button>
+                <button
+                  className={buttonStyle({
+                    shadow: "md",
+                    color: "blue",
+                    visual: "outline",
+                    size: "y",
+                  })}
+                  type="button"
+                  onClick={() => {
+                    append({
+                      name: "",
+                      type: "choose_many",
+                      required: false,
+                      options: "",
+                    });
+                  }}>
+                  チェックボックス項目
+                </button>
+                <button
+                  className={buttonStyle({
+                    shadow: "md",
+                    color: "blue",
+                    visual: "outline",
+                    size: "y",
+                  })}
+                  type="button"
+                  onClick={() => {
+                    append({
+                      name: "",
+                      type: "choose_one",
+                      required: false,
+                      options: "",
+                    });
+                  }}>
+                  ドロップダウン項目
+                </button>
+                <button
+                  className={buttonStyle({
+                    shadow: "md",
+                    color: "blue",
+                    visual: "outline",
+                    size: "y",
+                  })}
+                  type="button"
+                  onClick={() => {
+                    append({
+                      name: "",
+                      type: "file",
+                      required: false,
+                      extensions: "",
+                      limit: 0,
+                    });
+                  }}>
+                  ファイル項目
+                </button>
+              </div>
+            </fieldset>
 
-        <Button
-          visual="solid"
-          color="purple"
-          className={css({
-            alignSelf: "center",
-          })}>
-          送信
-        </Button>
+            <Button
+              visual="solid"
+              color="purple"
+              className={css({
+                alignSelf: "center",
+              })}>
+              送信
+            </Button>
+          </>
+        )}
       </form>
     </>
   );

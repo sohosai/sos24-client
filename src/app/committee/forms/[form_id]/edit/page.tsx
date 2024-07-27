@@ -14,6 +14,8 @@ import { stack } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Button } from "@/recipes/button";
 
 export const runtime = "edge";
 
@@ -27,8 +29,44 @@ const EditFormPage: NextPage<{ params: { form_id: string } }> = ({ params }) => 
     return `/forms/` + params.form_id;
   });
 
+  const {
+    data: answerRes,
+    error: answerError,
+    isLoading: answerLoading,
+  } = useSWR(`/form-answers?form_id=${params.form_id}`);
+
+  if (answerLoading) {
+    return (
+      <div
+        className={css({
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "85vh",
+        })}>
+        <p>読み込み中...</p>
+      </div>
+    );
+  } else if (answerError && answerError.name !== "form-answer/form-not-found") {
+    return (
+      <div>
+        Error! <p>{JSON.stringify(answerError)}</p>
+      </div>
+    );
+  }
+
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div
+        className={css({
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "85vh",
+        })}>
+        <p>読み込み中...</p>
+      </div>
+    );
   }
 
   if (error) {
@@ -95,6 +133,11 @@ const EditFormPage: NextPage<{ params: { form_id: string } }> = ({ params }) => 
           padding: 5,
           gap: 4,
         })}>
+        <Link
+          href={`/committee/forms/${params.form_id}`}
+          className={css({ color: "tsukuba.purple", display: "block" })}>
+          ← 申請詳細に戻る
+        </Link>
         <h1
           className={css({
             fontSize: "2xl",
@@ -102,9 +145,23 @@ const EditFormPage: NextPage<{ params: { form_id: string } }> = ({ params }) => 
           })}>
           申請編集
         </h1>
-        {/* @todo-push Delete Comment */}
-        {/* <p>{JSON.stringify(defaultValues)}</p> */}
-        <FormEditor onSubmit={onSubmit} defaultValues={defaultValues} />
+        <FormEditor
+          onSubmit={onSubmit}
+          editable={!answerLoading && answerError && answerError.name !== "form-answer/not-found" ? true : false}
+          defaultValues={defaultValues}
+        />
+        {!answerLoading && (!answerError || (answerError && answerError.name !== "form-answer/not-found")) && (
+          <Link href={`/committee/forms/${params.form_id}`}>
+            <Button
+              visual="solid"
+              color="purple"
+              className={css({
+                alignSelf: "center",
+              })}>
+              戻る
+            </Button>
+          </Link>
+        )}
       </div>
     </>
   );

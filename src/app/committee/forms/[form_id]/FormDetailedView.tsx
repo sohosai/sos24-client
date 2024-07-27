@@ -176,6 +176,9 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
           width: "full",
           rowGap: 3,
         })}>
+        <div className={css({ borderBottom: "2px solid black", width: "full" })}>
+          <h2 className={css({ fontSize: "lg", fontWeight: "bold", marginBottom: 3 })}>設問</h2>
+        </div>
         <FormItems
           items={form.items}
           getValues={getValues}
@@ -185,6 +188,7 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
           files={new Map()}
           setFiles={setState}
           setFileErrors={setFileErrors}
+          disabled={true}
         />
       </form>
       <FormAnswerList answers={answers} deadline={form.ends_at} />
