@@ -15,7 +15,9 @@ import { useRouter } from "next/navigation";
 import { ProjectCategorySelector } from "@/common_components/ProjectCategorySelector";
 import { TitleField } from "@/common_components/news/TitleField";
 import { BodyField } from "@/common_components/news/BodyField";
-import { FilesField } from "@/common_components/formFields/Files";
+import { FilesField } from "@/common_components/form_editor/FilesEditor";
+import { filesStatus } from "@/common_components/form_editor/FilesInterfaces";
+// import { FilesField } from "@/common_components/formFields/FilesField";
 import { FileErrorsType, FilesFormType } from "@/common_components/form_answer/FormItems";
 import { deleteAllUploadedFiles, postFiles } from "@/lib/postFile";
 
@@ -34,6 +36,7 @@ export const EditNewsForm: FC<{
     resolver: valibotResolver(UpdateNewsSchema),
   });
 
+  const [filesStatus, setFilesStatus] = useState<filesStatus[]>([]);
   const [attachments, setAttachments] = useState<FilesFormType>(new Map([["attachments", null]]));
   const [fileErrors, setFileErrors] = useState<FileErrorsType>(new Map([["attachments", null]]));
 
@@ -54,12 +57,20 @@ export const EditNewsForm: FC<{
 
   if (!isFormInitialized) {
     setIsFormInitialized(true);
+    const fileDatas =
+      news.attachments.map((uuid) => ({
+        name: null,
+        uuid: uuid,
+        uploaded: true,
+      })) ?? [];
+    setFilesStatus(fileDatas);
     reset({
       title: news.title,
       body: news.body,
       categories: news.categories,
     });
   }
+
   const onSubmit = async (data: UpdateNewsSchemaType) => {
     if (fileErrors.get("attachments")) {
       toast.error("添付ファイルを正しく選択してください");
@@ -76,7 +87,7 @@ export const EditNewsForm: FC<{
             body: data.body,
             categories: categories as components["schemas"]["ProjectCategory"][],
             attributes: [...projectAttributes] as components["schemas"]["ProjectAttribute"][],
-            attachments: fileIds ? fileIds["attachments"] ?? [] : [],
+            attachments: filesStatus.map((file) => file.uuid) ?? [],
           },
         })
         .then(({ error }) => {
@@ -97,7 +108,6 @@ export const EditNewsForm: FC<{
       },
     );
   };
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={stack({ gap: 4 })}>
       <div
@@ -125,12 +135,20 @@ export const EditNewsForm: FC<{
       <ProjectCategorySelector register={register("categories")} error={errors.categories?.message} />
       <TitleField register={register("title")} error={errors.title?.message} />
       <BodyField register={register("body")} error={errors.body?.message} />
-      <FilesField
+      {/* <FilesField
         register={register("attachments")}
         id="attachments"
         label="添付ファイル"
         setErrorState={setFileErrors}
         setFiles={setAttachments}
+      /> */}
+      <FilesField
+        label="添付ファイル"
+        register={register("attachments")}
+        id="attachments"
+        filesStatus={filesStatus}
+        setFilesStatus={setFilesStatus}
+        setErrorState={setFileErrors}
       />
       <div className={center()}>
         <Button
