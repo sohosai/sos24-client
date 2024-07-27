@@ -72,7 +72,7 @@ const Divider: FC = () => {
 
 export type HandleFormEditorSubmit = (
   _: components["schemas"]["CreateForm"] | components["schemas"]["UpdateForm"],
-) => void;
+) => Promise<void>;
 
 import { filesStatus } from "./FilesInterfaces";
 
@@ -89,7 +89,12 @@ export const FormEditor: FC<{
     })) ?? [];
   const [filesStatus, setFilesStatus] = useState<filesStatus[]>(fileDatas ?? []);
 
-  const { register, control, handleSubmit } = useForm<CreateFormInput>({
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { isSubmitting, isSubmitSuccessful },
+  } = useForm<CreateFormInput>({
     defaultValues: defaultValues ?? {
       categories: [],
       attributes: [],
@@ -148,7 +153,7 @@ export const FormEditor: FC<{
               }),
             ],
           };
-          onSubmit(body);
+          return onSubmit(body);
         })}>
         <fieldset
           className={stack({
@@ -408,16 +413,15 @@ export const FormEditor: FC<{
               </div>
             </fieldset>
 
-            <Button
-              visual="solid"
-              color="purple"
-              className={css({
-                alignSelf: "center",
-              })}>
-              送信
-            </Button>
-          </>
-        )}
+        <Button
+          visual="solid"
+          color="purple"
+          className={css({
+            alignSelf: "center",
+          })}
+          disabled={isSubmitting || isSubmitSuccessful}>
+          送信
+        </Button>
       </form>
     </>
   );
