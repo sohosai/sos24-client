@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, PropsWithChildren } from "react";
+import React, { FC, PropsWithChildren, useState } from "react";
 import { Header } from "@/common_components/header/Header";
 import SigninPage from "@/common_components/auth/signin/page";
 import SignupPage from "@/common_components/auth/signup/page";
@@ -17,6 +17,7 @@ export const authModeAtom = atomWithHash<"signIn" | "signUp" | "resetPassword">(
 export const AuthUI: FC<PropsWithChildren> = ({ children }) => {
   const authMode = useAtomValue(authModeAtom);
   const authState = useAuthState();
+  const [userEmail, setUserEmail] = useState<string | null>(null);
 
   const path = usePathname();
   if (path === "/") {
@@ -36,7 +37,7 @@ export const AuthUI: FC<PropsWithChildren> = ({ children }) => {
         return <SigninPage />;
 
       case "signUp":
-        return <SignupPage />;
+        return <SignupPage setUserEmail={setUserEmail} />;
 
       case "resetPassword":
         return <ResetPassword />;
@@ -57,7 +58,7 @@ export const AuthUI: FC<PropsWithChildren> = ({ children }) => {
           <Loading />
         </div>
       ) : authState.user ? (
-        <>{authState.user.emailVerified ? <>{children}</> : <EmailVerification />}</>
+        <>{authState.user.emailVerified ? <>{children}</> : <EmailVerification userEmail={userEmail} />}</>
       ) : (
         <Component />
       )}
