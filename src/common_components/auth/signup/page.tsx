@@ -14,7 +14,6 @@ interface SignupPageProps {
   setUserEmail: Dispatch<SetStateAction<string | null>>;
 }
 
-// const SignupPage: NextPage = (setUserEmail: Dispatch<SetStateAction<string | null>>) => {
 const SignupPage: NextPage<SignupPageProps> = ({ setUserEmail }) => {
   const setAuthMode = useSetAtom(authModeAtom);
 
