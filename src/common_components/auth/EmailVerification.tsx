@@ -1,6 +1,6 @@
 import { center } from "@styled-system/patterns";
 import { css, cx } from "@styled-system/css";
-import SendButton from "@/assets/SendButton.svg?url";
+import SendButton from "@/assets/SendButton_white.svg?url";
 import Image from "next/image";
 import { sendEmailVerification } from "firebase/auth";
 import { useAuthState } from "@/lib/firebase";
@@ -8,7 +8,11 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { buttonStyle } from "@/recipes/button";
 
-export const EmailVerification = () => {
+interface EmailVerificationProps {
+  userEmail: string | null;
+}
+
+export const EmailVerification: React.FC<EmailVerificationProps> = ({ userEmail }) => {
   const authState = useAuthState();
   const [isSent, setIsSent] = useState(false);
   const handleResend = () => {
@@ -60,7 +64,7 @@ export const EmailVerification = () => {
         <div className={css({ display: "flex", flexDir: "column", gap: 2 })}>
           <button
             className={cx(
-              buttonStyle({ visual: "outline", color: "purple" }),
+              buttonStyle({ visual: "solid", color: "purple" }),
               css({
                 alignSelf: "center",
                 display: "flex!",
@@ -78,6 +82,28 @@ export const EmailVerification = () => {
             <span>確認メールを再送する</span>
             <Image src={SendButton} alt="" width={20} height={20} />
           </button>
+          {userEmail && (
+            <a
+              href={`https://outlook.office.com/mail/${userEmail}/inbox/`}
+              target="_blank"
+              rel="noreferrer noopener"
+              className={cx(
+                buttonStyle({ visual: "outline", color: "purple" }),
+                css({
+                  alignSelf: "center",
+                  display: "flex!",
+                  alignItems: "flex-end",
+                  gap: 2,
+                  _disabled: {
+                    opacity: 0.5,
+                    cursor: "default",
+                    "&:hover": { opacity: 0.5 },
+                  },
+                }),
+              )}>
+              <span>Outlook を開く（外部）</span>
+            </a>
+          )}
           {isSent && (
             <p className={css({ color: "gray.700", fontSize: "sm" })}>
               確認メールを再送しました
