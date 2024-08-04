@@ -101,7 +101,7 @@ export const EmailVerification: React.FC<EmailVerificationProps> = ({ userEmail 
                   },
                 }),
               )}>
-              <span>Outlook を開く（外部）</span>
+              Outlook を開く（外部）
             </a>
           )}
           {isSent && (
