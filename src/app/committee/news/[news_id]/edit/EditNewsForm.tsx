@@ -66,7 +66,9 @@ export const EditNewsForm: FC<{
       return;
     }
     const fileIds = await postFiles("public", attachments);
-    const categories = data.categories.length === 0 ? projectCategories : data.categories;
+    // 企画区分が未選択の場合はfalseが渡される
+    const categories = data.categories === false ? projectCategories : data.categories;
+
     await toast.promise(
       client
         .PUT(`/news/{news_id}`, {
