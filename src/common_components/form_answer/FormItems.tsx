@@ -6,7 +6,7 @@ import { NumberField } from "@/common_components/formFields/NumberField";
 import { TextField } from "@/common_components/formFields/TextField";
 import { DropdownField } from "@/common_components/formFields/DropdownField";
 import { CheckboxField } from "@/common_components/formFields/CheckboxField";
-import { FilesField } from "@/common_components/formFields/Files";
+import { FilesField } from "@/common_components/formFields/FilesField";
 import { multipleSelectValidater } from "@/lib/formHelpers";
 
 type FormItem = components["schemas"]["FormItem"];
