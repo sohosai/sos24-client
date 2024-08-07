@@ -8,8 +8,13 @@ import Triangle from "@/assets/Triangle.svg?url";
 import { authModeAtom } from "@/common_components/auth/AuthUI";
 import { useSetAtom } from "jotai";
 import { center } from "@styled-system/patterns";
+import { Dispatch, SetStateAction } from "react";
 
-const SignupPage: NextPage = () => {
+interface SignupPageProps {
+  setUserEmail: Dispatch<SetStateAction<string | null>>;
+}
+
+const SignupPage: NextPage<SignupPageProps> = ({ setUserEmail }) => {
   const setAuthMode = useSetAtom(authModeAtom);
 
   return (
@@ -25,7 +30,7 @@ const SignupPage: NextPage = () => {
         })}>
         新規登録
       </h1>
-      <SignupForm />
+      <SignupForm setUserEmail={setUserEmail} />
       <div className={css({ marginTop: 4, display: "flex", gap: 3.5 })}>
         <Image src={Triangle} alt="" />
         <button

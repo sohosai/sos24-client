@@ -8,6 +8,7 @@ import { Button } from "@/common_components/Button";
 import { getAuth, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
 import { SignupSchema, SignupSchemaType } from "@/lib/valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
+import { Dispatch, SetStateAction } from "react";
 
 let labelAndInputStyle = css({
   display: "flex",
@@ -16,7 +17,11 @@ let labelAndInputStyle = css({
   width: "100%",
 });
 
-export const SignupForm = () => {
+interface SignupFormProps {
+  setUserEmail: Dispatch<SetStateAction<string | null>>;
+}
+
+export const SignupForm: React.FC<SignupFormProps> = ({ setUserEmail }) => {
   const {
     register,
     handleSubmit,
@@ -44,6 +49,7 @@ export const SignupForm = () => {
         if (res.status === 201) {
           const auth = getAuth();
           signInWithEmailAndPassword(auth, data.email, data.password).then(() => {
+            setUserEmail(data.email);
             sendEmailVerification(auth.currentUser!);
           });
         } else {
@@ -124,7 +130,9 @@ export const SignupForm = () => {
         <label htmlFor="agreement">
           <a
             href="https://s3.isk01.sakurastorage.jp/sos24-prod/雙峰祭オンラインシステム利用規約.pdf"
-            className={css({ textDecoration: "underline" })}>
+            className={css({ textDecoration: "underline" })}
+            target="_blank"
+            rel="noopener noreferrer">
             利用規約
           </a>
           に同意する
