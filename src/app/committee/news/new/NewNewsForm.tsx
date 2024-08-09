@@ -38,7 +38,7 @@ export const NewNewsForm = () => {
       return;
     }
     let fileIds: FileIds = { attachments: filesStatus.map((fileStatus) => fileStatus.uuid) };
-    const categories = data.categories.length === 0 ? projectCategories : data.categories;
+    const categories = data.categories === false ? projectCategories : data.categories;
 
     await toast.promise(
       client
