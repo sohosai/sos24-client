@@ -29,7 +29,11 @@ const EditFormPage: NextPage<{ params: { form_id: string } }> = ({ params }) => 
     return `/forms/` + params.form_id;
   });
 
-  const { error: answerError, isLoading: answerLoading } = useSWR(`/form-answers?form_id=${params.form_id}`);
+  const {
+    error: answerError,
+    data: asnwerData,
+    isLoading: answerLoading,
+  } = useSWR(`/form-answers?form_id=${params.form_id}`);
 
   if (answerLoading) {
     return (
@@ -143,10 +147,10 @@ const EditFormPage: NextPage<{ params: { form_id: string } }> = ({ params }) => 
         </h1>
         <FormEditor
           onSubmit={onSubmit}
-          editable={!answerLoading && answerError && answerError.name !== "form-answer/not-found" ? true : false}
+          editable={!answerLoading && !answerError && asnwerData.length === 0}
           defaultValues={defaultValues}
         />
-        {!answerLoading && (!answerError || (answerError && answerError.name !== "form-answer/not-found")) && (
+        {!(!answerLoading && !answerError && asnwerData.length === 0) && (
           <Link href={`/committee/forms/${params.form_id}`}>
             <Button
               visual="solid"

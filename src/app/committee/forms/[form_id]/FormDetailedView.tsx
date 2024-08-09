@@ -51,7 +51,7 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
   if (error) return `エラーが発生しました${error}`;
 
   return (
-    <div className={vstack({ gap: 4, alignItems: "start", width: "full" })}>
+    <div className={vstack({ gap: 4, alignItems: "start", width: "full", marginBottom: "20px" })}>
       <div className={hstack({ justifyContent: "space-between", width: "full", flexWrap: "wrap" })}>
         <div>
           作成日: <time dateTime={form.created_at}> {dayjs(form.created_at).format("YYYY/MM/DD")}</time>
@@ -81,9 +81,13 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
                 );
             }}
           />
-          <Link href={`/committee/forms/${form.id}/edit`} className={buttonStyle({ color: "blue", visual: "outline" })}>
-            編集
-          </Link>
+          {!isLoading && answers.length == 0 && (
+            <Link
+              href={`/committee/forms/${form.id}/edit`}
+              className={buttonStyle({ color: "blue", visual: "outline" })}>
+              編集
+            </Link>
+          )}
           <button
             className={buttonStyle({ visual: "outline", color: "purple" })}
             onClick={() =>

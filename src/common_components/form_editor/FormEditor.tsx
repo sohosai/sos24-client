@@ -81,13 +81,13 @@ export const FormEditor: FC<{
   onSubmit: HandleFormEditorSubmit;
   editable?: boolean;
 }> = ({ onSubmit, defaultValues, editable }) => {
-  const fileDatas =
+  const attachmentsData =
     defaultValues?.attachments.map((uuid) => ({
       name: null,
       uuid: uuid,
       uploaded: true,
     })) ?? [];
-  const [filesStatus, setFilesStatus] = useState<filesStatus[]>(fileDatas ?? []);
+  const [attachmentsStatus, setAttachmentsStatus] = useState<filesStatus[]>(attachmentsData ?? []);
 
   const {
     register,
@@ -127,7 +127,7 @@ export const FormEditor: FC<{
             toast.error("正しいファイルをアップロードしてください");
             return;
           }
-          let fileIds: FileIds = { attachments: filesStatus.map((fileStatus) => fileStatus.uuid) };
+          let fileIds: FileIds = { attachments: attachmentsStatus.map((attachmentStatus) => attachmentStatus.uuid) };
           const body = {
             ...data,
             attributes: data.attributes.length === 0 ? [...projectAttributes] : data.attributes,
@@ -246,21 +246,28 @@ export const FormEditor: FC<{
               disabled={editable === false ? true : undefined}
             />
           </div>
-          <div>
-            <label htmlFor="attachments">添付ファイル</label>
-            {editable !== false ? (
+          {editable !== false ? (
+            <div>
+              <label htmlFor="attachments">添付ファイル</label>
               <FilesField
                 id="attachments"
                 label="添付ファイル"
                 register={register("attachments")}
                 setErrorState={setFileErrors}
-                filesStatus={filesStatus}
-                setFilesStatus={setFilesStatus}
+                filesStatus={attachmentsStatus}
+                setFilesStatus={setAttachmentsStatus}
               />
-            ) : (
-              filesStatus.map((file) => <FileView key={file.uuid} name={file.name ?? ""} link={file.uuid} />)
-            )}
-          </div>
+            </div>
+          ) : (
+            attachmentsStatus.length !== 0 && (
+              <div>
+                <label htmlFor="attachments">添付ファイル</label>
+                {attachmentsStatus.map((file) => (
+                  <FileView key={file.uuid} name={file.name ?? ""} link={file.uuid} />
+                ))}
+              </div>
+            )
+          )}
           <div>
             <p className={descriptionStyle}>受付開始日時を選択しなかった場合現在時刻が入力されます</p>
             <div>

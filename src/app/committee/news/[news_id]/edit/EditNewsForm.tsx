@@ -17,9 +17,7 @@ import { TitleField } from "@/common_components/news/TitleField";
 import { BodyField } from "@/common_components/news/BodyField";
 import { FilesField } from "@/common_components/form_editor/FilesEditor";
 import { filesStatus } from "@/common_components/form_editor/FilesInterfaces";
-// import { FilesField } from "@/common_components/formFields/FilesField";
-import { FileErrorsType, FilesFormType } from "@/common_components/form_answer/FormItems";
-import { deleteAllUploadedFiles, postFiles } from "@/lib/postFile";
+import { FileErrorsType } from "@/common_components/form_answer/FormItems";
 
 export const EditNewsForm: FC<{
   news_id: string;
@@ -37,8 +35,8 @@ export const EditNewsForm: FC<{
   });
 
   const [filesStatus, setFilesStatus] = useState<filesStatus[]>([]);
-  const [attachments] = useState<FilesFormType>(new Map([["attachments", null]]));
   const [fileErrors, setFileErrors] = useState<FileErrorsType>(new Map([["attachments", null]]));
+  type FileIds = { [itemId: string]: string[] };
 
   const { data, error, isLoading, mutate } = useSWR(`/news/${news_id}`);
   if (isLoading) {
@@ -76,7 +74,7 @@ export const EditNewsForm: FC<{
       toast.error("添付ファイルを正しく選択してください");
       return;
     }
-    const fileIds = await postFiles("public", attachments);
+    let fileIds: FileIds = { attachments: filesStatus.map((fileStatus) => fileStatus.uuid) };
     const categories = data.categories.length === 0 ? projectCategories : data.categories;
     await toast.promise(
       client
@@ -87,12 +85,11 @@ export const EditNewsForm: FC<{
             body: data.body,
             categories: categories as components["schemas"]["ProjectCategory"][],
             attributes: [...projectAttributes] as components["schemas"]["ProjectAttribute"][],
-            attachments: filesStatus.map((file) => file.uuid) ?? [],
+            attachments: fileIds["attachments"] ?? [],
           },
         })
         .then(({ error }) => {
           if (error) {
-            fileIds && deleteAllUploadedFiles(fileIds);
             throw error;
           }
           mutate();
@@ -101,7 +98,6 @@ export const EditNewsForm: FC<{
       {
         loading: "お知らせを保存しています",
         error: () => {
-          fileIds && deleteAllUploadedFiles(fileIds);
           return "お知らせの保存中にエラーが発生しました";
         },
         success: "お知らせを保存しました",
@@ -136,13 +132,6 @@ export const EditNewsForm: FC<{
       <ProjectCategorySelector register={register("categories")} error={errors.categories?.message} />
       <TitleField register={register("title")} error={errors.title?.message} />
       <BodyField register={register("body")} error={errors.body?.message} />
-      {/* <FilesField
-        register={register("attachments")}
-        id="attachments"
-        label="添付ファイル"
-        setErrorState={setFileErrors}
-        setFiles={setAttachments}
-      /> */}
       <FilesField
         label="添付ファイル"
         register={register("attachments")}
