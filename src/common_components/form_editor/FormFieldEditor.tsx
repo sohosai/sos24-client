@@ -45,7 +45,7 @@ export const FormFieldEditor: FC<{
         display: "grid",
         gap: 2,
       })}>
-      {disabled_prop !== true && moveUp && (
+      {!disabled_prop && moveUp && (
         <button
           type="button"
           onClick={moveUp}
