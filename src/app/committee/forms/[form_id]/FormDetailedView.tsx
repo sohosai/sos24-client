@@ -33,6 +33,9 @@ const FileViewInstance: React.FC<{ fileId: string }> = ({ fileId }) => {
   return <FileView name={file.name} link={file.url} />;
 };
 
+const { data, isLoading: isLoading_user } = useSWR("/users/me");
+const me = assignType("/users/me", data);
+
 export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }> = ({ form }) => {
   const {
     register,
@@ -81,7 +84,7 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
                 );
             }}
           />
-          {!isLoading && answers.length == 0 && (
+          {!isLoading && !isLoading_user && (answers.length == 0 || ["administrator"].includes(me.role)) && (
             <Link
               href={`/committee/forms/${form.id}/edit`}
               className={buttonStyle({ color: "blue", visual: "outline" })}>
