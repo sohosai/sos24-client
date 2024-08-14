@@ -47,11 +47,13 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
   const { data, isLoading, error } = useSWR(`/form-answers?form_id=${form.id}`);
   const answers = assignType("/form-answers", data);
   const { user } = useAuthState();
+  const { data: data_user, isLoading: isLoading_user } = useSWR("/users/me");
+  const me = assignType("/users/me", data_user);
   if (isLoading) return;
   if (error) return `エラーが発生しました${error}`;
 
   return (
-    <div className={vstack({ gap: 4, alignItems: "start", width: "full" })}>
+    <div className={vstack({ gap: 4, alignItems: "start", width: "full", marginBottom: "20px" })}>
       <div className={hstack({ justifyContent: "space-between", width: "full", flexWrap: "wrap" })}>
         <div>
           作成日: <time dateTime={form.created_at}> {dayjs(form.created_at).format("YYYY/MM/DD")}</time>
@@ -81,9 +83,13 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
                 );
             }}
           />
-          <Link href={`/committee/forms/${form.id}/edit`} className={buttonStyle({ color: "blue", visual: "outline" })}>
-            編集
-          </Link>
+          {!isLoading && !isLoading_user && (answers.length == 0 || ["administrator"].includes(me.role)) && (
+            <Link
+              href={`/committee/forms/${form.id}/edit`}
+              className={buttonStyle({ color: "blue", visual: "outline" })}>
+              編集
+            </Link>
+          )}
           <button
             className={buttonStyle({ visual: "outline", color: "purple" })}
             onClick={() =>
@@ -176,6 +182,9 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
           width: "full",
           rowGap: 3,
         })}>
+        <div className={css({ borderBottom: "2px solid black", width: "full" })}>
+          <h2 className={css({ fontSize: "lg", fontWeight: "bold", marginBottom: 3 })}>設問</h2>
+        </div>
         <FormItems
           items={form.items}
           getValues={getValues}
@@ -185,6 +194,7 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
           files={new Map()}
           setFiles={setState}
           setFileErrors={setFileErrors}
+          disabled={true}
         />
       </form>
       <FormAnswerList answers={answers} deadline={form.ends_at} />

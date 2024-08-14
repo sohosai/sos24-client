@@ -13,10 +13,10 @@ import toast from "react-hot-toast";
 import { ProjectCategorySelector } from "@/common_components/ProjectCategorySelector";
 import { TitleField } from "@/common_components/news/TitleField";
 import { BodyField } from "@/common_components/news/BodyField";
-import { FilesField } from "@/common_components/formFields/Files";
 import { useState } from "react";
-import { FileErrorsType, FilesFormType } from "@/common_components/form_answer/FormItems";
-import { deleteAllUploadedFiles, postFiles } from "@/lib/postFile";
+import { FileErrorsType } from "@/common_components/form_answer/FormItems";
+import { FilesField } from "@/common_components/form_editor/FilesEditor";
+import { filesStatus } from "@/common_components/form_editor/FilesInterfaces";
 
 export const NewNewsForm = () => {
   const router = useRouter();
@@ -28,16 +28,17 @@ export const NewNewsForm = () => {
     mode: "onBlur",
     resolver: valibotResolver(NewNewsSchema),
   });
-  const [attachments, setAttachments] = useState<FilesFormType>(new Map([["attachments", null]]));
+  const [filesStatus, setFilesStatus] = useState<filesStatus[]>([]);
   const [fileErrors, setFileErrors] = useState<FileErrorsType>(new Map([["attachments", null]]));
+  type FileIds = { [itemId: string]: string[] };
 
   const onSubmit = async (data: NewNewsSchemaType) => {
     if (fileErrors.get("attachments")) {
       toast.error("添付ファイルを正しく選択してください");
       return;
     }
-    const fileIds = await postFiles("public", attachments);
-    const categories = data.categories.length === 0 ? projectCategories : data.categories;
+    let fileIds: FileIds = { attachments: filesStatus.map((fileStatus) => fileStatus.uuid) };
+    const categories = data.categories === false ? projectCategories : data.categories;
 
     await toast.promise(
       client
@@ -47,12 +48,11 @@ export const NewNewsForm = () => {
             body: data.body,
             categories: categories as components["schemas"]["ProjectCategory"][],
             attributes: [...projectAttributes] as components["schemas"]["ProjectAttribute"][],
-            attachments: fileIds ? fileIds["attachments"] ?? [] : [],
+            attachments: fileIds["attachments"] ?? [],
           },
         })
         .then(({ data, error }) => {
           if (error) {
-            fileIds && deleteAllUploadedFiles(fileIds);
             throw error;
           }
           router.push(`/committee/news/${data.id}`);
@@ -94,11 +94,12 @@ export const NewNewsForm = () => {
       <TitleField register={register("title")} error={errors.title?.message} />
       <BodyField register={register("body")} error={errors.body?.message} />
       <FilesField
-        id="attachments"
-        setFiles={setAttachments}
-        setErrorState={setFileErrors}
         label="添付ファイル"
         register={register("attachments")}
+        id="attachments"
+        filesStatus={filesStatus}
+        setFilesStatus={setFilesStatus}
+        setErrorState={setFileErrors}
       />
     </form>
   );

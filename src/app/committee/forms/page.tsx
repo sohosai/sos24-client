@@ -12,7 +12,17 @@ const DashboardPage: NextPage = () => {
   const forms = formsRes ? assignType("/forms", formsRes) : undefined;
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div
+        className={css({
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "85vh",
+        })}>
+        <p>読み込み中...</p>
+      </div>
+    );
   }
 
   if (error || !forms) {

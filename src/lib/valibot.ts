@@ -1,4 +1,17 @@
-import { array, custom, literal, minLength, object, Output, picklist, regex, string, union, unknown } from "valibot";
+import {
+  array,
+  boolean,
+  custom,
+  literal,
+  minLength,
+  object,
+  Output,
+  picklist,
+  regex,
+  string,
+  union,
+  unknown,
+} from "valibot";
 import Graphemer from "graphemer";
 
 /**
@@ -168,7 +181,7 @@ const newsTitleSchema = string([minLength(1, "1文字以上で入力してくだ
 
 const newsBodySchema = string([minLength(1, "1文字以上で入力してください")]);
 
-const newsCategories = array(projectCategorySchema);
+const newsCategories = union([boolean(), array(projectCategorySchema)]);
 
 export const NewNewsSchema = object({
   title: newsTitleSchema,
