@@ -63,20 +63,24 @@ export const postFiles = async (visibility: Visibilities, files: FilesFormType) 
             }
           })
           .map(async (i, _) => {
-            return new Promise(async (resolve, reject) => {
-              const f = file[1]?.item(i);
-              if (!f) {
-                return;
-              }
+            const f = file[1]?.item(i);
+            if (!f) {
+              return;
+            }
+            return await new Promise(async (resolve, reject) => {
               try {
                 const response = (await postFile(visibility, f))?.ids;
                 resolve(response);
-                return response;
               } catch (e: unknown) {
                 reject(e);
-                return false;
               }
-            });
+            })
+              .then((response) => {
+                return response;
+              })
+              .catch((e) => {
+                return false;
+              });
           }),
       )
     ).flat();
