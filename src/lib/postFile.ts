@@ -70,13 +70,9 @@ export const postFiles = async (visibility: Visibilities, files: FilesFormType) 
               }
               try {
                 const response = (await postFile(visibility, f))?.ids;
-                console.debug("Success to upload file: ");
-                console.debug(response);
                 resolve(response);
                 return response;
               } catch (e: unknown) {
-                console.debug("Failed to upload file: ");
-                console.debug(e);
                 reject(e);
                 return false;
               }
