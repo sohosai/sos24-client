@@ -16,7 +16,6 @@ async function uploadFiles(files: FileList): Promise<filesStatus[]> {
     loading: "ファイルをアップロードしています",
     success: "ファイルのアップロードに成功しました",
     error: (error) => {
-      console.error(error);
       return "ファイルのアップロードに失敗しました" + (error?.message ? ` (${error?.message})` : "");
     },
   });
