@@ -15,9 +15,9 @@ import { useRouter } from "next/navigation";
 import { ProjectCategorySelector } from "@/common_components/ProjectCategorySelector";
 import { TitleField } from "@/common_components/news/TitleField";
 import { BodyField } from "@/common_components/news/BodyField";
-import { FilesField } from "@/common_components/formFields/Files";
-import { FileErrorsType, FilesFormType } from "@/common_components/form_answer/FormItems";
-import { deleteAllUploadedFiles, postFiles } from "@/lib/postFile";
+import { FilesField } from "@/common_components/form_editor/FilesEditor";
+import { filesStatus } from "@/common_components/form_editor/FilesInterfaces";
+import { FileErrorsType } from "@/common_components/form_answer/FormItems";
 
 export const EditNewsForm: FC<{
   news_id: string;
@@ -34,8 +34,9 @@ export const EditNewsForm: FC<{
     resolver: valibotResolver(UpdateNewsSchema),
   });
 
-  const [attachments, setAttachments] = useState<FilesFormType>(new Map([["attachments", null]]));
+  const [filesStatus, setFilesStatus] = useState<filesStatus[]>([]);
   const [fileErrors, setFileErrors] = useState<FileErrorsType>(new Map([["attachments", null]]));
+  type FileIds = { [itemId: string]: string[] };
 
   const { data, error, isLoading, mutate } = useSWR(`/news/${news_id}`);
   if (isLoading) {
@@ -54,21 +55,27 @@ export const EditNewsForm: FC<{
 
   if (!isFormInitialized) {
     setIsFormInitialized(true);
+    const fileDatas =
+      news.attachments.map((uuid) => ({
+        name: null,
+        uuid: uuid,
+        uploaded: true,
+      })) ?? [];
+    setFilesStatus(fileDatas);
     reset({
       title: news.title,
       body: news.body,
       categories: news.categories,
     });
   }
+
   const onSubmit = async (data: UpdateNewsSchemaType) => {
     if (fileErrors.get("attachments")) {
       toast.error("添付ファイルを正しく選択してください");
       return;
     }
-    const fileIds = await postFiles("public", attachments);
-    // 企画区分が未選択の場合はfalseが渡される
+    let fileIds: FileIds = { attachments: filesStatus.map((fileStatus) => fileStatus.uuid) };
     const categories = data.categories === false ? projectCategories : data.categories;
-
     await toast.promise(
       client
         .PUT(`/news/{news_id}`, {
@@ -78,12 +85,11 @@ export const EditNewsForm: FC<{
             body: data.body,
             categories: categories as components["schemas"]["ProjectCategory"][],
             attributes: [...projectAttributes] as components["schemas"]["ProjectAttribute"][],
-            attachments: fileIds ? fileIds["attachments"] ?? [] : [],
+            attachments: fileIds["attachments"] ?? [],
           },
         })
         .then(({ error }) => {
           if (error) {
-            fileIds && deleteAllUploadedFiles(fileIds);
             throw error;
           }
           mutate();
@@ -92,14 +98,12 @@ export const EditNewsForm: FC<{
       {
         loading: "お知らせを保存しています",
         error: () => {
-          fileIds && deleteAllUploadedFiles(fileIds);
           return "お知らせの保存中にエラーが発生しました";
         },
         success: "お知らせを保存しました",
       },
     );
   };
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={stack({ gap: 4 })}>
       <div
@@ -129,11 +133,12 @@ export const EditNewsForm: FC<{
       <TitleField register={register("title")} error={errors.title?.message} />
       <BodyField register={register("body")} error={errors.body?.message} />
       <FilesField
+        label="添付ファイル"
         register={register("attachments")}
         id="attachments"
-        label="添付ファイル"
+        filesStatus={filesStatus}
+        setFilesStatus={setFilesStatus}
         setErrorState={setFileErrors}
-        setFiles={setAttachments}
       />
       <div className={center()}>
         <Button

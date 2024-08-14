@@ -33,7 +33,9 @@ export const FormFieldEditor: FC<{
   remove: () => void;
   moveDown?: () => void;
   moveUp?: () => void;
-}> = ({ field, index, register, remove, moveDown, moveUp }) => {
+  disabled?: boolean;
+}> = ({ field, index, register, remove, moveDown, moveUp, disabled = false }) => {
+  const disabled_prop: true | undefined = disabled !== false ? undefined : true;
   return (
     <div
       className={stack({
@@ -43,7 +45,7 @@ export const FormFieldEditor: FC<{
         display: "grid",
         gap: 2,
       })}>
-      {moveUp && (
+      {!disabled_prop && moveUp && (
         <button
           type="button"
           onClick={moveUp}
@@ -85,7 +87,12 @@ export const FormFieldEditor: FC<{
                 display: "inline-flex",
                 alignItems: "center",
               })}>
-              <input type="checkbox" {...register(`items.${index}.required`)} className={checkboxFormStyle} />
+              <input
+                type="checkbox"
+                {...register(`items.${index}.required`)}
+                className={checkboxFormStyle}
+                disabled={disabled_prop}
+              />
               必須
             </label>
 
@@ -95,30 +102,41 @@ export const FormFieldEditor: FC<{
                   display: "inline-flex",
                   alignItems: "center",
                 })}>
-                <input type="checkbox" {...register(`items.${index}.allow_newline`)} className={checkboxFormStyle} />
+                <input
+                  type="checkbox"
+                  {...register(`items.${index}.allow_newline`)}
+                  className={checkboxFormStyle}
+                  disabled={disabled_prop}
+                />
                 複数行での回答
               </label>
             )}
           </div>
         </div>
 
-        <button type="button" onClick={remove} aria-label="削除">
-          <TrashOutline
-            className={css({
-              color: "sohosai.blue",
-            })}
-          />
-        </button>
+        {disabled_prop !== true && (
+          <button type="button" onClick={remove} aria-label="削除">
+            <TrashOutline
+              className={css({
+                color: "sohosai.blue",
+              })}
+            />
+          </button>
+        )}
       </div>
 
       <div>
         <label htmlFor={`items.${index}.name`}>質問</label>
-        <input {...register(`items.${index}.name`, { required: true })} className={textInputStyle} />
+        <input
+          {...register(`items.${index}.name`, { required: true })}
+          className={textInputStyle}
+          disabled={disabled_prop}
+        />
       </div>
 
       <div>
         <label htmlFor={`items.${index}.description`}>説明(任意)</label>
-        <textarea {...register(`items.${index}.description`)} className={textInputStyle} />
+        <textarea {...register(`items.${index}.description`)} className={textInputStyle} disabled={disabled_prop} />
       </div>
 
       {(() => {
@@ -133,6 +151,7 @@ export const FormFieldEditor: FC<{
                       type="number"
                       {...register(`items.${index}.min_length`, { valueAsNumber: true })}
                       className={textInputStyle}
+                      disabled={disabled_prop}
                     />
                   </div>
 
@@ -142,6 +161,7 @@ export const FormFieldEditor: FC<{
                       type="number"
                       {...register(`items.${index}.max_length`, { valueAsNumber: true })}
                       className={textInputStyle}
+                      disabled={disabled_prop}
                     />
                   </div>
                 </div>
@@ -157,6 +177,7 @@ export const FormFieldEditor: FC<{
                       type="number"
                       {...register(`items.${index}.min`, { valueAsNumber: true })}
                       className={textInputStyle}
+                      disabled={disabled_prop}
                     />
                   </div>
 
@@ -166,6 +187,7 @@ export const FormFieldEditor: FC<{
                       type="number"
                       {...register(`items.${index}.max`, { valueAsNumber: true })}
                       className={textInputStyle}
+                      disabled={disabled_prop}
                     />
                   </div>
                 </div>
@@ -176,7 +198,11 @@ export const FormFieldEditor: FC<{
               <>
                 <div>
                   <label htmlFor={`items.${index}.options`}>選択肢(改行区切り)</label>
-                  <textarea {...register(`items.${index}.options`, { required: true })} className={textInputStyle} />
+                  <textarea
+                    {...register(`items.${index}.options`, { required: true })}
+                    className={textInputStyle}
+                    disabled={disabled_prop}
+                  />
                 </div>
               </>
             );
@@ -185,7 +211,11 @@ export const FormFieldEditor: FC<{
               <>
                 <div>
                   <label htmlFor={`items.${index}.options`}>選択肢(改行区切り)</label>
-                  <textarea {...register(`items.${index}.options`, { required: true })} className={textInputStyle} />
+                  <textarea
+                    {...register(`items.${index}.options`, { required: true })}
+                    className={textInputStyle}
+                    disabled={disabled_prop}
+                  />
                 </div>
 
                 <div className={hstack({ gap: 3 })}>
@@ -195,6 +225,7 @@ export const FormFieldEditor: FC<{
                       type="number"
                       {...register(`items.${index}.min_selection`, { valueAsNumber: true })}
                       className={textInputStyle}
+                      disabled={disabled_prop}
                     />
                   </div>
 
@@ -204,6 +235,7 @@ export const FormFieldEditor: FC<{
                       type="number"
                       {...register(`items.${index}.max_selection`, { valueAsNumber: true })}
                       className={textInputStyle}
+                      disabled={disabled_prop}
                     />
                   </div>
                 </div>
@@ -218,18 +250,23 @@ export const FormFieldEditor: FC<{
                     type="number"
                     {...register(`items.${index}.limit`, { required: true, valueAsNumber: true })}
                     className={textInputStyle}
+                    disabled={disabled_prop}
                   />
                 </div>
                 <div>
                   <label htmlFor={`items.${index}.extensions`}>拡張子(改行区切り)</label>
-                  <textarea {...register(`items.${index}.extensions`, { required: true })} className={textInputStyle} />
+                  <textarea
+                    {...register(`items.${index}.extensions`, { required: true })}
+                    className={textInputStyle}
+                    disabled={disabled_prop}
+                  />
                 </div>
               </>
             );
         }
       })()}
 
-      {moveDown && (
+      {disabled_prop !== true && moveDown && (
         <button
           type="button"
           onClick={moveDown}
