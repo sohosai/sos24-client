@@ -33,9 +33,6 @@ const FileViewInstance: React.FC<{ fileId: string }> = ({ fileId }) => {
   return <FileView name={file.name} link={file.url} />;
 };
 
-const { data, isLoading: isLoading_user } = useSWR("/users/me");
-const me = assignType("/users/me", data);
-
 export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }> = ({ form }) => {
   const {
     register,
@@ -50,6 +47,8 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
   const { data, isLoading, error } = useSWR(`/form-answers?form_id=${form.id}`);
   const answers = assignType("/form-answers", data);
   const { user } = useAuthState();
+  const { data: data_user, isLoading: isLoading_user } = useSWR("/users/me");
+  const me = assignType("/users/me", data_user);
   if (isLoading) return;
   if (error) return `エラーが発生しました${error}`;
 
