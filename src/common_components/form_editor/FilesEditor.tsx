@@ -15,7 +15,10 @@ async function uploadFiles(files: FileList): Promise<filesStatus[]> {
   const res = await toast.promise(postFiles("public", new Map<string, FileList>([["attachments", files]])), {
     loading: "ファイルをアップロードしています",
     success: "ファイルのアップロードに成功しました",
-    error: "ファイルのアップロードに失敗しました",
+    error: (error) => {
+      console.error(error);
+      return "ファイルのアップロードに失敗しました" + (error?.message ? ` (${error?.message})` : "");
+    },
   });
   return (
     res?.attachments.map((uuid: string, index: number) => ({
