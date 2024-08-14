@@ -77,7 +77,13 @@ export const FileView = (props: Props) => {
               width: 5,
             })}></Image>
         )}
-        <span className={css({ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" })}>
+        <span
+          className={css({
+            whiteSpace: "break-spaces",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            wordBreak: "break-word",
+          })}>
           {fileProps?.name ?? "ファイル名を取得できませんでした"}
         </span>
       </div>
