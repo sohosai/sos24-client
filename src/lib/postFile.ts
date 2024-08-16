@@ -67,39 +67,24 @@ export const postFiles = async (visibility: Visibilities, files: FilesFormType) 
             if (!f) {
               return;
             }
-            return await new Promise(async (resolve, reject) => {
-              try {
-                const response = (await postFile(visibility, f))?.ids;
-                resolve(response);
-              } catch (e: unknown) {
-                reject(e);
-              }
-            })
-              .then((response) => {
-                return response;
-              })
-              .catch(() => {
-                return false;
-              });
+            try {
+              const response = (await postFile(visibility, f))?.ids;
+              return response;
+            } catch {
+              return false;
+            }
           }),
       )
     ).flat();
 
-    const safeIds: (string | false | undefined)[] = ids.map((id) => {
-      if (typeof id === "string") return id;
-      if (id === false) return false;
-      if (id === undefined) return undefined;
-      return undefined;
-    });
-
-    if (safeIds.some((v) => !v)) {
+    if (ids.some((v) => !v)) {
       // エラーがあったら全てのファイルを削除した上でreturn
-      await deleteMultipleUploadedFiles(safeIds);
+      await deleteMultipleUploadedFiles(ids);
       return;
     }
 
     // falsyのもの以外を抽出(本来上の条件分岐で絞り込めているはずだが、現在のTSのバージョン(5.3.3)ではうまく推論されないためこれを書いている)
-    fileIds[file[0]] = safeIds.flatMap((v) => v || []).concat(alreadyUploaded);
+    fileIds[file[0]] = ids.flatMap((v) => v || []).concat(alreadyUploaded);
   }
   return fileIds;
 };
