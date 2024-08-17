@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { FormEditor, HandleFormEditorSubmit } from "@/common_components/form_editor/FormEditor";
 import { deleteMultipleUploadedFiles } from "@/lib/postFile";
+import Link from "next/link";
 
 const CreateFormPage: NextPage = () => {
   const router = useRouter();
@@ -43,6 +44,10 @@ const CreateFormPage: NextPage = () => {
         padding: 5,
         gap: 4,
       })}>
+      {" "}
+      <Link href={`/committee/forms`} className={css({ color: "tsukuba.purple", display: "block" })}>
+        ← 申請一覧に戻る
+      </Link>
       <h1
         className={css({
           fontSize: "2xl",
@@ -50,7 +55,7 @@ const CreateFormPage: NextPage = () => {
         })}>
         新規申請作成
       </h1>
-      <FormEditor onSubmit={onSubmit} />
+      <FormEditor onSubmit={onSubmit} editable={true} />
     </div>
   );
 };
