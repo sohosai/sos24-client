@@ -47,6 +47,7 @@ export const News: FC<{
           justifyContent: "space-between",
           alignItems: "center",
           marginBottom: 2,
+          flexWrap: "wrap",
         })}>
         <h2
           className={css({
