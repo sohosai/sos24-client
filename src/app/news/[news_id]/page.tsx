@@ -1,6 +1,7 @@
 "use client";
 
 import { container } from "@styled-system/patterns";
+import { css } from "@styled-system/css";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 import { News } from "@/common_components/news/News";
@@ -28,7 +29,15 @@ const NewsDetailsPage: NextPage<{ params: { news_id: string } }> = ({ params }) 
 
   return (
     <div className={container({ maxWidth: "4xl" })}>
-      <News news={news} />
+      <div
+        className={css({
+          marginBottom: "60px",
+          md: {
+            marginBottom: 0,
+          },
+        })}>
+        <News news={news} />
+      </div>
     </div>
   );
 };
