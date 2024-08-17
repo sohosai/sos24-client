@@ -1,7 +1,6 @@
 "use client";
 
 import { container } from "@styled-system/patterns";
-import { css } from "@styled-system/css";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 import { News } from "@/common_components/news/News";
