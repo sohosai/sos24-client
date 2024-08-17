@@ -29,15 +29,7 @@ const NewsDetailsPage: NextPage<{ params: { news_id: string } }> = ({ params }) 
 
   return (
     <div className={container({ maxWidth: "4xl" })}>
-      <div
-        className={css({
-          marginBottom: "60px",
-          md: {
-            marginBottom: 0,
-          },
-        })}>
-        <News news={news} />
-      </div>
+      <News news={news} />
     </div>
   );
 };

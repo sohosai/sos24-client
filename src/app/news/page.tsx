@@ -27,10 +27,6 @@ const NewsPage: NextPage = () => {
           <div
             className={css({
               width: "90%",
-              marginBottom: "60px",
-              md: {
-                marginBottom: 0,
-              },
             })}>
             <NewsView />
           </div>
