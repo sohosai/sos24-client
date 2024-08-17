@@ -150,7 +150,15 @@ export const NewsView: FC<{
           </>
         )}
       </div>
-      <NewsList newsList={filteredNewsList} isCommittee={isCommittee} />
+      <div
+        className={css({
+          marginBottom: "60px",
+          md: {
+            marginBottom: 0,
+          },
+        })}>
+        <NewsList newsList={filteredNewsList} isCommittee={isCommittee} />
+      </div>
     </div>
   );
 };
