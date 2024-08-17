@@ -183,6 +183,7 @@ export const FormList = ({ forms, showHiddenToggle }: Props) => {
                     justifyContent: "center",
                     paddingInline: 2,
                     md: { display: "none" },
+                    flexShrink: 0,
                   })}>
                   {hiddenFormIds.includes(form.id) ? (
                     <Image src={EyesClosedIcon} alt="非表示" />
