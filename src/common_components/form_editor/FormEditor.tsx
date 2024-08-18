@@ -455,17 +455,18 @@ export const FormEditor: FC<{
                 </button>
               </div>
             </fieldset>
-
-            <Button
-              visual="solid"
-              color="purple"
-              className={css({
-                alignSelf: "center",
-              })}
-              disabled={isSubmitting || isSubmitSuccessful}>
-              送信
-            </Button>
           </>
+        )}
+        {(editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true)) && (
+          <Button
+            visual="solid"
+            color="purple"
+            className={css({
+              alignSelf: "center",
+            })}
+            disabled={isSubmitting || isSubmitSuccessful}>
+            {defaultValues ? "更新" : "作成"}
+          </Button>
         )}
       </form>
     </>
