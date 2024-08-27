@@ -24,7 +24,10 @@ const NewsPage: NextPage = () => {
           <Title className={css({ fontSize: "2xl", fontWeight: "bold" })}>お知らせ一覧</Title>
         </div>
         <div className={center()}>
-          <div className={css({ width: "90%" })}>
+          <div
+            className={css({
+              width: "90%",
+            })}>
             <NewsView />
           </div>
         </div>

@@ -27,6 +27,10 @@ export const News: FC<{
       className={stack({
         gap: 3,
         marginY: 8,
+        marginBottom: "80px",
+        md: {
+          marginBottom: 0,
+        },
       })}>
       <Link
         href={isCommittee ? "/committee/news" : applicationPeriod.isIn ? "/dashboard" : "/news"}
@@ -47,6 +51,7 @@ export const News: FC<{
           justifyContent: "space-between",
           alignItems: "center",
           marginBottom: 2,
+          flexWrap: "wrap",
         })}>
         <h2
           className={css({
