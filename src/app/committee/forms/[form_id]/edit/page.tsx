@@ -153,7 +153,7 @@ const EditFormPage: NextPage<{ params: { form_id: string } }> = ({ params }) => 
         {!(!answerLoading && !answerError && asnwerData.length === 0) && (
           <Link href={`/committee/forms/${params.form_id}`}>
             <Button
-              visual="solid"
+              visual="outline"
               color="purple"
               className={css({
                 alignSelf: "center",
