@@ -12,7 +12,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "latest"
+          node-version: 'lts/*'
+          check-latest: true
           cache: "npm"
           cache-dependency-path: "**/package-lock.json"
 
@@ -30,7 +31,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "latest"
+          node-version: 'lts/*'
+          check-latest: true
           cache: "npm"
           cache-dependency-path: "**/package-lock.json"
 
