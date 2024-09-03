@@ -13,10 +13,19 @@ import toast from "react-hot-toast";
 import { ProjectCategorySelector } from "@/common_components/ProjectCategorySelector";
 import { TitleField } from "@/common_components/news/TitleField";
 import { BodyField } from "@/common_components/news/BodyField";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FileErrorsType } from "@/common_components/form_answer/FormItems";
 import { FilesField } from "@/common_components/form_editor/FilesEditor";
 import { filesStatus } from "@/common_components/form_editor/FilesInterfaces";
+import pageStyle from "./NewNewsForm.module.scss";
+
+interface NewsProps {
+  uid: string;
+  title: string;
+  body: string;
+  categories: string[];
+  attachments: string[];
+}
 
 export const NewNewsForm = () => {
   const router = useRouter();
@@ -31,6 +40,25 @@ export const NewNewsForm = () => {
   const [filesStatus, setFilesStatus] = useState<filesStatus[]>([]);
   const [fileErrors, setFileErrors] = useState<FileErrorsType>(new Map([["attachments", null]]));
   type FileIds = { [itemId: string]: string[] };
+
+  const [drafts, setDrafts] = useState<NewsProps[] | null>(null);
+  useEffect(() => {
+    const item: string | null = localStorage.getItem("sos_news_drafts");
+    if (item) {
+      setDrafts(JSON.parse(item) ?? null);
+    } else {
+      setDrafts(null);
+    }
+  }, []);
+  useEffect(() => {
+    if (drafts && drafts.length > 0) {
+      console.log("drafts", drafts);
+    }
+  }, [drafts]);
+  const [draftUID, setDraftUID] = useState<string>(Math.random().toString(32).substring(2));
+  useEffect(() => {
+    console.log(`${draftUID} になりました`);
+  }, [draftUID]);
 
   const onSubmit = async (data: NewNewsSchemaType) => {
     if (fileErrors.get("attachments")) {
@@ -90,6 +118,22 @@ export const NewNewsForm = () => {
           <Image src={sendIcon} alt="" />
         </Button>
       </div>
+      {drafts && drafts.length > 0 && (
+        <div className={pageStyle.draftsWrap}>
+          <h3>保存した下書き</h3>
+          <select
+            value={draftUID}
+            onChange={(e) => {
+              setDraftUID(e.target.value);
+            }}>
+            {drafts?.map((draft: NewsProps) => (
+              <option key={draft.uid} value={draft.uid}>
+                {draft.title}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
       <ProjectCategorySelector register={register("categories")} error={errors.categories?.message} />
       <TitleField register={register("title")} error={errors.title?.message} />
       <BodyField register={register("body")} error={errors.body?.message} />
