@@ -258,22 +258,23 @@ export const NewNewsForm: FC<{
         value={title}
       />
       <BodyField
-        register={register("body", {
-          onChange: (e) => {
-            // console.log("Custom onChange Body:", e.target.value);
-            setBody(e.target.value);
-          },
-        })}
+        register={register(
+          "body",
+          //  {onChange: (e) => {
+          //   setBody(e.target.value);
+          // },}
+        )}
         error={errors.body?.message}
         value={body}
       />
       <FilesField
         label="添付ファイル"
-        register={register("attachments", {
-          onChange: (e) => {
-            // console.log("Custom onChange Attachment:", e.target.value);
-          },
-        })}
+        register={register(
+          "attachments",
+          // {onChange: (e) => {
+          //   // console.log("Custom onChange Attachment:", e.target.value);
+          // },}
+        )}
         id="attachments"
         filesStatus={filesStatus}
         setFilesStatus={setFilesStatus}
