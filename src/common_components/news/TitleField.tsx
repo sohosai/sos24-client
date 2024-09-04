@@ -6,7 +6,8 @@ import { basicErrorMessageStyle } from "@/common_components/formFields/styles";
 export const TitleField: FC<{
   register: UseFormRegisterReturn;
   error?: string;
-}> = ({ register, error }) => {
+  value?: string;
+}> = ({ register, error, value }) => {
   return (
     <div>
       <input
@@ -14,6 +15,9 @@ export const TitleField: FC<{
         id="title"
         placeholder="タイトル"
         {...register}
+        onChange={(e) => {
+          register.onChange(e);
+        }}
         className={css({
           width: "full",
           backgroundColor: "gray.100",
@@ -23,6 +27,7 @@ export const TitleField: FC<{
           fontSize: "2xl",
           fontWeight: "bold",
         })}
+        value={value ?? ""}
       />
       {error && <span className={basicErrorMessageStyle}>{error}</span>}
     </div>
