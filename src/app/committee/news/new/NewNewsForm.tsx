@@ -5,7 +5,7 @@ import Image from "next/image";
 import sendIcon from "@/assets/Send.svg?url";
 import { NewNewsSchema, NewNewsSchemaType, projectAttributes, projectCategories, ProjectCategory } from "@/lib/valibot";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { client } from "@/lib/openapi";
 import { components } from "@/schema";
@@ -13,12 +13,12 @@ import toast from "react-hot-toast";
 import { ProjectCategorySelector } from "@/common_components/ProjectCategorySelector";
 import { TitleField } from "@/common_components/news/TitleField";
 import { BodyField } from "@/common_components/news/BodyField";
-import { useEffect, useState, FC } from "react";
+import { useEffect, useState, useRef, FC } from "react";
 import { FileErrorsType } from "@/common_components/form_answer/FormItems";
 import { FilesField } from "@/common_components/form_editor/FilesEditor";
 import { filesStatus } from "@/common_components/form_editor/FilesInterfaces";
 import pageStyle from "./NewNewsForm.module.scss";
-import dayjs from "dayjs";
+import dayjs, { extend } from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 import "dayjs/locale/ja";
@@ -62,6 +62,7 @@ export const NewNewsForm: FC<{
       if (draft) {
         JSON.parse(item).forEach((draft_items: NewsProps) => {
           if (draft_items?.uid === draft) {
+            console.log("Found draft", draft_items);
             setTitle(draft_items.title ?? "");
             setBody(draft_items.body ?? "");
             setCategories((draft_items.categories as ProjectCategory[]) ?? []);
@@ -75,14 +76,21 @@ export const NewNewsForm: FC<{
     }
   }, []);
   useEffect(() => {
+    if (drafts && drafts.length > 0) {
+      console.log("drafts", drafts);
+    }
+  }, [drafts]);
+  useEffect(() => {
     if (drafts_loaded && drafts) {
       localStorage.setItem("sos_news_drafts", JSON.stringify(drafts));
+      console.log("Drafts saved to localStorage", drafts);
     }
   }, [drafts]);
 
   // const [draftUID, setDraftUID] = useState<string>(Math.random().toString(32).substring(2));
   const [draftUID, setDraftUID] = useState<string>(draft ?? Math.random().toString(32).substring(2));
   useEffect(() => {
+    console.log(`${draftUID} になりました`);
     if (draftUID && !draft) {
       router.replace(`/committee/news/new/${draftUID}`);
     }
@@ -187,7 +195,6 @@ export const NewNewsForm: FC<{
           <div className={pageStyle.actions}>
             <div
               className={pageStyle.btn}
-              role="button"
               onClick={() => {
                 setDrafts(
                   drafts?.filter((draft_item: NewsProps) => {
@@ -224,8 +231,10 @@ export const NewNewsForm: FC<{
           onChange: (e) => {
             if (e.target.checked) {
               setCategories([...categories, e.target.value]);
+              console.log("Add Cat:", e.target.value);
             } else {
               setCategories(categories.filter((item) => item !== e.target.value));
+              console.log("Remove Cat:", e.target.value);
             }
             updateSome();
           },
@@ -236,6 +245,7 @@ export const NewNewsForm: FC<{
       <TitleField
         register={register("title", {
           onChange: (e) => {
+            console.log("Custom onChange Title:", e.target.value);
             setTitle(e.target.value);
           },
         })}
@@ -245,6 +255,7 @@ export const NewNewsForm: FC<{
       <BodyField
         register={register("body", {
           onChange: (e) => {
+            console.log("Custom onChange Body:", e.target.value);
             setBody(e.target.value);
           },
         })}
@@ -253,7 +264,11 @@ export const NewNewsForm: FC<{
       />
       <FilesField
         label="添付ファイル"
-        register={register("attachments")}
+        register={register("attachments", {
+          onChange: (e) => {
+            console.log("Custom onChange Attachment:", e.target.value);
+          },
+        })}
         id="attachments"
         filesStatus={filesStatus}
         setFilesStatus={setFilesStatus}
