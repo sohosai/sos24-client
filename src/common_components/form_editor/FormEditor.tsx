@@ -1,7 +1,7 @@
 "use client";
 
 import { css } from "@styled-system/css";
-import { FC, useState } from "react";
+import { FC, useState, useRef } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { ProjectAttribute, projectAttributes, projectCategories, ProjectCategory } from "@/lib/valibot";
 import { getProjectAttributeText, getProjectCategoryText } from "@/lib/textUtils";
@@ -124,6 +124,40 @@ export const FormEditor: FC<{
     );
   }
 
+  const onSubmitHandler = handleSubmit(async (data) => {
+    if (fileErrors.get("attachments")) {
+      toast.error("正しいファイルをアップロードしてください");
+      return;
+    }
+    let fileIds: FileIds = { attachments: attachmentsStatus.map((attachmentStatus) => attachmentStatus.uuid) };
+    const body = {
+      ...data,
+      attributes: data.attributes.length === 0 ? [...projectAttributes] : data.attributes,
+      categories: data.categories.length === 0 ? [...projectCategories] : data.categories,
+      starts_at: (data.starts_at === "" ? dayjs() : dayjs(data.starts_at)).toISOString(),
+      ends_at: dayjs(data.ends_at).toISOString(),
+      attachments: fileIds.attachments ?? [],
+      items: [
+        ...data.items.map((item) => {
+          if (item.type === "choose_many" || item.type === "choose_one") {
+            return {
+              ...item,
+              options: item.options.split("\n"),
+            };
+          }
+          if (item.type === "file") {
+            return {
+              ...item,
+              extensions: item.extensions.split("\n"),
+            };
+          }
+          return item;
+        }),
+      ],
+    };
+    return onSubmit(body);
+  });
+
   return (
     <>
       <Divider />
@@ -142,39 +176,15 @@ export const FormEditor: FC<{
       )}
       <form
         className={stack({ gap: 4 })}
-        onSubmit={handleSubmit(async (data) => {
-          if (fileErrors.get("attachments")) {
-            toast.error("正しいファイルをアップロードしてください");
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (!window.confirm("この内容で送信しますか？")) {
+            toast("送信をキャンセルしました");
             return;
+          } else {
+            return onSubmitHandler();
           }
-          let fileIds: FileIds = { attachments: attachmentsStatus.map((attachmentStatus) => attachmentStatus.uuid) };
-          const body = {
-            ...data,
-            attributes: data.attributes.length === 0 ? [...projectAttributes] : data.attributes,
-            categories: data.categories.length === 0 ? [...projectCategories] : data.categories,
-            starts_at: (data.starts_at === "" ? dayjs() : dayjs(data.starts_at)).toISOString(),
-            ends_at: dayjs(data.ends_at).toISOString(),
-            attachments: fileIds.attachments ?? [],
-            items: [
-              ...data.items.map((item) => {
-                if (item.type === "choose_many" || item.type === "choose_one") {
-                  return {
-                    ...item,
-                    options: item.options.split("\n"),
-                  };
-                }
-                if (item.type === "file") {
-                  return {
-                    ...item,
-                    extensions: item.extensions.split("\n"),
-                  };
-                }
-                return item;
-              }),
-            ],
-          };
-          return onSubmit(body);
-        })}>
+        }}>
         <fieldset
           className={stack({
             gap: 5,

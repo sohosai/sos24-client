@@ -65,8 +65,22 @@ export const NewNewsForm = () => {
     );
   };
 
+  const onSubmitHandler = handleSubmit(async (data) => {
+    onSubmit(data);
+  });
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={stack({ gap: 4 })}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (!window.confirm("この内容で送信しますか？")) {
+          toast("送信をキャンセルしました");
+          return;
+        } else {
+          return onSubmitHandler();
+        }
+      }}
+      className={stack({ gap: 4 })}>
       <div
         className={hstack({
           justifyContent: "space-between",
