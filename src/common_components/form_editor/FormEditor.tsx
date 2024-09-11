@@ -1,7 +1,7 @@
 "use client";
 
 import { css } from "@styled-system/css";
-import { FC, useState, useRef } from "react";
+import { FC, useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { ProjectAttribute, projectAttributes, projectCategories, ProjectCategory } from "@/lib/valibot";
 import { getProjectAttributeText, getProjectCategoryText } from "@/lib/textUtils";
