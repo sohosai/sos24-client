@@ -16,6 +16,9 @@ import { FilesField } from "./FilesEditor";
 import { Button, buttonStyle } from "@/recipes/button";
 import { FileView } from "@/common_components/FileView";
 
+import useSWR from "swr";
+import { assignType } from "@/lib/openapi";
+
 export type FormField = {
   name: string;
   description?: string;
@@ -105,6 +108,56 @@ export const FormEditor: FC<{
 
   const [fileErrors, setFileErrors] = useState<FileErrorsType>(new Map([["attachments", null]]));
 
+  const { data: data_user, isLoading: isLoading_user } = useSWR("/users/me");
+  const me = assignType("/users/me", data_user);
+  if (isLoading_user) {
+    return (
+      <div
+        className={css({
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "85vh",
+        })}>
+        <p>読み込み中...</p>
+      </div>
+    );
+  }
+
+  const onSubmitHandler = handleSubmit(async (data) => {
+    if (fileErrors.get("attachments")) {
+      toast.error("正しいファイルをアップロードしてください");
+      return;
+    }
+    let fileIds: FileIds = { attachments: attachmentsStatus.map((attachmentStatus) => attachmentStatus.uuid) };
+    const body = {
+      ...data,
+      attributes: data.attributes.length === 0 ? [...projectAttributes] : data.attributes,
+      categories: data.categories.length === 0 ? [...projectCategories] : data.categories,
+      starts_at: (data.starts_at === "" ? dayjs() : dayjs(data.starts_at)).toISOString(),
+      ends_at: dayjs(data.ends_at).toISOString(),
+      attachments: fileIds.attachments ?? [],
+      items: [
+        ...data.items.map((item) => {
+          if (item.type === "choose_many" || item.type === "choose_one") {
+            return {
+              ...item,
+              options: item.options.split("\n"),
+            };
+          }
+          if (item.type === "file") {
+            return {
+              ...item,
+              extensions: item.extensions.split("\n"),
+            };
+          }
+          return item;
+        }),
+      ],
+    };
+    return onSubmit(body);
+  });
+
   return (
     <>
       <Divider />
@@ -116,45 +169,22 @@ export const FormEditor: FC<{
               fontSize: "sm",
               textAlign: "center",
             })}>
-            すでに回答が存在するため、このフォームは編集できません。
+            すでに回答が存在するため、
+            {!isLoading_user && ["administrator"].includes(me.role) ? "設問部分" : "このフォーム"}は編集できません。
           </p>
         </>
       )}
       <form
         className={stack({ gap: 4 })}
-        onSubmit={handleSubmit(async (data) => {
-          if (fileErrors.get("attachments")) {
-            toast.error("正しいファイルをアップロードしてください");
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (!window.confirm("この内容で送信しますか？")) {
+            toast("送信をキャンセルしました");
             return;
+          } else {
+            return onSubmitHandler();
           }
-          let fileIds: FileIds = { attachments: attachmentsStatus.map((attachmentStatus) => attachmentStatus.uuid) };
-          const body = {
-            ...data,
-            attributes: data.attributes.length === 0 ? [...projectAttributes] : data.attributes,
-            categories: data.categories.length === 0 ? [...projectCategories] : data.categories,
-            starts_at: (data.starts_at === "" ? dayjs() : dayjs(data.starts_at)).toISOString(),
-            ends_at: dayjs(data.ends_at).toISOString(),
-            attachments: fileIds.attachments ?? [],
-            items: [
-              ...data.items.map((item) => {
-                if (item.type === "choose_many" || item.type === "choose_one") {
-                  return {
-                    ...item,
-                    options: item.options.split("\n"),
-                  };
-                }
-                if (item.type === "file") {
-                  return {
-                    ...item,
-                    extensions: item.extensions.split("\n"),
-                  };
-                }
-                return item;
-              }),
-            ],
-          };
-          return onSubmit(body);
-        })}>
+        }}>
         <fieldset
           className={stack({
             gap: 5,
@@ -184,7 +214,11 @@ export const FormEditor: FC<{
                         checked={value.includes(category)}
                         ref={ref}
                         className={visuallyHidden()}
-                        disabled={editable === false ? true : undefined}
+                        disabled={
+                          isLoading_user || (editable === false && ["administrator"].includes(me.role) === false)
+                            ? true
+                            : undefined
+                        }
                       />
                       {getProjectCategoryText(category)}
                     </label>
@@ -216,7 +250,11 @@ export const FormEditor: FC<{
                         checked={value.includes(attribute)}
                         ref={ref}
                         className={visuallyHidden()}
-                        disabled={editable === false ? true : undefined}
+                        disabled={
+                          isLoading_user || (editable === false && ["administrator"].includes(me.role) === false)
+                            ? true
+                            : undefined
+                        }
                       />
                       {getProjectAttributeText(attribute)}
                     </label>
@@ -235,7 +273,11 @@ export const FormEditor: FC<{
             <input
               {...register("title", { required: true })}
               className={textInputStyle}
-              disabled={editable === false ? true : undefined}
+              disabled={
+                isLoading_user || (editable === false && ["administrator"].includes(me.role) === false)
+                  ? true
+                  : undefined
+              }
             />
           </div>
           <div>
@@ -243,10 +285,14 @@ export const FormEditor: FC<{
             <textarea
               {...register("description", { required: true })}
               className={textInputStyle}
-              disabled={editable === false ? true : undefined}
+              disabled={
+                isLoading_user || (editable === false && ["administrator"].includes(me.role) === false)
+                  ? true
+                  : undefined
+              }
             />
           </div>
-          {editable !== false ? (
+          {editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true) ? (
             <div>
               <label htmlFor="attachments">添付ファイル</label>
               <FilesField
@@ -419,17 +465,18 @@ export const FormEditor: FC<{
                 </button>
               </div>
             </fieldset>
-
-            <Button
-              visual="solid"
-              color="purple"
-              className={css({
-                alignSelf: "center",
-              })}
-              disabled={isSubmitting || isSubmitSuccessful}>
-              送信
-            </Button>
           </>
+        )}
+        {(editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true)) && (
+          <Button
+            visual="solid"
+            color="purple"
+            className={css({
+              alignSelf: "center",
+            })}
+            disabled={isSubmitting || isSubmitSuccessful}>
+            {defaultValues ? "更新" : "作成"}
+          </Button>
         )}
       </form>
     </>
