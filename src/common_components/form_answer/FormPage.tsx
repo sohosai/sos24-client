@@ -128,7 +128,15 @@ export const FormPage = ({ answer, answerError, answerLoading, form, formError, 
                 })}>
                 <Separator />
               </div>
-              <Form form={form} answerId={answer?.id} answerItems={answerItems} editable={editable} />
+              <div
+                className={css({
+                  marginBottom: "60px",
+                  md: {
+                    marginBottom: 0,
+                  },
+                })}>
+                <Form form={form} answerId={answer?.id} answerItems={answerItems} editable={editable} />
+              </div>
             </>
           )}
         </div>
