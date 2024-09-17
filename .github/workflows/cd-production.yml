@@ -38,7 +38,8 @@ jobs:
           ln -s ${{ github.workspace }} /home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}
       - uses: actions/setup-node@v4
         with:
-          node-version: "latest"
+          node-version: 'lts/*'
+          check-latest: true
       - name: cache
         uses: actions/cache@v4
         with:
