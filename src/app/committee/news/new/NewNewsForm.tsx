@@ -258,12 +258,11 @@ export const NewNewsForm: FC<{
         value={title}
       />
       <BodyField
-        register={register(
-          "body",
-          //  {onChange: (e) => {
-          //   setBody(e.target.value);
-          // },}
-        )}
+        register={register("body", {
+          onChange: (e) => {
+            setBody(e.target.value);
+          },
+        })}
         error={errors.body?.message}
         value={body}
       />
