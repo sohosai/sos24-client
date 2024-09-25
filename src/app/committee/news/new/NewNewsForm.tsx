@@ -169,7 +169,7 @@ export const NewNewsForm: FC<{
           toast("送信をキャンセルしました");
           return;
         } else {
-          return onSubmitHandler(onSubmit);
+          return onSubmitHandler();
         }
       }}
       className={stack({ gap: 4, marginBottom: "100px" })}>
