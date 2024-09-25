@@ -1,0 +1,95 @@
+.draftsWrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  background-color: #f4f4f4;
+  padding: 20px 36px;
+  gap: 20px;
+  border-radius: 16px;
+  align-items: stretch;
+}
+.draftsWrap .display {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  gap: 12px;
+  line-height: 1.4;
+}
+.draftsWrap .display .statusWrap {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 22px;
+  line-height: 1;
+  color: #000;
+  font-weight: 800;
+  margin-top: 6px;
+}
+.draftsWrap .display .statusWrap .statusIcon {
+  width: 22px;
+  height: 22px;
+}
+.draftsWrap .display .note {
+  color: #a59e9e;
+  font-size: 15px;
+}
+.draftsWrap .actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.draftsWrap .actions .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  max-height: 50px;
+  background-color: #fff;
+  border: 2px solid #eee;
+  font-size: 15px;
+  border-radius: 8px;
+  transition: 0.2s;
+  gap: 4px;
+  font-weight: 600;
+  width: 50px;
+  cursor: pointer;
+}
+.draftsWrap .actions .btn:hover {
+  background-color: #f4f4f4;
+  border: 2px solid #dfdfdf;
+}
+.draftsWrap .actions .btn__icon {
+  width: 20px;
+  height: 20px;
+}
+.draftsWrap .actions .selectsWrap {
+  position: relative;
+  height: 100%;
+  max-height: 50px;
+}
+.draftsWrap .actions .selectsWrap .selects {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: #fff;
+  border: 2px solid #eee;
+  font-size: 15px;
+  border-radius: 8px;
+  transition: 0.2s;
+  padding: 0 50px 0 20px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.draftsWrap .actions .selectsWrap .selects:hover {
+  background-color: #f4f4f4;
+  border: 2px solid #dfdfdf;
+}
+.draftsWrap .actions .selectsWrap .arrow {
+  position: absolute;
+  top: calc(50% - 6px);
+  right: 20px;
+  width: 12px;
+  height: 12px;
+}

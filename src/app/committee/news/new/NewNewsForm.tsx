@@ -17,7 +17,7 @@ import { useEffect, useState, FC } from "react";
 import { FileErrorsType } from "@/common_components/form_answer/FormItems";
 import { FilesField } from "@/common_components/form_editor/FilesEditor";
 import { filesStatus } from "@/common_components/form_editor/FilesInterfaces";
-import pageStyle from "./NewNewsForm.module.scss";
+import pageStyle from "./NewNewsForm.module.css";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
