@@ -6,7 +6,9 @@ import { css } from "@styled-system/css";
 import { NewNewsForm } from "@/app/committee/news/new/NewNewsForm";
 import { NextPage } from "next";
 
-const NewNewsPage: NextPage = () => {
+export const runtime = "edge";
+
+const NewNewsPage: NextPage<{ params: { draft_id: string } }> = ({ params }) => {
   return (
     <div className={container({ maxWidth: "4xl" })}>
       <div className={stack({ gap: 8, marginY: 8 })}>
@@ -18,7 +20,7 @@ const NewNewsPage: NextPage = () => {
           })}>
           ←お知らせ一覧に戻る
         </Link>
-        <NewNewsForm draft={null} />
+        <NewNewsForm draft={params.draft_id} />
       </div>
     </div>
   );
