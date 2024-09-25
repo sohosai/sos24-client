@@ -157,8 +157,22 @@ export const NewNewsForm: FC<{
       ]);
   };
 
+  const onSubmitHandler = handleSubmit(async (data) => {
+    onSubmit(data);
+  });
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={stack({ gap: 4, marginBottom: "100px" })}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (!window.confirm("この内容で送信しますか？")) {
+          toast("送信をキャンセルしました");
+          return;
+        } else {
+          return onSubmitHandler(onSubmit);
+        }
+      }}
+      className={stack({ gap: 4, marginBottom: "100px" })}>
       <div
         className={hstack({
           justifyContent: "space-between",
