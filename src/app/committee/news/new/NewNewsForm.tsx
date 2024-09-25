@@ -198,10 +198,8 @@ export const NewNewsForm: FC<{
             <p className={pageStyle.note}>他のブラウザには同期されません</p>
           </div>
           <div className={pageStyle.actions}>
-            <div
+            <button
               className={pageStyle.btn}
-              role="button"
-              tabIndex={0}
               onClick={() => {
                 setDrafts(
                   drafts?.filter((draft_item: NewsProps) => {
@@ -211,7 +209,7 @@ export const NewNewsForm: FC<{
                 router.push(`/committee/news/new`);
               }}>
               <Image src={TrashIcon} className={pageStyle.btn__icon} alt="" />
-            </div>
+            </button>
             <div className={pageStyle.selectsWrap}>
               <select
                 value={draftUID}
@@ -288,8 +286,8 @@ export const NewNewsForm: FC<{
           fontSize: "sm",
           mt: "50px",
         })}>
-        <b>ご利用上の注意事項：</b>
-        重要なお知らせの下書きは、必ずご自身で管理してください。（下書き機能による保存内容の安全性は保証されません。）なお、下書きはブラウザのローカルストレージに保存され、他のブラウザやデバイスには同期されません。共有デバイス等信頼できないデバイスでは、必ず「サインアウト」を行ってください。
+        <b>重要なお知らせの下書きは、必ずご自身で管理するそぽ！</b>
+        下書き機能は便宜のための補助的な機能なので、保存内容の安全性は保証されません。なお、下書きはブラウザのローカルストレージに保存され、他のブラウザやデバイスには同期されません。共有デバイス等信頼できないデバイスでは、必ず「サインアウト」を行ってください。
       </p>
     </form>
   );
