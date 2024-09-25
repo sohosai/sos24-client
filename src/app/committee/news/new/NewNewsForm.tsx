@@ -200,6 +200,7 @@ export const NewNewsForm: FC<{
           <div className={pageStyle.actions}>
             <div
               className={pageStyle.btn}
+              role="button"
               onClick={() => {
                 setDrafts(
                   drafts?.filter((draft_item: NewsProps) => {
