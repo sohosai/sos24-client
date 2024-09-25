@@ -38,7 +38,7 @@ interface NewsProps {
 }
 
 export const NewNewsForm: FC<{
-  draft: string;
+  draft: string | null;
 }> = ({ draft }) => {
   const router = useRouter();
   const {

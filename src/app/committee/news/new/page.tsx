@@ -18,7 +18,7 @@ const NewNewsPage: NextPage = () => {
           })}>
           ←お知らせ一覧に戻る
         </Link>
-        <NewNewsForm />
+        <NewNewsForm draft={null} />
       </div>
     </div>
   );
