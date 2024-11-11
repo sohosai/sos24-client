@@ -3,6 +3,7 @@
 import { useAuthState } from "@/lib/firebase";
 import { css } from "@styled-system/css";
 import { getAuth, signOut } from "firebase/auth";
+import * as Sentry from "@sentry/nextjs";
 import { FC } from "react";
 import toast from "react-hot-toast";
 import Image from "next/image";
@@ -121,6 +122,7 @@ export const Header: FC = () => {
     toast.promise(
       (async (): Promise<void> => {
         await signOut(auth);
+        Sentry.setUser(null);
       })(),
       {
         loading: "サインアウトしています",

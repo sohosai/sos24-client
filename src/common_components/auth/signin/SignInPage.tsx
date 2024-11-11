@@ -1,6 +1,7 @@
 "use client";
 
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import * as Sentry from "@sentry/nextjs";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { css, cx } from "@styled-system/css";
@@ -28,13 +29,18 @@ export const SigninForm: React.FC = () => {
     const auth = getAuth();
     toast.promise(
       (async () => {
-        await signInWithEmailAndPassword(auth, data.email, data.password);
+        const { user } = await signInWithEmailAndPassword(auth, data.email, data.password);
+        Sentry.setUser({ id: user.uid });
         reset();
       })(),
       {
         loading: "サインインしています",
         success: "サインインしました",
-        error: () => {
+        error: (error) => {
+          Sentry.captureMessage(
+            `Failed to sign in: ${error.code}`,
+            error.code === "auth/invalid-credential" ? "log" : "info",
+          );
           setError("root", { message: "サインインできませんでした" });
           return "サインインできませんでした";
         },

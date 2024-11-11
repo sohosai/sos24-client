@@ -9,6 +9,7 @@ import { getAuth, sendEmailVerification, signInWithEmailAndPassword } from "fire
 import { SignupSchema, SignupSchemaType } from "@/lib/valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { Dispatch, SetStateAction } from "react";
+import * as Sentry from "@sentry/nextjs";
 
 let labelAndInputStyle = css({
   display: "flex",
@@ -48,9 +49,10 @@ export const SignupForm: React.FC<SignupFormProps> = ({ setUserEmail }) => {
       }).then((res) => {
         if (res.status === 201) {
           const auth = getAuth();
-          signInWithEmailAndPassword(auth, data.email, data.password).then(() => {
+          signInWithEmailAndPassword(auth, data.email, data.password).then(({ user }) => {
             setUserEmail(data.email);
             sendEmailVerification(auth.currentUser!);
+            Sentry.setUser({ id: user.uid });
           });
         } else {
           setError("root", { message: "ユーザ登録に失敗しました" });
