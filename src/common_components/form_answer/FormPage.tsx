@@ -8,7 +8,7 @@ import ja from "dayjs/locale/ja";
 
 import { FormFieldsType } from "./FormItems";
 import { getSubmitStatusFromDate, getTimeLeftText } from "@/lib/formHelpers";
-import { type SubmitStatus, SubmitStatusBadge } from "@/common_components/SubmitStatus";
+import { type SubmitStatus, SubmitStatusBadge } from "@/common_components/SubmitStatusBadge";
 import { Loading } from "@/common_components/Loading";
 import { FileView } from "@/common_components/FileView";
 import { Separator } from "@/common_components/Separator";
