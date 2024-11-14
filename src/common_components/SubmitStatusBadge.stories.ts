@@ -14,3 +14,15 @@ export const Default: Story = {
     status: "未提出",
   },
 };
+
+export const Submitted: Story = {
+  args: {
+    status: "提出済み",
+  },
+};
+
+export const Delayed: Story = {
+  args: {
+    status: "遅延提出",
+  },
+};
