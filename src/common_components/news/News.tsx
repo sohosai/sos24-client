@@ -10,10 +10,20 @@ import { Button } from "@/common_components/Button";
 import { useRouter } from "next/navigation";
 import { FC } from "react";
 import deleteNewsButton from "@/assets/deleteNewsButton.svg?url";
-import { client } from "@/lib/openapi";
+import { assignType, client } from "@/lib/openapi";
 import toast from "react-hot-toast";
 import { useAtomValue } from "jotai";
 import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
+import useSWR from "swr";
+
+const NewsAttachments: FC<{ fileId: string }> = ({ fileId }) => {
+  const { data, error, isLoading } = useSWR(`/files/${fileId}`);
+  if (isLoading) {
+    return;
+  }
+  const file = assignType("/files/{file_id}", data);
+  return <FileItem file={file} error={error} />;
+};
 
 export const News: FC<{
   news: components["schemas"]["News"];
@@ -145,7 +155,7 @@ export const News: FC<{
               gap: 2,
             })}>
             {news.attachments.map((file_id) => (
-              <FileItem key={file_id} file_id={file_id} />
+              <NewsAttachments key={file_id} fileId={file_id} />
             ))}
           </div>
         </>

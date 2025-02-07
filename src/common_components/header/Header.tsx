@@ -7,8 +7,6 @@ import { FC } from "react";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import logo from "@/assets/Logo.svg?url";
-import useSWR from "swr";
-import { assignType } from "@/lib/openapi";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { hstack } from "@styled-system/patterns";
@@ -91,12 +89,15 @@ const menuForRole = (role?: components["schemas"]["UserRole"]): MenuData[] => {
   }
 };
 
-export const Header: FC = () => {
+type Props = {
+  userIsLoading: boolean;
+  userInfo?: components["schemas"]["User"];
+};
+
+export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
   const router = useRouter();
   const { user, isLoading } = useAuthState();
   const auth = getAuth();
-  const { data: userRes, isLoading: userIsLoading } = useSWR("/users/me");
-  const userInfo = !userIsLoading ? assignType("/users/me", userRes) : undefined;
 
   const path = usePathname();
 
@@ -289,7 +290,7 @@ export const Header: FC = () => {
           </nav>
         )}
       </div>
-      <HeaderNavigationMobile menu={menu} path={path} />
+      {userInfo && <HeaderNavigationMobile menu={menu} path={path} userInfo={userInfo} />}
     </header>
   );
 };
