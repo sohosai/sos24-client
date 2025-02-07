@@ -5,8 +5,6 @@ import { assignType } from "@/lib/openapi";
 
 import { FormPage } from "@/common_components/form_answer/FormPage";
 
-export const runtime = "edge";
-
 const FormAnswerPage: NextPage<{ params: { answer_id: string } }> = ({ params }) => {
   const id = params.answer_id;
 

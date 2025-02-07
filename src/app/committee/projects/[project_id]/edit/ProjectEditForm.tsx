@@ -16,7 +16,6 @@ import { useRouter } from "next/navigation";
 import { ProjectCategoryEditor } from "./ProjectCategoryEditor";
 import { attributeSelectorStyle } from "@/common_components/project/ProjectAttributesBadge";
 import { handleShareInviteLink } from "@/common_components/project/ProjectView";
-export const runtime = "edge";
 
 export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project"] }> = ({ project }) => {
   const router = useRouter();

@@ -9,8 +9,6 @@ import useSWR from "swr";
 import { FormDetailedView } from "./FormDetailedView";
 import { NotFound } from "@/common_components/NotFound";
 
-export const runtime = "edge";
-
 const FormDetailedPage: NextPage<{ params: { form_id: string } }> = ({ params }) => {
   const { data: formData, isLoading: formIsLoading, error: formError } = useSWR(`/forms/${params.form_id}`);
   const form = assignType("/forms/{form_id}", formData);

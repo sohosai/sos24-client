@@ -16,8 +16,6 @@ import { buttonStyle } from "@/recipes/button";
 import { Form } from "@/common_components/form_answer/Form";
 import { paths } from "@/schema";
 
-export const runtime = "edge";
-
 interface Props {
   answer: paths["/form-answers/{form_answer_id}"]["get"]["responses"]["200"]["content"]["application/json"] | undefined;
   answerError: any;

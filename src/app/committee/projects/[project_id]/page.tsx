@@ -17,7 +17,6 @@ import { getSubmitStatusFromDate } from "@/lib/formHelpers";
 import { components } from "@/schema";
 import { SubmitStatusBadge } from "@/common_components/SubmitStatus";
 import dayjs from "dayjs";
-export const runtime = "edge";
 
 const deleteProject = async (project_id: string) => {
   await client

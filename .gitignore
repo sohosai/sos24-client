@@ -46,3 +46,8 @@ styled-system-studio
 # sentry example
 src/app/sentry-example-page
 src/app/api/sentry-example-api
+
+# Open Next js
+.open-next/
+
+wrangler.json

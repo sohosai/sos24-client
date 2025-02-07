@@ -8,8 +8,6 @@ import { container, stack } from "@styled-system/patterns";
 import { Title } from "@/common_components/Title";
 import { Button } from "@/common_components/Button";
 
-export const runtime = "edge";
-
 const PositionFormatter = ({ position }: { position: "owner" | "sub_owner" }) => {
   switch (position) {
     case "owner":

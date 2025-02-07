@@ -7,8 +7,6 @@ import { container } from "@styled-system/patterns";
 import { User } from "@/app/committee/users/[user_id]/User";
 import { notFound } from "next/navigation";
 
-export const runtime = "edge";
-
 const UserDetailsPage: NextPage<{
   params: { user_id: string };
 }> = ({ params }) => {

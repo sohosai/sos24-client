@@ -6,8 +6,6 @@ import { assignType } from "@/lib/openapi";
 import { NotFound } from "@/common_components/NotFound";
 import { FormPage } from "@/common_components/form_answer/FormPage";
 
-export const runtime = "edge";
-
 const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
   const id = params.form_id;
 
