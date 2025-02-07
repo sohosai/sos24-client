@@ -149,7 +149,7 @@ const userPhoneNumberSchema = string([
 
 const userAgreementSchema = literal(true, "利用規約に同意してください");
 
-export const SignupSchema = object({
+export const SignUpSchema = object({
   name: userNameSchema,
   kana_name: userKanaNameSchema,
   phone_number: userPhoneNumberSchema,
@@ -158,7 +158,7 @@ export const SignupSchema = object({
   agreement: userAgreementSchema,
 });
 
-export type SignupSchemaType = Output<typeof SignupSchema>;
+export type SignUpSchemaType = Output<typeof SignUpSchema>;
 
 export const userRoles = ["administrator", "committee_operator", "committee", "general"];
 export type UserRole = (typeof userRoles)[number];
