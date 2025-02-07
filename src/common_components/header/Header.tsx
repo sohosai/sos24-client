@@ -290,7 +290,7 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
           </nav>
         )}
       </div>
-      <HeaderNavigationMobile menu={menu} path={path} />
+      {userInfo && <HeaderNavigationMobile menu={menu} path={path} userInfo={userInfo} />}
     </header>
   );
 };

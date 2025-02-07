@@ -4,13 +4,15 @@ import { FC } from "react";
 import Link from "next/link";
 import { MenuData } from "./Header";
 import { hstack } from "@styled-system/patterns";
-import useSWR from "swr";
-import { assignType } from "@/lib/openapi";
+import { components } from "@/schema";
 
-export const HeaderNavigationMobile: FC<{ menu: MenuData[]; path: any }> = ({ menu, path }) => {
-  const { data: userRes, isLoading: userIsLoading } = useSWR("/users/me");
-  const userInfo = !userIsLoading ? assignType("/users/me", userRes) : undefined;
+export type Props = {
+  menu: MenuData[];
+  path: any;
+  userInfo: components["schemas"]["User"];
+};
 
+export const HeaderNavigationMobile: FC<Props> = ({ menu, path, userInfo }) => {
   const commonItemStyle = css({
     display: "block",
     height: "100%",
