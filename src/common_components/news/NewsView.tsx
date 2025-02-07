@@ -41,10 +41,13 @@ const filterNews = (
   }
 };
 
-export const NewsView: FC<{
+export type Props = {
   isCommittee?: boolean;
   isDashboard?: boolean;
-}> = ({ isCommittee, isDashboard = false }) => {
+};
+
+// これはコンポーネントの規模ではないのではみたいな気持ちがある
+export const NewsView: FC<Props> = ({ isCommittee, isDashboard = false }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
