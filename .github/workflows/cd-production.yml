@@ -38,7 +38,7 @@ jobs:
           ln -s ${{ github.workspace }} /home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}
       - uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*'
+          node-version: "lts/*"
           check-latest: true
       - name: cache
         uses: actions/cache@v4
@@ -71,7 +71,7 @@ jobs:
       - name: build (production)
         if: ${{ ((github.head_ref || github.ref_name) == env.PRODUCTION_BRANCH) && github.event.pull_request.merged == true }}
         id: build-production
-        run: npx @cloudflare/next-on-pages@1
+        run: npx @cloudflare/next-on-pages@1.13.7
         env:
           NEXT_PUBLIC_API_ENDPOINT: ${{secrets.PROD_API_ENDPOINT}}
           NEXT_PUBLIC_FIREBASE_API_KEY: ${{secrets.PROD_FIREBASE_API_KEY}}
