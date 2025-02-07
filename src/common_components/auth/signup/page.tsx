@@ -1,7 +1,6 @@
 "use client";
 
 import { NextPage } from "next";
-import { SignUpForm } from "./SignUpForm";
 import { css } from "@styled-system/css";
 import Image from "next/image";
 import Triangle from "@/assets/Triangle.svg?url";
@@ -9,6 +8,7 @@ import { authModeAtom } from "@/common_components/auth/AuthUI";
 import { useSetAtom } from "jotai";
 import { center } from "@styled-system/patterns";
 import { Dispatch, SetStateAction } from "react";
+import { SignUpForm } from "./SignupForm";
 
 interface SignupPageProps {
   setUserEmail: Dispatch<SetStateAction<string | null>>;
