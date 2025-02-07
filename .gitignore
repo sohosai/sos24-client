@@ -49,3 +49,5 @@ src/app/api/sentry-example-api
 
 # Open Next js
 .open-next/
+
+wrangler.json
