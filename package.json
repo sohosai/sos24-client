@@ -48,6 +48,7 @@
     "eslint-plugin-unused-imports": "^2.0.0",
     "openapi-typescript": "^6.7.5",
     "prettier": "^3.2.5",
-    "typescript": "<5.4.0"
+    "typescript": "<5.4.0",
+    "vercel": "^39.1.1"
   }
 }
