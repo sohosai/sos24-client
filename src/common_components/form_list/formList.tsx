@@ -11,7 +11,7 @@ import { getSubmitStatusFromDate, getTimeLeftText } from "@/lib/formHelpers";
 import { hiddenFormIdsAtom } from "./hiddenFormIds";
 
 import { NoResultNotice } from "@/common_components/NoResultNotice";
-import { SubmitStatusBadge } from "@/common_components/SubmitStatusBadge";
+import { SubmitStatusBadge } from "@/common_components/SubmitStatus";
 
 import EyesOpenIcon from "@/assets/EyesOpen.svg?url";
 import EyesClosedIcon from "@/assets/EyesClosed.svg?url";
