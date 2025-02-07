@@ -62,5 +62,8 @@
     "vercel": "^39.1.1",
     "storybook": "^8.4.3",
     "tsconfig-paths-webpack-plugin": "^4.1.0"
+  },
+  "overrides": {
+    "vercel": "$vercel"
   }
 }
