@@ -1,18 +1,16 @@
-import useSWR from "swr";
-import { assignType } from "@/lib/openapi";
 import { flex } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
 import downloadIcon from "@/assets/Download.svg?url";
 import Image from "next/image";
 import { FC } from "react";
+import { components } from "@/schema";
 
-export const FileItem: FC<{
-  file_id: string;
-}> = ({ file_id }) => {
-  const { data, error, isLoading } = useSWR(`/files/${file_id}`);
-  if (isLoading) {
-    return;
-  }
+export type Props = {
+  file: components["schemas"]["File"];
+  error?: components["schemas"]["Error"];
+};
+
+export const FileItem: FC<Props> = ({ file, error }) => {
   if (error) {
     switch (error.code) {
       case "file/not-found":
@@ -21,8 +19,6 @@ export const FileItem: FC<{
         return <p>ファイルの読み込み中に不明なエラーが発生しました。</p>;
     }
   }
-
-  const file = assignType("/files/{file_id}", data);
 
   return (
     <a
