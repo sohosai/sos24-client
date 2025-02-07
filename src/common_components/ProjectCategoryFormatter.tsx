@@ -1,8 +1,6 @@
 import { FC } from "react";
 import { ProjectCategory } from "@/lib/valibot";
 
-// カテゴリを表示するコンポーネント
-
 export const ProjectCategoryFormatter: FC<{
   category: ProjectCategory;
 }> = ({ category }) => {

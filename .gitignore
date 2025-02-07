@@ -46,6 +46,3 @@ styled-system-studio
 # sentry example
 src/app/sentry-example-page
 src/app/api/sentry-example-api
-
-*storybook.log
-storybook-static
