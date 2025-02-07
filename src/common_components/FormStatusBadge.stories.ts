@@ -16,13 +16,13 @@ export const Default: Story = {
   },
 };
 
-export const 受付中: Story = {
+export const Open: Story = {
   args: {
     status: "受付中",
   },
 };
 
-export const 受付終了: Story = {
+export const Closed: Story = {
   args: {
     status: "受付終了",
   },

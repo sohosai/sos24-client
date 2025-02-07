@@ -1,7 +1,7 @@
 "use client";
 
 import { NextPage } from "next";
-import { SignupForm } from "./SignupForm";
+import { SignUpForm } from "./SignUpForm";
 import { css } from "@styled-system/css";
 import Image from "next/image";
 import Triangle from "@/assets/Triangle.svg?url";
@@ -30,7 +30,7 @@ const SignupPage: NextPage<SignupPageProps> = ({ setUserEmail }) => {
         })}>
         新規登録
       </h1>
-      <SignupForm setUserEmail={setUserEmail} />
+      <SignUpForm setUserEmail={setUserEmail} />
       <div className={css({ marginTop: 4, display: "flex", gap: 3.5 })}>
         <Image src={Triangle} alt="" />
         <button

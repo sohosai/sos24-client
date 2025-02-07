@@ -1,4 +1,4 @@
-import { Meta, Story, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
 import { SingleCheckboxField } from "./SingleCheckboxField";
 import { fn } from "@storybook/test";
