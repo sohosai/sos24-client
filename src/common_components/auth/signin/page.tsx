@@ -1,7 +1,7 @@
 "use client";
 
 import { NextPage } from "next";
-import { SigninForm } from "./SignInPage";
+import { SigninForm } from "./SignInForm";
 import { css } from "@styled-system/css";
 import Image from "next/image";
 import Triangle from "@/assets/Triangle.svg?url";
