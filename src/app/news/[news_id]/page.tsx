@@ -7,8 +7,6 @@ import { News } from "@/common_components/news/News";
 import { NextPage } from "next";
 import { notFound } from "next/navigation";
 
-export const runtime = "edge";
-
 const NewsDetailsPage: NextPage<{ params: { news_id: string } }> = ({ params }) => {
   const { data, error, isLoading } = useSWR(`/news/${params.news_id}`);
   if (isLoading) {

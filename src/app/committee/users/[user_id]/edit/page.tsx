@@ -6,8 +6,6 @@ import { css } from "@styled-system/css";
 import { NextPage } from "next";
 import { EditUserForm } from "@/app/committee/users/[user_id]/edit/EditUserForm";
 
-export const runtime = "edge";
-
 const EditUserPage: NextPage<{ params: { user_id: string } }> = ({ params }) => {
   return (
     <div className={container({ maxWidth: "4xl" })}>

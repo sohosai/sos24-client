@@ -11,7 +11,11 @@
     "lint:check": "next lint",
     "format": "prettier ./**/* panda.config.ts --write",
     "format:check": "prettier ./**/* panda.config.ts --check",
-    "gen": "openapi-typescript schema.yml -o src/schema.d.ts"
+    "gen": "openapi-typescript schema.yml -o src/schema.d.ts",
+    "build:worker": "opennextjs-cloudflare",
+    "dev:worker": "wrangler dev --port 8771",
+    "preview:worker": "npm run build:worker && npm run dev:worker",
+    "deploy:worker": "npm run build:worker && wrangler deploy"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -35,6 +39,7 @@
     "valibot": "^0.30.0"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^0.4.6",
     "@pandacss/dev": "^0.35.0",
     "@svgr/webpack": "^8.1.0",
     "@types/node": "^20",

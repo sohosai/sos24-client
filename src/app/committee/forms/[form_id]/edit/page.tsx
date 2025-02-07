@@ -17,8 +17,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/recipes/button";
 
-export const runtime = "edge";
-
 const EditFormPage: NextPage<{ params: { form_id: string } }> = ({ params }) => {
   const router = useRouter();
   const {
