@@ -4,7 +4,7 @@ import { hstack } from "@styled-system/patterns";
 import Link from "next/link";
 import { NoResultNotice } from "@/common_components/NoResultNotice";
 import { getSubmitStatusFromDate } from "@/lib/formHelpers";
-import { SubmitStatusBadge } from "@/common_components/SubmitStatusBadge";
+import { SubmitStatusBadge } from "@/common_components/SubmitStatus";
 import dayjs from "dayjs";
 import { components } from "@/schema";
 

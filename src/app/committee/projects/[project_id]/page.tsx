@@ -15,7 +15,7 @@ import { Button } from "@/common_components/Button";
 import { NoResultNotice } from "@/common_components/NoResultNotice";
 import { getSubmitStatusFromDate } from "@/lib/formHelpers";
 import { components } from "@/schema";
-import { SubmitStatusBadge } from "@/common_components/SubmitStatusBadge";
+import { SubmitStatusBadge } from "@/common_components/SubmitStatus";
 import dayjs from "dayjs";
 export const runtime = "edge";
 

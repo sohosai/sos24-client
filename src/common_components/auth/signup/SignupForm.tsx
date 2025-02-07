@@ -6,7 +6,7 @@ import { css, cx } from "@styled-system/css";
 import { basicErrorMessageStyle, basicFormStyle, checkboxFormStyle } from "@/common_components/formFields/styles";
 import { Button } from "@/common_components/Button";
 import { getAuth, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
-import { SignUpSchema, SignUpSchemaType } from "@/lib/valibot";
+import { SignupSchema, SignupSchemaType } from "@/lib/valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { Dispatch, SetStateAction } from "react";
 
@@ -17,21 +17,21 @@ let labelAndInputStyle = css({
   width: "100%",
 });
 
-interface SignUpFormProps {
+interface SignupFormProps {
   setUserEmail: Dispatch<SetStateAction<string | null>>;
 }
 
-export const SignUpForm: React.FC<SignUpFormProps> = ({ setUserEmail }) => {
+export const SignupForm: React.FC<SignupFormProps> = ({ setUserEmail }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm<SignUpSchemaType>({
-    resolver: valibotResolver(SignUpSchema),
+  } = useForm<SignupSchemaType>({
+    resolver: valibotResolver(SignupSchema),
   });
 
-  const onSubmit = async (data: SignUpSchemaType) => {
+  const onSubmit = async (data: SignupSchemaType) => {
     toast.promise(
       fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/users`, {
         method: "POST",
