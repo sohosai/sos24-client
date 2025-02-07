@@ -21,7 +21,7 @@ export const runtime = "edge";
 interface Props {
   answer: paths["/form-answers/{form_answer_id}"]["get"]["responses"]["200"]["content"]["application/json"] | undefined;
   answerError: any;
-  answerLoading: any;
+  answerLoading: boolean;
   form: paths["/forms/{form_id}"]["get"]["responses"]["200"]["content"]["application/json"] | undefined;
   formError: any;
   formLoading: any;
