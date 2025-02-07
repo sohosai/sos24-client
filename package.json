@@ -59,7 +59,7 @@
     "openapi-typescript": "^6.7.5",
     "prettier": "^3.2.5",
     "typescript": "<5.4.0",
-    "vercel": "^39.1.1",
+    "vercel": "39.1.1",
     "storybook": "^8.4.3",
     "tsconfig-paths-webpack-plugin": "^4.1.0"
   },
