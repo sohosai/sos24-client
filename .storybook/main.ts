@@ -3,12 +3,7 @@ import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
-  addons: [
-    "@storybook/addon-onboarding",
-    "@storybook/addon-essentials",
-    "@chromatic-com/storybook",
-    "@storybook/addon-interactions",
-  ],
+  addons: ["@storybook/addon-onboarding", "@storybook/addon-essentials", "@storybook/addon-interactions"],
   framework: {
     name: "@storybook/nextjs",
     options: {},
