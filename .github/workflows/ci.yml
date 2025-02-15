@@ -59,4 +59,8 @@ jobs:
         run: npm ci --prefer-offline
 
       - name: Test
-        run: npm run test
+        run: npm run test -- --coverage.enabled true
+
+      - name: Report Coverage
+        if: always()
+        uses: davelosert/vitest-coverage-report-action@v2
