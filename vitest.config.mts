@@ -8,6 +8,9 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     setupFiles: ["./src/helpers/storybook-setup.ts"],
+    // GitHub Actionsでカバレッジレポートを出すのに使っています
+    // https://github.com/davelosert/vitest-coverage-report-action?tab=readme-ov-file#usage
+    reporters: process.env.GITHUB_ACTIONS ? ["dot", "github-actions", "json-summary", "json"] : ["dot"],
   },
 });
 
