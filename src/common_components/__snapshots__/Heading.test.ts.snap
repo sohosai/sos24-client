@@ -1,0 +1,27 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders and executes the play function 1`] = `
+<div>
+  <div>
+    <h3
+      class="d_flex mt_8 gap_3"
+    >
+      <img
+        alt=""
+        data-nimg="1"
+        decoding="async"
+        height="1"
+        loading="lazy"
+        src="src/assets/Triangle.svg"
+        style="color: transparent;"
+        width="1"
+      />
+      <span
+        class="fs_md font_bold"
+      >
+        Heading
+      </span>
+    </h3>
+  </div>
+</div>
+`;
