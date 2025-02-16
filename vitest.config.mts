@@ -7,10 +7,13 @@ export default defineConfig({
   plugins: [tsconfigPaths(), react(), stubNextAssetImport()],
   test: {
     environment: "jsdom",
+    include: ["./src/**/*.{test,spec}.?(c|m)[jt]s?(x)"],
     setupFiles: ["./src/helpers/storybook-setup.ts"],
-    // GitHub Actionsでカバレッジレポートを出すのに使っています
-    // https://github.com/davelosert/vitest-coverage-report-action?tab=readme-ov-file#usage
-    reporters: process.env.GITHUB_ACTIONS ? ["dot", "github-actions", "json-summary", "json"] : ["dot"],
+    reporters: process.env.GITHUB_ACTIONS ? ["github-actions"] : ["dot"],
+    coverage: {
+      // https://github.com/davelosert/vitest-coverage-report-action?tab=readme-ov-file#usage
+      reporter: process.env.GITHUB_ACTIONS && ["json-summary", "json"],
+    },
   },
 });
 
