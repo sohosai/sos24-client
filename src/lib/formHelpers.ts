@@ -29,10 +29,10 @@ export const getSubmitStatusFromDate = (deadline: string | null | undefined, ans
     return "未提出";
   }
 
-  if (dayjs(answer).isBefore(dayjs(deadline))) {
-    return "提出済み";
-  } else {
+  if (dayjs(answer).isAfter(dayjs(deadline))) {
     return "遅延提出";
+  } else {
+    return "提出済み";
   }
 };
 
