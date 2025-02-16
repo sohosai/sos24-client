@@ -33,7 +33,6 @@
     "react-dom": "^18",
     "react-hook-form": "^7.51.0",
     "react-hot-toast": "^2.4.1",
-    "sharp": "^0.33.3",
     "swr": "^2.2.5",
     "valibot": "^0.30.0"
   },
