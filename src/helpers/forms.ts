@@ -217,10 +217,14 @@ export const testForm: components["schemas"]["Form"] = {
   updated_at: "2024-04-21T23:33:59.097885666+00:00",
 };
 
-export const testAnswer: components["schemas"]["FormAnswer"] = {
+export const testAnswer = ({
+  projectTitle = "企画名",
+  createdAt = "2024-04-21T23:36:51.015124334+00:00",
+  updatedAt = "2024-05-19T05:36:26.307030404+00:00",
+}): components["schemas"]["FormAnswer"] => ({
   id: uuidV4(),
   project_id: uuidV4(),
-  project_title: "企画名",
+  project_title: projectTitle,
   form_id: uuidV4(),
   form_title: "全項目",
   items: [
@@ -255,6 +259,6 @@ export const testAnswer: components["schemas"]["FormAnswer"] = {
       value: [uuidV4()],
     },
   ],
-  created_at: "2024-04-21T23:36:51.015124334+00:00",
-  updated_at: "2024-05-19T05:36:26.307030404+00:00",
-};
+  created_at: createdAt,
+  updated_at: updatedAt,
+});
