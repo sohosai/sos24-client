@@ -122,6 +122,7 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
     toast.promise(
       (async (): Promise<void> => {
         await signOut(auth);
+        localStorage.removeItem("sos_news_drafts");
       })(),
       {
         loading: "サインアウトしています",

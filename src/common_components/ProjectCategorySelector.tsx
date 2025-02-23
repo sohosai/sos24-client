@@ -9,7 +9,8 @@ import { basicErrorMessageStyle, projectCategoryItemStyle } from "./formFields/s
 export const ProjectCategorySelector: FC<{
   register: UseFormRegisterReturn;
   error?: string;
-}> = ({ register, error }) => {
+  checkedCategories?: ProjectCategory[];
+}> = ({ register, error, checkedCategories }) => {
   return (
     <fieldset className={stack({ gap: 2 })}>
       <div className={hstack()}>
@@ -28,7 +29,12 @@ export const ProjectCategorySelector: FC<{
           flexWrap: "wrap",
         })}>
         {projectCategories.map((category) => (
-          <ProjectCategoryItem key={category} value={category} register={register} />
+          <ProjectCategoryItem
+            key={category}
+            value={category}
+            register={register}
+            checked={checkedCategories ? checkedCategories.includes(category) : false}
+          />
         ))}
       </div>
       {error && <span className={basicErrorMessageStyle}>{error}</span>}
@@ -39,10 +45,20 @@ export const ProjectCategorySelector: FC<{
 const ProjectCategoryItem: FC<{
   value: ProjectCategory;
   register: UseFormRegisterReturn;
-}> = ({ value, register }) => {
+  checked?: boolean;
+}> = ({ value, register, checked }) => {
   return (
     <label className={projectCategoryItemStyle}>
-      <input type="checkbox" value={value} {...register} className={visuallyHidden()} />
+      <input
+        type="checkbox"
+        value={value}
+        {...register}
+        checked={checked}
+        onChange={(e) => {
+          register.onChange(e);
+        }}
+        className={visuallyHidden()}
+      />
       <span
         className={css({
           fontSize: "xs",

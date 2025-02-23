@@ -17,8 +17,9 @@ export default function Home() {
   const userInfo = !userIsLoading ? assignType("/users/me", userRes) : undefined;
   if (userIsLoading) return;
   if (!isIn) {
-    if (userInfo?.owned_project_id) router.push("/dashboard");
-    else router.push("/register");
+    if (userInfo?.owned_project_id) {
+      router.push(userInfo.role === "general" ? "/dashboard" : "/committee");
+    } else router.push("/register");
   }
   return (
     <div className={container()}>

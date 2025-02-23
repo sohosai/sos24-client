@@ -158,6 +158,7 @@ export const FilesField = ({
           if (e.target.files) {
             const newFileStatuses = await uploadFiles(e.target.files);
             setFilesStatus((prev) => [...prev, ...newFileStatuses]);
+            register.onChange(e);
           }
         }}
       />
