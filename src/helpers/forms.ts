@@ -9,7 +9,7 @@ export const testFormSummaries: components["schemas"]["FormSummary"][] = [
     categories: ["general", "stage_university_hall"],
     description:
       "これは大学の学術イベントの申請フォームです。このイベントでは、最新の研究成果を発表し、学術的な議論を行います。",
-    ends_at: "2023-11-30T18:00:00Z",
+    ends_at: "2023-12-01T14:00:00Z",
     id: uuidV4(),
     starts_at: "2023-11-30T09:00:00Z",
     title: "大学学術イベント",

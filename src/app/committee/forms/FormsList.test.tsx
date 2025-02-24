@@ -22,9 +22,10 @@ describe("FrormSummary", () => {
   });
   it("displays form status, start date, end date, title, and time left", () => {
     render(<FrormSummary form={testFormSummaries[0]} />);
-    expect(screen.getByTestId("starts-at").textContent).toContain("2023/11/30");
+    expect(screen.getByRole("link").getAttribute("href")).toBe(`/committee/forms/${testFormSummaries[0].id}`);
+    expect(screen.getByTestId("starts-at").textContent).toBe("2023/11/30");
     expect(screen.getByTestId("ends-at").textContent).toBe("2023/12/01");
-    expect(screen.getByTestId("form-title").textContent).toBe("大学学術イベント");
+    expect(screen.getByTestId("form-title").textContent).toBe(testFormSummaries[0].title);
     expect(screen.getByTestId("time-left").textContent).toBe("締切を過ぎています");
   });
 });

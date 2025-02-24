@@ -1,5 +1,5 @@
 import { getAuth } from "firebase/auth";
-import { paths } from "@/schema";
+import { components } from "@/schema";
 import { FilesFormType } from "@/common_components/form_answer/FormItems";
 import { client } from "./openapi";
 import { sosFileType } from "./file";
@@ -25,11 +25,11 @@ export const postFile = async (visibility: Visibilities, file: File) => {
     .then(async (response) => {
       if (!response.ok) {
         const error = await response.json();
-        throw error;
+        throw error as components["schemas"]["Error"];
       }
 
       const json = await response.json();
-      return json as paths["/files"]["post"]["responses"]["201"]["content"]["application/json"];
+      return json as components["schemas"]["CreatedFile"];
     })
     .catch((error) => {
       throw error;
