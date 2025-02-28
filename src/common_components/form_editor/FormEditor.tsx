@@ -78,6 +78,7 @@ export type HandleFormEditorSubmit = (
 ) => Promise<void>;
 
 import { filesStatus } from "./FilesInterfaces";
+import { basicErrorMessageStyle } from "../formFields/styles";
 
 export const FormEditor: FC<{
   defaultValues?: CreateFormInput;
@@ -96,7 +97,7 @@ export const FormEditor: FC<{
     register,
     control,
     handleSubmit,
-    formState: { isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<CreateFormInput>({
     defaultValues: defaultValues ?? {
       categories: [],
@@ -271,7 +272,7 @@ export const FormEditor: FC<{
           <div>
             <label htmlFor="title">タイトル</label>
             <input
-              {...register("title", { required: true })}
+              {...register("title", { required: { value: true, message: "入力必須です" } })}
               className={textInputStyle}
               disabled={
                 isLoading_user || (editable === false && ["administrator"].includes(me.role) === false)
@@ -279,11 +280,14 @@ export const FormEditor: FC<{
                   : undefined
               }
             />
+            <div className={css({ marginBlock: 1 })}>
+              {errors.title && <span className={basicErrorMessageStyle}>{errors.title.message}</span>}
+            </div>
           </div>
           <div>
             <label htmlFor="description">説明</label>
             <textarea
-              {...register("description", { required: true })}
+              {...register("description", { required: { value: true, message: "入力必須です" } })}
               className={textInputStyle}
               disabled={
                 isLoading_user || (editable === false && ["administrator"].includes(me.role) === false)
@@ -291,6 +295,9 @@ export const FormEditor: FC<{
                   : undefined
               }
             />
+            <div className={css({ marginBlock: 1 })}>
+              {errors.description && <span className={basicErrorMessageStyle}>{errors.description.message}</span>}
+            </div>
           </div>
           {editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true) ? (
             <div>
@@ -328,9 +335,12 @@ export const FormEditor: FC<{
               <label htmlFor="ends_at">受付終了日時</label>
               <input
                 type="datetime-local"
-                {...register("ends_at", { required: true })}
+                {...register("ends_at", { required: { value: true, message: "受付終了日時を入力してください" } })}
                 disabled={editable === false ? true : undefined}
               />
+              <div className={css({ marginBlock: 1 })}>
+                {errors.ends_at && <span className={basicErrorMessageStyle}>{errors.ends_at.message}</span>}
+              </div>
             </div>
           </div>
         </div>
