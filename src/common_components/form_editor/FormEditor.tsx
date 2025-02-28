@@ -78,7 +78,7 @@ export type HandleFormEditorSubmit = (
 ) => Promise<void>;
 
 import { filesStatus } from "./FilesInterfaces";
-import { basicErrorMessageStyle } from "../formFields/styles";
+import { basicErrorMessageStyle } from "@/common_components/formFields/styles";
 
 export const FormEditor: FC<{
   defaultValues?: CreateFormInput;
