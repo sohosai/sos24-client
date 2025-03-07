@@ -314,25 +314,6 @@ export const FormEditor: FC<{
               </div>
             )
           )}
-          <div>
-            <p className={descriptionStyle}>受付開始日時を選択しなかった場合現在時刻が入力されます</p>
-            <div>
-              <label htmlFor="starts_at">受付開始日時</label>
-              <input
-                type="datetime-local"
-                {...register("starts_at")}
-                disabled={editable === false ? true : undefined}
-              />
-            </div>
-            <div>
-              <label htmlFor="ends_at">受付終了日時</label>
-              <input
-                type="datetime-local"
-                {...register("ends_at", { required: true })}
-                disabled={editable === false ? true : undefined}
-              />
-            </div>
-          </div>
         </div>
 
         <Divider />
@@ -467,6 +448,24 @@ export const FormEditor: FC<{
             </fieldset>
           </>
         )}
+
+        <Divider />
+
+        <div>
+          <p className={descriptionStyle}>受付開始日時を選択しなかった場合現在時刻が入力されます</p>
+          <div>
+            <label htmlFor="starts_at">受付開始日時</label>
+            <input type="datetime-local" {...register("starts_at")} disabled={editable === false ? true : undefined} />
+          </div>
+          <div>
+            <label htmlFor="ends_at">受付終了日時</label>
+            <input
+              type="datetime-local"
+              {...register("ends_at", { required: true })}
+              disabled={editable === false ? true : undefined}
+            />
+          </div>
+        </div>
         {(editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true)) && (
           <Button
             visual="solid"
