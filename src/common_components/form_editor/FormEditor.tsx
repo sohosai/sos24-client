@@ -479,7 +479,7 @@ export const FormEditor: FC<{
             </label>
             <input
               type="datetime-local"
-              {...register("ends_at", { required: { value: true, message: "受付終了日時を入力してください" }})}
+              {...register("ends_at", { required: { value: true, message: "受付終了日時を入力してください" } })}
               disabled={editable === false ? true : undefined}
             />
             <div className={css({ marginBlock: 1 })}>
