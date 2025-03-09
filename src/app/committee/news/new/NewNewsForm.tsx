@@ -17,9 +17,8 @@ import { useState } from "react";
 import { FileErrorsType } from "@/common_components/form_answer/FormItems";
 import { FilesField } from "@/common_components/form_editor/FilesEditor";
 import { filesStatus } from "@/common_components/form_editor/FilesInterfaces";
-import { descriptionStyle, ScheduledStyle } from "../../../../common_components/form_editor/styles";
-import dayjs from "dayjs";
-import { Center } from "@styled-system/jsx";
+//import dayjs from "dayjs";
+//import { Center } from "@styled-system/jsx";
 
 export const NewNewsForm = () => {
   const router = useRouter();
@@ -107,9 +106,24 @@ export const NewNewsForm = () => {
         setErrorState={setFileErrors}
       />
       <div>
-        <p className={descriptionStyle}>投稿日時を選択しなかった場合現在時刻が入力されます</p>
+        <p
+          className={css({
+            fontSize: "xs",
+            color: "gray.400",
+            fontWeight: "bold",
+            marginBottom: "5px",
+            marginTop: "5px",
+          })}>
+          投稿日時を選択しなかった場合現在時刻が入力されます
+        </p>
         <div>
-          <label htmlFor="starts_at" className={ScheduledStyle}>
+          <label
+            htmlFor="starts_at"
+            className={css({
+              fontSize: "sm",
+              fontWeight: "bold",
+              marginRight: "20px",
+            })}>
             投稿日時
           </label>
           <input
