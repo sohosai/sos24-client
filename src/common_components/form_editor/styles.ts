@@ -6,8 +6,17 @@ export const sectionTitleStyle = css({
 });
 
 export const descriptionStyle = css({
+  fontSize: "xs",
+  color: "gray.400",
+  fontWeight: "bold",
+  marginBottom: "5px",
+  marginTop: "5px",
+});
+
+export const ScheduledStyle = css({
   fontSize: "sm",
-  color: "gray.600",
+  fontWeight: "bold",
+  marginRight: "20px",
 });
 
 export const checkboxStyle = css({
