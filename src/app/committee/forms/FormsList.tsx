@@ -12,14 +12,12 @@ type Form = components["schemas"]["FormSummary"];
 import { Button } from "@/common_components/Button";
 import plusIcon from "@/assets/Plus.svg?url";
 import Image from "next/image";
-import { flex, stack } from "@styled-system/patterns";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
+import { flex } from "@styled-system/patterns";
+import { useRouter } from "next/navigation";
 
 export const FormsList: FC<{
   forms: Form[];
 }> = ({ forms }) => {
-
   const router = useRouter();
   return (
     <div>
@@ -29,24 +27,24 @@ export const FormsList: FC<{
           display: "grid",
           justifyContent: "flex-end",
         })}>
-                 <Button
-              color="blue"
-              onClick={() => router.push("/committee/forms/new")}
-              className={flex({
-                alignItems: "center",
-                gap: 2,
-                paddingX: 6,
-              })}>
-              <Image src={plusIcon} alt="" />
-              <span
-                className={css({
-                  fontSize: "xs",
-                  fontWeight: "bold",
-                })}>
-                新規作成
-              </span>
-            </Button>
-             </div>
+        <Button
+          color="blue"
+          onClick={() => router.push("/committee/forms/new")}
+          className={flex({
+            alignItems: "center",
+            gap: 2,
+            paddingX: 6,
+          })}>
+          <Image src={plusIcon} alt="" />
+          <span
+            className={css({
+              fontSize: "xs",
+              fontWeight: "bold",
+            })}>
+            新規作成
+          </span>
+        </Button>
+      </div>
       <div
         className={css({
           width: "full",
