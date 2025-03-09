@@ -15,7 +15,7 @@ async function uploadFiles(files: FileList): Promise<filesStatus[]> {
   const res = await toast.promise(postFiles("public", new Map<string, FileList>([["attachments", files]])), {
     loading: "ファイルをアップロードしています",
     success: "ファイルのアップロードに成功しました",
-    error: (error) => {
+    error: (error: { message: any }) => {
       return "ファイルのアップロードに失敗しました" + (error?.message ? ` (${error?.message})` : "");
     },
   });
@@ -45,7 +45,7 @@ export const FilesField = ({
   setFilesStatus: Dispatch<SetStateAction<filesStatus[]>>;
 }) => {
   const [isDragged, setIsDragged] = useState(false);
-  const fileRef = useRef<HTMLInputElement>();
+  const fileRef = useRef<HTMLInputElement>(null);
 
   const getFiles = async (event: DragEvent<HTMLDivElement | HTMLButtonElement>) => {
     setIsDragged(false);
