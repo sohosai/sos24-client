@@ -17,6 +17,9 @@ import { useState } from "react";
 import { FileErrorsType } from "@/common_components/form_answer/FormItems";
 import { FilesField } from "@/common_components/form_editor/FilesEditor";
 import { filesStatus } from "@/common_components/form_editor/FilesInterfaces";
+import { descriptionStyle, ScheduledStyle } from "../../../../common_components/form_editor/styles";
+import dayjs from "dayjs";
+import { Center } from "@styled-system/jsx";
 
 export const NewNewsForm = () => {
   const router = useRouter();
@@ -39,6 +42,7 @@ export const NewNewsForm = () => {
     }
     let fileIds: FileIds = { attachments: filesStatus.map((fileStatus) => fileStatus.uuid) };
     const categories = data.categories === false ? projectCategories : data.categories;
+    //const starts_at = (data.starts_at === "" ? dayjs() : dayjs(data.starts_at)).toISOString();
 
     await toast.promise(
       client
@@ -49,12 +53,15 @@ export const NewNewsForm = () => {
             categories: categories as components["schemas"]["ProjectCategory"][],
             attributes: [...projectAttributes] as components["schemas"]["ProjectAttribute"][],
             attachments: fileIds["attachments"] ?? [],
+            //states: scheduledなどの何かしら,
+            //states_scheduled_at: starts_at, になる予定
           },
         })
         .then(({ data, error }) => {
           if (error) {
             throw error;
           }
+          // /committee/news/${data.id}に遷移する
           router.push(`/committee/news/${data.id}`);
         }),
       {
@@ -87,22 +94,6 @@ export const NewNewsForm = () => {
           marginBottom: 2,
         })}>
         <h2 className={css({ fontSize: "2xl", fontWeight: "bold" })}>新規お知らせ作成</h2>
-        <Button
-          type="submit"
-          color="purple"
-          className={hstack({
-            gap: 3,
-          })}
-          disabled={isSubmitting || isSubmitSuccessful}>
-          <span
-            className={css({
-              fontSize: "xs",
-              fontWeight: "bold",
-            })}>
-            送信
-          </span>
-          <Image src={sendIcon} alt="" />
-        </Button>
       </div>
       <ProjectCategorySelector register={register("categories")} error={errors.categories?.message} />
       <TitleField register={register("title")} error={errors.title?.message} />
@@ -115,6 +106,45 @@ export const NewNewsForm = () => {
         setFilesStatus={setFilesStatus}
         setErrorState={setFileErrors}
       />
+      <div>
+        <p className={descriptionStyle}>投稿日時を選択しなかった場合現在時刻が入力されます</p>
+        <div>
+          <label htmlFor="starts_at" className={ScheduledStyle}>
+            投稿日時
+          </label>
+          <input
+            type="datetime-local"
+            className={css({
+              color: "gray.600",
+            })}
+          />
+          {/* id="starts_at"
+          {...register("starts_at")}*/}
+        </div>
+        <div
+          className={css({
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "10px",
+          })}>
+          <Button
+            type="submit"
+            color="purple"
+            className={hstack({
+              gap: 3,
+            })}
+            disabled={isSubmitting || isSubmitSuccessful}>
+            <span
+              className={css({
+                fontSize: "xs",
+                fontWeight: "bold",
+              })}>
+              送信
+            </span>
+            <Image src={sendIcon} alt="" />
+          </Button>
+        </div>
+      </div>
     </form>
   );
 };
