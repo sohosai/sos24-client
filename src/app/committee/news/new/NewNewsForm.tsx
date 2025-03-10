@@ -17,8 +17,7 @@ import { useState } from "react";
 import { FileErrorsType } from "@/common_components/form_answer/FormItems";
 import { FilesField } from "@/common_components/form_editor/FilesEditor";
 import { filesStatus } from "@/common_components/form_editor/FilesInterfaces";
-//import dayjs from "dayjs";
-//import { Center } from "@styled-system/jsx";
+import dayjs from "dayjs";
 
 export const NewNewsForm = () => {
   const router = useRouter();
@@ -41,7 +40,8 @@ export const NewNewsForm = () => {
     }
     let fileIds: FileIds = { attachments: filesStatus.map((fileStatus) => fileStatus.uuid) };
     const categories = data.categories === false ? projectCategories : data.categories;
-    //const starts_at = (data.starts_at === "" ? dayjs() : dayjs(data.starts_at)).toISOString();
+    const starts_at = (data.starts_at === "" ? dayjs() : dayjs(data.starts_at)).toISOString();
+    const state = data.starts_at === "" ? "published" : "scheduled";
 
     await toast.promise(
       client
@@ -52,8 +52,8 @@ export const NewNewsForm = () => {
             categories: categories as components["schemas"]["ProjectCategory"][],
             attributes: [...projectAttributes] as components["schemas"]["ProjectAttribute"][],
             attachments: fileIds["attachments"] ?? [],
-            //states: scheduledなどの何かしら,
-            //states_scheduled_at: starts_at, になる予定
+            state: state as components["schemas"]["CreateNewsState"],
+            scheduled_at: starts_at,
           },
         })
         .then(({ data, error }) => {
@@ -131,9 +131,9 @@ export const NewNewsForm = () => {
             className={css({
               color: "gray.600",
             })}
+            id="starts_at"
+            {...register("starts_at")}
           />
-          {/* id="starts_at"
-          {...register("starts_at")}*/}
         </div>
         <div
           className={css({
