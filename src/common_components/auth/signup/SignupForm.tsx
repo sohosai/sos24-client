@@ -81,7 +81,13 @@ export const SignupForm: React.FC<SignupFormProps> = ({ setUserEmail }) => {
         <label htmlFor="name" className={css({ fontWeight: "bold" })}>
           名前
         </label>
-        <input type="text" id="name" placeholder="嘉納治五郎" className={cx(basicFormStyle())} {...register("name")} />
+        <input
+          type="text"
+          id="name"
+          placeholder="嘉納治五郎"
+          className={cx(basicFormStyle(), "mask-me")}
+          {...register("name")}
+        />
         {errors.name && <span className={basicErrorMessageStyle}>{errors.name.message}</span>}
       </div>
       <div className={labelAndInputStyle}>
@@ -92,7 +98,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({ setUserEmail }) => {
           type="text"
           id="kana_name"
           placeholder="かのうじごろう"
-          className={cx(basicFormStyle())}
+          className={cx(basicFormStyle(), "mask-me")}
           {...register("kana_name")}
         />
         {errors.kana_name && <span className={basicErrorMessageStyle}>{errors.kana_name.message}</span>}
@@ -105,7 +111,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({ setUserEmail }) => {
           type="email"
           id="email"
           placeholder="xxxx@x.tsukuba.ac.jp"
-          className={cx(basicFormStyle())}
+          className={cx(basicFormStyle(), "mask-me")}
           {...register("email")}
         />
         <span className={css({ fontSize: "sm", color: "gray.600" })}>tsukuba.ac.jpで終わるものを入力してください</span>
@@ -115,7 +121,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({ setUserEmail }) => {
         <label htmlFor="password" className={css({ fontWeight: "bold" })}>
           パスワード
         </label>
-        <input type="password" id="password" className={cx(basicFormStyle())} {...register("password")} />
+        <input type="password" id="password" className={cx(basicFormStyle(), "mask-me")} {...register("password")} />
         <span className={css({ fontSize: "sm", color: "gray.600" })}>6字以上で入力してください</span>
         {errors.password && <span className={basicErrorMessageStyle}>{errors.password.message}</span>}
       </div>
@@ -123,7 +129,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({ setUserEmail }) => {
         <label htmlFor="phone_number" className={css({ fontWeight: "bold" })}>
           電話番号
         </label>
-        <input type="tel" id="phone_number" className={cx(basicFormStyle())} {...register("phone_number")} />
+        <input type="tel" id="phone_number" className={cx(basicFormStyle(), "mask-me")} {...register("phone_number")} />
         <span className={css({ fontSize: "sm", color: "gray.600" })}>ハイフンを抜いて数字のみで入力してください</span>
         {errors.phone_number && <span className={basicErrorMessageStyle}>{errors.phone_number.message}</span>}
       </div>

@@ -44,15 +44,15 @@ export const UserList: FC<{
               },
             })}>
             <div
-              className={css({
+              className={`${css({
                 fontSize: "sm",
-              })}>
+              })} mask-me`}>
               {user.name}
             </div>
             <div
-              className={css({
+              className={`${css({
                 fontSize: "sm",
-              })}>
+              })} mask-me`}>
               {user.email}
             </div>
             <div

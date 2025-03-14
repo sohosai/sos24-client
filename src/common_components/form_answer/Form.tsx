@@ -155,11 +155,11 @@ export const Form = ({ form, answerId, answerItems, editable }: Props) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className={css({
+      className={`${css({
         display: "flex",
         flexDirection: "column",
         rowGap: 3,
-      })}>
+      })} block-me`}>
       <FormItems
         items={form.items}
         getValues={getValues}

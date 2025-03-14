@@ -28,7 +28,7 @@ const UserDetailsPage: NextPage<{
   const user = assignType("/users/{user_id}", data);
 
   return (
-    <div className={container({ maxWidth: "4xl" })}>
+    <div className={`${container({ maxWidth: "4xl" })} block-me mask-me`}>
       <User user={user} />
     </div>
   );

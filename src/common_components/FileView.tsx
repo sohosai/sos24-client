@@ -87,7 +87,7 @@ export const FileView = (props: Props) => {
           {fileProps?.name ?? "ファイル名を取得できませんでした"}
         </span>
       </div>
-      <div className={css({ display: "flex", flexDirection: "row", columnGap: 4, alignItems: "center" })}>
+      <div className={`${css({ display: "flex", flexDirection: "row", columnGap: 4, alignItems: "center" })} mask-me`}>
         {fileProps?.url && <DownloadBuutton link={fileProps?.url} fileName={fileProps?.name ?? "unknown_file_name"} />}
         {props.delete !== undefined && (
           <button

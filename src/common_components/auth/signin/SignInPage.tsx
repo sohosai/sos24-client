@@ -72,7 +72,7 @@ export const SigninForm: React.FC = () => {
                 message: "筑波大学のメールアドレスを入力してください",
               },
             })}
-            className={cx(basicFormStyle({ isInvalid: !!errors.email }), css())}
+            className={cx(basicFormStyle({ isInvalid: !!errors.email }), css(), "mask-me")}
             aria-invalid={errors.email ? "true" : "false"}
             placeholder="xxxxxx@xxxx.tsukuba.ac.jp"
           />
@@ -89,7 +89,7 @@ export const SigninForm: React.FC = () => {
             {...register("password", {
               required: "パスワードを入力してください",
             })}
-            className={cx(basicFormStyle({ isInvalid: !!errors.password }))}
+            className={cx(basicFormStyle({ isInvalid: !!errors.password }), "mask-me")}
           />
           {errors.password && <span className={basicErrorMessageStyle}>{errors.password.message}</span>}
           {errors.root && <span className={basicErrorMessageStyle}>{errors.root.message}</span>}

@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 export const UserWithAddress: React.FC<{ name: string; email: string }> = ({ name, email }) => {
   return (
     <button
-      className={hstack({ alignItems: "center", cursor: "pointer" })}
+      className={`${hstack({ alignItems: "center", cursor: "pointer" })} block-me`}
       onClick={() => {
         toast.promise(
           navigator.clipboard.writeText(email).catch(() => {

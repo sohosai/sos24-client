@@ -106,7 +106,7 @@ export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project
       <section className={hstack({ justifyContent: "space-between", marginTop: 10 })}>
         <span className={css({ fontWeight: "bold", fontSize: "lg" })}>企画責任者</span>
         <div className={hstack()}>
-          <span>{project?.owner_name}</span>
+          <span className="mask-me">{project?.owner_name}</span>
           <Image src={Arrow} alt="" />
           <Button type="button" color="secondary" onClick={async () => handleShareInviteLink(project.id, "owner")}>
             変更用URLを発行
@@ -116,7 +116,7 @@ export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project
       <section className={hstack({ justifyContent: "space-between" })}>
         <span className={css({ fontWeight: "bold", fontSize: "lg" })}>副企画責任者</span>
         <div className={hstack()}>
-          <span>{project?.sub_owner_name ?? "未設定"}</span>
+          <span className="mask-me">{project?.sub_owner_name ?? "未設定"}</span>
           <Image src={Arrow} alt="" />
           <Button type="button" color="secondary" onClick={async () => handleShareInviteLink(project.id, "sub_owner")}>
             変更用URLを発行

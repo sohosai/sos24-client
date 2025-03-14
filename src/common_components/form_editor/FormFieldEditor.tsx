@@ -38,13 +38,13 @@ export const FormFieldEditor: FC<{
   const disabled_prop: true | undefined = disabled !== false ? undefined : true;
   return (
     <div
-      className={stack({
+      className={`${stack({
         border: "1px solid token(colors.gray.400)",
         rounded: "md",
         padding: 5,
         display: "grid",
         gap: 2,
-      })}>
+      })} block-me mask-me`}>
       {!disabled_prop && moveUp && (
         <button
           type="button"

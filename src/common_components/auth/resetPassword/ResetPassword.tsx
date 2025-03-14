@@ -33,7 +33,7 @@ const ResetPasswordForm: React.FC = () => {
         <span className={css({ fontWeight: "bold" })}>メールアドレス</span>
         <input
           type="email"
-          className={cx(basicFormStyle(), css({ width: "full" }))}
+          className={cx(basicFormStyle(), css({ width: "full" }), "mask-me")}
           aria-invalid={errors.email ? "true" : "false"}
           placeholder="xxxxxx@xxxx.tsukuba.ac.jp"
           {...register("email", {

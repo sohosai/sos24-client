@@ -9,8 +9,12 @@ Sentry.init({
   replaysSessionSampleRate: 0.1,
   integrations: [
     Sentry.replayIntegration({
-      maskAllText: true,
-      blockAllMedia: true,
+      maskAllText: false,
+      blockAllMedia: false,
+      maskAllInputs: true,
+      mask: [".mask-me"],
+      unmask: [".unmask-me"],
+      block: [".block-me"],
     }),
     Sentry.feedbackIntegration({
       colorScheme: "light",

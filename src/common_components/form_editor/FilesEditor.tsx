@@ -79,7 +79,7 @@ export const FilesField = ({
   });
 
   return (
-    <div>
+    <div className="block-me">
       <span className={basicFormLabelStyle}>
         {label}
         {required !== undefined && <RequiredBadge isRequired={required} className={css({ marginInline: 2 })} />}

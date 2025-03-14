@@ -184,7 +184,7 @@ export const FormEditor: FC<{
 
           <div className={stack({ gap: 2 })}>
             <p>企画区分</p>
-            <div className={checkboxGrpupStyle}>
+            <div className={`${checkboxGrpupStyle} block-me`}>
               {projectCategories.map((category) => (
                 <Controller
                   key={category}
@@ -220,7 +220,7 @@ export const FormEditor: FC<{
 
           <div className={stack({ gap: 2 })}>
             <p>企画属性</p>
-            <div className={checkboxGrpupStyle}>
+            <div className={`${checkboxGrpupStyle} block-me`}>
               {projectAttributes.map((attribute) => (
                 <Controller
                   key={attribute}
@@ -262,7 +262,7 @@ export const FormEditor: FC<{
             <label htmlFor="title">タイトル</label>
             <input
               {...register("title", { required: true })}
-              className={textInputStyle}
+              className={`${textInputStyle} block-me mask-me`}
               disabled={
                 isLoading_user || (editable === false && ["administrator"].includes(me.role) === false)
                   ? true
@@ -274,7 +274,7 @@ export const FormEditor: FC<{
             <label htmlFor="description">説明</label>
             <textarea
               {...register("description", { required: true })}
-              className={textInputStyle}
+              className={`${textInputStyle} block-me mask-me`}
               disabled={
                 isLoading_user || (editable === false && ["administrator"].includes(me.role) === false)
                   ? true
