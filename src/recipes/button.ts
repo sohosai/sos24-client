@@ -65,6 +65,16 @@ export const buttonStyle = cva({
         borderColor: "sohosai.blue",
       },
     },
+{
+      color: "blue",
+      visual: "solid",
+      css: {
+        backgroundColor: "sohosai.blue",
+        color: "white",
+        borderColor: "sohosai.blue",
+      },
+    },
+
   ],
   defaultVariants: {
     size: "medium",

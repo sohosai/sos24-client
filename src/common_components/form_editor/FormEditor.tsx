@@ -477,6 +477,21 @@ export const FormEditor: FC<{
             </fieldset>
           </>
         )}
+        <div className
+        >
+
+            {(editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true)) && (
+          <Button
+            visual="solid"
+            color="blue"
+            className={css({
+              alignSelf: "center",
+            })}
+            disabled={isSubmitting || isSubmitSuccessful}>
+          下書きとして保存
+          </Button>
+        )}
+
         {(editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true)) && (
           <Button
             visual="solid"
@@ -488,7 +503,8 @@ export const FormEditor: FC<{
             {defaultValues ? "更新" : "作成"}
           </Button>
         )}
-      </form>
+        </div>
+            </form>
     </>
   );
 };
