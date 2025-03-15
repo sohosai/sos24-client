@@ -15,7 +15,6 @@ import toast from "react-hot-toast";
 import { FilesField } from "./FilesEditor";
 import { Button, buttonStyle } from "@/recipes/button";
 import { FileView } from "@/common_components/FileView";
-
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 
@@ -477,34 +476,38 @@ export const FormEditor: FC<{
             </fieldset>
           </>
         )}
-        <div className
-        >
+        <div
+          className={css({
+            alignSelf: "center",
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+          })}>
+          {(editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true)) && (
+            <Button
+              visual="solid"
+              color="blue"
+              className={css({
+                alignSelf: "center",
+              })}
+              disabled={isSubmitting || isSubmitSuccessful}>
+              下書き保存
+            </Button>
+          )}
 
-            {(editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true)) && (
-          <Button
-            visual="solid"
-            color="blue"
-            className={css({
-              alignSelf: "center",
-            })}
-            disabled={isSubmitting || isSubmitSuccessful}>
-          下書きとして保存
-          </Button>
-        )}
-
-        {(editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true)) && (
-          <Button
-            visual="solid"
-            color="purple"
-            className={css({
-              alignSelf: "center",
-            })}
-            disabled={isSubmitting || isSubmitSuccessful}>
-            {defaultValues ? "更新" : "作成"}
-          </Button>
-        )}
+          {(editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true)) && (
+            <Button
+              visual="solid"
+              color="purple"
+              className={css({
+                alignSelf: "center",
+              })}
+              disabled={isSubmitting || isSubmitSuccessful}>
+              {defaultValues ? "更新" : "作成"}
+            </Button>
+          )}
         </div>
-            </form>
+      </form>
     </>
   );
 };
