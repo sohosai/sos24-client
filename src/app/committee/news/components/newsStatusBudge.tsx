@@ -1,13 +1,13 @@
-import { formStatus } from "@/lib/formHelpers";
+import { newsStatus } from "@/lib/tewsHelpers.test";
 import { cva, cx } from "@styled-system/css";
 
 type Props = {
-  status: formStatus;
+  status: newsStatus;
   className?: string;
 };
 
-export const FormStatusBadge = ({ status, className }: Props) => {
-  const formStatus = cva({
+export const NewsStatusBadge = ({ status, className }: Props) => {
+  const newsStatus = cva({
     base: {
       borderRadius: "md",
       paddingInline: 3,
@@ -18,14 +18,14 @@ export const FormStatusBadge = ({ status, className }: Props) => {
     variants: {
       status: {
         下書き: {
-          backgroundColor: "gray.200",
-          color: "black",
+          backgroundColor: "gray.200", //tsukuba.purpleの薄い板どっかにあればそっち採用したい
+          color: "tsukuba.purple",
         },
         公開前: {
           backgroundColor: "sohosai.blue",
           color: "white",
         },
-        公開済み: {
+        公開済: {
           backgroundColor: "sohosai.orange",
           color: "white",
         },
@@ -34,5 +34,5 @@ export const FormStatusBadge = ({ status, className }: Props) => {
     },
   });
 
-  return <span className={cx(formStatus({ status }), className)}>{status}</span>;
+  return <span className={cx(newsStatus({ status }), className)}>{status}</span>;
 };
