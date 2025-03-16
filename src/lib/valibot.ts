@@ -64,7 +64,10 @@ const projectKanaGroupName = string([
   custom((value) => isYomigana(value), "ひらがなで入力してください"),
 ]);
 
-const projectLocationIdSchema = string([regex(/^[0-9]+$/, "数字のみで入力してください")]);
+const projectLocationIdSchema = string([
+  minLength(1, "1文字以上で入力してください"),
+  regex(/^[0-9]+$/, "数字のみで入力してください"),
+]);
 
 export const projectCategories = [
   "general",
