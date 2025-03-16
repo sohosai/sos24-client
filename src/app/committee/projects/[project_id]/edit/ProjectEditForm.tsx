@@ -156,6 +156,15 @@ export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project
         </div>
       </fieldset>
       {errors.attributes && <span className={basicErrorMessageStyle}>{errors.attributes.message}</span>}
+      <fieldset className={css({ marginTop: 5 })}>
+        <legend>企画実施場所番号</legend>
+        <input
+          type="number"
+          {...register("location_id", { value: project?.location_id ?? "" })}
+          className={basicFormStyle()}
+        />
+        {errors.location_id && <span className={basicErrorMessageStyle}>{errors.location_id.message}</span>}
+      </fieldset>
     </form>
   );
 };
