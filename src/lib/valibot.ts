@@ -64,7 +64,7 @@ const projectKanaGroupName = string([
   custom((value) => isYomigana(value), "ひらがなで入力してください"),
 ]);
 
-const projectLocationIdSchema = string([regex(/^[0-9]+$/, "数字のみで入力してください")]);
+const projectLocationIdSchema = string([custom((value) => !containsEmoji(value), "絵文字は使用できません")]);
 
 export const projectCategories = [
   "general",
