@@ -110,7 +110,7 @@ export const NewNewsForm = () => {
           gap: 1,
         })}>
         <Button
-          type="button "
+          type="button"
           color="secondary_blue"
           className={hstack({
             gap: 3,
