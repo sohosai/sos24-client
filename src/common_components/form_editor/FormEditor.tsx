@@ -7,7 +7,14 @@ import { ProjectAttribute, projectAttributes, projectCategories, ProjectCategory
 import { getProjectAttributeText, getProjectCategoryText } from "@/lib/textUtils";
 import { stack, visuallyHidden } from "@styled-system/patterns";
 import { FormFieldEditor } from "./FormFieldEditor";
-import { checkboxGrpupStyle, checkboxStyle, descriptionStyle, sectionTitleStyle, textInputStyle } from "./styles";
+import {
+  checkboxGrpupStyle,
+  checkboxStyle,
+  descriptionStyle,
+  ScheduledStyle,
+  sectionTitleStyle,
+  textInputStyle,
+} from "./styles";
 import { components } from "@/schema";
 import dayjs from "dayjs";
 import { FileIds } from "@/lib/postFile";
@@ -320,28 +327,6 @@ export const FormEditor: FC<{
               </div>
             )
           )}
-          <div>
-            <p className={descriptionStyle}>受付開始日時を選択しなかった場合現在時刻が入力されます</p>
-            <div>
-              <label htmlFor="starts_at">受付開始日時</label>
-              <input
-                type="datetime-local"
-                {...register("starts_at")}
-                disabled={editable === false ? true : undefined}
-              />
-            </div>
-            <div>
-              <label htmlFor="ends_at">受付終了日時</label>
-              <input
-                type="datetime-local"
-                {...register("ends_at", { required: { value: true, message: "受付終了日時を入力してください" } })}
-                disabled={editable === false ? true : undefined}
-              />
-              <div className={css({ marginBlock: 1 })}>
-                {errors.ends_at && <span className={basicErrorMessageStyle}>{errors.ends_at.message}</span>}
-              </div>
-            </div>
-          </div>
         </div>
 
         <Divider />
@@ -476,41 +461,42 @@ export const FormEditor: FC<{
             </fieldset>
           </>
         )}
-        <div
-          className={css({
-            alignSelf: "center",
-            display: "flex",
-            alignItems: "center",
-            gap: 1,
-          })}>
-          {(editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true)) && (
-            <Button
-              type="button"
-              visual="solid"
-              color="blue"
-              className={css({
-                alignSelf: "center",
-              })}
-              onClick={() => {
-                //下書き保存
-              }}
-              disabled={isSubmitting || isSubmitSuccessful}>
-              下書き保存
-            </Button>
-          )}
 
-          {(editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true)) && (
-            <Button
-              visual="solid"
-              color="purple"
-              className={css({
-                alignSelf: "center",
-              })}
-              disabled={isSubmitting || isSubmitSuccessful}>
-              {defaultValues ? "更新" : "作成"}
-            </Button>
-          )}
+        <Divider />
+
+        <div>
+          <p className={descriptionStyle}>受付開始日時を選択しなかった場合現在時刻が入力されます</p>
+          <div>
+            <label htmlFor="starts_at" className={ScheduledStyle}>
+              受付開始日時
+            </label>
+            <input type="datetime-local" {...register("starts_at")} disabled={editable === false ? true : undefined} />
+          </div>
+          <div>
+            <label htmlFor="ends_at" className={ScheduledStyle}>
+              受付終了日時
+            </label>
+            <input
+              type="datetime-local"
+              {...register("ends_at", { required: { value: true, message: "受付終了日時を入力してください" } })}
+              disabled={editable === false ? true : undefined}
+            />
+            <div className={css({ marginBlock: 1 })}>
+              {errors.ends_at && <span className={basicErrorMessageStyle}>{errors.ends_at.message}</span>}
+            </div>
+          </div>
         </div>
+        {(editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true)) && (
+          <Button
+            visual="solid"
+            color="purple"
+            className={css({
+              alignSelf: "center",
+            })}
+            disabled={isSubmitting || isSubmitSuccessful}>
+            {defaultValues ? "更新" : "作成"}
+          </Button>
+        )}
       </form>
     </>
   );
