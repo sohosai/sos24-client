@@ -22,7 +22,6 @@ import toast from "react-hot-toast";
 import { FilesField } from "./FilesEditor";
 import { Button, buttonStyle } from "@/recipes/button";
 import { FileView } from "@/common_components/FileView";
-
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 
