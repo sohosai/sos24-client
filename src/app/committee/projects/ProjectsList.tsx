@@ -1,7 +1,7 @@
 import { ProjectCategoryFormatter } from "@/common_components/ProjectCategoryFormatter";
 import { components } from "@/schema";
 import { css, cx } from "@styled-system/css";
-import { flex, grid, vstack } from "@styled-system/patterns";
+import { grid, vstack } from "@styled-system/patterns";
 import React from "react";
 import Link from "next/link";
 import { projectCategoryItemStyle } from "@/common_components/formFields/styles";
@@ -17,7 +17,12 @@ const ProjectRow: React.FC<{ data: components["schemas"]["ProjectSummary"] }> = 
         borderBottom: "1px solid token(colors.gray.300)",
         paddingY: 3,
       })}>
-      <div className={css({ fontWeight: "bold", color: "gray.500", fontSize: "lg" })}>
+      <div
+        className={css({
+          fontWeight: "bold",
+          color: "gray.500",
+          fontSize: "lg",
+        })}>
         {("000" + data.index).slice(-3)}
       </div>
       <div className={vstack({ alignItems: "start" })}>
@@ -30,7 +35,11 @@ const ProjectRow: React.FC<{ data: components["schemas"]["ProjectSummary"] }> = 
           })}>
           <Link
             href={`/committee/projects/${data.id}`}
-            className={css({ fontWeight: "bold", fontSize: "lg", display: "block" })}>
+            className={css({
+              fontWeight: "bold",
+              fontSize: "lg",
+              display: "block",
+            })}>
             {data.title}
           </Link>
           <div
