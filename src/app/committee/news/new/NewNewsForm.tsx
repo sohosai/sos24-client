@@ -110,11 +110,14 @@ export const NewNewsForm = () => {
           gap: 1,
         })}>
         <Button
-          type="submit"
+          type="button "
           color="secondary_blue"
           className={hstack({
             gap: 3,
           })}
+          onClick={() => {
+            //下書き保存
+          }}
           disabled={isSubmitting || isSubmitSuccessful}>
           <span
             className={css({
