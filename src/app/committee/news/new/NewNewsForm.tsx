@@ -40,7 +40,9 @@ export const NewNewsForm = () => {
       toast.error("添付ファイルを正しく選択してください");
       return;
     }
-    let fileIds: FileIds = { attachments: filesStatus.map((fileStatus) => fileStatus.uuid) };
+    let fileIds: FileIds = {
+      attachments: filesStatus.map((fileStatus) => fileStatus.uuid),
+    };
     const categories = data.categories === false ? projectCategories : data.categories;
     //const starts_at = (data.starts_at === "" ? dayjs() : dayjs(data.starts_at)).toISOString();
 
@@ -136,29 +138,6 @@ export const NewNewsForm = () => {
           {/* id="starts_at"
           {...register("starts_at")}*/}
         </div>
-        <div
-          className={css({
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "10px",
-          })}>
-          <Button
-            type="submit"
-            color="purple"
-            className={hstack({
-              gap: 3,
-            })}
-            disabled={isSubmitting || isSubmitSuccessful}>
-            <span
-              className={css({
-                fontSize: "xs",
-                fontWeight: "bold",
-              })}>
-              送信
-            </span>
-            <Image src={sendIcon} alt="" />
-          </Button>
-        </div>
       </div>
       <div
         className={hstack({
@@ -176,7 +155,7 @@ export const NewNewsForm = () => {
             gap: 3,
           })}
           onClick={() => {
-            //下書き保存
+            console.log("下書き保存ボタンが押されたときの処理");
           }}
           disabled={isSubmitting || isSubmitSuccessful}>
           <span
