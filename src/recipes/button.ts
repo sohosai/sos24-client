@@ -65,7 +65,7 @@ export const buttonStyle = cva({
         borderColor: "sohosai.blue",
       },
     },
-{
+    {
       color: "blue",
       visual: "solid",
       css: {
@@ -74,7 +74,6 @@ export const buttonStyle = cva({
         borderColor: "sohosai.blue",
       },
     },
-
   ],
   defaultVariants: {
     size: "medium",
