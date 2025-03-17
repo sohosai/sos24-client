@@ -39,7 +39,9 @@ export const NewNewsForm = () => {
       toast.error("添付ファイルを正しく選択してください");
       return;
     }
-    let fileIds: FileIds = { attachments: filesStatus.map((fileStatus) => fileStatus.uuid) };
+    let fileIds: FileIds = {
+      attachments: filesStatus.map((fileStatus) => fileStatus.uuid),
+    };
     const categories = data.categories === false ? projectCategories : data.categories;
     //const starts_at = (data.starts_at === "" ? dayjs() : dayjs(data.starts_at)).toISOString();
 
@@ -48,6 +50,7 @@ export const NewNewsForm = () => {
         .POST("/news", {
           body: {
             title: data.title,
+            state: "draft",
             body: data.body,
             categories: categories as components["schemas"]["ProjectCategory"][],
             attributes: [...projectAttributes] as components["schemas"]["ProjectAttribute"][],
