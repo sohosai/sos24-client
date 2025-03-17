@@ -155,7 +155,7 @@ export const NewNewsForm = () => {
             gap: 3,
           })}
           onClick={() => {
-            console.log("下書き保存ボタンが押されたときの処理");
+            // 下書き保存
           }}
           disabled={isSubmitting || isSubmitSuccessful}>
           <span
