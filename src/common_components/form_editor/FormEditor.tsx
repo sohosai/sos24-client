@@ -485,11 +485,15 @@ export const FormEditor: FC<{
           })}>
           {(editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true)) && (
             <Button
+              type="button"
               visual="solid"
               color="blue"
               className={css({
                 alignSelf: "center",
               })}
+              onClick={() => {
+                //下書き保存
+              }}
               disabled={isSubmitting || isSubmitSuccessful}>
               下書き保存
             </Button>

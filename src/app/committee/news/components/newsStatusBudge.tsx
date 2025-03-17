@@ -1,4 +1,4 @@
-import { newsStatus } from "@/lib/tewsHelpers.test";
+import { newsStatus } from "@/lib/newsHelpers";
 import { cva, cx } from "@styled-system/css";
 
 type Props = {
