@@ -4,13 +4,13 @@
  */
 
 /** OneOf type helpers */
-type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
-type XOR<T, U> = T | U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U;
-type OneOf<T extends any[]> = T extends [infer Only]
-  ? Only
-  : T extends [infer A, infer B, ...infer Rest]
-    ? OneOf<[XOR<A, B>, ...Rest]>
-    : never;
+type Without<T, U> = { [_ in Exclude<keyof T, keyof U>]?: never };
+type XOR<T, U> = T | U extends object
+  ? (Without<T, U> & U) | (Without<U, T> & T)
+  : T | U;
+type OneOf<T extends any[]> = T extends [infer Only] ? Only
+  : T extends [infer A, infer B, ...infer Rest] ? OneOf<[XOR<A, B>, ...Rest]>
+  : never;
 
 export interface paths {
   "/files": {
@@ -174,7 +174,7 @@ export interface components {
       categories: components["schemas"]["ProjectCategories"];
       /** Format: date-time */
       scheduled_at?: string | null;
-      state: components["schemas"]["CreateNewsState"];
+      state: components["schemas"]["NewsState"];
       title: string;
     };
     /** @enum {string} */
@@ -438,15 +438,23 @@ export interface components {
       created_at: string;
       /** Format: uuid */
       id: string;
+      /** Format: date-time */
+      scheduled_at?: string | null;
+      state: components["schemas"]["NewsState"];
       title: string;
       /** Format: date-time */
       updated_at: string;
     };
+    /** @enum {string} */
+    NewsState: "draft" | "scheduled" | "published";
     NewsSummary: {
       attributes: components["schemas"]["ProjectAttributes"];
       categories: components["schemas"]["ProjectCategories"];
       /** Format: uuid */
       id: string;
+      /** Format: date-time */
+      scheduled_at?: string | null;
+      state: components["schemas"]["NewsState"];
       title: string;
       /** Format: date-time */
       updated_at: string;
@@ -532,7 +540,7 @@ export interface components {
       categories: components["schemas"]["ProjectCategories"];
       /** Format: date-time */
       scheduled_at?: string | null;
-      state: components["schemas"]["CreateNewsState"];
+      state: components["schemas"]["NewsState"];
       title: string;
     };
     UpdateProject: {
