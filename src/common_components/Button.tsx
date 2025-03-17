@@ -2,7 +2,7 @@ import { cva, cx } from "@styled-system/css";
 import { ButtonHTMLAttributes, FC } from "react";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  color: "purple" | "secondary" | "blue";
+  color: "purple" | "secondary" | "blue" | "secondary_blue";
   size?: "y" | "medium" | "big";
   className?: string;
   children: React.ReactNode;
