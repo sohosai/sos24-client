@@ -1,10 +1,10 @@
 import { flex, stack } from "@styled-system/patterns";
-import { FilterSelector, NewsFilterType, newsFilters } from "@/common_components/news/FilterSelector";
+import { FilterSelector, NewsFilterMeOrAllType, newsFiltersMeOrAll } from "@/common_components/news/FilterSelector";
 import { NewsList } from "@/common_components/news/NewsList";
+import { filterNewsByCommitee, filterNewsByState, stateType } from "@/common_components/news/FilterNewsList";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 import { FC, useCallback, useState } from "react";
-import { components } from "@/schema";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Route } from "next";
 import { Button } from "@/common_components/Button";
@@ -17,37 +17,14 @@ import { useAtomValue } from "jotai";
 import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
 
 // 対象の企画であるかを確認する
-const isTargetProject = (
-  myProject: components["schemas"]["Project"],
-  targetCategories: components["schemas"]["ProjectCategory"][],
-  targetAttributes: components["schemas"]["ProjectAttribute"][],
-): boolean => {
-  const doesCategoryMatch = targetCategories.includes(myProject.category);
-  const doesAttributeMatch = targetAttributes.some((targetAttribute) => myProject.attributes.includes(targetAttribute));
-  return doesCategoryMatch && doesAttributeMatch;
-};
-
-// 特定の企画向けのお知らせのみを抽出する
-const filterNews = (
-  filter: NewsFilterType,
-  myProject: components["schemas"]["Project"],
-  newsList: components["schemas"]["NewsSummary"][],
-): components["schemas"]["NewsSummary"][] => {
-  switch (filter) {
-    case "me":
-      return newsList.filter((news) => isTargetProject(myProject, news.categories, news.attributes));
-    case "all":
-      return newsList;
-  }
-};
-
 export type Props = {
   isCommittee?: boolean;
   isDashboard?: boolean;
+  filterByState?: stateType;
 };
 
 // これはコンポーネントの規模ではないのではみたいな気持ちがある
-export const NewsView: FC<Props> = ({ isCommittee, isDashboard = false }) => {
+export const NewsView: FC<Props> = ({ isCommittee, isDashboard = false, filterByState = "all" }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -62,9 +39,8 @@ export const NewsView: FC<Props> = ({ isCommittee, isDashboard = false }) => {
   const applicationPeriod = useAtomValue(projectApplicationPeriodAtom);
 
   const filterParams = (searchParams.get("news_cateogry") ?? "me") as "me" | "all";
-  const defaultFilter = newsFilters.includes(filterParams) ? filterParams : "me";
-  const [filter, setFilter] = useState<NewsFilterType>(defaultFilter);
-
+  const defaultFilter = newsFiltersMeOrAll.includes(filterParams) ? filterParams : "me";
+  const [filter, setFilter] = useState<NewsFilterMeOrAllType>(defaultFilter);
   const { data: newsData, error: newsError, isLoading: isLoadingNews } = useSWR("/news");
   const { data: projectData, error: projectError, isLoading: isLoadingProject } = useSWR("/projects/me");
   if (isLoadingNews || isLoadingProject) {
@@ -81,8 +57,8 @@ export const NewsView: FC<Props> = ({ isCommittee, isDashboard = false }) => {
   const newsList = assignType("/news", newsData);
 
   const filteredNewsList = isCommittee
-    ? newsList
-    : filterNews(filter, project, newsList).slice(0, isDashboard ? 5 : undefined);
+    ? filterNewsByState(filterByState, newsList) //.filter((e) => attributesFilter === "" || e.attributes.includes(attributesFilter))
+    : filterNewsByCommitee(filter, project, newsList).slice(0, isDashboard ? 5 : undefined);
 
   return (
     <div className={stack({ gap: 2, width: "full" })}>
@@ -160,7 +136,7 @@ export const NewsView: FC<Props> = ({ isCommittee, isDashboard = false }) => {
             marginBottom: 0,
           },
         })}>
-        <NewsList newsList={filteredNewsList} isCommittee={isCommittee} />
+        <NewsList newsList={filteredNewsList} isCommittee={isCommittee} /> {/*filterd～をちゃんと絞ったやつにする*/}
       </div>
     </div>
   );

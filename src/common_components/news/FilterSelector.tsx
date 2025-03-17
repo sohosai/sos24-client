@@ -6,10 +6,10 @@ import triangleWhiteIcon from "@/assets/TriangleDownWhite.svg?url";
 import Image from "next/image";
 import { FC } from "react";
 
-export const newsFilters = ["me", "all"] as const;
-export type NewsFilterType = (typeof newsFilters)[number];
+export const newsFiltersMeOrAll = ["me", "all"] as const;
+export type NewsFilterMeOrAllType = (typeof newsFiltersMeOrAll)[number];
 
-const filterToLabel = (category: NewsFilterType) => {
+const filterToLabel = (category: NewsFilterMeOrAllType) => {
   switch (category) {
     case "me":
       return "自分の企画対象のみ";
@@ -30,10 +30,10 @@ export const filterSelectorStyle = css({
 });
 
 export const FilterSelector: FC<{
-  filter: NewsFilterType;
-  setFilter: (_selected: NewsFilterType) => void;
+  filter: NewsFilterMeOrAllType;
+  setFilter: (_selected: NewsFilterMeOrAllType) => void;
 }> = ({ filter, setFilter }) => {
-  const FilterItem = ({ value }: { value: NewsFilterType }) => {
+  const FilterItem = ({ value }: { value: NewsFilterMeOrAllType }) => {
     const checked = filter === value;
     return (
       <label
@@ -75,7 +75,7 @@ export const FilterSelector: FC<{
           flexDirection: "column",
         },
       })}>
-      {newsFilters.map((category) => (
+      {newsFiltersMeOrAll.map((category) => (
         <FilterItem key={category} value={category} />
       ))}
     </fieldset>
