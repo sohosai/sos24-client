@@ -4,7 +4,7 @@
  */
 
 /** OneOf type helpers */
-type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
+type Without<T, U> = { [_ in Exclude<keyof T, keyof U>]?: never };
 type XOR<T, U> = T | U extends object
   ? (Without<T, U> & U) | (Without<U, T> & T)
   : T | U;
@@ -493,13 +493,13 @@ export interface components {
     ProjectCategories: components["schemas"]["ProjectCategory"][];
     /** @enum {string} */
     ProjectCategory:
-    | "general"
-    | "foods_with_kitchen"
-    | "foods_without_kitchen"
-    | "foods_without_cooking"
-    | "stage_1a"
-    | "stage_university_hall"
-    | "stage_united";
+      | "general"
+      | "foods_with_kitchen"
+      | "foods_without_kitchen"
+      | "foods_without_cooking"
+      | "stage_1a"
+      | "stage_university_hall"
+      | "stage_united";
     ProjectSummary: {
       attributes: components["schemas"]["ProjectAttributes"];
       category: components["schemas"]["ProjectCategory"];
@@ -575,12 +575,12 @@ export interface components {
     };
     /** @enum {string} */
     UserRole:
-    | "administrator"
-    | "committee_operator"
-    | "committee_editor"
-    | "committee_drafter"
-    | "committee_viewer"
-    | "general";
+      | "administrator"
+      | "committee_operator"
+      | "committee_editor"
+      | "committee_drafter"
+      | "committee_viewer"
+      | "general";
     UserSummary: {
       email: string;
       id: string;
@@ -2135,3 +2135,4 @@ export interface operations {
     };
   };
 }
+
