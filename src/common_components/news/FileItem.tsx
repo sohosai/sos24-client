@@ -7,7 +7,7 @@ import { components } from "@/schema";
 
 export type Props = {
   file: components["schemas"]["File"];
-  error?: components["schemas"]["Error"];
+  error?: components["schemas"]["ErrorResponse"];
 };
 
 export const FileItem: FC<Props> = ({ file, error }) => {
