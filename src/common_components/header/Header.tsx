@@ -76,9 +76,7 @@ const committeeOperatorMenu: MenuData[] = [
 ];
 
 const menuForRole = (role?: components["schemas"]["UserRole"]): MenuData[] => {
-  switch (
-    role?.replace(/committee_(editor|drafter)/, "committee") // @todo 担当者は適切に実装してください
-  ) {
+  switch (role) {
     case "administrator":
     case "committee_operator":
     case "committee_editor":
@@ -114,11 +112,11 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
         ? menuForRole(userInfo?.role)
         : applicationPeriod.isIn
           ? [
-              {
-                path: "/register",
-                name: "企画応募",
-              } as MenuData,
-            ]
+            {
+              path: "/register",
+              name: "企画応募",
+            } as MenuData,
+          ]
           : generalMenu
       : [];
 
