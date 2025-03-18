@@ -1,3 +1,4 @@
+/* eslint-disable unused-imports/no-unused-vars */
 
 export type ProjectType = {
   location: string[];
@@ -8,7 +9,7 @@ export type ProjectType = {
 
 type Props = {
   value: ProjectType;
-  onChange: ((newType: ProjectType) => void) | null;
+  onChange: ((_: ProjectType) => void) | null;
 };
 
 const ProjectTypeSelector = ({ value, onChange }: Props): JSX.Element => {
@@ -17,33 +18,29 @@ const ProjectTypeSelector = ({ value, onChange }: Props): JSX.Element => {
   const toggleField = (field: keyof ProjectType, item: string, subItems?: string[]) => {
     if (isDisabled) return;
 
-    let updatedField = value[field].includes(item) 
-      ? value[field].filter((i) => i !== item) 
-      : [...value[field], item];
+    let updatedField = value[field].includes(item) ? value[field].filter((i) => i !== item) : [...value[field], item];
 
     if (subItems) {
-      const hasAllSubItems = subItems.every((sub) => value[field].includes(sub))
+      updatedField = subItems.every((sub) => value[field].includes(sub))
         ? updatedField.filter((i) => !subItems.includes(i) && i !== item)
         : [...updatedField, item, ...subItems];
     }
 
-    const updatedValue = { ...value, [field]: updatedField };
-    onChange(updatedValue);
+    onChange({ ...value, [field]: updatedField });
   };
+
   const toggleAll = (field: keyof ProjectType, items: string[], nestedItems?: { [key: string]: string[] }) => {
     if (isDisabled) return;
 
     const allItems = [...items, ...(nestedItems ? Object.values(nestedItems).flat() : [])];
     const isAllSelected = allItems.every((item) => value[field].includes(item));
 
-    const updatedValue = { ...value, [field]: isAllSelected ? [] : allItems };
-
-    onChange(updatedValue);
+    onChange({ ...value, [field]: isAllSelected ? [] : allItems });
   };
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="grid grid-cols-3 gap-6 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
         <div className="col-span-1">
           <CategorySection
             title="委員会"
@@ -123,7 +120,7 @@ const CategorySection = ({
     <div className="flex flex-col relative">
       <h3 className="text-sm mb-6 font-bold">{title}</h3>
 
-      <div className="border border-gray-400 border-dashed rounded-lg p-4 shadow-sm relative">
+      <div className="border border-gray-400 border-dashed rounded-lg px-2 sm:px-4 py-4 shadow-sm relative">
         <label className="absolute -top-3 left-2 bg-white px-2 flex items-center gap-2 cursor-pointer text-black font-bold text-xs">
           <input
             type="checkbox"
