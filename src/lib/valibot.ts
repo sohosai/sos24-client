@@ -160,7 +160,7 @@ export const SignUpSchema = object({
 
 export type SignUpSchemaType = Output<typeof SignUpSchema>;
 
-export const userRoles = ["administrator", "committee_operator", "committee", "general"];
+export const userRoles = ["administrator", "committee_operator", "committee_editor", "committee_drafter", "committee_viewer", "general"];
 export type UserRole = (typeof userRoles)[number];
 
 const userRoleSchema = union(
