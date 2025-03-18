@@ -510,7 +510,6 @@ export interface components {
       index: number;
       kana_group_name: string;
       kana_title: string;
-      location_id?: string | null;
       owner_email: string;
       owner_id: string;
       owner_name: string;
