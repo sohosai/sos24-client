@@ -1823,6 +1823,7 @@ components:
     CreateNews:
       type: object
       required:
+      - state
       - title
       - body
       - attachments
@@ -1840,8 +1841,21 @@ components:
           type: string
         categories:
           $ref: '#/components/schemas/ProjectCategories'
+        scheduled_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        state:
+          $ref: '#/components/schemas/CreateNewsState'
         title:
           type: string
+    CreateNewsState:
+      type: string
+      enum:
+      - draft
+      - scheduled
+      - published
     CreateProject:
       type: object
       required:
@@ -2519,6 +2533,10 @@ components:
           type: string
         kana_title:
           type: string
+        location_id:
+          type:
+          - string
+          - 'null'
         owner_email:
           type: string
         owner_id:
@@ -2615,6 +2633,13 @@ components:
           type: string
         kana_title:
           type: string
+<<<<<<< HEAD
+=======
+        location_id:
+          type:
+          - string
+          - 'null'
+>>>>>>> develop
         owner_email:
           type: string
         owner_id:
@@ -2670,6 +2695,7 @@ components:
     UpdateNews:
       type: object
       required:
+      - state
       - title
       - body
       - attachments
@@ -2687,6 +2713,13 @@ components:
           type: string
         categories:
           $ref: '#/components/schemas/ProjectCategories'
+        scheduled_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        state:
+          $ref: '#/components/schemas/CreateNewsState'
         title:
           type: string
     UpdateProject:
@@ -2709,6 +2742,10 @@ components:
           type: string
         kana_title:
           type: string
+        location_id:
+          type:
+          - string
+          - 'null'
         remarks:
           type:
           - string
