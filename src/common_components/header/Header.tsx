@@ -112,11 +112,11 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
         ? menuForRole(userInfo?.role)
         : applicationPeriod.isIn
           ? [
-            {
-              path: "/register",
-              name: "企画応募",
-            } as MenuData,
-          ]
+              {
+                path: "/register",
+                name: "企画応募",
+              } as MenuData,
+            ]
           : generalMenu
       : [];
 
