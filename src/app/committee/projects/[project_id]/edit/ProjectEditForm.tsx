@@ -26,7 +26,7 @@ export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project
     handleSubmit,
   } = useForm<UpdateProjectCommitteeSchemaType>({
     resolver: valibotResolver(UpdateProjectCommitteeSchema),
-    defaultValues: project,
+    defaultValues: { ...project, location_id: project.location_id ?? undefined }, // location_id は null が許容されている
     mode: "onBlur",
   });
 
@@ -159,7 +159,7 @@ export const ProjectEditForm: React.FC<{ project: components["schemas"]["Project
       <fieldset className={css({ marginTop: 5 })}>
         <legend>企画実施場所番号</legend>
         <input
-          type="number"
+          type="text"
           {...register("location_id", { value: project?.location_id ?? "" })}
           className={basicFormStyle()}
         />
