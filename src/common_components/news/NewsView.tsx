@@ -65,6 +65,9 @@ export const NewsView: FC<Props> = ({ isCommittee, isDashboard = false }) => {
   const defaultFilter = newsFilters.includes(filterParams) ? filterParams : "me";
   const [filter, setFilter] = useState<NewsFilterType>(defaultFilter);
 
+  const { data: data_user, isLoading: isLoading_user } = useSWR("/users/me");
+  const me = assignType("/users/me", data_user);
+
   const { data: newsData, error: newsError, isLoading: isLoadingNews } = useSWR("/news");
   const { data: projectData, error: projectError, isLoading: isLoadingProject } = useSWR("/projects/me");
   if (isLoadingNews || isLoadingProject) {
@@ -131,7 +134,7 @@ export const NewsView: FC<Props> = ({ isCommittee, isDashboard = false }) => {
             )}
           </>
         )}
-        {isCommittee && (
+        {!isLoading_user && ["committee_editor", "committee_operator", "administrator"].includes(me.role) && (
           <>
             <Button
               color="blue"
