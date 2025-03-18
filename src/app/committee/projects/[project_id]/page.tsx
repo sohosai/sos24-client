@@ -70,6 +70,9 @@ const ProjectDetailsPage = ({ params }: { params: { project_id: string } }) => {
   } = useSWR(`/form-answers?project_id=${params.project_id}`);
   const router = useRouter();
 
+  const { data: data_user, isLoading: isLoading_user } = useSWR("/users/me");
+  const me = assignType("/users/me", data_user);
+
   if (isLoading || formAnswersIsLoading) {
     return;
   }
@@ -111,9 +114,13 @@ const ProjectDetailsPage = ({ params }: { params: { project_id: string } }) => {
             企画詳細
           </h2>
           <div className={hstack({ flexDir: "row-reverse" })}>
-            <Button color="blue" onClick={() => router.push(`/committee/projects/${project.id}/edit`)}>
-              編集
-            </Button>
+            {!isLoading &&
+              !isLoading_user &&
+              ["committtee_editor", "committee_operator", "administrator"].includes(me.role) && (
+                <Button color="blue" onClick={() => router.push(`/committee/projects/${project.id}/edit`)}>
+                  編集
+                </Button>
+              )}
             <Image
               src={deleteButton}
               alt=""
