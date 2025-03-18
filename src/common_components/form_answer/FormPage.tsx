@@ -92,7 +92,7 @@ export const FormPage = ({ answer, answerError, answerLoading, form, formError, 
                   <SubmitStatusBadge status={status} className={css({ marginInline: 3 })} />
                 </p>
                 {answerItems &&
-                  (["committee_operator", "administrator"].includes(me.role) ||
+                  (["committtee_editor", "committee_operator", "administrator"].includes(me.role) ||
                     dayjs().isBefore(dayjs(form.ends_at))) &&
                   !editable && (
                     <button
