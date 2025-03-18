@@ -7,6 +7,8 @@ import Link from "next/link";
 import { projectCategoryItemStyle } from "@/common_components/formFields/styles";
 import { UserWithAddress } from "@/common_components/project/UserWithAddress";
 import { ProjectAttributesBadge } from "@/common_components/project/ProjectAttributesBadge";
+import LocationIcon from "./Location.svg?url";
+import Image from "next/image";
 
 const ProjectRow: React.FC<{ data: components["schemas"]["ProjectSummary"] }> = ({ data }) => {
   return (
@@ -51,17 +53,7 @@ const ProjectRow: React.FC<{ data: components["schemas"]["ProjectSummary"] }> = 
               fontSize: "sm",
               fontWeight: "bold",
             })}>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M10 5C10 7.4965 7.2305 10.0965 6.3005 10.8995C6.21386 10.9646 6.1084 10.9999 6 10.9999C5.8916 10.9999 5.78614 10.9646 5.6995 10.8995C4.7695 10.0965 2 7.4965 2 5C2 3.93913 2.42143 2.92172 3.17157 2.17157C3.92172 1.42143 4.93913 1 6 1C7.06087 1 8.07828 1.42143 8.82843 2.17157C9.57857 2.92172 10 3.93913 10 5ZM6 7C7.10457 7 8 6.10457 8 5C8 3.89543 7.10457 3 6 3C4.89543 3 4 3.89543 4 5C4 6.10457 4.89543 7 6 7Z"
-                fill="#A59E9E"
-                stroke="#A59E9E"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <Image src={LocationIcon} alt="" />
             {data.location_id ?? "未定"}
           </div>
         </div>
