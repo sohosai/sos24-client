@@ -116,7 +116,7 @@ const ProjectDetailsPage = ({ params }: { params: { project_id: string } }) => {
           <div className={hstack({ flexDir: "row-reverse" })}>
             {!isLoading &&
               !isLoading_user &&
-              ["committtee_editor", "committee_operator", "administrator"].includes(me.role) && (
+              ["committee_editor", "committee_operator", "administrator"].includes(me.role) && (
                 <>
                   <Button color="blue" onClick={() => router.push(`/committee/projects/${project.id}/edit`)}>
                     編集
