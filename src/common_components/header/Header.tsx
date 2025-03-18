@@ -76,9 +76,7 @@ const committeeOperatorMenu: MenuData[] = [
 ];
 
 const menuForRole = (role?: components["schemas"]["UserRole"]): MenuData[] => {
-  switch (
-    role?.replace(/committee_(editor|drafter)/, "committee") // @todo 担当者は適切に実装してください
-  ) {
+  switch (role) {
     case "administrator":
     case "committee_operator":
     case "committee_editor":
