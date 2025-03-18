@@ -86,6 +86,7 @@ export const EditNewsForm: FC<{
             categories: categories as components["schemas"]["ProjectCategory"][],
             attributes: [...projectAttributes] as components["schemas"]["ProjectAttribute"][],
             attachments: fileIds["attachments"] ?? [],
+            state: "draft", // News 担当者が実装
           },
         })
         .then(({ error }) => {
