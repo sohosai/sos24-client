@@ -117,26 +117,30 @@ const ProjectDetailsPage = ({ params }: { params: { project_id: string } }) => {
             {!isLoading &&
               !isLoading_user &&
               ["committtee_editor", "committee_operator", "administrator"].includes(me.role) && (
-                <Button color="blue" onClick={() => router.push(`/committee/projects/${project.id}/edit`)}>
-                  編集
-                </Button>
+                <>
+                  <Button color="blue" onClick={() => router.push(`/committee/projects/${project.id}/edit`)}>
+                    編集
+                  </Button>
+                  {["committee_operator", "administrator"].includes(me.role) && (
+                    <Image
+                      src={deleteButton}
+                      alt=""
+                      className={css({ cursor: "pointer" })}
+                      onClick={() => {
+                        window.confirm("本当に削除しますか？") &&
+                          toast.promise(deleteProject(project.id), {
+                            loading: "企画を削除しています",
+                            error: "企画の削除中にエラーが発生しました",
+                            success: () => {
+                              router.push("/committee/projects");
+                              return "企画を削除しました";
+                            },
+                          });
+                      }}
+                    />
+                  )}
+                </>
               )}
-            <Image
-              src={deleteButton}
-              alt=""
-              className={css({ cursor: "pointer" })}
-              onClick={() => {
-                window.confirm("本当に削除しますか？") &&
-                  toast.promise(deleteProject(project.id), {
-                    loading: "企画を削除しています",
-                    error: "企画の削除中にエラーが発生しました",
-                    success: () => {
-                      router.push("/committee/projects");
-                      return "企画を削除しました";
-                    },
-                  });
-              }}
-            />
           </div>
         </span>
         <ProjectTableView projectData={project} />
