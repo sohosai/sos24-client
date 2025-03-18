@@ -209,6 +209,9 @@ export const ProjectTableView: React.FC<{
         <TableRow label="企画属性" formId="attributes">
           {<ProjectAttributesBadge attributes={projectData.attributes} />}
         </TableRow>
+        <TableRow label="企画実施場所番号" formId="attributes">
+          {projectData?.location_id ?? "未定"}
+        </TableRow>
       </div>
       {isEditMode && (
         <Button type="submit" color="blue">

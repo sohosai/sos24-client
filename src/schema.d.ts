@@ -172,8 +172,13 @@ export interface components {
       attributes: components["schemas"]["ProjectAttributes"];
       body: string;
       categories: components["schemas"]["ProjectCategories"];
+      /** Format: date-time */
+      scheduled_at?: string | null;
+      state: components["schemas"]["NewsState"];
       title: string;
     };
+    /** @enum {string} */
+    CreateNewsState: "draft" | "scheduled" | "published";
     CreateProject: {
       attributes: components["schemas"]["ProjectAttributes"];
       category: components["schemas"]["ProjectCategory"];
@@ -433,15 +438,23 @@ export interface components {
       created_at: string;
       /** Format: uuid */
       id: string;
+      /** Format: date-time */
+      scheduled_at?: string | null;
+      state: components["schemas"]["NewsState"];
       title: string;
       /** Format: date-time */
       updated_at: string;
     };
+    /** @enum {string} */
+    NewsState: "draft" | "scheduled" | "published";
     NewsSummary: {
       attributes: components["schemas"]["ProjectAttributes"];
       categories: components["schemas"]["ProjectCategories"];
       /** Format: uuid */
       id: string;
+      /** Format: date-time */
+      scheduled_at?: string | null;
+      state: components["schemas"]["NewsState"];
       title: string;
       /** Format: date-time */
       updated_at: string;
@@ -458,6 +471,7 @@ export interface components {
       index: number;
       kana_group_name: string;
       kana_title: string;
+      location_id?: string | null;
       owner_email: string;
       owner_id: string;
       owner_name: string;
@@ -498,6 +512,7 @@ export interface components {
       index: number;
       kana_group_name: string;
       kana_title: string;
+      location_id?: string | null;
       owner_email: string;
       owner_id: string;
       owner_name: string;
@@ -523,6 +538,9 @@ export interface components {
       attributes: components["schemas"]["ProjectAttributes"];
       body: string;
       categories: components["schemas"]["ProjectCategories"];
+      /** Format: date-time */
+      scheduled_at?: string | null;
+      state: components["schemas"]["NewsState"];
       title: string;
     };
     UpdateProject: {
@@ -531,6 +549,7 @@ export interface components {
       group_name: string;
       kana_group_name: string;
       kana_title: string;
+      location_id?: string | null;
       remarks?: string | null;
       title: string;
     };
