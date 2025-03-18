@@ -1,4 +1,3 @@
-
 export type ProjectType = {
   location: string[];
   food: string[];
@@ -17,9 +16,7 @@ const ProjectTypeSelector = ({ value, onChange }: Props): JSX.Element => {
   const toggleField = (field: keyof ProjectType, item: string, subItems?: string[]) => {
     if (isDisabled) return;
 
-    let updatedField = value[field].includes(item) 
-      ? value[field].filter((i) => i !== item) 
-      : [...value[field], item];
+    let updatedField = value[field].includes(item) ? value[field].filter((i) => i !== item) : [...value[field], item];
 
     if (subItems) {
       const hasAllSubItems = subItems.every((sub) => value[field].includes(sub))
