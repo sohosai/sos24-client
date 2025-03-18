@@ -3,6 +3,7 @@ import { css } from "@styled-system/css";
 import { Button } from "@/common_components/Button";
 import Image from "next/image";
 import sendIcon from "@/assets/Send.svg?url";
+import driveIcon from "@/assets/Drive.svg?url";
 import { NewNewsSchema, NewNewsSchemaType, projectAttributes, projectCategories } from "@/lib/valibot";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -138,29 +139,51 @@ export const NewNewsForm = () => {
           {/* id="starts_at"
           {...register("starts_at")}*/}
         </div>
-        <div
-          className={css({
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "10px",
-          })}>
-          <Button
-            type="submit"
-            color="purple"
-            className={hstack({
-              gap: 3,
-            })}
-            disabled={isSubmitting || isSubmitSuccessful}>
-            <span
-              className={css({
-                fontSize: "xs",
-                fontWeight: "bold",
-              })}>
-              送信
-            </span>
-            <Image src={sendIcon} alt="" />
-          </Button>
-        </div>
+      </div>
+      <div
+        className={hstack({
+          justifyContent: "space-between",
+          marginBottom: 2,
+          alignSelf: "center",
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+        })}>
+        <Button
+          type="button"
+          color="secondary_blue"
+          className={hstack({
+            gap: 3,
+          })}
+          onClick={() => {
+            // 下書き保存
+          }}
+          disabled={isSubmitting || isSubmitSuccessful}>
+          <span
+            className={css({
+              fontSize: "xs",
+              fontWeight: "bold",
+            })}>
+            下書き保存
+          </span>
+          <Image src={driveIcon} alt="" />
+        </Button>
+        <Button
+          type="submit"
+          color="purple"
+          className={hstack({
+            gap: 3,
+          })}
+          disabled={isSubmitting || isSubmitSuccessful}>
+          <span
+            className={css({
+              fontSize: "xs",
+              fontWeight: "bold",
+            })}>
+            送信
+          </span>
+          <Image src={sendIcon} alt="" />
+        </Button>
       </div>
     </form>
   );
