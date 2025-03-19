@@ -18,6 +18,7 @@ import { BodyField } from "@/common_components/news/BodyField";
 import { FilesField } from "@/common_components/form_editor/FilesEditor";
 import { filesStatus } from "@/common_components/form_editor/FilesInterfaces";
 import { FileErrorsType } from "@/common_components/form_answer/FormItems";
+import driveIcon from "@/assets/Drive.svg?url";
 
 export const EditNewsForm: FC<{
   news_id: string;
@@ -128,7 +129,33 @@ export const EditNewsForm: FC<{
         setErrorState={setFileErrors}
       />
 
-      <div className={center()}>
+      <div
+        className={hstack({
+          justifyContent: "space-between",
+          marginBottom: 2,
+          alignSelf: "center",
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+        })}>
+        <Button
+          type="button"
+          color="secondary_blue"
+          className={hstack({
+            gap: 3,
+          })}
+          //onClick={onClickHandler}//
+          disabled={isSubmitted || isSubmitSuccessful}>
+          <span
+            className={css({
+              fontSize: "xs",
+              fontWeight: "bold",
+            })}>
+            下書き保存
+          </span>
+          <Image src={driveIcon} alt="" />
+        </Button>
+
         <Button
           type="submit"
           color="purple"
