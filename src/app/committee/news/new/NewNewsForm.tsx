@@ -51,6 +51,7 @@ export const NewNewsForm = () => {
         .POST("/news", {
           body: {
             title: data.title,
+            state: "draft", // お知らせのロジック担当者は正しく実装しなくてはならない
             body: data.body,
             categories: categories as components["schemas"]["ProjectCategory"][],
             attributes: [...projectAttributes] as components["schemas"]["ProjectAttribute"][],

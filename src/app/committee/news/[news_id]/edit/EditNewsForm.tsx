@@ -74,7 +74,9 @@ export const EditNewsForm: FC<{
       toast.error("添付ファイルを正しく選択してください");
       return;
     }
-    let fileIds: FileIds = { attachments: filesStatus.map((fileStatus) => fileStatus.uuid) };
+    let fileIds: FileIds = {
+      attachments: filesStatus.map((fileStatus) => fileStatus.uuid),
+    };
     const categories = data.categories === false ? projectCategories : data.categories;
     await toast.promise(
       client
@@ -82,6 +84,7 @@ export const EditNewsForm: FC<{
           params: { path: { news_id: news_id } },
           body: {
             title: data.title,
+            state: "draft", // お知らせのロジック担当者は正しく実装しなくてはならない
             body: data.body,
             categories: categories as components["schemas"]["ProjectCategory"][],
             attributes: [...projectAttributes] as components["schemas"]["ProjectAttribute"][],

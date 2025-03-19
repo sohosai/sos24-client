@@ -177,6 +177,8 @@ export interface components {
       state: components["schemas"]["NewsState"];
       title: string;
     };
+    /** @enum {string} */
+    CreateNewsState: "draft" | "scheduled" | "published";
     CreateProject: {
       attributes: components["schemas"]["ProjectAttributes"];
       category: components["schemas"]["ProjectCategory"];
@@ -510,6 +512,7 @@ export interface components {
       index: number;
       kana_group_name: string;
       kana_title: string;
+      location_id?: string | null;
       owner_email: string;
       owner_id: string;
       owner_name: string;
