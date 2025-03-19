@@ -5,7 +5,6 @@ import { NextPage } from "next";
 import { ProjectsList } from "./ProjectsList";
 import { css } from "@styled-system/css";
 import { assignType } from "@/lib/openapi";
-import { components } from "@/schema";
 import { useState } from "react";
 import useSWR from "swr";
 import { NoResultNotice } from "@/common_components/NoResultNotice";
@@ -15,37 +14,49 @@ import { handleExport } from "@/lib/export";
 import { useAuthState } from "@/lib/firebase";
 import ProjectTypeSelector, { ProjectType } from "./components/ProjectTypeSelector";
 
-const filterStyle = css({
-  position: "relative",
-  background: `url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 24 24"><path fill="%23000000" d="M0.443719 0.53466C0.443719 0.432857 0.546107 0.331055 0.716756 0.331055L9.24918 0.331055C9.41983 0.331055 9.52222 0.432857 9.52222 0.53466C9.52222 0.560111 9.52222 0.611012 9.48809 0.636463L5.22188 5.5739C5.15362 5.65025 5.05123 5.6757 4.98297 5.6757C4.94884 5.6757 4.81232 5.6757 4.74406 5.5739L0.477848 0.636463C0.443718 0.611012 0.443719 0.560111 0.443719 0.53466Z" /></svg>') no-repeat`,
-  backgroundRepeat: "no-repeat",
-  backgroundPositionX: 10,
-  backgroundPositionY: "10px",
-  appearance: "none",
-  paddingLeft: 6,
-});
 const ProjectsPage: NextPage = () => {
   const { data: rawProjectsData, isLoading, error } = useSWR("/projects");
   const projectsData = assignType("/projects", rawProjectsData) ?? [];
-  const [attributesFilter, setAttributesFilter] = useState<components["schemas"]["ProjectAttribute"] | "">("");
-  const [categoryFilter, setCategoryFilter] = useState<components["schemas"]["ProjectCategory"] | "">("");
   const { user } = useAuthState();
+  const [projectType, setProjectType] = useState<ProjectType>({
+    location: ["屋内", "屋外", "UNITED", "1A", "会館"],
+    food: ["食品なし", "仕込み場必要", "仕込み場不要", "既製食品販売"],
+    committee: ["委員会でない"],
+    attributes: ["その他", "学術", "芸術"],
+  });
+
   const generatedProjectData = (() => {
     return projectsData
       .filter(
         (e) =>
-          (attributesFilter === "" || e.attributes.includes(attributesFilter)) &&
-          (categoryFilter == "" || e.category === categoryFilter),
+          (projectType.committee.includes("委員会でない") && !e.attributes.includes("official")) ||
+          (projectType.committee.includes("委員会") && e.attributes.includes("official")),
+      )
+      .filter(
+        (e) =>
+          (projectType.attributes.includes("その他") &&
+            !e.attributes.includes("academic") &&
+            !e.attributes.includes("academic")) ||
+          (projectType.attributes.includes("学術") && e.attributes.includes("academic")) ||
+          (projectType.attributes.includes("芸術") && e.attributes.includes("art")),
+      )
+      .filter(
+        (e) =>
+          (projectType.food.includes("食品なし") &&
+            (e.category.includes("general") ||
+              !e.category.includes("food_with_kitchen") ||
+              !e.category.includes("food_without_kitchen") ||
+              !e.category.includes("food_without_cooking"))) ||
+          (projectType.food.includes("仕込み場必要") && e.category.includes("food_with_kitchen")) ||
+          (projectType.food.includes("仕込み場不要") && e.category.includes("food_without_kitchen")) ||
+          (projectType.food.includes("既製食品販売不要") && e.category.includes("food_without_cooking")),
       )
       .sort((big, small) => big.index - small.index);
   })();
 
-  const [projectType, setProjectType] = useState<ProjectType>({
-    location: [],
-    food: [],
-    committee: [],
-    attributes: [],
-  });
+  const typeSelectorOnChangeHandler = (value: ProjectType) => {
+    setProjectType(value);
+  };
 
   return (
     <div className={container({ marginY: 8 })}>
@@ -99,7 +110,7 @@ const ProjectsPage: NextPage = () => {
             borderColor: "gray.300",
             marginTop: "20px",
           })}>
-          <ProjectTypeSelector value={projectType} onChange={setProjectType} />
+          <ProjectTypeSelector value={projectType} onChange={typeSelectorOnChangeHandler} />
         </div>
         <div className={css({ flexGrow: 1, minWidth: "500px" })}>
           {isLoading ? (
