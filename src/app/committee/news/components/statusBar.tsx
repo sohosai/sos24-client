@@ -21,7 +21,7 @@ export const NewsStatusBar = () => {
         <StatusButton
           type="button"
           onClick={() => {
-            router.push(`/committee/news/all`);
+            router.push(`/committee/news`);
           }}>
           <span
             className={css({
