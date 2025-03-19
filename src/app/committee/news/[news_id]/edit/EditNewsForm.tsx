@@ -38,6 +38,9 @@ export const EditNewsForm: FC<{
   const [fileErrors, setFileErrors] = useState<FileErrorsType>(new Map([["attachments", null]]));
   type FileIds = { [itemId: string]: string[] };
 
+  const { data: data_user, isLoading: isLoading_user } = useSWR("/users/me");
+  const me = assignType("/users/me", data_user);
+
   const { data, error, isLoading, mutate } = useSWR(`/news/${news_id}`);
   if (isLoading) {
     return;
@@ -144,31 +147,33 @@ export const EditNewsForm: FC<{
         setErrorState={setFileErrors}
       />
       <div className={center()}>
-        <Button
-          color="secondary"
-          className={css({ w: "269px" })}
-          onClick={() => {
-            window.confirm("本当に削除しますか？") &&
-              toast.promise(
-                client
-                  .DELETE(`/news/{news_id}`, {
-                    params: { path: { news_id: news_id } },
-                  })
-                  .then(({ error }) => {
-                    if (error) {
-                      throw error;
-                    }
-                    router.push(`/committee/news`);
-                  }),
-                {
-                  loading: "お知らせを削除しています",
-                  error: "お知らせの削除中にエラーが発生しました",
-                  success: "お知らせを削除しました",
-                },
-              );
-          }}>
-          お知らせを削除する
-        </Button>
+        {!isLoading_user && ["committee_operator", "administrator"].includes(me.role) && (
+          <Button
+            color="secondary"
+            className={css({ w: "269px" })}
+            onClick={() => {
+              window.confirm("本当に削除しますか？") &&
+                toast.promise(
+                  client
+                    .DELETE(`/news/{news_id}`, {
+                      params: { path: { news_id: news_id } },
+                    })
+                    .then(({ error }) => {
+                      if (error) {
+                        throw error;
+                      }
+                      router.push(`/committee/news`);
+                    }),
+                  {
+                    loading: "お知らせを削除しています",
+                    error: "お知らせの削除中にエラーが発生しました",
+                    success: "お知らせを削除しました",
+                  },
+                );
+            }}>
+            お知らせを削除する
+          </Button>
+        )}
       </div>
     </form>
   );
