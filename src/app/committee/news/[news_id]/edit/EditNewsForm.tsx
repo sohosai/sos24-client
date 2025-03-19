@@ -89,7 +89,6 @@ export const EditNewsForm: FC<{
             categories: categories as components["schemas"]["ProjectCategory"][],
             attributes: [...projectAttributes] as components["schemas"]["ProjectAttribute"][],
             attachments: fileIds["attachments"] ?? [],
-            state: "published",
           },
         })
         .then(({ error }) => {
