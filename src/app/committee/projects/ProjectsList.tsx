@@ -7,6 +7,8 @@ import Link from "next/link";
 import { projectCategoryItemStyle } from "@/common_components/formFields/styles";
 import { UserWithAddress } from "@/common_components/project/UserWithAddress";
 import { ProjectAttributesBadge } from "@/common_components/project/ProjectAttributesBadge";
+import LocationIcon from "./Location.svg?url";
+import Image from "next/image";
 
 const ProjectRow: React.FC<{ data: components["schemas"]["ProjectSummary"] }> = ({ data }) => {
   return (
@@ -17,15 +19,44 @@ const ProjectRow: React.FC<{ data: components["schemas"]["ProjectSummary"] }> = 
         borderBottom: "1px solid token(colors.gray.300)",
         paddingY: 3,
       })}>
-      <div className={css({ fontWeight: "bold", color: "gray.500", fontSize: "lg" })}>
+      <div
+        className={css({
+          fontWeight: "bold",
+          color: "gray.500",
+          fontSize: "lg",
+        })}>
         {("000" + data.index).slice(-3)}
       </div>
       <div className={vstack({ alignItems: "start" })}>
-        <Link
-          href={`/committee/projects/${data.id}`}
-          className={css({ fontWeight: "bold", fontSize: "lg", display: "block" })}>
-          {data.title}
-        </Link>
+        <div
+          className={css({
+            display: "flex",
+            alignItems: "center",
+            gap: 3,
+            flexWrap: "wrap",
+          })}>
+          <Link
+            href={`/committee/projects/${data.id}`}
+            className={css({
+              fontWeight: "bold",
+              fontSize: "lg",
+              display: "block",
+            })}>
+            {data.title}
+          </Link>
+          <div
+            className={css({
+              display: "flex",
+              alignItems: "center",
+              gap: ".2rem",
+              color: "#A59E9E",
+              fontSize: "sm",
+              fontWeight: "bold",
+            })}>
+            <Image src={LocationIcon} alt="" />
+            {data.location_id ?? "未定"}
+          </div>
+        </div>
         <UserWithAddress name={data.owner_name} email={data.owner_email} />
       </div>
       <div className={vstack({ alignItems: "end" })}>
