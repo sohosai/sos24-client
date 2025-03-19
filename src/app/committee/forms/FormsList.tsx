@@ -4,16 +4,21 @@ import dayjs from "dayjs";
 import { FC } from "react";
 
 import { components } from "@/schema";
-
 import { NoResultNotice } from "@/common_components/NoResultNotice";
 import { getCommitteeTimeLeftText, getFormStatus } from "@/lib/formHelpers";
 import { FormStatusBadge } from "@/common_components/FormStatusBadge";
 
 type Form = components["schemas"]["FormSummary"];
+import { Button } from "@/common_components/Button";
+import plusIcon from "@/assets/Plus.svg?url";
+import Image from "next/image";
+import { flex } from "@styled-system/patterns";
+import { useRouter } from "next/navigation";
 
 export const FormsList: FC<{
   forms: Form[];
 }> = ({ forms }) => {
+  const router = useRouter();
   return (
     <div>
       <div
@@ -22,7 +27,23 @@ export const FormsList: FC<{
           display: "grid",
           justifyContent: "flex-end",
         })}>
-        <Link href="/committee/forms/new">+ 新規作成</Link>
+        <Button
+          color="blue"
+          onClick={() => router.push("/committee/forms/new")}
+          className={flex({
+            alignItems: "center",
+            gap: 2,
+            paddingX: 6,
+          })}>
+          <Image src={plusIcon} alt="" />
+          <span
+            className={css({
+              fontSize: "xs",
+              fontWeight: "bold",
+            })}>
+            新規作成
+          </span>
+        </Button>
       </div>
       <div
         className={css({
