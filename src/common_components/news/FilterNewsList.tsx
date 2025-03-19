@@ -12,7 +12,7 @@ const isTargetProject = (
 };
 
 // 特定の企画向けのお知らせのみを抽出する
-export const filterNewsNotCommitee = (
+const filterNewsNotCommitee = (
   filter: NewsFilterMeOrAllType,
   myProject: components["schemas"]["Project"],
   newsList: components["schemas"]["NewsSummary"][],
@@ -38,7 +38,7 @@ const isTargetProjectByState = (
 
 export type stateType = "all" | "published" | "draft" | "scheduled";
 // 特定の企画向けのお知らせのみを抽出する
-export const filterNewsByState = (
+const filterNewsByState = (
   filter: stateType,
   newsList: components["schemas"]["NewsSummary"][],
 ): components["schemas"]["NewsSummary"][] => {
@@ -53,4 +53,18 @@ export const filterNewsByState = (
     case "scheduled":
       return newsList.filter((news) => isTargetProjectByState("scheduled", news.state));
   }
+};
+
+export const setNewsList = (
+  filterByState: stateType,
+  filter: NewsFilterMeOrAllType,
+  newsList: components["schemas"]["NewsSummary"][],
+  myProject: components["schemas"]["Project"],
+  isCommittee?: boolean,
+  isDashboard?: boolean,
+): components["schemas"]["NewsSummary"][] => {
+  const filteredNewsList = isCommittee
+    ? filterNewsByState(filterByState, newsList)
+    : filterNewsNotCommitee(filter, myProject, newsList).slice(0, isDashboard ? 5 : undefined);
+  return filteredNewsList;
 };

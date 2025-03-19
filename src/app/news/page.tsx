@@ -1,7 +1,6 @@
 "use client";
 
 import { center, container, stack } from "@styled-system/patterns";
-import { useState } from "react";
 import { css } from "@styled-system/css";
 import { NewsView } from "@/common_components/news/NewsView";
 import { NextPage } from "next";
@@ -10,8 +9,6 @@ import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
 import { useRouter } from "next/navigation";
 import { Title } from "@/common_components/Title";
 
-type stateType = "all" | "published" | "draft" | "scheduled";
-
 const NewsPage: NextPage = () => {
   const router = useRouter();
   const applicationPeriod = useAtomValue(projectApplicationPeriodAtom);
@@ -19,8 +16,6 @@ const NewsPage: NextPage = () => {
     router.push("/dashboard");
     return;
   }
-
-  const [choosenState, setChoosenState] = useState<stateType>("all"); //クリックした時にset~発動　filterの引数になる
 
   return (
     <div className={container({ maxWidth: "6xl" })}>
@@ -33,7 +28,7 @@ const NewsPage: NextPage = () => {
             className={css({
               width: "90%",
             })}>
-            <NewsView filterByState={choosenState} />
+            <NewsView />
           </div>
         </div>
       </div>

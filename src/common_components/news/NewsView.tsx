@@ -1,7 +1,7 @@
 import { flex, stack } from "@styled-system/patterns";
 import { FilterSelector, NewsFilterMeOrAllType, newsFiltersMeOrAll } from "@/common_components/news/FilterSelector";
 import { NewsList } from "@/common_components/news/NewsList";
-import { filterNewsNotCommitee, filterNewsByState, stateType } from "@/common_components/news/FilterNewsList";
+import { stateType, setNewsList } from "@/common_components/news/FilterNewsList";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 import { FC, useCallback, useState } from "react";
@@ -56,9 +56,7 @@ export const NewsView: FC<Props> = ({ isCommittee, isDashboard = false, filterBy
   const project = assignType("/projects/me", projectData);
   const newsList = assignType("/news", newsData);
 
-  const filteredNewsList = isCommittee
-    ? filterNewsByState(filterByState, newsList) //.filter((e) => attributesFilter === "" || e.attributes.includes(attributesFilter))
-    : filterNewsNotCommitee(filter, project, newsList).slice(0, isDashboard ? 5 : undefined);
+  const filteredNewsList = setNewsList(filterByState, filter, newsList, project, isCommittee, isDashboard);
 
   return (
     <div className={stack({ gap: 2, width: "full" })}>
@@ -136,7 +134,7 @@ export const NewsView: FC<Props> = ({ isCommittee, isDashboard = false, filterBy
             marginBottom: 0,
           },
         })}>
-        <NewsList newsList={filteredNewsList} isCommittee={isCommittee} /> {/*filterd～をちゃんと絞ったやつにする*/}
+        <NewsList newsList={filteredNewsList} isCommittee={isCommittee} />
       </div>
     </div>
   );
