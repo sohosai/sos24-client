@@ -20,14 +20,20 @@ export const NewsStatusBadge = ({ status, className }: Props) => {
         下書き: {
           backgroundColor: "#E8DAFA", //tsukuba.purpleの薄い板どっかにあればそっち採用したい
           color: "tsukuba.purple",
+          fontSize: "s",
+          fontWeight: "bold",
         },
         公開前: {
           backgroundColor: "sohosai.blue",
           color: "white",
+          fontSize: "s",
+          fontWeight: "bold",
         },
         公開済: {
           backgroundColor: "sohosai.orange",
           color: "white",
+          fontSize: "s",
+          fontWeight: "bold",
         },
         不明: {},
       },
