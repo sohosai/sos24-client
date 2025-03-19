@@ -1,7 +1,10 @@
-import { css, cx } from "@styled-system/css";
-//import { statusButtons } from "@/app/committee/news/components/statusButtons";
+import { css } from "@styled-system/css";
 
-const statusBar = () => {
+import { StatusButton } from "@/app/committee/news/components/statusButtons";
+import { useRouter } from "next/navigation";
+
+export const NewsStatusBar = () => {
+  const router = useRouter();
   return (
     <>
       <div
@@ -11,12 +14,74 @@ const statusBar = () => {
           fontWeight: "bold",
           fontSize: "lg",
           paddingBottom: 2,
-          borderBottom: "1px solid black",
+          borderBottom: "3px solid black",
+          marginX: 0,
+          width: "full",
+          py: 4,
         })}>
-        <div>すべて</div>
-        <div>下書き</div>
-        <div>公開前</div>
-        <div>公開済</div>
+        <div
+          className={css({
+            px: 0,
+          })}>
+          <StatusButton
+            type="button"
+            onClick={() => {
+              router.push(`/committee/news/all`);
+            }}>
+            <span
+              className={css({
+                fontWeight: "bold",
+                borderColor: "white",
+              })}>
+              すべて
+            </span>
+          </StatusButton>
+        </div>
+        <div>
+          <StatusButton
+            type="button"
+            onClick={() => {
+              router.push(`/committee/news/draft`);
+            }}>
+            <span
+              className={css({
+                fontWeight: "bold",
+                borderColor: "white",
+              })}>
+              下書き
+            </span>
+          </StatusButton>
+        </div>
+        <div>
+          <StatusButton
+            type="button"
+            onClick={() => {
+              router.push(`/committee/news/koukaimae`);
+            }}>
+            <span
+              className={css({
+                fontWeight: "bold",
+                borderColor: "white",
+              })}>
+              公開前
+            </span>
+          </StatusButton>
+        </div>
+        <div>
+          <StatusButton
+            type="button"
+            onClick={() => {
+              router.push(`/committee/news/koukazumi`);
+            }}>
+            <span
+              className={css({
+                fontWeight: "bold",
+                borderColor: "white",
+              })}>
+              公開済
+            </span>
+          </StatusButton>
+        </div>
       </div>
     </>
   );
