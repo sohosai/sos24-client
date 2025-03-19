@@ -29,7 +29,7 @@ export const NewsList: FC<{
           sm: {
             display: "grid",
             alignItems: "center",
-            gridTemplateColumns: "1fr 1fr 5fr",
+            gridTemplateColumns: isCommittee != true ? "1fr 5fr" : "1fr 1fr 5fr",
             "& > * > *": {
               pl: 4,
               pr: 4,
@@ -51,7 +51,7 @@ export const NewsList: FC<{
               borderBottom: "1px solid",
             },
           })}>
-          <div className={css({ fontSize: "sm", fontWeight: "bold" })}>状態</div>
+          {isCommittee && <div className={css({ fontSize: "sm", fontWeight: "bold" })}>状態</div>}
           <div className={css({ fontSize: "sm", fontWeight: "bold" })}>更新日</div>
           <div className={css({ fontSize: "sm", fontWeight: "bold" })}>タイトル</div>
         </div>
@@ -81,7 +81,7 @@ export const NewsList: FC<{
                   borderColor: "gray.200",
                 },
               })}>
-              <NewsStatusBadge status={StateToJapanese(news.state)} />
+              {isCommittee && <NewsStatusBadge status={StateToJapanese(news.state)} />}
               <div
                 className={css({
                   fontSize: "sm",
