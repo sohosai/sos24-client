@@ -22,15 +22,8 @@ export const NewsList: FC<{
 }> = ({ newsList, isCommittee }) => {
   return (
     <div>
-      <div
-        className={css({
-          fontSize: "sm",
-          fontWeight: "bold",
-          py: 8,
-          alignItems: "center",
-        })}>
-        <NewsStatusBar />
-      </div>
+      <NewsStatusBar />
+
       <div
         className={css({
           sm: {

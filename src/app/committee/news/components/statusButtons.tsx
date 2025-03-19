@@ -13,7 +13,7 @@ export const StatusButton: FC<Props> = ({ className, children, ...props }: Props
       cursor: "pointer",
 
       borderBottom: "solid",
-      width: "full",
+      paddingX: 6,
       paddingY: 1,
       fontWeight: "bold",
       backgroundColor: "white",
@@ -27,19 +27,8 @@ export const StatusButton: FC<Props> = ({ className, children, ...props }: Props
   });
 
   return (
-    <div>
-      <button
-        className={
-          (css({
-            gap: 3,
-            paddingX: 3,
-            marginX: 3,
-          }),
-          cx(button({}), className))
-        }
-        {...props}>
-        {children}
-      </button>
-    </div>
+    <button className={cx(button({}), className)} {...props}>
+      {children}
+    </button>
   );
 };
