@@ -177,6 +177,8 @@ export interface components {
       state: components["schemas"]["NewsState"];
       title: string;
     };
+    /** @enum {string} */
+    CreateNewsState: "draft" | "scheduled" | "published";
     CreateProject: {
       attributes: components["schemas"]["ProjectAttributes"];
       category: components["schemas"]["ProjectCategory"];
