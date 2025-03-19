@@ -134,27 +134,28 @@ export const NewsView: FC<Props> = ({ isCommittee, isDashboard = false }) => {
             )}
           </>
         )}
-        {!isLoading_user && ["committee_editor", "committee_operator", "administrator"].includes(me.role) && (
-          <>
-            <Button
-              color="blue"
-              onClick={() => router.push("/committee/news/new")}
-              className={flex({
-                alignItems: "center",
-                gap: 2,
-                paddingX: 6,
-              })}>
-              <Image src={plusIcon} alt="" />
-              <span
-                className={css({
-                  fontSize: "xs",
-                  fontWeight: "bold",
+        {!isLoading_user &&
+          ["committee_drafter", "committee_editor", "committee_operator", "administrator"].includes(me.role) && (
+            <>
+              <Button
+                color="blue"
+                onClick={() => router.push("/committee/news/new")}
+                className={flex({
+                  alignItems: "center",
+                  gap: 2,
+                  paddingX: 6,
                 })}>
-                新規作成
-              </span>
-            </Button>
-          </>
-        )}
+                <Image src={plusIcon} alt="" />
+                <span
+                  className={css({
+                    fontSize: "xs",
+                    fontWeight: "bold",
+                  })}>
+                  新規作成
+                </span>
+              </Button>
+            </>
+          )}
       </div>
       <div
         className={css({
