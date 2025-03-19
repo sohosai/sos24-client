@@ -18,6 +18,7 @@ import { BodyField } from "@/common_components/news/BodyField";
 import { FilesField } from "@/common_components/form_editor/FilesEditor";
 import { filesStatus } from "@/common_components/form_editor/FilesInterfaces";
 import { FileErrorsType } from "@/common_components/form_answer/FormItems";
+import driveIcon from "@/assets/Drive.svg?url";
 import dayjs from "dayjs";
 
 export const EditNewsForm: FC<{
@@ -28,7 +29,7 @@ export const EditNewsForm: FC<{
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitted, isSubmitSuccessful },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
     reset,
   } = useForm<UpdateNewsSchemaType>({
     mode: "onBlur",
@@ -113,8 +114,6 @@ export const EditNewsForm: FC<{
       },
     );
   };
-
-  //下書き保存ボタンの引数
   const onClick = async (data: UpdateNewsSchemaType) => {
     let fileIds: FileIds = { attachments: filesStatus.map((fileStatus) => fileStatus.uuid) };
     const categories = data.categories === false ? projectCategories : data.categories;
@@ -160,13 +159,53 @@ export const EditNewsForm: FC<{
           marginBottom: 2,
         })}>
         <h2 className={css({ fontSize: "2xl", fontWeight: "bold" })}>お知らせ編集</h2>
+      </div>
+      <ProjectCategorySelector register={register("categories")} error={errors.categories?.message} />
+      <TitleField register={register("title")} error={errors.title?.message} />
+      <BodyField register={register("body")} error={errors.body?.message} />
+      <FilesField
+        label="添付ファイル"
+        register={register("attachments")}
+        id="attachments"
+        filesStatus={filesStatus}
+        setFilesStatus={setFilesStatus}
+        setErrorState={setFileErrors}
+      />
+
+      <div
+        className={hstack({
+          justifyContent: "space-between",
+          marginBottom: 2,
+          alignSelf: "center",
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+        })}>
+        <Button
+          type="button"
+          color="secondary_blue"
+          className={hstack({
+            gap: 3,
+          })}
+          //onClick={onClickHandler}//
+          disabled={isSubmitting || isSubmitSuccessful}>
+          <span
+            className={css({
+              fontSize: "xs",
+              fontWeight: "bold",
+            })}>
+            下書き保存
+          </span>
+          <Image src={driveIcon} alt="" />
+        </Button>
+
         <Button
           type="submit"
           color="purple"
           className={hstack({
             gap: 3,
           })}
-          disabled={isSubmitted || isSubmitSuccessful}>
+          disabled={isSubmitting || isSubmitSuccessful}>
           <span
             className={css({
               fontSize: "xs",
