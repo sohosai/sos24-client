@@ -19,6 +19,7 @@ import { FilesField } from "@/common_components/form_editor/FilesEditor";
 import { filesStatus } from "@/common_components/form_editor/FilesInterfaces";
 import { FileErrorsType } from "@/common_components/form_answer/FormItems";
 import driveIcon from "@/assets/Drive.svg?url";
+//import dayjs from "dayjs";
 
 export const EditNewsForm: FC<{
   news_id: string;
@@ -28,7 +29,7 @@ export const EditNewsForm: FC<{
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitted, isSubmitSuccessful },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
     reset,
   } = useForm<UpdateNewsSchemaType>({
     mode: "onBlur",
@@ -108,6 +109,7 @@ export const EditNewsForm: FC<{
       },
     );
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={stack({ gap: 4 })}>
       <div
@@ -145,7 +147,7 @@ export const EditNewsForm: FC<{
             gap: 3,
           })}
           //onClick={onClickHandler}//
-          disabled={isSubmitted || isSubmitSuccessful}>
+          disabled={isSubmitting || isSubmitSuccessful}>
           <span
             className={css({
               fontSize: "xs",
@@ -162,7 +164,7 @@ export const EditNewsForm: FC<{
           className={hstack({
             gap: 3,
           })}
-          disabled={isSubmitted || isSubmitSuccessful}>
+          disabled={isSubmitting || isSubmitSuccessful}>
           <span
             className={css({
               fontSize: "xs",
