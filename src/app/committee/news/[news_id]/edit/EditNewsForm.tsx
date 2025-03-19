@@ -172,61 +172,6 @@ export const EditNewsForm: FC<{
         setErrorState={setFileErrors}
       />
 
-      <div
-        className={hstack({
-          justifyContent: "space-between",
-          marginBottom: 2,
-          alignSelf: "center",
-          display: "flex",
-          alignItems: "center",
-          gap: 1,
-        })}>
-        <Button
-          type="button"
-          color="secondary_blue"
-          className={hstack({
-            gap: 3,
-          })}
-          //onClick={onClickHandler}//
-          disabled={isSubmitting || isSubmitSuccessful}>
-          <span
-            className={css({
-              fontSize: "xs",
-              fontWeight: "bold",
-            })}>
-            下書き保存
-          </span>
-          <Image src={driveIcon} alt="" />
-        </Button>
-
-        <Button
-          type="submit"
-          color="purple"
-          className={hstack({
-            gap: 3,
-          })}
-          disabled={isSubmitting || isSubmitSuccessful}>
-          <span
-            className={css({
-              fontSize: "xs",
-              fontWeight: "bold",
-            })}>
-            保存
-          </span>
-          <Image src={sendIcon} alt="" />
-        </Button>
-      </div>
-      <ProjectCategorySelector register={register("categories")} error={errors.categories?.message} />
-      <TitleField register={register("title")} error={errors.title?.message} />
-      <BodyField register={register("body")} error={errors.body?.message} />
-      <FilesField
-        label="添付ファイル"
-        register={register("attachments")}
-        id="attachments"
-        filesStatus={filesStatus}
-        setFilesStatus={setFilesStatus}
-        setErrorState={setFileErrors}
-      />
       {!isPublished && (
         <div>
           <p
@@ -260,6 +205,51 @@ export const EditNewsForm: FC<{
           </div>
         </div>
       )}
+
+      <div
+        className={hstack({
+          justifyContent: "space-between",
+          marginBottom: 2,
+          alignSelf: "center",
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+        })}>
+        <Button
+          type="button"
+          color="secondary_blue"
+          className={hstack({
+            gap: 3,
+          })}
+          onClick={handleSubmit(onClick)}
+          disabled={isSubmitting || isSubmitSuccessful}>
+          <span
+            className={css({
+              fontSize: "xs",
+              fontWeight: "bold",
+            })}>
+            下書き保存
+          </span>
+          <Image src={driveIcon} alt="" />
+        </Button>
+
+        <Button
+          type="submit"
+          color="purple"
+          className={hstack({
+            gap: 3,
+          })}
+          disabled={isSubmitting || isSubmitSuccessful}>
+          <span
+            className={css({
+              fontSize: "xs",
+              fontWeight: "bold",
+            })}>
+            保存
+          </span>
+          <Image src={sendIcon} alt="" />
+        </Button>
+      </div>
       <div className={center()}>
         <Button
           color="secondary"
