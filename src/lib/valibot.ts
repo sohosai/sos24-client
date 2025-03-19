@@ -64,6 +64,8 @@ const projectKanaGroupName = string([
   custom((value) => isYomigana(value), "ひらがなで入力してください"),
 ]);
 
+const projectLocationIdSchema = string([custom((value) => !containsEmoji(value), "絵文字は使用できません")]);
+
 export const projectCategories = [
   "general",
   "foods_with_kitchen",
@@ -113,6 +115,7 @@ export const UpdateProjectCommitteeSchema = object({
   kana_group_name: projectKanaGroupName,
   category: projectCategorySchema,
   attributes: projectAttributesSchema,
+  location_id: projectLocationIdSchema,
 });
 
 export type UpdateProjectCommitteeSchemaType = Output<typeof UpdateProjectCommitteeSchema>;
