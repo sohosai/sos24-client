@@ -14,7 +14,8 @@ export const NewsStatusBar = () => {
           fontWeight: "bold",
           fontSize: "lg",
           paddingBottom: 2,
-          borderBottom: "3px solid black",
+          borderBottom: "1px solid ",
+          borderColor: "gray.500",
           marginX: 0,
           width: "full",
           py: 4,
@@ -56,7 +57,7 @@ export const NewsStatusBar = () => {
           <StatusButton
             type="button"
             onClick={() => {
-              router.push(`/committee/news/koukaimae`);
+              router.push(`/committee/news/scheduled`);
             }}>
             <span
               className={css({
@@ -71,7 +72,7 @@ export const NewsStatusBar = () => {
           <StatusButton
             type="button"
             onClick={() => {
-              router.push(`/committee/news/koukazumi`);
+              router.push(`/committee/news/published`);
             }}>
             <span
               className={css({
