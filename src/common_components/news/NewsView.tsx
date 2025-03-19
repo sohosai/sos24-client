@@ -1,7 +1,7 @@
 import { flex, stack } from "@styled-system/patterns";
 import { FilterSelector, NewsFilterMeOrAllType, newsFiltersMeOrAll } from "@/common_components/news/FilterSelector";
 import { NewsList } from "@/common_components/news/NewsList";
-import { filterNewsByCommitee, filterNewsByState, stateType } from "@/common_components/news/FilterNewsList";
+import { filterNewsNotCommitee, filterNewsByState, stateType } from "@/common_components/news/FilterNewsList";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 import { FC, useCallback, useState } from "react";
@@ -58,7 +58,7 @@ export const NewsView: FC<Props> = ({ isCommittee, isDashboard = false, filterBy
 
   const filteredNewsList = isCommittee
     ? filterNewsByState(filterByState, newsList) //.filter((e) => attributesFilter === "" || e.attributes.includes(attributesFilter))
-    : filterNewsByCommitee(filter, project, newsList).slice(0, isDashboard ? 5 : undefined);
+    : filterNewsNotCommitee(filter, project, newsList).slice(0, isDashboard ? 5 : undefined);
 
   return (
     <div className={stack({ gap: 2, width: "full" })}>
