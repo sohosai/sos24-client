@@ -18,7 +18,7 @@ export const NewsStatusBadge = ({ status, className }: Props) => {
     variants: {
       status: {
         下書き: {
-          backgroundColor: "gray.200", //tsukuba.purpleの薄い板どっかにあればそっち採用したい
+          backgroundColor: "#E8DAFA", //tsukuba.purpleの薄い板どっかにあればそっち採用したい
           color: "tsukuba.purple",
         },
         公開前: {
