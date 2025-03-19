@@ -7,7 +7,7 @@ import { ProjectCategory } from "@/lib/valibot";
 import Image from "next/image";
 import arrowIcon from "@/assets/Arrow.svg?url";
 import { NoResultNotice } from "@/common_components/NoResultNotice";
-import statusBar from "@/app/committee/news/components/statusBar";
+import { NewsStatusBar } from "@/app/committee/news/components/statusBar";
 
 type News = {
   id: string;
@@ -22,8 +22,14 @@ export const NewsList: FC<{
 }> = ({ newsList, isCommittee }) => {
   return (
     <div>
-      <div>
-        <statusBar />
+      <div
+        className={css({
+          fontSize: "sm",
+          fontWeight: "bold",
+          py: 8,
+          alignItems: "center",
+        })}>
+        <NewsStatusBar />
       </div>
       <div
         className={css({
