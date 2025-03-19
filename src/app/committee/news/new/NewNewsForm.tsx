@@ -19,6 +19,8 @@ import { FileErrorsType } from "@/common_components/form_answer/FormItems";
 import { FilesField } from "@/common_components/form_editor/FilesEditor";
 import { filesStatus } from "@/common_components/form_editor/FilesInterfaces";
 import dayjs from "dayjs";
+import useSWR from "swr";
+import { assignType } from "@/lib/openapi";
 
 export const NewNewsForm = () => {
   const router = useRouter();
@@ -33,6 +35,9 @@ export const NewNewsForm = () => {
   const [filesStatus, setFilesStatus] = useState<filesStatus[]>([]);
   const [fileErrors, setFileErrors] = useState<FileErrorsType>(new Map([["attachments", null]]));
   type FileIds = { [itemId: string]: string[] };
+
+  const { data: data_user, isLoading: isLoading_user } = useSWR("/users/me");
+  const me = assignType("/users/me", data_user);
 
   const onSubmit = async (data: NewNewsSchemaType) => {
     if (fileErrors.get("attachments")) {
@@ -205,22 +210,24 @@ export const NewNewsForm = () => {
           </span>
           <Image src={driveIcon} alt="" />
         </Button>
-        <Button
-          type="submit"
-          color="purple"
-          className={hstack({
-            gap: 3,
-          })}
-          disabled={isSubmitting || isSubmitSuccessful}>
-          <span
-            className={css({
-              fontSize: "xs",
-              fontWeight: "bold",
-            })}>
-            送信
-          </span>
-          <Image src={sendIcon} alt="" />
-        </Button>
+        {!isLoading_user && ["committee_editor", "committee_operator", "administrator"].includes(me.role) && (
+          <Button
+            type="submit"
+            color="purple"
+            className={hstack({
+              gap: 3,
+            })}
+            disabled={isSubmitting || isSubmitSuccessful}>
+            <span
+              className={css({
+                fontSize: "xs",
+                fontWeight: "bold",
+              })}>
+              送信
+            </span>
+            <Image src={sendIcon} alt="" />
+          </Button>
+        )}
       </div>
     </form>
   );
