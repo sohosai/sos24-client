@@ -81,7 +81,11 @@ export const NewsList: FC<{
                   borderColor: "gray.200",
                 },
               })}>
-              <div>{isCommittee && <NewsStatusBadge status={StateToJapanese(news.state)} />}</div>
+              {isCommittee && (
+                <div>
+                  <NewsStatusBadge status={StateToJapanese(news.state)} />
+                </div>
+              )}
               <div
                 className={css({
                   fontSize: "sm",
