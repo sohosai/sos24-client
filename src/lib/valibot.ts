@@ -210,6 +210,7 @@ export const UpdateNewsSchema = object({
   categories: newsCategories,
   // FileListが入る
   attachments: unknown(),
+  starts_at: string(),
 });
 
 export type UpdateNewsSchemaType = Output<typeof UpdateNewsSchema>;

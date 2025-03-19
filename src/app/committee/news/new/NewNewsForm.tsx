@@ -56,7 +56,7 @@ export const NewNewsForm = () => {
             categories: categories as components["schemas"]["ProjectCategory"][],
             attributes: [...projectAttributes] as components["schemas"]["ProjectAttribute"][],
             attachments: fileIds["attachments"] ?? [],
-            scheduled_at: starts_at,
+            scheduled_at: starts_at as components["schemas"]["CreateNews"]["scheduled_at"],
           },
         })
         .then(({ data, error }) => {
@@ -91,12 +91,12 @@ export const NewNewsForm = () => {
         .POST("/news", {
           body: {
             title: data.title,
+            state: state as components["schemas"]["NewsState"],
             body: data.body,
             categories: categories as components["schemas"]["ProjectCategory"][],
             attributes: [...projectAttributes] as components["schemas"]["ProjectAttribute"][],
             attachments: fileIds["attachments"] ?? [],
-            state: state as components["schemas"]["NewsState"],
-            scheduled_at: starts_at,
+            scheduled_at: starts_at as components["schemas"]["CreateNews"]["scheduled_at"],
           },
         })
         .then(({ data, error }) => {
