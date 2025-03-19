@@ -32,6 +32,7 @@ export const News: FC<{
   const router = useRouter();
   const applicationPeriod = useAtomValue(projectApplicationPeriodAtom);
   const isScheduled = news.state != "scheduled" ? false : true;
+  const isPublished = news.state != "published" ? false : true;
 
   return (
     <div
@@ -122,20 +123,22 @@ export const News: FC<{
                   );
               }}
             />
-            <Button
-              color="blue"
-              className={flex({
-                verticalAlign: "middle",
-              })}
-              onClick={() => router.push(`/committee/news/${news.id}/edit`)}>
-              <span
-                className={css({
-                  fontSize: "xs",
-                  fontWeight: "bold",
-                })}>
-                編集
-              </span>
-            </Button>
+            {!isPublished && (
+              <Button
+                color="blue"
+                className={flex({
+                  verticalAlign: "middle",
+                })}
+                onClick={() => router.push(`/committee/news/${news.id}/edit`)}>
+                <span
+                  className={css({
+                    fontSize: "xs",
+                    fontWeight: "bold",
+                  })}>
+                  編集
+                </span>
+              </Button>
+            )}
           </div>
         )}
       </div>
