@@ -5,12 +5,10 @@ const isTargetProject = (
   myProject: components["schemas"]["Project"],
   targetCategories: components["schemas"]["ProjectCategory"][],
   targetAttributes: components["schemas"]["ProjectAttribute"][],
-  targetState: components["schemas"]["NewsState"],
 ): boolean => {
   const doesCategoryMatch = targetCategories.includes(myProject.category);
   const doesAttributeMatch = targetAttributes.some((targetAttribute) => myProject.attributes.includes(targetAttribute));
-  const doesStatePublished = targetState.includes("published");
-  return doesCategoryMatch && doesAttributeMatch && doesStatePublished;
+  return doesCategoryMatch && doesAttributeMatch;
 };
 
 // 特定の企画向けのお知らせのみを抽出する
@@ -19,12 +17,13 @@ export const filterNewsNotCommitee = (
   myProject: components["schemas"]["Project"],
   newsList: components["schemas"]["NewsSummary"][],
 ): components["schemas"]["NewsSummary"][] => {
+  const PublishedNewsList = newsList.filter((news) => news.state.includes("published"));
   switch (filter) {
     case "me":
-      return newsList.filter((news) => isTargetProject(myProject, news.categories, news.attributes, news.state));
+      return PublishedNewsList.filter((news) => isTargetProject(myProject, news.categories, news.attributes));
     //一つ目が基準　残り二つがそれぞれのパラメータ
     case "all":
-      return newsList.filter((news) => news.state.includes("published"));
+      return PublishedNewsList;
   }
 };
 
