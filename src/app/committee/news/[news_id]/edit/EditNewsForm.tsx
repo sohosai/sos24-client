@@ -112,6 +112,20 @@ export const EditNewsForm: FC<{
           marginBottom: 2,
         })}>
         <h2 className={css({ fontSize: "2xl", fontWeight: "bold" })}>お知らせ編集</h2>
+      </div>
+      <ProjectCategorySelector register={register("categories")} error={errors.categories?.message} />
+      <TitleField register={register("title")} error={errors.title?.message} />
+      <BodyField register={register("body")} error={errors.body?.message} />
+      <FilesField
+        label="添付ファイル"
+        register={register("attachments")}
+        id="attachments"
+        filesStatus={filesStatus}
+        setFilesStatus={setFilesStatus}
+        setErrorState={setFileErrors}
+      />
+
+      <div className={center()}>
         <Button
           type="submit"
           color="purple"
@@ -129,17 +143,7 @@ export const EditNewsForm: FC<{
           <Image src={sendIcon} alt="" />
         </Button>
       </div>
-      <ProjectCategorySelector register={register("categories")} error={errors.categories?.message} />
-      <TitleField register={register("title")} error={errors.title?.message} />
-      <BodyField register={register("body")} error={errors.body?.message} />
-      <FilesField
-        label="添付ファイル"
-        register={register("attachments")}
-        id="attachments"
-        filesStatus={filesStatus}
-        setFilesStatus={setFilesStatus}
-        setErrorState={setFileErrors}
-      />
+
       <div className={center()}>
         <Button
           color="secondary"
