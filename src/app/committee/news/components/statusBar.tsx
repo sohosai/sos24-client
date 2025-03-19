@@ -9,6 +9,7 @@ export const NewsStatusBar = () => {
     <>
       <div
         className={css({
+          display: "flex",
           columns: 4,
           gridTemplateColumns: "1fr 1fr 1fr 1fr",
           fontWeight: "bold",
@@ -16,73 +17,62 @@ export const NewsStatusBar = () => {
           paddingBottom: 2,
           borderBottom: "1px solid ",
           borderColor: "gray.500",
-          marginX: 0,
-          width: "full",
-          py: 4,
         })}>
-        <div
-          className={css({
-            px: 0,
-          })}>
-          <StatusButton
-            type="button"
-            onClick={() => {
-              router.push(`/committee/news/all`);
-            }}>
-            <span
-              className={css({
-                fontWeight: "bold",
-                borderColor: "white",
-              })}>
-              すべて
-            </span>
-          </StatusButton>
-        </div>
-        <div>
-          <StatusButton
-            type="button"
-            onClick={() => {
-              router.push(`/committee/news/draft`);
-            }}>
-            <span
-              className={css({
-                fontWeight: "bold",
-                borderColor: "white",
-              })}>
-              下書き
-            </span>
-          </StatusButton>
-        </div>
-        <div>
-          <StatusButton
-            type="button"
-            onClick={() => {
-              router.push(`/committee/news/scheduled`);
-            }}>
-            <span
-              className={css({
-                fontWeight: "bold",
-                borderColor: "white",
-              })}>
-              公開前
-            </span>
-          </StatusButton>
-        </div>
-        <div>
-          <StatusButton
-            type="button"
-            onClick={() => {
-              router.push(`/committee/news/published`);
-            }}>
-            <span
-              className={css({
-                fontWeight: "bold",
-                borderColor: "white",
-              })}>
-              公開済
-            </span>
-          </StatusButton>
-        </div>
+        <StatusButton
+          type="button"
+          onClick={() => {
+            router.push(`/committee/news/all`);
+          }}>
+          <span
+            className={css({
+              fontWeight: "bold",
+              borderColor: "white",
+            })}>
+            すべて
+          </span>
+        </StatusButton>
+
+        <StatusButton
+          type="button"
+          onClick={() => {
+            router.push(`/committee/news/draft`);
+          }}>
+          <span
+            className={css({
+              fontWeight: "bold",
+              borderColor: "white",
+            })}>
+            下書き
+          </span>
+        </StatusButton>
+
+        <StatusButton
+          type="button"
+          onClick={() => {
+            router.push(`/committee/news/scheduled`);
+          }}>
+          <span
+            className={css({
+              fontWeight: "bold",
+              borderColor: "white",
+            })}>
+            公開前
+          </span>
+        </StatusButton>
+
+        <StatusButton
+          type="button"
+          onClick={() => {
+            router.push(`/committee/news/published`);
+          }}>
+          <span
+            className={css({
+              fontWeight: "bold",
+              borderColor: "white",
+            })}>
+            公開済
+          </span>
+        </StatusButton>
       </div>
     </>
   );
