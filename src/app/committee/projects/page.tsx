@@ -3,15 +3,11 @@
 import { container, hstack } from "@styled-system/patterns";
 import { NextPage } from "next";
 import { ProjectsList } from "./ProjectsList";
-import { css, cx } from "@styled-system/css";
+import { css } from "@styled-system/css";
 import { assignType } from "@/lib/openapi";
 import { components } from "@/schema";
 import { useState } from "react";
 import useSWR from "swr";
-import { ProjectCategoryFormatter } from "@/common_components/ProjectCategoryFormatter";
-import { filterSelectorStyle } from "@/common_components/news/FilterSelector";
-import { AttributesFormatter } from "@/common_components/project/AttributesFormatter";
-import { projectAttributes, projectCategories } from "@/lib/valibot";
 import { NoResultNotice } from "@/common_components/NoResultNotice";
 import { buttonStyle } from "@/recipes/button";
 import toast from "react-hot-toast";
