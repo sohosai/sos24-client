@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
-import ProjectTypeSelector from "./projectTypeSelector";
+import ProjectTypeSelector from "./ProjectTypeSelector";
 
 const meta: Meta<typeof ProjectTypeSelector> = {
   component: ProjectTypeSelector,

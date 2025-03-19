@@ -44,7 +44,7 @@ const ProjectTypeSelector = ({ value, onChange }: Props): JSX.Element => {
       <div
         className={css({
           display: "grid",
-          gridTemplateColumns: { base: "1fr", md: "repeat(3, 1fr)" },
+          gridTemplateColumns: "1fr",
           gap: "1.5rem",
           alignItems: "start",
         })}>
@@ -169,11 +169,11 @@ const CategorySection = ({
               transition: "all",
               backgroundColor: isAllSelected ? "#5800C7" : "#EDEDED",
               borderColor: isAllSelected ? "#5800C7" : "#D8D8D8",
-              color: isAllSelected ? "white" : "black",
               opacity: isDisabled ? 0.5 : 1,
+              color: isAllSelected ? "#FFFFFF" : "transparent",
               cursor: isDisabled ? "not-allowed" : "pointer",
             })}>
-            {isAllSelected && "✔"}
+            ✔︎
           </span>
           すべて
         </label>
