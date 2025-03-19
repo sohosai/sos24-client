@@ -1,5 +1,4 @@
 import { cva, cx } from "@styled-system/css";
-import { css } from "@styled-system/css";
 import { ButtonHTMLAttributes, FC } from "react";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
