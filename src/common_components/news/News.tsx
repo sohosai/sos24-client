@@ -34,6 +34,9 @@ export const News: FC<{
   const isScheduled = news.state != "scheduled" ? false : true;
   const isPublished = news.state != "published" ? false : true;
 
+  const { data: data_user, isLoading: _ } = useSWR("/users/me");
+  const me = assignType("/users/me", data_user);
+
   return (
     <div
       className={stack({
@@ -89,40 +92,42 @@ export const News: FC<{
           })}>
           {news.title}
         </h2>
-        {isCommittee && (
+        {["committee_editor", "committee_operator", "administrator"].includes(me.role) && (
           <div className={hstack()}>
-            <Image
-              src={deleteNewsButton}
-              alt=""
-              className={css({ cursor: "pointer", pt: 2 })}
-              onClick={() => {
-                window.confirm("本当に削除しますか？") &&
-                  toast.promise(
-                    client
-                      .DELETE("/news/{news_id}", {
-                        params: {
-                          path: {
-                            news_id: news.id,
+            {["committee_operator", "administrator"].includes(me.role) && (
+              <Image
+                src={deleteNewsButton}
+                alt=""
+                className={css({ cursor: "pointer", pt: 2 })}
+                onClick={() => {
+                  window.confirm("本当に削除しますか？") &&
+                    toast.promise(
+                      client
+                        .DELETE("/news/{news_id}", {
+                          params: {
+                            path: {
+                              news_id: news.id,
+                            },
                           },
-                        },
-                      })
-                      .then(({ error }) => {
-                        if (error) {
-                          throw error;
-                        }
-                        router.push("/committee/news");
-                      })
-                      .catch((e) => {
-                        throw e;
-                      }),
-                    {
-                      loading: "お知らせを削除しています",
-                      success: "お知らせを削除しました",
-                      error: "お知らせの削除に失敗しました",
-                    },
-                  );
-              }}
-            />
+                        })
+                        .then(({ error }) => {
+                          if (error) {
+                            throw error;
+                          }
+                          router.push("/committee/news");
+                        })
+                        .catch((e) => {
+                          throw e;
+                        }),
+                      {
+                        loading: "お知らせを削除しています",
+                        success: "お知らせを削除しました",
+                        error: "お知らせの削除に失敗しました",
+                      },
+                    );
+                }}
+              />
+            )}
             {!isPublished && (
               <Button
                 color="blue"
