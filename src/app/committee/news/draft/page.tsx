@@ -7,6 +7,7 @@ import { css } from "@styled-system/css";
 import { NewsView } from "@/common_components/news/NewsView";
 
 const CommitteeNewsPage: NextPage = () => {
+  const SortStatus: "all" | "draft" | "scheduled" | "published" = "all";
   return (
     <div className={container()}>
       <div className={stack({ gap: 8, marginY: 8 })}>
