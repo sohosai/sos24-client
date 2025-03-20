@@ -7,6 +7,8 @@ import { stack } from "@styled-system/patterns";
 import { assignType } from "@/lib/openapi";
 import useSWR from "swr";
 
+const SortStatus: "all" | "draft" | "scheduled" | "published" | "ended " = "all";
+
 const DashboardPage: NextPage = () => {
   const { data: formsRes, error, isLoading } = useSWR(() => `/forms`);
   const forms = formsRes ? assignType("/forms", formsRes) : undefined;
@@ -54,7 +56,7 @@ const DashboardPage: NextPage = () => {
           </h2>
         </div>
         <div className={stack({ padding: 10, gap: 4, alignItems: "flex-start", width: "100%" })}>
-          <FormsList forms={forms} />
+          <FormsList forms={forms} status={SortStatus} />
         </div>
       </div>
     </>
