@@ -16,6 +16,10 @@ import pulldownIcon from "@/assets/Pulldown.svg?url";
 import { useAtomValue } from "jotai";
 import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
 
+export interface SortStatus {
+  status: "all" | "draft" | "scheduled" | "published";
+}
+
 // 対象の企画であるかを確認する
 const isTargetProject = (
   myProject: components["schemas"]["Project"],
@@ -47,7 +51,7 @@ export type Props = {
 };
 
 // これはコンポーネントの規模ではないのではみたいな気持ちがある
-export const NewsView: FC<Props> = ({ isCommittee, isDashboard = false }) => {
+export const NewsView: FC<Props & SortStatus> = ({ isCommittee, isDashboard = false, status }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -164,7 +168,7 @@ export const NewsView: FC<Props> = ({ isCommittee, isDashboard = false }) => {
             marginBottom: 0,
           },
         })}>
-        <NewsList newsList={filteredNewsList} isCommittee={isCommittee} />
+        <NewsList newsList={filteredNewsList} isCommittee={isCommittee} status={status} />
       </div>
     </div>
   );
