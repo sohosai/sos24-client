@@ -139,6 +139,7 @@ export const NewsView: FC<Props & SortStatus> = ({ isCommittee, isDashboard = fa
           </>
         )}
         {!isLoading_user &&
+          isCommittee &&
           ["committee_drafter", "committee_editor", "committee_operator", "administrator"].includes(me.role) && (
             <>
               <Button
