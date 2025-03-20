@@ -21,21 +21,23 @@ export const StatusButton: FC<Props> = ({ color = "black", className, children, 
       color: {
         black: {
           color: "black",
+          borderBottom: " 1px solid",
           _hover: {
             opacity: "90%",
             color: "gray.400",
             borderColor: "gray.400",
           },
-          borderColor: "black",
+          borderColor: "gray.400",
         },
         purple: {
-          color: "purple.400",
+          borderBottom: "solid",
+          color: "tsukuba.purple",
           _hover: {
             opacity: "40%",
             bordercolor: "purple.100",
           },
 
-          borderColor: "purple.400",
+          borderColor: "tsukuba.purple",
         },
       },
     },
