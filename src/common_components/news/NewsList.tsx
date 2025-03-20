@@ -31,8 +31,7 @@ export const NewsList: FC<
 > = ({ newsList, isCommittee, status }) => {
   return (
     <div>
-      <NewsStatusBar SortStatus={status} />
-
+      {isCommittee && <NewsStatusBar SortStatus={status} />}
       <div
         className={css({
           sm: {
