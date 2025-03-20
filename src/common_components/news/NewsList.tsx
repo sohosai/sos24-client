@@ -10,7 +10,7 @@ import { NoResultNotice } from "@/common_components/NoResultNotice";
 import { NewsStatusBar } from "@/app/committee/news/components/statusBar";
 import { NewsStatusBadge } from "@/app/committee/news/components/newsStatusBudge";
 import { StateToJapanese } from "@/lib/newsHelpers";
-
+import { SortStatus } from "@/common_components/news/NewsView";
 type News = {
   id: string;
   title: string;
@@ -19,16 +19,21 @@ type News = {
   state: string;
 };
 
-export const NewsList: FC<{
-  newsList: News[];
-  isCommittee?: boolean;
-}> = ({ newsList, isCommittee }) => {
+export interface NewsSortStatus {
+  status: "all" | "draft" | "scheduled" | "published";
+}
+
+export const NewsList: FC<
+  {
+    newsList: News[];
+    isCommittee?: boolean;
+  } & NewsSortStatus
+> = ({ newsList, isCommittee, status }) => {
   //ソートする値//
-  const SortStatus: "all" | "draft" | "scheduled" | "published" = "draft";
 
   return (
     <div>
-      <NewsStatusBar SortStatus={SortStatus} />
+      <NewsStatusBar SortStatus={status} />
 
       <div
         className={css({
@@ -64,7 +69,7 @@ export const NewsList: FC<{
 
         {newsList.length !== 0 ? (
           newsList
-            .filter((news) => news.state === SortStatus)
+            .filter((news) => news.state === status)
             .map((news) => (
               <Link
                 key={news.id}
