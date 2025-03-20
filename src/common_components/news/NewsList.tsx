@@ -23,9 +23,12 @@ export const NewsList: FC<{
   newsList: News[];
   isCommittee?: boolean;
 }> = ({ newsList, isCommittee }) => {
+  //newsStatusBarのボタンの色をここで管理//
+  const SortStatus: "all" | "draft" | "scheduled" | "published" = "all";
+
   return (
     <div>
-      <NewsStatusBar />
+      <NewsStatusBar SortStatus={SortStatus} />
 
       <div
         className={css({
