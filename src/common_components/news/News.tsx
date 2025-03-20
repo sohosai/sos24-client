@@ -31,6 +31,8 @@ export const News: FC<{
 }> = ({ news, isCommittee }) => {
   const router = useRouter();
   const applicationPeriod = useAtomValue(projectApplicationPeriodAtom);
+  const isScheduled = news.state != "scheduled" ? false : true;
+  const isPublished = news.state != "published" ? false : true;
 
   const { data: data_user, isLoading: isLoading_user } = useSWR("/users/me");
   const me = assignType("/users/me", data_user);
@@ -53,12 +55,29 @@ export const News: FC<{
         })}>
         {isCommittee || !applicationPeriod.isIn ? "←お知らせ一覧に戻る" : "←戻る"}
       </Link>
-      <p
-        className={css({
-          fontSize: "xs",
+      <div
+        className={flex({
+          alignItems: "center",
+          marginBottom: 2,
+          flexWrap: "wrap",
         })}>
-        最終更新: {dayjs(news.updated_at).format("YYYY/MM/DD HH:mm")}
-      </p>
+        <p
+          className={css({
+            fontSize: "xs",
+          })}>
+          最終更新: {dayjs(news.updated_at).format("YYYY/MM/DD HH:mm")}
+        </p>
+        {isScheduled && (
+          <p
+            className={css({
+              fontSize: "xs",
+              color: "{colors.red.600}",
+              marginLeft: "20px",
+            })}>
+            投稿予定時刻: {dayjs(news.scheduled_at).format("YYYY/MM/DD HH:mm")}
+          </p>
+        )}
+      </div>
       <div
         className={flex({
           justifyContent: "space-between",
@@ -109,20 +128,22 @@ export const News: FC<{
                 }}
               />
             )}
-            <Button
-              color="blue"
-              className={flex({
-                verticalAlign: "middle",
-              })}
-              onClick={() => router.push(`/committee/news/${news.id}/edit`)}>
-              <span
-                className={css({
-                  fontSize: "xs",
-                  fontWeight: "bold",
-                })}>
-                編集
-              </span>
-            </Button>
+            {!isPublished && (
+              <Button
+                color="blue"
+                className={flex({
+                  verticalAlign: "middle",
+                })}
+                onClick={() => router.push(`/committee/news/${news.id}/edit`)}>
+                <span
+                  className={css({
+                    fontSize: "xs",
+                    fontWeight: "bold",
+                  })}>
+                  編集
+                </span>
+              </Button>
+            )}
           </div>
         )}
       </div>
