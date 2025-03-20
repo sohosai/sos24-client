@@ -30,7 +30,7 @@ const ProjectsPage: NextPage = () => {
   };
 
   const generatedProjectData = (() => {
-    return projectsData
+    let sortedProjects = projectsData
       .filter(
         (e) =>
           (projectType.committee.includes("委員会でない") && !e.attributes.includes("official")) ||
@@ -70,18 +70,22 @@ const ProjectsPage: NextPage = () => {
           (projectType.location.includes("UNITED") && e.category.includes("stage_united")) ||
           (projectType.location.includes("1A") && e.category.includes("stage_1a")) ||
           (projectType.location.includes("会館") && e.category.includes("stage_university_hall")),
-      )
-      .sort(
-        isSortedByIndex
-          ? (big, small) => big.index - small.index
-          : (big, small) =>
-              big.location_id !== null &&
-              big.location_id !== undefined &&
-              small.location_id !== null &&
-              small.location_id !== undefined
-                ? big.location_id > small.location_id
-                : big.index - small.index,
       );
+
+    if (isSortedByIndex) {
+      return sortedProjects.sort((big, small) => big.index - small.index);
+    } else {
+      let projectsWithLocationId = sortedProjects
+        .filter((e) => e.location_id !== null && e.location_id !== undefined)
+        .sort((big, small) =>
+          !big?.location_id || !small.location_id ? 1 : big?.location_id > small?.location_id ? 1 : -1,
+        );
+
+      let projectsWithoutLocationId = sortedProjects
+        .filter((e) => e.location_id === null || e.location_id === undefined)
+        .sort((big, small) => big.index - small.index);
+      return projectsWithLocationId.concat(projectsWithoutLocationId);
+    }
   })();
 
   const typeSelectorOnChangeHandler = (value: ProjectType) => {
