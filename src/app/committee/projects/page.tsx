@@ -30,7 +30,7 @@ const ProjectsPage: NextPage = () => {
   };
 
   const generatedProjectData = (() => {
-    let sortedProjects = projectsData
+    let filteredProjects = projectsData
       .filter(
         (e) =>
           (projectType.committee.includes("委員会でない") && !e.attributes.includes("official")) ||
@@ -73,15 +73,15 @@ const ProjectsPage: NextPage = () => {
       );
 
     if (isSortedByIndex) {
-      return sortedProjects.sort((big, small) => big.index - small.index);
+      return filteredProjects.sort((big, small) => big.index - small.index);
     } else {
-      let projectsWithLocationId = sortedProjects
+      let projectsWithLocationId = filteredProjects
         .filter((e) => e.location_id !== null && e.location_id !== undefined)
         .sort((big, small) =>
           !big?.location_id || !small.location_id ? 1 : big?.location_id > small?.location_id ? 1 : -1,
         );
 
-      let projectsWithoutLocationId = sortedProjects
+      let projectsWithoutLocationId = filteredProjects
         .filter((e) => e.location_id === null || e.location_id === undefined)
         .sort((big, small) => big.index - small.index);
       return projectsWithLocationId.concat(projectsWithoutLocationId);
