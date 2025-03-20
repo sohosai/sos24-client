@@ -69,6 +69,9 @@ export const NewsView: FC<Props & SortStatus> = ({ isCommittee, isDashboard = fa
   const defaultFilter = newsFilters.includes(filterParams) ? filterParams : "me";
   const [filter, setFilter] = useState<NewsFilterType>(defaultFilter);
 
+  const { data: data_user, isLoading: isLoading_user } = useSWR("/users/me");
+  const me = assignType("/users/me", data_user);
+
   const { data: newsData, error: newsError, isLoading: isLoadingNews } = useSWR("/news");
   const { data: projectData, error: projectError, isLoading: isLoadingProject } = useSWR("/projects/me");
   if (isLoadingNews || isLoadingProject) {
@@ -135,27 +138,28 @@ export const NewsView: FC<Props & SortStatus> = ({ isCommittee, isDashboard = fa
             )}
           </>
         )}
-        {isCommittee && (
-          <>
-            <Button
-              color="blue"
-              onClick={() => router.push("/committee/news/new")}
-              className={flex({
-                alignItems: "center",
-                gap: 2,
-                paddingX: 6,
-              })}>
-              <Image src={plusIcon} alt="" />
-              <span
-                className={css({
-                  fontSize: "xs",
-                  fontWeight: "bold",
+        {!isLoading_user &&
+          ["committee_drafter", "committee_editor", "committee_operator", "administrator"].includes(me.role) && (
+            <>
+              <Button
+                color="blue"
+                onClick={() => router.push("/committee/news/new")}
+                className={flex({
+                  alignItems: "center",
+                  gap: 2,
+                  paddingX: 6,
                 })}>
-                新規作成
-              </span>
-            </Button>
-          </>
-        )}
+                <Image src={plusIcon} alt="" />
+                <span
+                  className={css({
+                    fontSize: "xs",
+                    fontWeight: "bold",
+                  })}>
+                  新規作成
+                </span>
+              </Button>
+            </>
+          )}
       </div>
       <div
         className={css({
