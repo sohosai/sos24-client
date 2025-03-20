@@ -34,7 +34,7 @@ export const News: FC<{
   const isScheduled = news.state != "scheduled" ? false : true;
   const isPublished = news.state != "published" ? false : true;
 
-  const { data: data_user, isLoading: isLoading_user } = useSWR("/users/me");
+  const { data: data_user, isLoading: _ } = useSWR("/users/me");
   const me = assignType("/users/me", data_user);
 
   return (
