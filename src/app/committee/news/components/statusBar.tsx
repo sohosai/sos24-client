@@ -1,13 +1,14 @@
 import { css } from "@styled-system/css";
-import { useState } from "react";
 import { StatusButton } from "@/app/committee/news/components/statusButtons";
 import { useRouter } from "next/navigation";
 
-type Status = "all" | "draft" | "scheduled" | "published";
+interface SortStatus {
+  SortStatus: "all" | "draft" | "scheduled" | "published";
+}
 
-export const NewsStatusBar = () => {
+export const NewsStatusBar: React.FC<SortStatus> = ({ SortStatus }) => {
   const router = useRouter();
-  const [status] = useState<Status>("all");
+
   return (
     <>
       <div
@@ -23,7 +24,7 @@ export const NewsStatusBar = () => {
         })}>
         <StatusButton
           type="button"
-          color={status === "all" ? "black" : "purple"}
+          color={SortStatus === "all" ? "purple" : "black"}
           onClick={() => {
             router.push(`/committee/news`);
           }}>
@@ -38,7 +39,7 @@ export const NewsStatusBar = () => {
 
         <StatusButton
           type="button"
-          color={status === "draft" ? "black" : "purple"}
+          color={SortStatus === "draft" ? "purple" : "black"}
           onClick={() => {
             router.push(`/committee/news/draft`);
           }}>
@@ -53,7 +54,7 @@ export const NewsStatusBar = () => {
 
         <StatusButton
           type="button"
-          color={status === "scheduled" ? "black" : "purple"}
+          color={SortStatus === "scheduled" ? "purple" : "black"}
           onClick={() => {
             router.push(`/committee/news/scheduled`);
           }}>
@@ -68,7 +69,7 @@ export const NewsStatusBar = () => {
 
         <StatusButton
           type="button"
-          color={status === "published" ? "black" : "purple"}
+          color={SortStatus === "published" ? "purple" : "black"}
           onClick={() => {
             router.push(`/committee/news/published`);
           }}>
