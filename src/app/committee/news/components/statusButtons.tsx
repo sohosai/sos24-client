@@ -4,29 +4,45 @@ import { ButtonHTMLAttributes, FC } from "react";
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   children: React.ReactNode;
+  color: "black" | "purple";
 }
 
-export const StatusButton: FC<Props> = ({ className, children, ...props }: Props) => {
+export const StatusButton: FC<Props> = ({ color = "black", className, children, ...props }: Props) => {
   const button = cva({
     base: {
       cursor: "pointer",
-
       borderBottom: "solid",
       paddingX: 6,
       paddingY: 1,
       fontWeight: "bold",
       backgroundColor: "white",
-      color: "black",
-      _hover: {
-        color: "gray.400",
-        borderColor: "gray.400",
+    },
+    variants: {
+      color: {
+        black: {
+          color: "black",
+          _hover: {
+            opacity: "90%",
+            color: "gray.400",
+            borderColor: "gray.400",
+          },
+          borderColor: "black",
+        },
+        purple: {
+          color: "purple.400",
+          _hover: {
+            opacity: "40%",
+            bordercolor: "purple.100",
+          },
+
+          borderColor: "purple.400",
+        },
       },
-      borderColor: "black",
     },
   });
 
   return (
-    <button className={cx(button({}), className)} {...props}>
+    <button className={cx(button({ color }), className)} {...props}>
       {children}
     </button>
   );
