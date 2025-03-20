@@ -29,8 +29,6 @@ export const NewsList: FC<
     isCommittee?: boolean;
   } & NewsSortStatus
 > = ({ newsList, isCommittee, status }) => {
-  //ソートする値//
-
   return (
     <div>
       <NewsStatusBar SortStatus={status} />
@@ -69,7 +67,7 @@ export const NewsList: FC<
 
         {newsList.length !== 0 ? (
           newsList
-            .filter((news) => news.state === status)
+            .filter((news) => status === "all" || news.state === status)
             .map((news) => (
               <Link
                 key={news.id}
