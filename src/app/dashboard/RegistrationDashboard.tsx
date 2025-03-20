@@ -10,6 +10,7 @@ import { assignType } from "@/lib/openapi";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
 
+const SortStatus: "all" | "draft" | "scheduled" | "published" = "all";
 export const RegistrationDashboard: React.FC = () => {
   let step: 1 | 2 | 3 | 4 | 5 = 2;
   const {
@@ -109,7 +110,7 @@ export const RegistrationDashboard: React.FC = () => {
             <div>
               <Title>お知らせ</Title>
             </div>
-            <NewsView isDashboard />
+            <NewsView isDashboard status={SortStatus} />
           </div>
         </div>
       </div>
