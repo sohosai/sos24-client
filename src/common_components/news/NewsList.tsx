@@ -8,6 +8,8 @@ import Image from "next/image";
 import arrowIcon from "@/assets/Arrow.svg?url";
 import { NoResultNotice } from "@/common_components/NoResultNotice";
 import { NewsStatusBar } from "@/app/committee/news/components/statusBar";
+import { NewsStatusBadge } from "@/app/committee/news/components/newsStatusBudge";
+import { StateToJapanese } from "@/lib/newsHelpers";
 
 type News = {
   id: string;
