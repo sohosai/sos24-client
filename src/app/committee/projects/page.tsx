@@ -24,6 +24,10 @@ const ProjectsPage: NextPage = () => {
     committee: ["委員会でない"],
     attributes: ["その他", "学術", "芸術"],
   });
+  const [isSortedByIndex, setIsSortedByIndex] = useState<boolean>(true);
+  const reverseIsSortedByIndex = () => {
+    setIsSortedByIndex(!isSortedByIndex);
+  };
 
   const generatedProjectData = (() => {
     return projectsData
@@ -51,7 +55,33 @@ const ProjectsPage: NextPage = () => {
           (projectType.food.includes("仕込み場不要") && e.category.includes("food_without_kitchen")) ||
           (projectType.food.includes("既製食品販売不要") && e.category.includes("food_without_cooking")),
       )
-      .sort((big, small) => big.index - small.index);
+      .filter(
+        (e) =>
+          (projectType.location.includes("屋内") &&
+            e.attributes.includes("inside") &&
+            !e.category.includes("stage_united") &&
+            !e.category.includes("stage_1a") &&
+            !e.category.includes("stage_university_hall")) ||
+          (projectType.location.includes("屋外") &&
+            e.attributes.includes("outside") &&
+            !e.category.includes("stage_united") &&
+            !e.category.includes("stage_1a") &&
+            !e.category.includes("stage_university_hall")) ||
+          (projectType.location.includes("UNITED") && e.category.includes("stage_united")) ||
+          (projectType.location.includes("1A") && e.category.includes("stage_1a")) ||
+          (projectType.location.includes("会館") && e.category.includes("stage_university_hall")),
+      )
+      .sort(
+        isSortedByIndex
+          ? (big, small) => big.index - small.index
+          : (big, small) =>
+              big.location_id !== null &&
+              big.location_id !== undefined &&
+              small.location_id !== null &&
+              small.location_id !== undefined
+                ? big.location_id > small.location_id
+                : big.index - small.index,
+      );
   })();
 
   const typeSelectorOnChangeHandler = (value: ProjectType) => {
@@ -71,8 +101,20 @@ const ProjectsPage: NextPage = () => {
       </div>
       <div className={hstack({ justifyContent: "space-between", alignItems: "center", marginTop: 10 })}>
         <div className={hstack({ gap: 4 })}>
-          <div>企画番号</div>
-          <div>場所番号</div>
+          <button
+            className={buttonStyle(
+              isSortedByIndex ? { visual: "solid", color: "purple" } : { visual: "outline", color: "purple" },
+            )}
+            onClick={reverseIsSortedByIndex}>
+            企画番号
+          </button>
+          <button
+            className={buttonStyle(
+              !isSortedByIndex ? { visual: "solid", color: "purple" } : { visual: "outline", color: "purple" },
+            )}
+            onClick={reverseIsSortedByIndex}>
+            場所番号
+          </button>
         </div>
         <button
           className={buttonStyle({ visual: "outline", color: "purple" })}
