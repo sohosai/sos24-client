@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { Title } from "@/common_components/Title";
 
 const NewsPage: NextPage = () => {
-  const SortStatus: "all" | "draft" | "scheduled" | "published" = "draft";
+  const SortStatus: "all" | "draft" | "scheduled" | "published" = "all";
   const router = useRouter();
   const applicationPeriod = useAtomValue(projectApplicationPeriodAtom);
   if (applicationPeriod.isIn) {
