@@ -10,7 +10,7 @@ import { NoResultNotice } from "@/common_components/NoResultNotice";
 import { NewsStatusBar } from "@/app/committee/news/components/statusBar";
 import { NewsStatusBadge } from "@/app/committee/news/components/newsStatusBudge";
 import { StateToJapanese } from "@/lib/newsHelpers";
-import { SortStatus } from "@/common_components/news/NewsView";
+
 type News = {
   id: string;
   title: string;
