@@ -79,8 +79,10 @@ const menuForRole = (role?: components["schemas"]["UserRole"]): MenuData[] => {
   switch (role) {
     case "administrator":
     case "committee_operator":
+    case "committee_editor":
       return committeeOperatorMenu;
-    case "committee":
+    case "committee_viewer":
+    case "committee_drafter":
       return committeeMenu;
     case "general":
       return generalMenu;
@@ -253,19 +255,26 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
               })}>
               サインアウト
             </button>
-            {!userIsLoading && ["committee", "committee_operator", "administrator"].includes(userInfo?.role ?? "") && (
-              <HeaderButton
-                icon={icon_ModeSwitch}
-                clickev={() => {
-                  router.push(path.startsWith("/committee") ? "/dashboard" : "/committee");
-                  localStorage.removeItem("invitation_id");
-                }}>
-                <span className={css({ display: { base: "none", lg: "inline" } })}>
-                  {path.startsWith("/committee") ? "一般" : "実委人"}
-                </span>
-                切り替え
-              </HeaderButton>
-            )}
+            {!userIsLoading &&
+              [
+                "committee_viewer",
+                "committee_drafter",
+                "committee_editor",
+                "committee_operator",
+                "administrator",
+              ].includes(userInfo?.role ?? "") && (
+                <HeaderButton
+                  icon={icon_ModeSwitch}
+                  clickev={() => {
+                    router.push(path.startsWith("/committee") ? "/dashboard" : "/committee");
+                    localStorage.removeItem("invitation_id");
+                  }}>
+                  <span className={css({ display: { base: "none", lg: "inline" } })}>
+                    {path.startsWith("/committee") ? "一般" : "実委人"}
+                  </span>
+                  切り替え
+                </HeaderButton>
+              )}
           </nav>
         ) : (
           <nav

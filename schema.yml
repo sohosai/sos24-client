@@ -1847,15 +1847,9 @@ components:
           - 'null'
           format: date-time
         state:
-          $ref: '#/components/schemas/CreateNewsState'
+          $ref: '#/components/schemas/NewsState'
         title:
           type: string
-    CreateNewsState:
-      type: string
-      enum:
-      - draft
-      - scheduled
-      - published
     CreateProject:
       type: object
       required:
@@ -2446,6 +2440,7 @@ components:
       type: object
       required:
       - id
+      - state
       - title
       - body
       - attachments
@@ -2471,15 +2466,29 @@ components:
         id:
           type: string
           format: uuid
+        scheduled_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        state:
+          $ref: '#/components/schemas/NewsState'
         title:
           type: string
         updated_at:
           type: string
           format: date-time
+    NewsState:
+      type: string
+      enum:
+      - draft
+      - scheduled
+      - published
     NewsSummary:
       type: object
       required:
       - id
+      - state
       - title
       - categories
       - attributes
@@ -2492,6 +2501,13 @@ components:
         id:
           type: string
           format: uuid
+        scheduled_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        state:
+          $ref: '#/components/schemas/NewsState'
         title:
           type: string
         updated_at:
@@ -2716,7 +2732,7 @@ components:
           - 'null'
           format: date-time
         state:
-          $ref: '#/components/schemas/CreateNewsState'
+          $ref: '#/components/schemas/NewsState'
         title:
           type: string
     UpdateProject:
