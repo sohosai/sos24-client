@@ -14,11 +14,19 @@ import plusIcon from "@/assets/Plus.svg?url";
 import Image from "next/image";
 import { flex } from "@styled-system/patterns";
 import { useRouter } from "next/navigation";
+import { FormStatusBar } from "./components/FormStatusBar";
 
-export const FormsList: FC<{
-  forms: Form[];
-}> = ({ forms }) => {
+export interface SortStatus {
+  status: "all" | "draft" | "scheduled" | "published" | "ended";
+}
+
+export const FormsList: FC<
+  {
+    forms: Form[];
+  } & SortStatus
+> = ({ forms, status }) => {
   const router = useRouter();
+
   return (
     <div>
       <div
@@ -44,6 +52,9 @@ export const FormsList: FC<{
             新規作成
           </span>
         </Button>
+      </div>
+      <div>
+        <FormStatusBar SortStatus={status} />
       </div>
       <div
         className={css({
