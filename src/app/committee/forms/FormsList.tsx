@@ -15,14 +15,9 @@ import Image from "next/image";
 import { flex } from "@styled-system/patterns";
 import { useRouter } from "next/navigation";
 
-
-
-
-export const FormsList: FC<
-  {
-    forms: Form[];
-  } 
-> = ({ forms}) => {
+export const FormsList: FC<{
+  forms: Form[];
+}> = ({ forms }) => {
   const router = useRouter();
 
   return (
