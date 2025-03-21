@@ -133,7 +133,6 @@ const CategorySection = ({
           borderRadius: "lg",
           paddingX: { base: "0.5rem", sm: "1rem" },
           paddingY: "1rem",
-          boxShadow: "sm",
           position: "relative",
         })}>
         <label
