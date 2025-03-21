@@ -16,15 +16,13 @@ import { flex } from "@styled-system/patterns";
 import { useRouter } from "next/navigation";
 import { FormStatusBar } from "./components/FormStatusBar";
 
-export interface SortStatus {
-  status: "all" | "draft" | "scheduled" | "published" | "ended";
-}
+
 
 export const FormsList: FC<
   {
     forms: Form[];
-  } & SortStatus
-> = ({ forms, status }) => {
+  } 
+> = ({ forms}) => {
   const router = useRouter();
 
   return (
@@ -52,9 +50,6 @@ export const FormsList: FC<
             新規作成
           </span>
         </Button>
-      </div>
-      <div>
-        <FormStatusBar SortStatus={status} />
       </div>
       <div
         className={css({
