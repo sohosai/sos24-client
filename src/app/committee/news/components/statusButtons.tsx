@@ -25,9 +25,9 @@ export const StatusButton: FC<Props> = ({ color = "black", className, children, 
           _hover: {
             opacity: "90%",
             color: "gray.400",
-            borderColor: "gray.400",
+            borderColor: "white",
           },
-          borderColor: "gray.400",
+          borderColor: "white",
         },
         purple: {
           borderBottom: "solid",
