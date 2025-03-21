@@ -14,7 +14,7 @@ import plusIcon from "@/assets/Plus.svg?url";
 import Image from "next/image";
 import { flex } from "@styled-system/patterns";
 import { useRouter } from "next/navigation";
-import { FormStatusBar } from "./components/FormStatusBar";
+//import { FormStatusBar } from "./components/FormStatusBar";
 
 
 
