@@ -1,21 +1,51 @@
-/*import { cva, cx } from "@styled-system/css";
+import { cva, cx } from "@styled-system/css";
+import { ButtonHTMLAttributes, FC } from "react";
 
-const 
-return (
-<ul>
-  <li>
-    <a href="all_link">すべて</a>
-  </li>
-  <li>
-    <a href="shitagaki_link">下書き</a>
-  </li>
-  <li>
-    <a href="koukaimae_link">公開前</a>
-  </li>
-  <li>
-    <a href="koukaizumi_link">公開済み</a>
-  </li>
-</ul>
-);
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+  className?: string;
+  children: React.ReactNode;
+  color: "black" | "purple";
+}
 
-export default statusButtons;*/
+export const StatusButton: FC<Props> = ({ color = "black", className, children, ...props }: Props) => {
+  const button = cva({
+    base: {
+      cursor: "pointer",
+      borderBottom: "solid",
+      paddingX: 6,
+      paddingY: 1,
+      fontWeight: "bold",
+      backgroundColor: "white",
+    },
+    variants: {
+      color: {
+        black: {
+          color: "black",
+          borderBottom: " 1px solid",
+          _hover: {
+            opacity: "90%",
+            color: "gray.400",
+            borderColor: "gray.400",
+          },
+          borderColor: "gray.400",
+        },
+        purple: {
+          borderBottom: "solid",
+          color: "tsukuba.purple",
+          _hover: {
+            opacity: "40%",
+            bordercolor: "purple.100",
+          },
+
+          borderColor: "tsukuba.purple",
+        },
+      },
+    },
+  });
+
+  return (
+    <button className={cx(button({ color }), className)} {...props}>
+      {children}
+    </button>
+  );
+};
