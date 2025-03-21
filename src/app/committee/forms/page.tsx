@@ -7,7 +7,6 @@ import { stack } from "@styled-system/patterns";
 import { assignType } from "@/lib/openapi";
 import useSWR from "swr";
 
-//const SortStatus: "all" | "draft" | "scheduled" | "published" | "ended " = "all";
 
 const DashboardPage: NextPage = () => {
   const { data: formsRes, error, isLoading } = useSWR(() => `/forms`);
