@@ -18,7 +18,7 @@ export const NewsStatusBar: React.FC<SortStatus> = ({ SortStatus }) => {
           gridTemplateColumns: "1fr 1fr 1fr 1fr",
           fontWeight: "bold",
           fontSize: "lg",
-         marginY:4,
+          marginY: 4,
           borderBottom: "2px solid ",
           borderColor: "gray.200",
         })}>
