@@ -73,38 +73,41 @@ export const FormsList: FC<{
           <div>締切まで</div>
         </div>
         {forms.length == 0 && (
-          <div className={css({ gridColumn: "1/7" })}>
+          <div className={css({ gridColumn: "1/7" })} data-testid="no-form-found">
             <NoResultNotice message="申請はありません" />
           </div>
         )}
-        {forms.map((form) => {
-          const startsAt = dayjs(form.starts_at);
-          const endsAt = dayjs(form.ends_at);
-          const status = getFormStatus(dayjs(), startsAt, endsAt);
-
-          return (
-            <div
-              key={form.id}
-              className={css({
-                display: "contents",
-              })}>
-              <Link
-                href={`/committee/forms/${form.id}`}
-                className={css({
-                  display: "contents",
-                })}>
-                <div className={css({ paddingBlock: 2 })}>
-                  <FormStatusBadge status={status} />
-                </div>
-                <div>{startsAt.format("YYYY/MM/DD")}</div>
-                <div>{endsAt.format("YYYY/MM/DD")}</div>
-                <div>{form.title}</div>
-                <div>{getCommitteeTimeLeftText(dayjs(), endsAt)}</div>
-              </Link>
-            </div>
-          );
-        })}
+        {forms.map((form) => (
+          <FrormSummary key={form.id} form={form} />
+        ))}
       </div>
+    </div>
+  );
+};
+
+export const FrormSummary: FC<{ form: Form }> = ({ form }) => {
+  const startsAt = dayjs(form.starts_at);
+  const endsAt = dayjs(form.ends_at);
+  const status = getFormStatus(dayjs(), startsAt, endsAt);
+  return (
+    <div
+      data-testid="form-summary"
+      className={css({
+        display: "contents",
+      })}>
+      <Link
+        href={`/committee/forms/${form.id}`}
+        className={css({
+          display: "contents",
+        })}>
+        <div className={css({ paddingBlock: 2 })}>
+          <FormStatusBadge status={status} />
+        </div>
+        <div data-testid="starts-at">{startsAt.format("YYYY/MM/DD")}</div>
+        <div data-testid="ends-at">{endsAt.format("YYYY/MM/DD")}</div>
+        <div data-testid="form-title">{form.title}</div>
+        <div data-testid="time-left">{getCommitteeTimeLeftText(dayjs(), endsAt)}</div>
+      </Link>
     </div>
   );
 };

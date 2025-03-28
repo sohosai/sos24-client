@@ -10,6 +10,10 @@ export default defineConfig({
     include: ["./src/**/*.{test,spec}.?(c|m)[jt]s?(x)"],
     setupFiles: ["./src/helpers/storybook-setup.ts"],
     reporters: process.env.GITHUB_ACTIONS ? ["github-actions"] : ["dot"],
+    // https://github.com/vitest-dev/vitest/issues/1575#issuecomment-1535991422
+    env: {
+      TZ: "Asia/Tokyo",
+    },
     coverage: {
       // https://github.com/davelosert/vitest-coverage-report-action?tab=readme-ov-file#usage
       reporter: process.env.GITHUB_ACTIONS && ["json-summary", "json"],
