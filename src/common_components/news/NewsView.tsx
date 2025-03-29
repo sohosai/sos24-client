@@ -87,8 +87,12 @@ export const NewsView: FC<Props & SortStatus> = ({ isCommittee, isDashboard = fa
   const project = assignType("/projects/me", projectData);
   const newsList = assignType("/news", newsData);
 
+  function descTimeSort(a: string, b: string) {
+    return a < b ? 1 : -1;
+  }
+
   const filteredNewsList = isCommittee
-    ? newsList
+    ? newsList.sort((big, small) => descTimeSort(big.updated_at, small.updated_at))
     : filterNews(filter, project, newsList).slice(0, isDashboard ? 5 : undefined);
 
   return (
