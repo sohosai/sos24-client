@@ -37,11 +37,12 @@ const filterNews = (
   myProject: components["schemas"]["Project"],
   newsList: components["schemas"]["NewsSummary"][],
 ): components["schemas"]["NewsSummary"][] => {
+  const newsListPublished = newsList.filter((news) => news.state.includes("published"));
   switch (filter) {
     case "me":
-      return newsList.filter((news) => isTargetProject(myProject, news.categories, news.attributes));
+      return newsListPublished.filter((news) => isTargetProject(myProject, news.categories, news.attributes));
     case "all":
-      return newsList;
+      return newsListPublished;
   }
 };
 
@@ -86,14 +87,15 @@ export const NewsView: FC<Props & SortStatus> = ({ isCommittee, isDashboard = fa
 
   const project = assignType("/projects/me", projectData);
   const newsList = assignType("/news", newsData);
+  const newsListSort = newsList.sort((big, small) => descTimeSort(big.updated_at, small.updated_at));
 
   function descTimeSort(a: string, b: string) {
     return a < b ? 1 : -1;
   }
 
   const filteredNewsList = isCommittee
-    ? newsList.sort((big, small) => descTimeSort(big.updated_at, small.updated_at))
-    : filterNews(filter, project, newsList).slice(0, isDashboard ? 5 : undefined);
+    ? newsListSort
+    : filterNews(filter, project, newsListSort).slice(0, isDashboard ? 5 : undefined);
 
   return (
     <div className={stack({ gap: 2, width: "full" })}>
