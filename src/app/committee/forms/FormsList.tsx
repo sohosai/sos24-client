@@ -60,18 +60,18 @@ export const FormsList: FC<{
         <div
           className={css({
             display: "contents",
-            color: "gray.500",
+            color: "black",
             fontSize: "sm",
             "& > *": {
-              borderColor: "gray.500",
+              borderColor: "black",
               borderBottom: "1px solid",
             },
           })}>
-          <div>状態</div>
-          <div>配信日</div>
-          <div>締切日</div>
-          <div>タイトル</div>
-          <div>締切まで</div>
+          <div className={css({ fontSize: "sm", fontWeight: "bold" })}>状態</div>
+          <div className={css({ fontSize: "sm", fontWeight: "bold" })}>配信日</div>
+          <div className={css({ fontSize: "sm", fontWeight: "bold" })}>締切日</div>
+          <div className={css({ fontSize: "sm", fontWeight: "bold" })}>タイトル</div>
+          <div className={css({ fontSize: "sm", fontWeight: "bold" })}>締切まで</div>
         </div>
         {forms.length == 0 && (
           <div className={css({ gridColumn: "1/7" })}>
@@ -97,8 +97,8 @@ export const FormsList: FC<{
                 <div className={css({ paddingBlock: 2 })}>
                   <FormStatusBadge status={status} />
                 </div>
-                <div>{startsAt.format("YYYY/MM/DD")}</div>
-                <div>{endsAt.format("YYYY/MM/DD")}</div>
+                <div className={css({ fontSize: "sm", fontWeight: "bold" })}>{startsAt.format("YYYY/MM/DD")}</div>
+                <div className={css({ fontSize: "sm", fontWeight: "bold" })}>{endsAt.format("YYYY/MM/DD")}</div>
                 <div>{form.title}</div>
                 <div>{getCommitteeTimeLeftText(dayjs(), endsAt)}</div>
               </Link>

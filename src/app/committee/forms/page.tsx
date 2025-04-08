@@ -38,14 +38,16 @@ const DashboardPage: NextPage = () => {
     <>
       <div
         className={css({
-          padding: 5,
-          maxWidth: "900px",
+          // padding: 5,
+          maxWidth: "90%",
           marginInline: "auto",
+          gap: 8,
+          marginY: 8,
         })}>
         <div>
           <h2
             className={css({
-              fontSize: "xl",
+              fontSize: "2xl",
               fontWeight: "bold",
               display: "flex",
               gap: 1,
