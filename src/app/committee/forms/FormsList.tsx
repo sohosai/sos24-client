@@ -100,7 +100,9 @@ export const FormsList: FC<{
                 <div className={css({ fontSize: "sm", fontWeight: "bold" })}>{startsAt.format("YYYY/MM/DD")}</div>
                 <div className={css({ fontSize: "sm", fontWeight: "bold" })}>{endsAt.format("YYYY/MM/DD")}</div>
                 <div>{form.title}</div>
-                <div>{getCommitteeTimeLeftText(dayjs(), endsAt)}</div>
+                <div className={css({ fontSize: "sm", fontWeight: "bold" })}>
+                  {getCommitteeTimeLeftText(dayjs(), endsAt)}
+                </div>
               </Link>
             </div>
           );
