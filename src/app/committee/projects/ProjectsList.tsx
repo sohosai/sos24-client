@@ -2,7 +2,7 @@ import { ProjectCategoryFormatter } from "@/common_components/ProjectCategoryFor
 import { components } from "@/schema";
 import { css, cx } from "@styled-system/css";
 import { grid, vstack } from "@styled-system/patterns";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { projectCategoryItemStyle } from "@/common_components/formFields/styles";
 import { UserWithAddress } from "@/common_components/project/UserWithAddress";
@@ -71,30 +71,47 @@ const ProjectRow: React.FC<{ data: components["schemas"]["ProjectSummary"] }> = 
 };
 
 export const ProjectsList: React.FC<{ projectList: components["schemas"]["ProjectSummary"][] }> = ({ projectList }) => {
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+
+  const sortedList = [...projectList].sort((a, b) => (sortOrder === "asc" ? a.index - b.index : b.index - a.index));
+
+  const toggleSortOrder = () => {
+    setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
+  };
+
   return (
-    <>
-      <section className={css({ marginY: 3 })}>
-        <div
-          className={grid({
-            columns: 3,
-            gridTemplateColumns: "1fr 7fr 2fr",
-            fontWeight: "bold",
-            fontSize: "lg",
-            paddingBottom: 2,
-            borderBottom: "1px solid black",
-          })}>
-          <div>企画番号</div>
-          <div>企画名</div>
-          <div>企画区分</div>
+    <section className={css({ display: "flex", flexDirection: "column", height: "100%" })}>
+      <div
+        className={grid({
+          columns: 3,
+          gridTemplateColumns: "1fr 7fr 2fr",
+          fontWeight: "bold",
+          fontSize: "lg",
+          paddingBottom: 2,
+          borderBottom: "1px solid black",
+          backgroundColor: "white",
+          position: "sticky",
+          top: 0,
+          zIndex: 10,
+        })}>
+        <div onClick={toggleSortOrder} className={css({ cursor: "pointer", userSelect: "none" })}>
+          企画番号 {sortOrder === "asc" ? "▲" : "▼"}
         </div>
+        <div>企画名</div>
+        <div>企画区分</div>
+      </div>
+      <div
+        className={css({
+          overflowY: "auto",
+        })}>
         <ul>
-          {projectList.map((e) => (
+          {sortedList.map((e) => (
             <li key={e.id}>
               <ProjectRow data={e} />
             </li>
           ))}
         </ul>
-      </section>
-    </>
+      </div>
+    </section>
   );
 };

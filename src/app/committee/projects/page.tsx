@@ -24,10 +24,6 @@ const ProjectsPage: NextPage = () => {
     committee: ["委員会でない"],
     attributes: ["その他", "学術", "芸術"],
   });
-  const [isSortedByIndex, setIsSortedByIndex] = useState<boolean>(true);
-  const reverseIsSortedByIndex = () => {
-    setIsSortedByIndex(!isSortedByIndex);
-  };
 
   const generatedProjectData = (() => {
     let filteredProjects = projectsData
@@ -72,20 +68,7 @@ const ProjectsPage: NextPage = () => {
           (projectType.location.includes("会館") && e.category.includes("stage_university_hall")),
       );
 
-    if (isSortedByIndex) {
-      return filteredProjects.sort((big, small) => big.index - small.index);
-    } else {
-      let projectsWithLocationId = filteredProjects
-        .filter((e) => e.location_id !== null && e.location_id !== undefined)
-        .sort((big, small) =>
-          !big?.location_id || !small.location_id ? 1 : big?.location_id > small?.location_id ? 1 : -1,
-        );
-
-      let projectsWithoutLocationId = filteredProjects
-        .filter((e) => e.location_id === null || e.location_id === undefined)
-        .sort((big, small) => big.index - small.index);
-      return projectsWithLocationId.concat(projectsWithoutLocationId);
-    }
+    return filteredProjects;
   })();
 
   const typeSelectorOnChangeHandler = (value: ProjectType) => {
@@ -103,23 +86,7 @@ const ProjectsPage: NextPage = () => {
           企画一覧
         </h2>
       </div>
-      <div className={hstack({ justifyContent: "space-between", alignItems: "center", marginTop: 10 })}>
-        <div className={hstack({ gap: 4 })}>
-          <button
-            className={buttonStyle(
-              isSortedByIndex ? { visual: "solid", color: "purple" } : { visual: "outline", color: "purple" },
-            )}
-            onClick={reverseIsSortedByIndex}>
-            企画番号
-          </button>
-          <button
-            className={buttonStyle(
-              !isSortedByIndex ? { visual: "solid", color: "purple" } : { visual: "outline", color: "purple" },
-            )}
-            onClick={reverseIsSortedByIndex}>
-            場所番号
-          </button>
-        </div>
+      <div className={hstack({ justifyContent: "flex-end", alignItems: "center", marginY: 5 })}>
         <button
           className={buttonStyle({ visual: "outline", color: "purple" })}
           onClick={() =>
@@ -158,7 +125,6 @@ const ProjectsPage: NextPage = () => {
             borderColor: "gray.300",
             overflowY: "auto",
             maxHeight: "100%",
-            paddingTop: "2rem",
           })}>
           <ProjectTypeSelector value={projectType} onChange={typeSelectorOnChangeHandler} />
         </div>
