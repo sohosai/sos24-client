@@ -1,12 +1,12 @@
 import { css } from "@styled-system/css";
-import { StatusButton } from "@/app/committee/news/components/statusButtons";
+import { FormStatusButton } from "@/app/committee/forms/components/FormStatusButton";
 import { useRouter } from "next/navigation";
 
 interface SortStatus {
-  SortStatus: "all" | "draft" | "scheduled" | "published";
+  SortStatus: "all" | "draft" | "scheduled" | "published" | "ended";
 }
 
-export const NewsStatusBar: React.FC<SortStatus> = ({ SortStatus }) => {
+export const FormStatusBar: React.FC<SortStatus> = ({ SortStatus }) => {
   const router = useRouter();
 
   return (
@@ -15,18 +15,18 @@ export const NewsStatusBar: React.FC<SortStatus> = ({ SortStatus }) => {
         className={css({
           display: "flex",
           columns: 4,
-          gridTemplateColumns: "1fr 1fr 1fr 1fr",
+          gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr",
           fontWeight: "bold",
           fontSize: "lg",
-          marginY: 4,
-          borderBottom: "2px solid ",
-          borderColor: "gray.200",
+          paddingBottom: 2,
+          borderBottom: "1px solid ",
+          borderColor: "gray.500",
         })}>
-        <StatusButton
+        <FormStatusButton
           type="button"
           color={SortStatus === "all" ? "purple" : "black"}
           onClick={() => {
-            router.push(`/committee/news`);
+            router.push(`/committee/forms`);
           }}>
           <span
             className={css({
@@ -35,9 +35,9 @@ export const NewsStatusBar: React.FC<SortStatus> = ({ SortStatus }) => {
             })}>
             すべて
           </span>
-        </StatusButton>
+        </FormStatusButton>
 
-        <StatusButton
+        <FormStatusButton
           type="button"
           color={SortStatus === "draft" ? "purple" : "black"}
           onClick={() => {
@@ -50,9 +50,9 @@ export const NewsStatusBar: React.FC<SortStatus> = ({ SortStatus }) => {
             })}>
             下書き
           </span>
-        </StatusButton>
+        </FormStatusButton>
 
-        <StatusButton
+        <FormStatusButton
           type="button"
           color={SortStatus === "scheduled" ? "purple" : "black"}
           onClick={() => {
@@ -63,11 +63,11 @@ export const NewsStatusBar: React.FC<SortStatus> = ({ SortStatus }) => {
               fontWeight: "bold",
               borderColor: "white",
             })}>
-            公開前
+            開始前
           </span>
-        </StatusButton>
+        </FormStatusButton>
 
-        <StatusButton
+        <FormStatusButton
           type="button"
           color={SortStatus === "published" ? "purple" : "black"}
           onClick={() => {
@@ -78,9 +78,24 @@ export const NewsStatusBar: React.FC<SortStatus> = ({ SortStatus }) => {
               fontWeight: "bold",
               borderColor: "white",
             })}>
-            公開済
+            受付中
           </span>
-        </StatusButton>
+        </FormStatusButton>
+
+        <FormStatusButton
+          type="button"
+          color={SortStatus === "ended" ? "purple" : "black"}
+          onClick={() => {
+            router.push(`/committee/news`);
+          }}>
+          <span
+            className={css({
+              fontWeight: "bold",
+              borderColor: "white",
+            })}>
+            受付終了
+          </span>
+        </FormStatusButton>
       </div>
     </>
   );
