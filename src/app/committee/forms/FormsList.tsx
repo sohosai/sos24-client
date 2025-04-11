@@ -21,7 +21,10 @@ export const FormsList: FC<{
   const router = useRouter();
 
   return (
-    <div>
+    <div
+      className={css({
+        width: "full",
+      })}>
       <div
         className={css({
           width: "full",
