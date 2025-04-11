@@ -24,10 +24,12 @@ export const FormStatusBadge = ({ status, className }: Props) => {
         開始前: {
           backgroundColor: "sohosai.blue",
           color: "white",
+          fontWeight: "bold",
         },
         受付中: {
           backgroundColor: "sohosai.orange",
           color: "white",
+          fontWeight: "bold",
         },
         不明: {},
       },
