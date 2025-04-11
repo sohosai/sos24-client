@@ -76,17 +76,9 @@ const ProjectsPage: NextPage = () => {
   };
 
   return (
-    <div className={container({ marginY: 8 })}>
-      <div className={hstack()}>
-        <h2
-          className={css({
-            fontSize: "2xl",
-            fontWeight: "bold",
-          })}>
-          企画一覧
-        </h2>
-      </div>
-      <div className={hstack({ justifyContent: "flex-end", alignItems: "center", marginY: 5 })}>
+    <div className={container({ marginY: 15 })}>
+      <div className={hstack({ justifyContent: "space-between", alignItems: "center", marginY: "2.5rem" })}>
+        <h2 className={css({ fontSize: "2xl", fontWeight: "bold" })}>企画一覧</h2>
         <button
           className={buttonStyle({ visual: "outline", color: "purple" })}
           onClick={() =>
