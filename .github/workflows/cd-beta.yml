@@ -62,7 +62,7 @@ jobs:
           NEXT_PUBLIC_SENTRY_PROJECT: ${{vars.SENTRY_PROJECT}}
       - name: deploy
         id: deploy
-        uses: whatacotton/pages-action@v1
+        uses: cloudflare/pages-action@v1
         if: steps.build.outcome == 'success'
         with:
           apiToken: ${{secrets.CLOUDFLARE_API_TOKEN}}
@@ -71,7 +71,7 @@ jobs:
           directory: ".vercel/output/static"
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           productionBranch: ${{ env.PRODUCTION_BRANCH }}
-          branch: develop
+          # branch: develop
           # branch: ${{ github.head_ref || github.ref_name }} checkoutのref:を消したら動かないので感動のハードコード
           wranglerVersion: "3"
       - name: Sentry
