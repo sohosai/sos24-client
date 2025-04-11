@@ -145,6 +145,8 @@ const ProjectsPage: NextPage = () => {
           display: "flex",
           gap: "40px",
           alignItems: "start",
+          height: "calc(100vh - 200px)",
+          overflow: "hidden",
         })}>
         <div
           className={css({
@@ -154,11 +156,13 @@ const ProjectsPage: NextPage = () => {
             paddingRight: "40px",
             borderRight: "1px solid",
             borderColor: "gray.300",
-            marginTop: "20px",
+            overflowY: "auto",
+            maxHeight: "100%",
+            paddingTop: "2rem",
           })}>
           <ProjectTypeSelector value={projectType} onChange={typeSelectorOnChangeHandler} />
         </div>
-        <div className={css({ flexGrow: 1, minWidth: "500px" })}>
+        <div className={css({ flexGrow: 1, minWidth: "500px", overflowY: "auto", maxHeight: "100%" })}>
           {isLoading ? (
             "Loading"
           ) : error ? (
