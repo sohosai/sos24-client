@@ -94,9 +94,9 @@ export const ProjectsList: React.FC<{ projectList: components["schemas"]["Projec
           top: 0,
           zIndex: 10,
         })}>
-        <div onClick={toggleSortOrder} className={css({ cursor: "pointer", userSelect: "none" })}>
+        <button onClick={toggleSortOrder} className={css({ all: "unset", cursor: "pointer", userSelect: "none" })}>
           企画番号 {sortOrder === "asc" ? "▲" : "▼"}
-        </div>
+        </button>
         <div>企画名</div>
         <div>企画区分</div>
       </div>
