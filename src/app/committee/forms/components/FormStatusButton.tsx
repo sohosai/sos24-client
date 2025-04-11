@@ -7,7 +7,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   color: "black" | "purple";
 }
 
-export const StatusButton: FC<Props> = ({ color = "black", className, children, ...props }: Props) => {
+export const FormStatusButton: FC<Props> = ({ color = "black", className, children, ...props }: Props) => {
   const button = cva({
     base: {
       cursor: "pointer",
@@ -25,9 +25,9 @@ export const StatusButton: FC<Props> = ({ color = "black", className, children, 
           _hover: {
             opacity: "90%",
             color: "gray.400",
-            borderColor: "white",
+            borderColor: "gray.400",
           },
-          borderColor: "white",
+          borderColor: "gray.400",
         },
         purple: {
           borderBottom: "solid",
