@@ -71,7 +71,8 @@ jobs:
           directory: ".vercel/output/static"
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           productionBranch: ${{ env.PRODUCTION_BRANCH }}
-          branch: ${{ github.head_ref || github.ref_name }}
+          branch: develop
+          # branch: ${{ github.head_ref || github.ref_name }} checkoutのref:を消したら動かないので感動のハードコード
           wranglerVersion: "3"
       - name: Sentry
         uses: getsentry/action-release@v1
