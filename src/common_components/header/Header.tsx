@@ -105,13 +105,13 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
 
   const [applicationPeriod] = useAtom(projectApplicationPeriodAtom);
 
-  const menuItempathName =
-    window.location.pathname.indexOf("/", 11) === -1
-      ? window.location.pathname !== "/committee"
-        ? window.location.pathname
+  const menuItemPathName =
+    path.indexOf("/", 11) === -1
+      ? path !== "/committee"
+        ? path
         : "/committee/projects"
-      : window.location.pathname.substring(0, window.location.pathname.indexOf("/", 11));
-  const [menuPathName, setMenuPathName] = useState(menuItempathName);
+      : path.substring(0, window.location.pathname.indexOf("/", 11));
+  const [menuPathName, setMenuPathName] = useState(menuItemPathName);
 
   const menu = isLoading
     ? []
