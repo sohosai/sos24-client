@@ -3,7 +3,7 @@
 import { useAuthState } from "@/lib/firebase";
 import { css } from "@styled-system/css";
 import { getAuth, signOut } from "firebase/auth";
-import { FC } from "react";
+import { FC, useState } from "react";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import logo from "@/assets/Logo.svg?url";
@@ -105,6 +105,14 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
 
   const [applicationPeriod] = useAtom(projectApplicationPeriodAtom);
 
+  const menuItempathName =
+    window.location.pathname.indexOf("/", 11) === -1
+      ? window.location.pathname !== "/committee"
+        ? window.location.pathname
+        : "/committee/projects"
+      : window.location.pathname.substring(0, window.location.pathname.indexOf("/", 11));
+  const [menuPathName, setMenuPathName] = useState(menuItempathName);
+
   const menu = isLoading
     ? []
     : user
@@ -132,7 +140,6 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
       },
     );
   };
-
   return (
     <header
       className={css({
@@ -231,7 +238,9 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
             />
           </a>
           {/* PCユーザーメニュー */}
-          {(userInfo?.owned_project_id || path.startsWith("/committee")) && <HeaderMenuItems menu={menu} />}
+          {(userInfo?.owned_project_id || path.startsWith("/committee")) && (
+            <HeaderMenuItems menu={menu} path={menuPathName} setPathName={setMenuPathName} />
+          )}
         </div>
         {isLoading ? (
           <></>
@@ -268,6 +277,7 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
                   clickev={() => {
                     router.push(path.startsWith("/committee") ? "/dashboard" : "/committee");
                     localStorage.removeItem("invitation_id");
+                    setMenuPathName(path.startsWith("/committee") ? "/dashboard" : "/committee/projects");
                   }}>
                   <span className={css({ display: { base: "none", lg: "inline" } })}>
                     {path.startsWith("/committee") ? "一般" : "実委人"}
