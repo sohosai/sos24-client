@@ -110,7 +110,7 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
       ? path !== "/committee"
         ? path
         : "/committee/projects"
-      : path.substring(0, window.location.pathname.indexOf("/", 11));
+      : path.substring(0, path.indexOf("/", 11));
   const [menuPathName, setMenuPathName] = useState(menuItemPathName);
 
   const menu = isLoading
