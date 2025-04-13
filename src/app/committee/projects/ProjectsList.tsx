@@ -106,6 +106,40 @@ export const ProjectsList: React.FC<{ projectList: components["schemas"]["Projec
     }
   });
 
+  const TriangleIcons = ({
+    sortKey,
+    currentKey,
+    order,
+  }: {
+    sortKey: string;
+    currentKey: string;
+    order: "asc" | "desc";
+  }) => {
+    const baseStyle = {
+      fontSize: "13px",
+      lineHeight: 0.8,
+    };
+
+    if (sortKey === currentKey) {
+      return (
+        <span className={css({ display: "flex", flexDirection: "column", alignItems: "center" })}>
+          {order === "asc" ? (
+            <span className={css({ ...baseStyle, color: "black" })}>▲</span>
+          ) : (
+            <span className={css({ ...baseStyle, color: "black" })}>▼</span>
+          )}
+        </span>
+      );
+    }
+
+    return (
+      <span className={css({ display: "flex", flexDirection: "column", alignItems: "center" })}>
+        <span className={css({ ...baseStyle })}>▲</span>
+        <span className={css({ ...baseStyle })}>▼</span>
+      </span>
+    );
+  };
+
   return (
     <section className={css({ display: "flex", flexDirection: "column", height: "100%" })}>
       <div
@@ -132,28 +166,9 @@ export const ProjectsList: React.FC<{ projectList: components["schemas"]["Projec
             gap: "0.25rem",
           })}>
           <span>企画番号</span>
-          <span
-            className={css({
-              display: "flex",
-              flexDirection: "column",
-              lineHeight: 1,
-            })}>
-            <span
-              className={css({
-                fontSize: "10px",
-                color: sortOrder === "asc" ? "black" : "gray.400",
-              })}>
-              ▲
-            </span>
-            <span
-              className={css({
-                fontSize: "10px",
-                color: sortOrder === "desc" ? "black" : "gray.400",
-              })}>
-              ▼
-            </span>
-          </span>
+          <TriangleIcons sortKey={sortKey} currentKey="index" order={sortOrder} />
         </button>
+
         <button
           onClick={() => toggleSort("title")}
           className={css({
@@ -165,27 +180,7 @@ export const ProjectsList: React.FC<{ projectList: components["schemas"]["Projec
             gap: "0.25rem",
           })}>
           <span>企画名</span>
-          <span
-            className={css({
-              display: "flex",
-              flexDirection: "column",
-              lineHeight: 1,
-            })}>
-            <span
-              className={css({
-                fontSize: "10px",
-                color: sortOrder === "asc" ? "black" : "gray.400",
-              })}>
-              ▲
-            </span>
-            <span
-              className={css({
-                fontSize: "10px",
-                color: sortOrder === "desc" ? "black" : "gray.400",
-              })}>
-              ▼
-            </span>
-          </span>
+          <TriangleIcons sortKey={sortKey} currentKey="title" order={sortOrder} />
         </button>
         <button
           onClick={() => toggleSort("location_id")}
@@ -198,27 +193,7 @@ export const ProjectsList: React.FC<{ projectList: components["schemas"]["Projec
             gap: "0.25rem",
           })}>
           <span>企画場所</span>
-          <span
-            className={css({
-              display: "flex",
-              flexDirection: "column",
-              lineHeight: 1,
-            })}>
-            <span
-              className={css({
-                fontSize: "10px",
-                color: sortOrder === "asc" ? "black" : "gray.400",
-              })}>
-              ▲
-            </span>
-            <span
-              className={css({
-                fontSize: "10px",
-                color: sortOrder === "desc" ? "black" : "gray.400",
-              })}>
-              ▼
-            </span>
-          </span>
+          <TriangleIcons sortKey={sortKey} currentKey="location_id" order={sortOrder} />
         </button>
         <div>企画区分</div>
       </div>
