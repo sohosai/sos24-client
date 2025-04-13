@@ -3,79 +3,82 @@
 import { container, hstack } from "@styled-system/patterns";
 import { NextPage } from "next";
 import { ProjectsList } from "./ProjectsList";
-import { css, cx } from "@styled-system/css";
+import { css } from "@styled-system/css";
 import { assignType } from "@/lib/openapi";
-import { components } from "@/schema";
 import { useState } from "react";
 import useSWR from "swr";
-import { ProjectCategoryFormatter } from "@/common_components/ProjectCategoryFormatter";
-import { filterSelectorStyle } from "@/common_components/news/FilterSelector";
-import { AttributesFormatter } from "@/common_components/project/AttributesFormatter";
-import { projectAttributes, projectCategories } from "@/lib/valibot";
 import { NoResultNotice } from "@/common_components/NoResultNotice";
 import { buttonStyle } from "@/recipes/button";
 import toast from "react-hot-toast";
 import { handleExport } from "@/lib/export";
 import { useAuthState } from "@/lib/firebase";
-const filterStyle = css({
-  position: "relative",
-  background: `url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 24 24"><path fill="%23000000" d="M0.443719 0.53466C0.443719 0.432857 0.546107 0.331055 0.716756 0.331055L9.24918 0.331055C9.41983 0.331055 9.52222 0.432857 9.52222 0.53466C9.52222 0.560111 9.52222 0.611012 9.48809 0.636463L5.22188 5.5739C5.15362 5.65025 5.05123 5.6757 4.98297 5.6757C4.94884 5.6757 4.81232 5.6757 4.74406 5.5739L0.477848 0.636463C0.443718 0.611012 0.443719 0.560111 0.443719 0.53466Z" /></svg>') no-repeat`,
-  backgroundRepeat: "no-repeat",
-  backgroundPositionX: 10,
-  backgroundPositionY: "10px",
-  appearance: "none",
-  paddingLeft: 6,
-});
+import ProjectTypeSelector, { ProjectType } from "./components/ProjectTypeSelector";
+
 const ProjectsPage: NextPage = () => {
   const { data: rawProjectsData, isLoading, error } = useSWR("/projects");
   const projectsData = assignType("/projects", rawProjectsData) ?? [];
-  const [attributesFilter, setAttributesFilter] = useState<components["schemas"]["ProjectAttribute"] | "">("");
-  const [categoryFilter, setCategoryFilter] = useState<components["schemas"]["ProjectCategory"] | "">("");
   const { user } = useAuthState();
+  const [projectType, setProjectType] = useState<ProjectType>({
+    location: ["屋内", "屋外", "UNITED", "1A", "会館"],
+    food: ["食品なし", "仕込み場必要", "仕込み場不要", "既製食品販売"],
+    committee: ["委員会でない"],
+    attributes: ["その他", "学術", "芸術"],
+  });
+
   const generatedProjectData = (() => {
-    return projectsData
+    let filteredProjects = projectsData
       .filter(
         (e) =>
-          (attributesFilter === "" || e.attributes.includes(attributesFilter)) &&
-          (categoryFilter == "" || e.category === categoryFilter),
+          (projectType.committee.includes("委員会でない") && !e.attributes.includes("official")) ||
+          (projectType.committee.includes("委員会") && e.attributes.includes("official")),
       )
-      .sort((big, small) => big.index - small.index);
+      .filter(
+        (e) =>
+          (projectType.attributes.includes("その他") &&
+            !e.attributes.includes("academic") &&
+            !e.attributes.includes("academic")) ||
+          (projectType.attributes.includes("学術") && e.attributes.includes("academic")) ||
+          (projectType.attributes.includes("芸術") && e.attributes.includes("art")),
+      )
+      .filter(
+        (e) =>
+          (projectType.food.includes("食品なし") &&
+            (e.category.includes("general") ||
+              !e.category.includes("food_with_kitchen") ||
+              !e.category.includes("food_without_kitchen") ||
+              !e.category.includes("food_without_cooking"))) ||
+          (projectType.food.includes("仕込み場必要") && e.category.includes("food_with_kitchen")) ||
+          (projectType.food.includes("仕込み場不要") && e.category.includes("food_without_kitchen")) ||
+          (projectType.food.includes("既製食品販売不要") && e.category.includes("food_without_cooking")),
+      )
+      .filter(
+        (e) =>
+          (projectType.location.includes("屋内") &&
+            e.attributes.includes("inside") &&
+            !e.category.includes("stage_united") &&
+            !e.category.includes("stage_1a") &&
+            !e.category.includes("stage_university_hall")) ||
+          (projectType.location.includes("屋外") &&
+            e.attributes.includes("outside") &&
+            !e.category.includes("stage_united") &&
+            !e.category.includes("stage_1a") &&
+            !e.category.includes("stage_university_hall")) ||
+          (projectType.location.includes("UNITED") && e.category.includes("stage_united")) ||
+          (projectType.location.includes("1A") && e.category.includes("stage_1a")) ||
+          (projectType.location.includes("会館") && e.category.includes("stage_university_hall")),
+      );
+
+    return filteredProjects;
   })();
 
+  const typeSelectorOnChangeHandler = (value: ProjectType) => {
+    setProjectType(value);
+  };
+
   return (
-    <div className={container({ marginY: 8 })}>
-      <div className={hstack()}>
-        <h2
-          className={css({
-            fontSize: "2xl",
-            fontWeight: "bold",
-          })}>
-          企画一覧
-        </h2>
-      </div>
-      <div className={hstack({ justifyContent: "space-between", alignItems: "center", marginTop: 10 })}>
-        <div className={hstack({ gap: 4 })}>
-          <select
-            onChange={(e) => setAttributesFilter(e.target.value as "" | components["schemas"]["ProjectAttribute"])}
-            className={cx(filterSelectorStyle, filterStyle)}>
-            <option value="">企画属性</option>
-            {projectAttributes.map((e) => (
-              <option value={e} key={e}>
-                <AttributesFormatter attribute={e as components["schemas"]["ProjectAttribute"]} />
-              </option>
-            ))}
-          </select>
-          <select
-            onChange={(e) => setCategoryFilter(e.target.value as "" | components["schemas"]["ProjectCategory"])}
-            className={cx(filterSelectorStyle, filterStyle)}>
-            <option value="">企画区分</option>
-            {projectCategories.map((e) => (
-              <option value={e} key={e}>
-                <ProjectCategoryFormatter category={e} />
-              </option>
-            ))}
-          </select>
-        </div>
+    <div className={container({ marginY: 15 })}>
+      <div className={hstack({ justifyContent: "space-between", alignItems: "center", marginY: "2.5rem" })}>
+        <h2 className={css({ fontSize: "2xl", fontWeight: "bold" })}>企画一覧</h2>
         <button
           className={buttonStyle({ visual: "outline", color: "purple" })}
           onClick={() =>
@@ -96,15 +99,39 @@ const ProjectsPage: NextPage = () => {
           CSVダウンロード
         </button>
       </div>
-      {isLoading ? (
-        "Loading"
-      ) : error ? (
-        "error"
-      ) : generatedProjectData.length === 0 ? (
-        <NoResultNotice message="企画はありません" />
-      ) : (
-        <ProjectsList projectList={generatedProjectData} />
-      )}
+      <div
+        className={css({
+          display: "flex",
+          gap: "40px",
+          alignItems: "start",
+          height: "calc(100vh - 200px)",
+          overflow: "hidden",
+        })}>
+        <div
+          className={css({
+            minWidth: "200px",
+            maxWidth: "400px",
+            flexShrink: 0,
+            paddingRight: "40px",
+            borderRight: "1px solid",
+            borderColor: "gray.300",
+            overflowY: "auto",
+            maxHeight: "100%",
+          })}>
+          <ProjectTypeSelector value={projectType} onChange={typeSelectorOnChangeHandler} />
+        </div>
+        <div className={css({ flexGrow: 1, minWidth: "500px", overflowY: "auto", maxHeight: "100%" })}>
+          {isLoading ? (
+            "Loading"
+          ) : error ? (
+            "error"
+          ) : generatedProjectData.length === 0 ? (
+            <NoResultNotice message="企画はありません" />
+          ) : (
+            <ProjectsList projectList={generatedProjectData} />
+          )}
+        </div>
+      </div>
     </div>
   );
 };
