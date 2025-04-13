@@ -110,7 +110,7 @@ const ProjectsPage: NextPage = () => {
         <div
           className={css({
             minWidth: "200px",
-            maxWidth: "300px",
+            maxWidth: "400px",
             flexShrink: 0,
             paddingRight: "40px",
             borderRight: "1px solid",
