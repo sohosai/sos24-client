@@ -15,7 +15,7 @@ const ProjectRow: React.FC<{ data: components["schemas"]["ProjectSummary"] }> = 
     <div
       className={grid({
         columns: 3,
-        gridTemplateColumns: "1fr 7fr 2fr",
+        gridTemplateColumns: "1fr 5fr 2fr 2fr",
         borderBottom: "1px solid token(colors.gray.300)",
         paddingY: 3,
       })}>
@@ -44,20 +44,20 @@ const ProjectRow: React.FC<{ data: components["schemas"]["ProjectSummary"] }> = 
             })}>
             {data.title}
           </Link>
-          <div
-            className={css({
-              display: "flex",
-              alignItems: "center",
-              gap: ".2rem",
-              color: "#A59E9E",
-              fontSize: "sm",
-              fontWeight: "bold",
-            })}>
-            <Image src={LocationIcon} alt="" />
-            {data.location_id ?? "未定"}
-          </div>
         </div>
         <UserWithAddress name={data.owner_name} email={data.owner_email} />
+      </div>
+      <div
+        className={css({
+          display: "flex",
+          alignItems: "center",
+          gap: ".2rem",
+          color: "#A59E9E",
+          fontSize: "sm",
+          fontWeight: "bold",
+        })}>
+        <Image src={LocationIcon} alt="" />
+        {data.location_id ?? "未定"}
       </div>
       <div className={vstack({ alignItems: "end" })}>
         <div
@@ -71,20 +71,47 @@ const ProjectRow: React.FC<{ data: components["schemas"]["ProjectSummary"] }> = 
 };
 
 export const ProjectsList: React.FC<{ projectList: components["schemas"]["ProjectSummary"][] }> = ({ projectList }) => {
+  const [sortKey, setSortkey] = useState<"index" | "title" | "location_id">("index");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
-  const sortedList = [...projectList].sort((a, b) => (sortOrder === "asc" ? a.index - b.index : b.index - a.index));
+  const sortByIndex = (a: components["schemas"]["ProjectSummary"], b: components["schemas"]["ProjectSummary"]) =>
+    sortOrder === "asc" ? a.index - b.index : b.index - a.index;
 
-  const toggleSortOrder = () => {
-    setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
+  const sortByTitle = (a: components["schemas"]["ProjectSummary"], b: components["schemas"]["ProjectSummary"]) =>
+    sortOrder === "asc" ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
+
+  const sortByLocationid = (a: components["schemas"]["ProjectSummary"], b: components["schemas"]["ProjectSummary"]) =>
+    sortOrder === "asc"
+      ? (a.location_id ?? "").localeCompare(b.location_id ?? "")
+      : (b.location_id ?? "").localeCompare(a.location_id ?? "");
+
+  const toggleSort = (key: "index" | "title" | "location_id") => {
+    if (key === sortKey) {
+      setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
+    } else {
+      setSortkey(key);
+      setSortOrder("asc");
+    }
   };
+
+  const sortedList = [...projectList].sort((a, b) => {
+    switch (sortKey) {
+      case "title":
+        return sortByTitle(a, b);
+      case "location_id":
+        return sortByLocationid(a, b);
+      case "index":
+      default:
+        return sortByIndex(a, b);
+    }
+  });
 
   return (
     <section className={css({ display: "flex", flexDirection: "column", height: "100%" })}>
       <div
         className={grid({
           columns: 3,
-          gridTemplateColumns: "1fr 7fr 2fr",
+          gridTemplateColumns: "1fr 5fr 2fr 2fr",
           fontWeight: "bold",
           fontSize: "lg",
           paddingBottom: 2,
@@ -94,10 +121,105 @@ export const ProjectsList: React.FC<{ projectList: components["schemas"]["Projec
           top: 0,
           zIndex: 10,
         })}>
-        <button onClick={toggleSortOrder} className={css({ all: "unset", cursor: "pointer", userSelect: "none" })}>
-          企画番号 {sortOrder === "asc" ? "▲" : "▼"}
+        <button
+          onClick={() => toggleSort("index")}
+          className={css({
+            all: "unset",
+            cursor: "pointer",
+            userSelect: "none",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.25rem",
+          })}>
+          <span>企画番号</span>
+          <span
+            className={css({
+              display: "flex",
+              flexDirection: "column",
+              lineHeight: 1,
+            })}>
+            <span
+              className={css({
+                fontSize: "10px",
+                color: sortOrder === "asc" ? "black" : "gray.400",
+              })}>
+              ▲
+            </span>
+            <span
+              className={css({
+                fontSize: "10px",
+                color: sortOrder === "desc" ? "black" : "gray.400",
+              })}>
+              ▼
+            </span>
+          </span>
         </button>
-        <div>企画名</div>
+        <button
+          onClick={() => toggleSort("title")}
+          className={css({
+            all: "unset",
+            cursor: "pointer",
+            userSelect: "none",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.25rem",
+          })}>
+          <span>企画名</span>
+          <span
+            className={css({
+              display: "flex",
+              flexDirection: "column",
+              lineHeight: 1,
+            })}>
+            <span
+              className={css({
+                fontSize: "10px",
+                color: sortOrder === "asc" ? "black" : "gray.400",
+              })}>
+              ▲
+            </span>
+            <span
+              className={css({
+                fontSize: "10px",
+                color: sortOrder === "desc" ? "black" : "gray.400",
+              })}>
+              ▼
+            </span>
+          </span>
+        </button>
+        <button
+          onClick={() => toggleSort("location_id")}
+          className={css({
+            all: "unset",
+            cursor: "pointer",
+            userSelect: "none",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.25rem",
+          })}>
+          <span>企画場所</span>
+          <span
+            className={css({
+              display: "flex",
+              flexDirection: "column",
+              lineHeight: 1,
+            })}>
+            <span
+              className={css({
+                fontSize: "10px",
+                color: sortOrder === "asc" ? "black" : "gray.400",
+              })}>
+              ▲
+            </span>
+            <span
+              className={css({
+                fontSize: "10px",
+                color: sortOrder === "desc" ? "black" : "gray.400",
+              })}>
+              ▼
+            </span>
+          </span>
+        </button>
         <div>企画区分</div>
       </div>
       <div
