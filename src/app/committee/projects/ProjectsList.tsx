@@ -80,27 +80,18 @@ export const ProjectsList: React.FC<{ projectList: components["schemas"]["Projec
   const sortByTitle = (a: components["schemas"]["ProjectSummary"], b: components["schemas"]["ProjectSummary"]) =>
     sortOrder === "asc" ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
 
-  const getLocationSortPriority = (value: string | null | undefined): [number, string] => {
-    if (!value) return [3, ""];
-
-    if (/^\d+$/.test(value)) {
-      return [0, value];
-    } else if (/^[A-Za-z]/.test(value)) {
-      return [1, value];
-    } else {
-      return [2, value];
-    }
-  };
-
   const sortByLocationid = (a: components["schemas"]["ProjectSummary"], b: components["schemas"]["ProjectSummary"]) => {
-    const [priorityA, valA] = getLocationSortPriority(a.location_id);
-    const [priorityB, valB] = getLocationSortPriority(b.location_id);
+    const valA = a.location_id;
+    const valB = b.location_id;
 
-    if (priorityA !== priorityB) {
-      return sortOrder === "asc" ? priorityA - priorityB : priorityB - priorityA;
-    }
+    const isNullA = valA == null;
+    const isNullB = valB == null;
 
-    return sortOrder === "asc" ? valA.localeCompare(valB) : valB.localeCompare(valA);
+    if (isNullA && !isNullB) return 1;
+    if (!isNullA && isNullB) return -1;
+    if (isNullA && isNullB) return 0;
+
+    return sortOrder === "asc" ? valA!.localeCompare(valB!) : valB!.localeCompare(valA!);
   };
 
   const toggleSort = (key: "index" | "title" | "location_id") => {
