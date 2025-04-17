@@ -5,6 +5,8 @@ import { center, container, stack } from "@styled-system/patterns";
 import { css } from "@styled-system/css";
 import { NewsView } from "@/common_components/news/NewsView";
 
+const SortStatus: "all" | "draft" | "scheduled" | "published" = "all";
+
 const CommitteeNewsPage: NextPage = () => {
   return (
     <div className={container()}>
@@ -12,7 +14,7 @@ const CommitteeNewsPage: NextPage = () => {
         <h2 className={css({ fontSize: "2xl", fontWeight: "bold" })}>お知らせ一覧</h2>
         <div className={center()}>
           <div className={css({ width: "90%" })}>
-            <NewsView isCommittee />
+            <NewsView isCommittee status={SortStatus} />
           </div>
         </div>
       </div>
