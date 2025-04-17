@@ -26,6 +26,7 @@ export const buttonStyle = cva({
     color: {
       purple: {},
       blue: {},
+      secondary_blue: {},
     },
     shadow: {
       none: {},

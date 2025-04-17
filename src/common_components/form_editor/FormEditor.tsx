@@ -1,11 +1,13 @@
 "use client";
 
 import { css } from "@styled-system/css";
+import driveIcon from "@/assets/Drive.svg?url";
+import Image from "next/image";
 import { FC, useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { ProjectAttribute, projectAttributes, projectCategories, ProjectCategory } from "@/lib/valibot";
 import { getProjectAttributeText, getProjectCategoryText } from "@/lib/textUtils";
-import { stack, visuallyHidden } from "@styled-system/patterns";
+import { stack, visuallyHidden, hstack } from "@styled-system/patterns";
 import { FormFieldEditor } from "./FormFieldEditor";
 import {
   checkboxGrpupStyle,
@@ -73,6 +75,7 @@ export type CreateFormInput = {
   attributes: ProjectAttribute[];
   attachments: string[];
   items: FormField[];
+  is_draft: boolean;
 };
 
 const Divider: FC = () => {
@@ -144,6 +147,42 @@ export const FormEditor: FC<{
       starts_at: (data.starts_at === "" ? dayjs() : dayjs(data.starts_at)).toISOString(),
       ends_at: dayjs(data.ends_at).toISOString(),
       attachments: fileIds.attachments ?? [],
+      is_draft: false,
+      items: [
+        ...data.items.map((item) => {
+          if (item.type === "choose_many" || item.type === "choose_one") {
+            return {
+              ...item,
+              options: item.options.split("\n"),
+            };
+          }
+          if (item.type === "file") {
+            return {
+              ...item,
+              extensions: item.extensions.split("\n"),
+            };
+          }
+          return item;
+        }),
+      ],
+    };
+    return onSubmit(body);
+  });
+
+  const onClickHandler = handleSubmit(async (data) => {
+    if (fileErrors.get("attachments")) {
+      toast.error("正しいファイルをアップロードしてください");
+      return;
+    }
+    let fileIds: FileIds = { attachments: attachmentsStatus.map((attachmentStatus) => attachmentStatus.uuid) };
+    const body = {
+      ...data,
+      attributes: data.attributes.length === 0 ? [...projectAttributes] : data.attributes,
+      categories: data.categories.length === 0 ? [...projectCategories] : data.categories,
+      starts_at: (data.starts_at === "" ? dayjs() : dayjs(data.starts_at)).toISOString(),
+      ends_at: dayjs(data.ends_at).toISOString(),
+      attachments: fileIds.attachments ?? [],
+      is_drafted: true,
       items: [
         ...data.items.map((item) => {
           if (item.type === "choose_many" || item.type === "choose_one") {
@@ -487,15 +526,42 @@ export const FormEditor: FC<{
           </div>
         </div>
         {(editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true)) && (
-          <Button
-            visual="solid"
-            color="purple"
-            className={css({
+          <div
+            className={hstack({
+              justifyContent: "space-between",
+              marginBottom: 2,
               alignSelf: "center",
-            })}
-            disabled={isSubmitting || isSubmitSuccessful}>
-            {defaultValues ? "更新" : "作成"}
-          </Button>
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+            })}>
+            <Button
+              type="button"
+              color="secondary_blue"
+              className={hstack({
+                gap: 3,
+              })}
+              onClick={onClickHandler}
+              disabled={isSubmitting || isSubmitSuccessful}>
+              <span
+                className={css({
+                  fontSize: "xs",
+                  fontWeight: "bold",
+                })}>
+                下書き保存
+              </span>
+              <Image src={driveIcon} alt="" />
+            </Button>
+            <Button
+              visual="solid"
+              color="purple"
+              className={css({
+                alignSelf: "center",
+              })}
+              disabled={isSubmitting || isSubmitSuccessful}>
+              {defaultValues ? "更新" : "作成"}
+            </Button>
+          </div>
         )}
       </form>
     </>
