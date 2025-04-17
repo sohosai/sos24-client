@@ -64,7 +64,7 @@ export const RegistrationDashboard: React.FC = () => {
   return (
     <>
       {!formIsLoading &&
-        (step === 5 || (
+        (step !== 5 ? (
           <div
             className={css({
               color: "white",
@@ -76,6 +76,19 @@ export const RegistrationDashboard: React.FC = () => {
               paddingY: 4,
             })}>
             まだ企画応募は完了していません
+          </div>
+        ) : (
+          <div
+            className={css({
+              color: "white",
+              background: "sohosai.blue",
+              width: "100%",
+              maxWidth: "40rem",
+              marginInline: "auto",
+              textAlign: "center",
+              paddingY: 4,
+            })}>
+            企画応募が完了しました！
           </div>
         ))}
       <div className={container()}>
