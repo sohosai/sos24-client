@@ -7,7 +7,14 @@ import { ProjectAttribute, projectAttributes, projectCategories, ProjectCategory
 import { getProjectAttributeText, getProjectCategoryText } from "@/lib/textUtils";
 import { stack, visuallyHidden } from "@styled-system/patterns";
 import { FormFieldEditor } from "./FormFieldEditor";
-import { checkboxGrpupStyle, checkboxStyle, descriptionStyle, sectionTitleStyle, textInputStyle } from "./styles";
+import {
+  checkboxGrpupStyle,
+  checkboxStyle,
+  descriptionStyle,
+  ScheduledStyle,
+  sectionTitleStyle,
+  textInputStyle,
+} from "./styles";
 import { components } from "@/schema";
 import dayjs from "dayjs";
 import { FileIds } from "@/lib/postFile";
@@ -15,7 +22,6 @@ import toast from "react-hot-toast";
 import { FilesField } from "./FilesEditor";
 import { Button, buttonStyle } from "@/recipes/button";
 import { FileView } from "@/common_components/FileView";
-
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 
@@ -78,6 +84,7 @@ export type HandleFormEditorSubmit = (
 ) => Promise<void>;
 
 import { filesStatus } from "./FilesInterfaces";
+import { basicErrorMessageStyle } from "@/common_components/formFields/styles";
 
 export const FormEditor: FC<{
   defaultValues?: CreateFormInput;
@@ -96,7 +103,7 @@ export const FormEditor: FC<{
     register,
     control,
     handleSubmit,
-    formState: { isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<CreateFormInput>({
     defaultValues: defaultValues ?? {
       categories: [],
@@ -271,7 +278,7 @@ export const FormEditor: FC<{
           <div>
             <label htmlFor="title">タイトル</label>
             <input
-              {...register("title", { required: true })}
+              {...register("title", { required: { value: true, message: "入力必須です" } })}
               className={textInputStyle}
               disabled={
                 isLoading_user || (editable === false && ["administrator"].includes(me.role) === false)
@@ -279,11 +286,14 @@ export const FormEditor: FC<{
                   : undefined
               }
             />
+            <div className={css({ marginBlock: 1 })}>
+              {errors.title && <span className={basicErrorMessageStyle}>{errors.title.message}</span>}
+            </div>
           </div>
           <div>
             <label htmlFor="description">説明</label>
             <textarea
-              {...register("description", { required: true })}
+              {...register("description", { required: { value: true, message: "入力必須です" } })}
               className={textInputStyle}
               disabled={
                 isLoading_user || (editable === false && ["administrator"].includes(me.role) === false)
@@ -291,6 +301,9 @@ export const FormEditor: FC<{
                   : undefined
               }
             />
+            <div className={css({ marginBlock: 1 })}>
+              {errors.description && <span className={basicErrorMessageStyle}>{errors.description.message}</span>}
+            </div>
           </div>
           {editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true) ? (
             <div>
@@ -314,25 +327,6 @@ export const FormEditor: FC<{
               </div>
             )
           )}
-          <div>
-            <p className={descriptionStyle}>受付開始日時を選択しなかった場合現在時刻が入力されます</p>
-            <div>
-              <label htmlFor="starts_at">受付開始日時</label>
-              <input
-                type="datetime-local"
-                {...register("starts_at")}
-                disabled={editable === false ? true : undefined}
-              />
-            </div>
-            <div>
-              <label htmlFor="ends_at">受付終了日時</label>
-              <input
-                type="datetime-local"
-                {...register("ends_at", { required: true })}
-                disabled={editable === false ? true : undefined}
-              />
-            </div>
-          </div>
         </div>
 
         <Divider />
@@ -467,6 +461,31 @@ export const FormEditor: FC<{
             </fieldset>
           </>
         )}
+
+        <Divider />
+
+        <div>
+          <p className={descriptionStyle}>受付開始日時を選択しなかった場合現在時刻が入力されます</p>
+          <div>
+            <label htmlFor="starts_at" className={ScheduledStyle}>
+              受付開始日時
+            </label>
+            <input type="datetime-local" {...register("starts_at")} disabled={editable === false ? true : undefined} />
+          </div>
+          <div>
+            <label htmlFor="ends_at" className={ScheduledStyle}>
+              受付終了日時
+            </label>
+            <input
+              type="datetime-local"
+              {...register("ends_at", { required: { value: true, message: "受付終了日時を入力してください" } })}
+              disabled={editable === false ? true : undefined}
+            />
+            <div className={css({ marginBlock: 1 })}>
+              {errors.ends_at && <span className={basicErrorMessageStyle}>{errors.ends_at.message}</span>}
+            </div>
+          </div>
+        </div>
         {(editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true)) && (
           <Button
             visual="solid"

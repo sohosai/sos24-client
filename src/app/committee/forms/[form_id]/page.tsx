@@ -1,5 +1,4 @@
 "use client";
-
 import { assignType } from "@/lib/openapi";
 import { css, cx } from "@styled-system/css";
 import { container, vstack } from "@styled-system/patterns";

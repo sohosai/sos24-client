@@ -92,7 +92,7 @@ export const NormalDashboard: React.FC = () => {
         return <p>エラーが発生しました</p>;
     }
   }
-
+  const SortStatus: "all" | "draft" | "scheduled" | "published" = "all";
   return (
     <>
       <div className={container({ maxW: "6xl" })}>
@@ -143,7 +143,7 @@ export const NormalDashboard: React.FC = () => {
             <div>
               <Title>お知らせ</Title>
             </div>
-            <NewsView isDashboard />
+            <NewsView isDashboard status={SortStatus} />
           </div>
         </div>
       </div>
