@@ -1,12 +1,10 @@
 import { flex, stack } from "@styled-system/patterns";
-import { FilterSelector, NewsFilterType, newsFilters } from "@/common_components/news/FilterSelector";
 import { NewsList } from "@/common_components/news/NewsList";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
-import { FC, useCallback, useState } from "react";
+import { FC } from "react";
 import { components } from "@/schema";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Route } from "next";
+import { useRouter } from "next/navigation";
 import { Button } from "@/common_components/Button";
 import { css } from "@styled-system/css";
 import Image from "next/image";
@@ -33,17 +31,11 @@ const isTargetProject = (
 
 // 特定の企画向けのお知らせのみを抽出する
 const filterNews = (
-  filter: NewsFilterType,
   myProject: components["schemas"]["Project"],
   newsList: components["schemas"]["NewsSummary"][],
 ): components["schemas"]["NewsSummary"][] => {
   const newsListPublished = newsList.filter((news) => news.state.includes("published"));
-  switch (filter) {
-    case "me":
-      return newsListPublished.filter((news) => isTargetProject(myProject, news.categories, news.attributes));
-    case "all":
-      return newsListPublished;
-  }
+  return newsListPublished.filter((news) => isTargetProject(myProject, news.categories, news.attributes));
 };
 
 export type Props = {
@@ -54,21 +46,8 @@ export type Props = {
 // これはコンポーネントの規模ではないのではみたいな気持ちがある
 export const NewsView: FC<Props & SortStatus> = ({ isCommittee, isDashboard = false, status }) => {
   const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
-      return params.toString();
-    },
-    [searchParams],
-  );
-  const applicationPeriod = useAtomValue(projectApplicationPeriodAtom);
 
-  const filterParams = (searchParams.get("news_cateogry") ?? "me") as "me" | "all";
-  const defaultFilter = newsFilters.includes(filterParams) ? filterParams : "me";
-  const [filter, setFilter] = useState<NewsFilterType>(defaultFilter);
+  const applicationPeriod = useAtomValue(projectApplicationPeriodAtom);
 
   const { data: data_user, isLoading: isLoading_user } = useSWR("/users/me");
   const me = assignType("/users/me", data_user);
@@ -95,7 +74,7 @@ export const NewsView: FC<Props & SortStatus> = ({ isCommittee, isDashboard = fa
 
   const filteredNewsList = isCommittee
     ? newsListSort
-    : filterNews(filter, project, newsListSort).slice(0, isDashboard ? 5 : undefined);
+    : filterNews(project, newsListSort).slice(0, isDashboard ? 5 : undefined);
 
   return (
     <div className={stack({ gap: 2, width: "full" })}>
@@ -106,14 +85,6 @@ export const NewsView: FC<Props & SortStatus> = ({ isCommittee, isDashboard = fa
         })}>
         {!isCommittee && (
           <>
-            <FilterSelector
-              filter={filter}
-              setFilter={(filter) => {
-                setFilter(filter);
-                router.push((pathname + "?" + createQueryString("news_category", filter)) as Route);
-              }}
-            />
-
             {isDashboard && !applicationPeriod.isIn && (
               <Link
                 href="/news"
