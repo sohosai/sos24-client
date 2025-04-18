@@ -5,7 +5,7 @@ import { FC, useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { ProjectAttribute, projectAttributes, projectCategories, ProjectCategory } from "@/lib/valibot";
 import { getProjectAttributeText, getProjectCategoryText } from "@/lib/textUtils";
-import { stack, visuallyHidden } from "@styled-system/patterns";
+import { hstack, stack, visuallyHidden } from "@styled-system/patterns";
 import { FormFieldEditor } from "./FormFieldEditor";
 import {
   checkboxGrpupStyle,
@@ -73,6 +73,7 @@ export type CreateFormInput = {
   attributes: ProjectAttribute[];
   attachments: string[];
   items: FormField[];
+  is_draft: boolean;
 };
 
 const Divider: FC = () => {
@@ -99,6 +100,11 @@ export const FormEditor: FC<{
     })) ?? [];
   const [attachmentsStatus, setAttachmentsStatus] = useState<filesStatus[]>(attachmentsData ?? []);
 
+  const [is_draft, setIsDraft] = useState(false);
+  const onClickHandler = () => {
+    setIsDraft(true);
+  };
+
   const {
     register,
     control,
@@ -117,6 +123,7 @@ export const FormEditor: FC<{
 
   const { data: data_user, isLoading: isLoading_user } = useSWR("/users/me");
   const me = assignType("/users/me", data_user);
+
   if (isLoading_user) {
     return (
       <div
@@ -136,6 +143,7 @@ export const FormEditor: FC<{
       toast.error("正しいファイルをアップロードしてください");
       return;
     }
+
     let fileIds: FileIds = { attachments: attachmentsStatus.map((attachmentStatus) => attachmentStatus.uuid) };
     const body = {
       ...data,
@@ -144,6 +152,7 @@ export const FormEditor: FC<{
       starts_at: (data.starts_at === "" ? dayjs() : dayjs(data.starts_at)).toISOString(),
       ends_at: dayjs(data.ends_at).toISOString(),
       attachments: fileIds.attachments ?? [],
+      is_draft: is_draft,
       items: [
         ...data.items.map((item) => {
           if (item.type === "choose_many" || item.type === "choose_one") {
@@ -499,19 +508,37 @@ export const FormEditor: FC<{
             </div>
           </div>
         </div>
-        {(editable !== false ||
-          (!isLoading_user &&
-            ["committee_editor", "committee_operator", "administrator"].includes(me.role) === true)) && (
-          <Button
-            visual="solid"
-            color="purple"
-            className={css({
-              alignSelf: "center",
-            })}
-            disabled={isSubmitting || isSubmitSuccessful}>
-            {defaultValues ? "更新" : "作成"}
-          </Button>
-        )}
+
+        <div
+          className={css({
+            alignSelf: "center",
+            gap: 3,
+          })}>
+          {(editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true)) && (
+            <Button
+              visual="solid"
+              color="blue"
+              className={hstack({
+                alignSelf: "center",
+              })}
+              disabled={isSubmitting || isSubmitSuccessful}
+              onClick={onClickHandler}>
+              下書き保存
+            </Button>
+          )}
+          {(editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true)) && (
+            <Button
+              visual="solid"
+              color="purple"
+              className={hstack({
+                alignSelf: "center",
+                margin: 3,
+              })}
+              disabled={isSubmitting || isSubmitSuccessful}>
+              {defaultValues ? "更新" : "作成"}
+            </Button>
+          )}
+        </div>
       </form>
     </>
   );
