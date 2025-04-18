@@ -19,19 +19,15 @@ import { FormStatusBar } from "./components/FormStatusBar";
 export interface sortStatus {
   sortstatus: "開始前" | "下書き" | "受付中" | "受付終了" | "all";
 }
-        
+
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
-const router = useRouter();
 
 export const FormsList: FC<
   {
     forms: Form[];
   } & sortStatus
 > = ({ forms, sortstatus }) => {
-
-import useSWR from "swr";
-import { assignType } from "@/lib/openapi";
   const router = useRouter();
 
   const { data: data_user, isLoading: isLoading_user } = useSWR("/users/me");
