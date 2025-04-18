@@ -15,10 +15,16 @@ import Image from "next/image";
 import { flex } from "@styled-system/patterns";
 import { useRouter } from "next/navigation";
 
+import useSWR from "swr";
+import { assignType } from "@/lib/openapi";
+
 export const FormsList: FC<{
   forms: Form[];
 }> = ({ forms }) => {
   const router = useRouter();
+
+  const { data: data_user, isLoading: isLoading_user } = useSWR("/users/me");
+  const me = assignType("/users/me", data_user);
 
   return (
     <div
@@ -31,23 +37,25 @@ export const FormsList: FC<{
           display: "grid",
           justifyContent: "flex-end",
         })}>
-        <Button
-          color="blue"
-          onClick={() => router.push("/committee/forms/new")}
-          className={flex({
-            alignItems: "center",
-            gap: 2,
-            paddingX: 6,
-          })}>
-          <Image src={plusIcon} alt="" />
-          <span
-            className={css({
-              fontSize: "xs",
-              fontWeight: "bold",
+        {!isLoading_user && ["committee_editor", "committee_operator", "administrator"].includes(me.role) && (
+          <Button
+            color="blue"
+            onClick={() => router.push("/committee/forms/new")}
+            className={flex({
+              alignItems: "center",
+              gap: 2,
+              paddingX: 6,
             })}>
-            新規作成
-          </span>
-        </Button>
+            <Image src={plusIcon} alt="" />
+            <span
+              className={css({
+                fontSize: "xs",
+                fontWeight: "bold",
+              })}>
+              新規作成
+            </span>
+          </Button>
+        )}
       </div>
       <div
         className={css({

@@ -59,37 +59,41 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
           作成日: <time dateTime={form.created_at}> {dayjs(form.created_at).format("YYYY/MM/DD")}</time>
         </div>
         <div className={hstack()}>
-          <Image
-            src={deleteNewsButton}
-            alt="delete"
-            onClick={() => {
-              window.confirm("本当に削除しますか？") &&
-                toast.promise(
-                  client
-                    .DELETE(`/forms/{form_id}`, {
-                      params: { path: { form_id: form.id } },
-                    })
-                    .then(({ error }) => {
-                      if (error) throw error;
-                    }),
-                  {
-                    loading: "申請を削除しています",
-                    error: "申請削除中にエラーが発生しました",
-                    success: () => {
-                      router.push("/committee/forms");
-                      return "申請を削除しました";
+          {!isLoading && !isLoading_user && ["committee_operator", "administrator"].includes(me.role) && (
+            <Image
+              src={deleteNewsButton}
+              alt="delete"
+              onClick={() => {
+                window.confirm("本当に削除しますか？") &&
+                  toast.promise(
+                    client
+                      .DELETE(`/forms/{form_id}`, {
+                        params: { path: { form_id: form.id } },
+                      })
+                      .then(({ error }) => {
+                        if (error) throw error;
+                      }),
+                    {
+                      loading: "申請を削除しています",
+                      error: "申請削除中にエラーが発生しました",
+                      success: () => {
+                        router.push("/committee/forms");
+                        return "申請を削除しました";
+                      },
                     },
-                  },
-                );
-            }}
-          />
-          {!isLoading && !isLoading_user && (answers.length == 0 || ["administrator"].includes(me.role)) && (
-            <Link
-              href={`/committee/forms/${form.id}/edit`}
-              className={buttonStyle({ color: "blue", visual: "outline" })}>
-              編集
-            </Link>
+                  );
+              }}
+            />
           )}
+          {!isLoading &&
+            !isLoading_user &&
+            ["committee_editor", "committee_operator", "administrator"].includes(me.role) && (
+              <Link
+                href={`/committee/forms/${form.id}/edit`}
+                className={buttonStyle({ color: "blue", visual: "outline" })}>
+                編集
+              </Link>
+            )}
           <button
             className={buttonStyle({ visual: "outline", color: "purple" })}
             onClick={() =>
