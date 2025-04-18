@@ -75,8 +75,8 @@ const ProjectTypeSelector = ({ value, onChange }: Props): JSX.Element => {
         <CategorySection
           title="場所"
           field="location"
-          items={["屋内", "屋外"]}
-          nestedItems={{ ステージ: ["UNITED", "1A", "会館"] }}
+          items={[]}
+          nestedItems={{ 一般: ["屋内", "屋外"], ステージ: ["UNITED", "1A", "会館"] }}
           value={value}
           onToggle={toggleField}
           onToggleAll={toggleAll}
