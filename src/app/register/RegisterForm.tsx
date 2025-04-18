@@ -111,9 +111,6 @@ export const RegisterForm = () => {
       case "inside":
         attributes.push("inside");
         break;
-      case "stage":
-        attributes.push("outside");
-        break;
     }
     toast.promise(
       client
