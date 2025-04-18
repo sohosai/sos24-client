@@ -3,7 +3,7 @@ import { FormStatusButton } from "@/app/committee/forms/components/FormStatusBut
 import { useRouter } from "next/navigation";
 
 interface SortStatus {
-  SortStatus: "all" | "draft" | "scheduled" | "published" | "ended";
+  SortStatus: "all" | "draft" | "before_reception" | "accepting" | "ended";
 }
 
 export const FormStatusBar: React.FC<SortStatus> = ({ SortStatus }) => {
@@ -18,9 +18,9 @@ export const FormStatusBar: React.FC<SortStatus> = ({ SortStatus }) => {
           gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr",
           fontWeight: "bold",
           fontSize: "lg",
-          paddingBottom: 2,
-          borderBottom: "1px solid ",
-          borderColor: "gray.500",
+          marginY: 4,
+          borderBottom: "2px solid ",
+          borderColor: "gray.200",
         })}>
         <FormStatusButton
           type="button"
@@ -54,7 +54,7 @@ export const FormStatusBar: React.FC<SortStatus> = ({ SortStatus }) => {
 
         <FormStatusButton
           type="button"
-          color={SortStatus === "scheduled" ? "purple" : "black"}
+          color={SortStatus === "before_reception" ? "purple" : "black"}
           onClick={() => {
             router.push(`/committee/news/scheduled`);
           }}>
@@ -69,7 +69,7 @@ export const FormStatusBar: React.FC<SortStatus> = ({ SortStatus }) => {
 
         <FormStatusButton
           type="button"
-          color={SortStatus === "published" ? "purple" : "black"}
+          color={SortStatus === "accepting" ? "purple" : "black"}
           onClick={() => {
             router.push(`/committee/news/published`);
           }}>

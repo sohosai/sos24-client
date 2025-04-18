@@ -3,14 +3,11 @@
  * Do not make direct changes to the file.
  */
 
+
 /** OneOf type helpers */
 type Without<T, U> = { [_ in Exclude<keyof T, keyof U>]?: never };
-type XOR<T, U> = T | U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U;
-type OneOf<T extends any[]> = T extends [infer Only]
-  ? Only
-  : T extends [infer A, infer B, ...infer Rest]
-    ? OneOf<[XOR<A, B>, ...Rest]>
-    : never;
+type XOR<T, U> = (T | U) extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U;
+type OneOf<T extends any[]> = T extends [infer Only] ? Only : T extends [infer A, infer B, ...infer Rest] ? OneOf<[XOR<A, B>, ...Rest]> : never;
 
 export interface paths {
   "/files": {
@@ -152,6 +149,7 @@ export interface components {
       description: string;
       /** Format: date-time */
       ends_at: string;
+      is_draft: boolean;
       items: components["schemas"]["NewFormItem"][];
       /** Format: date-time */
       starts_at: string;
@@ -177,8 +175,6 @@ export interface components {
       state: components["schemas"]["NewsState"];
       title: string;
     };
-    /** @enum {string} */
-    CreateNewsState: "draft" | "scheduled" | "published";
     CreateProject: {
       attributes: components["schemas"]["ProjectAttributes"];
       category: components["schemas"]["ProjectCategory"];
@@ -264,6 +260,7 @@ export interface components {
       ends_at: string;
       /** Format: uuid */
       id: string;
+      is_draft: boolean;
       items: components["schemas"]["FormItem"][];
       /** Format: date-time */
       starts_at: string;
@@ -286,46 +283,38 @@ export interface components {
       /** Format: date-time */
       updated_at: string;
     };
-    FormAnswerItem: OneOf<
-      [
-        {
-          /** Format: uuid */
-          item_id: string;
-          /** @enum {string} */
-          type: "string";
-          value: string;
-        },
-        {
-          /** Format: uuid */
-          item_id: string;
-          /** @enum {string} */
-          type: "int";
-          /** Format: int32 */
-          value: number;
-        },
-        {
-          /** Format: uuid */
-          item_id: string;
-          /** @enum {string} */
-          type: "choose_one";
-          value: string;
-        },
-        {
-          /** Format: uuid */
-          item_id: string;
-          /** @enum {string} */
-          type: "choose_many";
-          value: string[];
-        },
-        {
-          /** Format: uuid */
-          item_id: string;
-          /** @enum {string} */
-          type: "file";
-          value: string[];
-        },
-      ]
-    >;
+    FormAnswerItem: OneOf<[{
+      /** Format: uuid */
+      item_id: string;
+      /** @enum {string} */
+      type: "string";
+      value: string;
+    }, {
+      /** Format: uuid */
+      item_id: string;
+      /** @enum {string} */
+      type: "int";
+      /** Format: int32 */
+      value: number;
+    }, {
+      /** Format: uuid */
+      item_id: string;
+      /** @enum {string} */
+      type: "choose_one";
+      value: string;
+    }, {
+      /** Format: uuid */
+      item_id: string;
+      /** @enum {string} */
+      type: "choose_many";
+      value: string[];
+    }, {
+      /** Format: uuid */
+      item_id: string;
+      /** @enum {string} */
+      type: "file";
+      value: string[];
+    }]>;
     FormAnswerSummary: {
       /** Format: date-time */
       created_at: string;
@@ -340,55 +329,47 @@ export interface components {
       /** Format: date-time */
       updated_at: string;
     };
-    FormItem: components["schemas"]["FormItemKind"] & {
+    FormItem: components["schemas"]["FormItemKind"] & ({
       description?: string | null;
       /** Format: uuid */
       id: string;
       name: string;
       required: boolean;
-    };
-    FormItemKind: OneOf<
-      [
-        {
-          allow_newline: boolean;
-          /** Format: int32 */
-          max_length?: number | null;
-          /** Format: int32 */
-          min_length?: number | null;
-          /** @enum {string} */
-          type: "string";
-        },
-        {
-          /** Format: int32 */
-          max?: number | null;
-          /** Format: int32 */
-          min?: number | null;
-          /** @enum {string} */
-          type: "int";
-        },
-        {
-          options: string[];
-          /** @enum {string} */
-          type: "choose_one";
-        },
-        {
-          /** Format: int32 */
-          max_selection?: number | null;
-          /** Format: int32 */
-          min_selection?: number | null;
-          options: string[];
-          /** @enum {string} */
-          type: "choose_many";
-        },
-        {
-          extensions?: string[] | null;
-          /** Format: int32 */
-          limit?: number | null;
-          /** @enum {string} */
-          type: "file";
-        },
-      ]
-    >;
+    });
+    FormItemKind: OneOf<[{
+      allow_newline: boolean;
+      /** Format: int32 */
+      max_length?: number | null;
+      /** Format: int32 */
+      min_length?: number | null;
+      /** @enum {string} */
+      type: "string";
+    }, {
+      /** Format: int32 */
+      max?: number | null;
+      /** Format: int32 */
+      min?: number | null;
+      /** @enum {string} */
+      type: "int";
+    }, {
+      options: string[];
+      /** @enum {string} */
+      type: "choose_one";
+    }, {
+      /** Format: int32 */
+      max_selection?: number | null;
+      /** Format: int32 */
+      min_selection?: number | null;
+      options: string[];
+      /** @enum {string} */
+      type: "choose_many";
+    }, {
+      extensions?: string[] | null;
+      /** Format: int32 */
+      limit?: number | null;
+      /** @enum {string} */
+      type: "file";
+    }]>;
     FormSummary: {
       /** Format: uuid */
       answer_id?: string | null;
@@ -401,6 +382,7 @@ export interface components {
       ends_at: string;
       /** Format: uuid */
       id: string;
+      is_draft: boolean;
       /** Format: date-time */
       starts_at: string;
       title: string;
@@ -424,11 +406,11 @@ export interface components {
     };
     /** @enum {string} */
     InvitationPosition: "owner" | "sub_owner";
-    NewFormItem: components["schemas"]["FormItemKind"] & {
+    NewFormItem: components["schemas"]["FormItemKind"] & ({
       description?: string | null;
       name: string;
       required: boolean;
-    };
+    });
     News: {
       attachments: string[];
       attributes: components["schemas"]["ProjectAttributes"];
@@ -494,14 +476,7 @@ export interface components {
     ProjectAttributes: components["schemas"]["ProjectAttribute"][];
     ProjectCategories: components["schemas"]["ProjectCategory"][];
     /** @enum {string} */
-    ProjectCategory:
-      | "general"
-      | "foods_with_kitchen"
-      | "foods_without_kitchen"
-      | "foods_without_cooking"
-      | "stage_1a"
-      | "stage_university_hall"
-      | "stage_united";
+    ProjectCategory: "general" | "foods_with_kitchen" | "foods_without_kitchen" | "foods_without_cooking" | "stage_1a" | "stage_university_hall" | "stage_united";
     ProjectSummary: {
       attributes: components["schemas"]["ProjectAttributes"];
       category: components["schemas"]["ProjectCategory"];
@@ -525,6 +500,7 @@ export interface components {
       description: string;
       /** Format: date-time */
       ends_at: string;
+      is_draft: boolean;
       items: components["schemas"]["NewFormItem"][];
       /** Format: date-time */
       starts_at: string;
@@ -576,13 +552,7 @@ export interface components {
       updated_at: string;
     };
     /** @enum {string} */
-    UserRole:
-      | "administrator"
-      | "committee_operator"
-      | "committee_editor"
-      | "committee_drafter"
-      | "committee_viewer"
-      | "general";
+    UserRole: "administrator" | "committee_operator" | "committee_editor" | "committee_drafter" | "committee_viewer" | "general";
     UserSummary: {
       email: string;
       id: string;
@@ -602,6 +572,7 @@ export type $defs = Record<string, never>;
 export type external = Record<string, never>;
 
 export interface operations {
+
   /** ファイル一覧の取得 */
   getFiles: {
     responses: {
