@@ -5,10 +5,15 @@ import type { SubmitStatus } from "@/common_components/SubmitStatusBadge";
 
 type Answer = components["schemas"]["FormAnswerSummary"];
 
-export type formStatus = |"開始前" |"下書き" | "受付中" | "受付終了" | "不明";
+export type formStatus = "開始前" | "下書き" | "受付中" | "受付終了" | "不明";
 
-export const getFormStatus = (is_draft:boolean, now: dayjs.Dayjs, startsAt: dayjs.Dayjs, endsAt: dayjs.Dayjs): formStatus => {
-  if(is_draft){
+export const getFormStatus = (
+  is_draft: boolean,
+  now: dayjs.Dayjs,
+  startsAt: dayjs.Dayjs,
+  endsAt: dayjs.Dayjs,
+): formStatus => {
+  if (is_draft) {
     return "下書き";
   }
   if (now.isBefore(startsAt)) {

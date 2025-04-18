@@ -1,14 +1,6 @@
 {
-  "extends": [
-    "next/core-web-vitals",
-    "prettier",
-    "plugin:jsx-a11y/recommended",
-    "plugin:storybook/recommended"
-  ],
-  "plugins": [
-    "unused-imports",
-    "jsx-a11y"
-  ],
+  "extends": ["next/core-web-vitals", "prettier", "plugin:jsx-a11y/recommended", "plugin:storybook/recommended"],
+  "plugins": ["unused-imports", "jsx-a11y"],
   "rules": {
     "no-unused-vars": "off",
     "unused-imports/no-unused-imports": "error",
@@ -25,9 +17,7 @@
     "no-restricted-imports": [
       "error",
       {
-        "patterns": [
-          "../*"
-        ]
+        "patterns": ["../*"]
       }
     ]
   }
