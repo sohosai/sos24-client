@@ -14,6 +14,7 @@ import plusIcon from "@/assets/Plus.svg?url";
 import Image from "next/image";
 import { flex } from "@styled-system/patterns";
 import { useRouter } from "next/navigation";
+import { FormStatusBar } from "./components/FormStatusBar";
 
 export const FormsList: FC<{
   forms: Form[];
@@ -49,6 +50,7 @@ export const FormsList: FC<{
           </span>
         </Button>
       </div>
+      <FormStatusBar SortStatus="all" />
       <div
         className={css({
           width: "full",
@@ -84,7 +86,8 @@ export const FormsList: FC<{
         {forms.map((form) => {
           const startsAt = dayjs(form.starts_at);
           const endsAt = dayjs(form.ends_at);
-          const status = getFormStatus(dayjs(), startsAt, endsAt);
+          const is_draft = form.is_draft;
+          const status = getFormStatus(is_draft, dayjs(), startsAt, endsAt);
 
           return (
             <div
