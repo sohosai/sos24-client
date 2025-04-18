@@ -11,46 +11,102 @@ import {
 import { SubmitStatus } from "@/common_components/SubmitStatusBadge";
 
 describe("getFormStatus", () => {
+  //is_draftがfalseの場合
   it('nowがstartsAtの前の場合、"開始前"を返す', () => {
     const now = dayjs("2023-01-01");
     const startsAt = dayjs("2023-01-02");
     const endsAt = dayjs("2023-01-03");
-    expect(getFormStatus(now, startsAt, endsAt)).toBe("開始前");
+    const is_draft: boolean = false;
+    expect(getFormStatus(is_draft, now, startsAt, endsAt)).toBe("開始前");
   });
 
   it('nowがstartsAtと同じ場合、"受付中"を返す', () => {
     const now = dayjs("2023-01-02");
     const startsAt = dayjs("2023-01-02");
     const endsAt = dayjs("2023-01-03");
-    expect(getFormStatus(now, startsAt, endsAt)).toBe("受付中");
+    const is_draft: boolean = false;
+    expect(getFormStatus(is_draft, now, startsAt, endsAt)).toBe("受付中");
   });
 
   it('nowがstartsAtの後でendsAtの前の場合、"受付中"を返す', () => {
     const now = dayjs("2023-01-02T12:00:00");
     const startsAt = dayjs("2023-01-02");
     const endsAt = dayjs("2023-01-03");
-    expect(getFormStatus(now, startsAt, endsAt)).toBe("受付中");
+    const is_draft: boolean = false;
+    expect(getFormStatus(is_draft, now, startsAt, endsAt)).toBe("受付中");
   });
 
   it('nowがendsAtと同じ場合、"受付終了"を返す', () => {
     const now = dayjs("2023-01-03");
     const startsAt = dayjs("2023-01-02");
     const endsAt = dayjs("2023-01-03");
-    expect(getFormStatus(now, startsAt, endsAt)).toBe("受付終了");
+    const is_draft: boolean = false;
+    expect(getFormStatus(is_draft, now, startsAt, endsAt)).toBe("受付終了");
   });
 
   it('nowがendsAtの後の場合、"受付終了"を返す', () => {
     const now = dayjs("2023-01-04");
     const startsAt = dayjs("2023-01-02");
     const endsAt = dayjs("2023-01-03");
-    expect(getFormStatus(now, startsAt, endsAt)).toBe("受付終了");
+    const is_draft: boolean = false;
+    expect(getFormStatus(is_draft, now, startsAt, endsAt)).toBe("受付終了");
   });
 
   it('日付が無効な場合、"不明"を返す', () => {
     const now = dayjs("invalid-date");
     const startsAt = dayjs("2023-01-02");
     const endsAt = dayjs("2023-01-03");
-    expect(getFormStatus(now, startsAt, endsAt)).toBe("不明");
+    const is_draft: boolean = false;
+    expect(getFormStatus(is_draft, now, startsAt, endsAt)).toBe("不明");
+  });
+
+  //is_draftがtruteなら下書きを返す
+  it('nowがstartsAtの前の場合、"開始前"を返す', () => {
+    const now = dayjs("2023-01-01");
+    const startsAt = dayjs("2023-01-02");
+    const endsAt = dayjs("2023-01-03");
+    const is_draft: boolean = true;
+    expect(getFormStatus(is_draft, now, startsAt, endsAt)).toBe("下書き");
+  });
+
+  it('nowがstartsAtと同じ場合、"受付中"を返す', () => {
+    const now = dayjs("2023-01-02");
+    const startsAt = dayjs("2023-01-02");
+    const endsAt = dayjs("2023-01-03");
+    const is_draft: boolean = true;
+    expect(getFormStatus(is_draft, now, startsAt, endsAt)).toBe("下書き");
+  });
+
+  it('nowがstartsAtの後でendsAtの前の場合、"受付中"を返す', () => {
+    const now = dayjs("2023-01-02T12:00:00");
+    const startsAt = dayjs("2023-01-02");
+    const endsAt = dayjs("2023-01-03");
+    const is_draft: boolean = true;
+    expect(getFormStatus(is_draft, now, startsAt, endsAt)).toBe("下書き");
+  });
+
+  it('nowがendsAtと同じ場合、"受付終了"を返す', () => {
+    const now = dayjs("2023-01-03");
+    const startsAt = dayjs("2023-01-02");
+    const endsAt = dayjs("2023-01-03");
+    const is_draft: boolean = true;
+    expect(getFormStatus(is_draft, now, startsAt, endsAt)).toBe("下書き");
+  });
+
+  it('nowがendsAtの後の場合、"受付終了"を返す', () => {
+    const now = dayjs("2023-01-04");
+    const startsAt = dayjs("2023-01-02");
+    const endsAt = dayjs("2023-01-03");
+    const is_draft: boolean = true;
+    expect(getFormStatus(is_draft, now, startsAt, endsAt)).toBe("下書き");
+  });
+
+  it('日付が無効な場合、"不明"を返す', () => {
+    const now = dayjs("invalid-date");
+    const startsAt = dayjs("2023-01-02");
+    const endsAt = dayjs("2023-01-03");
+    const is_draft: boolean = true;
+    expect(getFormStatus(is_draft, now, startsAt, endsAt)).toBe("下書き");
   });
 });
 

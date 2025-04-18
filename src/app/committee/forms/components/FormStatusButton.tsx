@@ -11,7 +11,7 @@ export const FormStatusButton: FC<Props> = ({ color = "black", className, childr
   const button = cva({
     base: {
       cursor: "pointer",
-      borderBottom: "solid",
+
       paddingX: 6,
       paddingY: 1,
       fontWeight: "bold",
@@ -21,13 +21,11 @@ export const FormStatusButton: FC<Props> = ({ color = "black", className, childr
       color: {
         black: {
           color: "black",
-          borderBottom: " 1px solid",
+
           _hover: {
             opacity: "90%",
             color: "gray.400",
-            borderColor: "gray.400",
           },
-          borderColor: "gray.400",
         },
         purple: {
           borderBottom: "solid",

@@ -66,6 +66,7 @@ export const testForm: components["schemas"]["Form"] = {
   description: "全項目を追加するテスト",
   starts_at: "2023-12-31T15:00:00+00:00",
   ends_at: "2024-05-01T14:59:00+00:00",
+  is_draft: true,
   categories: [
     "general",
     "foods_with_kitchen",

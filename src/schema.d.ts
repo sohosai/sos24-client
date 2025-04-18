@@ -152,6 +152,7 @@ export interface components {
       description: string;
       /** Format: date-time */
       ends_at: string;
+      is_draft: boolean;
       items: components["schemas"]["NewFormItem"][];
       /** Format: date-time */
       starts_at: string;
@@ -177,8 +178,6 @@ export interface components {
       state: components["schemas"]["NewsState"];
       title: string;
     };
-    /** @enum {string} */
-    CreateNewsState: "draft" | "scheduled" | "published";
     CreateProject: {
       attributes: components["schemas"]["ProjectAttributes"];
       category: components["schemas"]["ProjectCategory"];
@@ -264,6 +263,7 @@ export interface components {
       ends_at: string;
       /** Format: uuid */
       id: string;
+      is_draft: boolean;
       items: components["schemas"]["FormItem"][];
       /** Format: date-time */
       starts_at: string;
@@ -401,6 +401,7 @@ export interface components {
       ends_at: string;
       /** Format: uuid */
       id: string;
+      is_draft: boolean;
       /** Format: date-time */
       starts_at: string;
       title: string;
@@ -525,6 +526,7 @@ export interface components {
       description: string;
       /** Format: date-time */
       ends_at: string;
+      is_draft: boolean;
       items: components["schemas"]["NewFormItem"][];
       /** Format: date-time */
       starts_at: string;
