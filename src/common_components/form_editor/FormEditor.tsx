@@ -186,7 +186,10 @@ export const FormEditor: FC<{
               textAlign: "center",
             })}>
             すでに回答が存在するため、
-            {!isLoading_user && ["administrator"].includes(me.role) ? "設問部分" : "このフォーム"}は編集できません。
+            {!isLoading_user && ["committee_editor", "committee_operator", "administrator"].includes(me.role)
+              ? "設問部分"
+              : "このフォーム"}
+            は編集できません。
           </p>
         </>
       )}
@@ -231,7 +234,9 @@ export const FormEditor: FC<{
                         ref={ref}
                         className={visuallyHidden()}
                         disabled={
-                          isLoading_user || (editable === false && ["administrator"].includes(me.role) === false)
+                          isLoading_user ||
+                          (editable === false &&
+                            ["committee_editor", "committee_operator", "administrator"].includes(me.role) === false)
                             ? true
                             : undefined
                         }
@@ -267,7 +272,9 @@ export const FormEditor: FC<{
                         ref={ref}
                         className={visuallyHidden()}
                         disabled={
-                          isLoading_user || (editable === false && ["administrator"].includes(me.role) === false)
+                          isLoading_user ||
+                          (editable === false &&
+                            ["committee_editor", "committee_operator", "administrator"].includes(me.role) === false)
                             ? true
                             : undefined
                         }
@@ -290,7 +297,9 @@ export const FormEditor: FC<{
               {...register("title", { required: { value: true, message: "入力必須です" } })}
               className={textInputStyle}
               disabled={
-                isLoading_user || (editable === false && ["administrator"].includes(me.role) === false)
+                isLoading_user ||
+                (editable === false &&
+                  ["committee_editor", "committee_operator", "administrator"].includes(me.role) === false)
                   ? true
                   : undefined
               }
@@ -305,7 +314,9 @@ export const FormEditor: FC<{
               {...register("description", { required: { value: true, message: "入力必須です" } })}
               className={textInputStyle}
               disabled={
-                isLoading_user || (editable === false && ["administrator"].includes(me.role) === false)
+                isLoading_user ||
+                (editable === false &&
+                  ["committee_editor", "committee_operator", "administrator"].includes(me.role) === false)
                   ? true
                   : undefined
               }
@@ -314,7 +325,9 @@ export const FormEditor: FC<{
               {errors.description && <span className={basicErrorMessageStyle}>{errors.description.message}</span>}
             </div>
           </div>
-          {editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true) ? (
+          {editable !== false ||
+          (!isLoading_user &&
+            ["committee_editor", "committee_operator", "administrator"].includes(me.role) === true) ? (
             <div>
               <label htmlFor="attachments">添付ファイル</label>
               <FilesField
@@ -495,6 +508,7 @@ export const FormEditor: FC<{
             </div>
           </div>
         </div>
+
         <div
           className={css({
             alignSelf: "center",
