@@ -82,6 +82,7 @@ const EditFormPage: NextPage<{ params: { form_id: string } }> = ({ params }) => 
   const defaultValues: CreateFormInput = {
     title: previousValues.title,
     description: previousValues.description,
+    is_draft: previousValues.is_draft,
     starts_at: dayjs(previousValues.starts_at).format("YYYY-MM-DDTHH:mm"),
     ends_at: dayjs(previousValues.ends_at).format("YYYY-MM-DDTHH:mm"),
     categories: previousValues.categories,
