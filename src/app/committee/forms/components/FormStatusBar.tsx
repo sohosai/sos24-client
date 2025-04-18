@@ -3,7 +3,7 @@ import { FormStatusButton } from "@/app/committee/forms/components/FormStatusBut
 import { useRouter } from "next/navigation";
 
 interface SortStatus {
-  SortStatus: "all" | "draft" | "before_reception" | "accepting" | "ended";
+  SortStatus: "開始前" | "下書き" | "受付中" | "受付終了" | "all";
 }
 
 export const FormStatusBar: React.FC<SortStatus> = ({ SortStatus }) => {
@@ -39,9 +39,9 @@ export const FormStatusBar: React.FC<SortStatus> = ({ SortStatus }) => {
 
         <FormStatusButton
           type="button"
-          color={SortStatus === "draft" ? "purple" : "black"}
+          color={SortStatus === "下書き" ? "purple" : "black"}
           onClick={() => {
-            router.push(`/committee/news/draft`);
+            router.push(`/committee/forms/draft`);
           }}>
           <span
             className={css({
@@ -54,9 +54,9 @@ export const FormStatusBar: React.FC<SortStatus> = ({ SortStatus }) => {
 
         <FormStatusButton
           type="button"
-          color={SortStatus === "before_reception" ? "purple" : "black"}
+          color={SortStatus === "開始前" ? "purple" : "black"}
           onClick={() => {
-            router.push(`/committee/news/scheduled`);
+            router.push(`/committee/forms/Beforehand`);
           }}>
           <span
             className={css({
@@ -69,9 +69,9 @@ export const FormStatusBar: React.FC<SortStatus> = ({ SortStatus }) => {
 
         <FormStatusButton
           type="button"
-          color={SortStatus === "accepting" ? "purple" : "black"}
+          color={SortStatus === "受付中" ? "purple" : "black"}
           onClick={() => {
-            router.push(`/committee/news/published`);
+            router.push(`/committee/forms/accepting`);
           }}>
           <span
             className={css({
@@ -84,9 +84,9 @@ export const FormStatusBar: React.FC<SortStatus> = ({ SortStatus }) => {
 
         <FormStatusButton
           type="button"
-          color={SortStatus === "ended" ? "purple" : "black"}
+          color={SortStatus === "受付終了" ? "purple" : "black"}
           onClick={() => {
-            router.push(`/committee/news`);
+            router.push(`/committee/forms/ended`);
           }}>
           <span
             className={css({

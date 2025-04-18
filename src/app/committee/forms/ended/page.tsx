@@ -2,12 +2,12 @@
 
 import { css } from "@styled-system/css";
 import { NextPage } from "next";
-import { FormsList } from "./FormsList";
+import { FormsList } from "@/app/committee/forms/FormsList";
 import { stack } from "@styled-system/patterns";
 import { assignType } from "@/lib/openapi";
 import useSWR from "swr";
 
-const sortStatus: "開始前" | "下書き" | "受付中" | "受付終了" | "all" = "all";
+const sortStatus: "開始前" | "下書き" | "受付中" | "受付終了" | "all" = "受付終了";
 const DashboardPage: NextPage = () => {
   const { data: formsRes, error, isLoading } = useSWR(() => `/forms`);
   const forms = formsRes ? assignType("/forms", formsRes) : undefined;
