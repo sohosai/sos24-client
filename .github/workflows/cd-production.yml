@@ -13,7 +13,7 @@ env:
 
 jobs:
   build_and_deploy:
-    runs-on: [self-hosted, garm]
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       deployments: write
