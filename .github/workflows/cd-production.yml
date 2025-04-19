@@ -70,7 +70,7 @@ jobs:
           NEXT_PUBLIC_SENTRY_PROJECT: ${{vars.SENTRY_PROJECT}}
       - name: wrangler config
         if: ${{ (github.head_ref || github.ref_name) == env.PRODUCTION_BRANCH}}
-        run: echo ${{ secrets.PROD_WRANGLER_TOML }} > wrangler.toml
+        run: echo '${{ secrets.PROD_WRANGLER_TOML }}' > wrangler.toml
       - name: build (production)
         if: ${{ (github.head_ref || github.ref_name) == env.PRODUCTION_BRANCH}}
         id: build-production
