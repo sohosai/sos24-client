@@ -2,7 +2,7 @@ import { cva, cx } from "@styled-system/css";
 import { ButtonHTMLAttributes, FC } from "react";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  color: "purple" | "secondary" | "blue";
+  color: "purple" | "secondary" | "blue" | "secondary_blue";
   size?: "y" | "medium" | "big";
   className?: string;
   children: React.ReactNode;
@@ -45,6 +45,15 @@ export const Button: FC<Props> = ({ color, size = "medium", className, children,
 
           borderColor: "sohosai.blue",
           boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+        },
+        secondary_blue: {
+          backgroundColor: "sohosai.blue",
+          color: "white",
+          _hover: {
+            opacity: "75%",
+          },
+
+          borderColor: "sohosai.blue",
         },
       },
       size: {

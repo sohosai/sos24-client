@@ -5,9 +5,16 @@ import { FC, useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { ProjectAttribute, projectAttributes, projectCategories, ProjectCategory } from "@/lib/valibot";
 import { getProjectAttributeText, getProjectCategoryText } from "@/lib/textUtils";
-import { stack, visuallyHidden } from "@styled-system/patterns";
+import { hstack, stack, visuallyHidden } from "@styled-system/patterns";
 import { FormFieldEditor } from "./FormFieldEditor";
-import { checkboxGrpupStyle, checkboxStyle, descriptionStyle, sectionTitleStyle, textInputStyle } from "./styles";
+import {
+  checkboxGrpupStyle,
+  checkboxStyle,
+  descriptionStyle,
+  ScheduledStyle,
+  sectionTitleStyle,
+  textInputStyle,
+} from "./styles";
 import { components } from "@/schema";
 import dayjs from "dayjs";
 import { FileIds } from "@/lib/postFile";
@@ -15,7 +22,6 @@ import toast from "react-hot-toast";
 import { FilesField } from "./FilesEditor";
 import { Button, buttonStyle } from "@/recipes/button";
 import { FileView } from "@/common_components/FileView";
-
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
 
@@ -67,6 +73,7 @@ export type CreateFormInput = {
   attributes: ProjectAttribute[];
   attachments: string[];
   items: FormField[];
+  is_draft: boolean;
 };
 
 const Divider: FC = () => {
@@ -78,6 +85,7 @@ export type HandleFormEditorSubmit = (
 ) => Promise<void>;
 
 import { filesStatus } from "./FilesInterfaces";
+import { basicErrorMessageStyle } from "@/common_components/formFields/styles";
 
 export const FormEditor: FC<{
   defaultValues?: CreateFormInput;
@@ -92,11 +100,16 @@ export const FormEditor: FC<{
     })) ?? [];
   const [attachmentsStatus, setAttachmentsStatus] = useState<filesStatus[]>(attachmentsData ?? []);
 
+  const [is_draft, setIsDraft] = useState(false);
+  const onClickHandler = () => {
+    setIsDraft(true);
+  };
+
   const {
     register,
     control,
     handleSubmit,
-    formState: { isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<CreateFormInput>({
     defaultValues: defaultValues ?? {
       categories: [],
@@ -110,6 +123,7 @@ export const FormEditor: FC<{
 
   const { data: data_user, isLoading: isLoading_user } = useSWR("/users/me");
   const me = assignType("/users/me", data_user);
+
   if (isLoading_user) {
     return (
       <div
@@ -129,6 +143,7 @@ export const FormEditor: FC<{
       toast.error("正しいファイルをアップロードしてください");
       return;
     }
+
     let fileIds: FileIds = { attachments: attachmentsStatus.map((attachmentStatus) => attachmentStatus.uuid) };
     const body = {
       ...data,
@@ -137,6 +152,7 @@ export const FormEditor: FC<{
       starts_at: (data.starts_at === "" ? dayjs() : dayjs(data.starts_at)).toISOString(),
       ends_at: dayjs(data.ends_at).toISOString(),
       attachments: fileIds.attachments ?? [],
+      is_draft: is_draft,
       items: [
         ...data.items.map((item) => {
           if (item.type === "choose_many" || item.type === "choose_one") {
@@ -170,7 +186,10 @@ export const FormEditor: FC<{
               textAlign: "center",
             })}>
             すでに回答が存在するため、
-            {!isLoading_user && ["administrator"].includes(me.role) ? "設問部分" : "このフォーム"}は編集できません。
+            {!isLoading_user && ["committee_editor", "committee_operator", "administrator"].includes(me.role)
+              ? "設問部分"
+              : "このフォーム"}
+            は編集できません。
           </p>
         </>
       )}
@@ -215,7 +234,9 @@ export const FormEditor: FC<{
                         ref={ref}
                         className={visuallyHidden()}
                         disabled={
-                          isLoading_user || (editable === false && ["administrator"].includes(me.role) === false)
+                          isLoading_user ||
+                          (editable === false &&
+                            ["committee_editor", "committee_operator", "administrator"].includes(me.role) === false)
                             ? true
                             : undefined
                         }
@@ -251,7 +272,9 @@ export const FormEditor: FC<{
                         ref={ref}
                         className={visuallyHidden()}
                         disabled={
-                          isLoading_user || (editable === false && ["administrator"].includes(me.role) === false)
+                          isLoading_user ||
+                          (editable === false &&
+                            ["committee_editor", "committee_operator", "administrator"].includes(me.role) === false)
                             ? true
                             : undefined
                         }
@@ -271,28 +294,40 @@ export const FormEditor: FC<{
           <div>
             <label htmlFor="title">タイトル</label>
             <input
-              {...register("title", { required: true })}
+              {...register("title", { required: { value: true, message: "入力必須です" } })}
               className={textInputStyle}
               disabled={
-                isLoading_user || (editable === false && ["administrator"].includes(me.role) === false)
+                isLoading_user ||
+                (editable === false &&
+                  ["committee_editor", "committee_operator", "administrator"].includes(me.role) === false)
                   ? true
                   : undefined
               }
             />
+            <div className={css({ marginBlock: 1 })}>
+              {errors.title && <span className={basicErrorMessageStyle}>{errors.title.message}</span>}
+            </div>
           </div>
           <div>
             <label htmlFor="description">説明</label>
             <textarea
-              {...register("description", { required: true })}
+              {...register("description", { required: { value: true, message: "入力必須です" } })}
               className={textInputStyle}
               disabled={
-                isLoading_user || (editable === false && ["administrator"].includes(me.role) === false)
+                isLoading_user ||
+                (editable === false &&
+                  ["committee_editor", "committee_operator", "administrator"].includes(me.role) === false)
                   ? true
                   : undefined
               }
             />
+            <div className={css({ marginBlock: 1 })}>
+              {errors.description && <span className={basicErrorMessageStyle}>{errors.description.message}</span>}
+            </div>
           </div>
-          {editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true) ? (
+          {editable !== false ||
+          (!isLoading_user &&
+            ["committee_editor", "committee_operator", "administrator"].includes(me.role) === true) ? (
             <div>
               <label htmlFor="attachments">添付ファイル</label>
               <FilesField
@@ -314,25 +349,6 @@ export const FormEditor: FC<{
               </div>
             )
           )}
-          <div>
-            <p className={descriptionStyle}>受付開始日時を選択しなかった場合現在時刻が入力されます</p>
-            <div>
-              <label htmlFor="starts_at">受付開始日時</label>
-              <input
-                type="datetime-local"
-                {...register("starts_at")}
-                disabled={editable === false ? true : undefined}
-              />
-            </div>
-            <div>
-              <label htmlFor="ends_at">受付終了日時</label>
-              <input
-                type="datetime-local"
-                {...register("ends_at", { required: true })}
-                disabled={editable === false ? true : undefined}
-              />
-            </div>
-          </div>
         </div>
 
         <Divider />
@@ -467,17 +483,62 @@ export const FormEditor: FC<{
             </fieldset>
           </>
         )}
-        {(editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true)) && (
-          <Button
-            visual="solid"
-            color="purple"
-            className={css({
-              alignSelf: "center",
-            })}
-            disabled={isSubmitting || isSubmitSuccessful}>
-            {defaultValues ? "更新" : "作成"}
-          </Button>
-        )}
+
+        <Divider />
+
+        <div>
+          <p className={descriptionStyle}>受付開始日時を選択しなかった場合現在時刻が入力されます</p>
+          <div>
+            <label htmlFor="starts_at" className={ScheduledStyle}>
+              受付開始日時
+            </label>
+            <input type="datetime-local" {...register("starts_at")} disabled={editable === false ? true : undefined} />
+          </div>
+          <div>
+            <label htmlFor="ends_at" className={ScheduledStyle}>
+              受付終了日時
+            </label>
+            <input
+              type="datetime-local"
+              {...register("ends_at", { required: { value: true, message: "受付終了日時を入力してください" } })}
+              disabled={editable === false ? true : undefined}
+            />
+            <div className={css({ marginBlock: 1 })}>
+              {errors.ends_at && <span className={basicErrorMessageStyle}>{errors.ends_at.message}</span>}
+            </div>
+          </div>
+        </div>
+
+        <div
+          className={css({
+            alignSelf: "center",
+            gap: 3,
+          })}>
+          {(editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true)) && (
+            <Button
+              visual="solid"
+              color="blue"
+              className={hstack({
+                alignSelf: "center",
+              })}
+              disabled={isSubmitting || isSubmitSuccessful}
+              onClick={onClickHandler}>
+              下書き保存
+            </Button>
+          )}
+          {(editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true)) && (
+            <Button
+              visual="solid"
+              color="purple"
+              className={hstack({
+                alignSelf: "center",
+                margin: 3,
+              })}
+              disabled={isSubmitting || isSubmitSuccessful}>
+              {defaultValues ? "更新" : "作成"}
+            </Button>
+          )}
+        </div>
       </form>
     </>
   );

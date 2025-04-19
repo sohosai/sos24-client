@@ -21,13 +21,21 @@ export const FormStatusBadge = ({ status, className }: Props) => {
           backgroundColor: "gray.200",
           color: "black",
         },
+        下書き: {
+          backgroundColor: "#E8DAFA", //tsukuba.purpleの薄い板どっかにあればそっち採用したい
+          color: "tsukuba.purple",
+          fontSize: "s",
+          fontWeight: "bold",
+        },
         開始前: {
           backgroundColor: "sohosai.blue",
           color: "white",
+          fontWeight: "bold",
         },
         受付中: {
           backgroundColor: "sohosai.orange",
           color: "white",
+          fontWeight: "bold",
         },
         不明: {},
       },

@@ -64,6 +64,8 @@ const projectKanaGroupName = string([
   custom((value) => isYomigana(value), "ひらがなで入力してください"),
 ]);
 
+const projectLocationIdSchema = string([custom((value) => !containsEmoji(value), "絵文字は使用できません")]);
+
 export const projectCategories = [
   "general",
   "foods_with_kitchen",
@@ -113,6 +115,7 @@ export const UpdateProjectCommitteeSchema = object({
   kana_group_name: projectKanaGroupName,
   category: projectCategorySchema,
   attributes: projectAttributesSchema,
+  location_id: projectLocationIdSchema,
 });
 
 export type UpdateProjectCommitteeSchemaType = Output<typeof UpdateProjectCommitteeSchema>;
@@ -149,7 +152,7 @@ const userPhoneNumberSchema = string([
 
 const userAgreementSchema = literal(true, "利用規約に同意してください");
 
-export const SignupSchema = object({
+export const SignUpSchema = object({
   name: userNameSchema,
   kana_name: userKanaNameSchema,
   phone_number: userPhoneNumberSchema,
@@ -158,9 +161,16 @@ export const SignupSchema = object({
   agreement: userAgreementSchema,
 });
 
-export type SignupSchemaType = Output<typeof SignupSchema>;
+export type SignUpSchemaType = Output<typeof SignUpSchema>;
 
-export const userRoles = ["administrator", "committee_operator", "committee", "general"];
+export const userRoles = [
+  "administrator",
+  "committee_operator",
+  "committee_editor",
+  "committee_drafter",
+  "committee_viewer",
+  "general",
+];
 export type UserRole = (typeof userRoles)[number];
 
 const userRoleSchema = union(
@@ -189,6 +199,7 @@ export const NewNewsSchema = object({
   categories: newsCategories,
   // FileListが入る
   attachments: unknown(),
+  starts_at: string(),
 });
 
 export type NewNewsSchemaType = Output<typeof NewNewsSchema>;
@@ -199,6 +210,7 @@ export const UpdateNewsSchema = object({
   categories: newsCategories,
   // FileListが入る
   attachments: unknown(),
+  starts_at: string(),
 });
 
 export type UpdateNewsSchemaType = Output<typeof UpdateNewsSchema>;

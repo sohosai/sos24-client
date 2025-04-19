@@ -15,7 +15,7 @@ import { Button } from "@/common_components/Button";
 import { NoResultNotice } from "@/common_components/NoResultNotice";
 import { getSubmitStatusFromDate } from "@/lib/formHelpers";
 import { components } from "@/schema";
-import { SubmitStatusBadge } from "@/common_components/SubmitStatus";
+import { SubmitStatusBadge } from "@/common_components/SubmitStatusBadge";
 import dayjs from "dayjs";
 export const runtime = "edge";
 
@@ -70,6 +70,9 @@ const ProjectDetailsPage = ({ params }: { params: { project_id: string } }) => {
   } = useSWR(`/form-answers?project_id=${params.project_id}`);
   const router = useRouter();
 
+  const { data: data_user, isLoading: isLoading_user } = useSWR("/users/me");
+  const me = assignType("/users/me", data_user);
+
   if (isLoading || formAnswersIsLoading) {
     return;
   }
@@ -111,25 +114,33 @@ const ProjectDetailsPage = ({ params }: { params: { project_id: string } }) => {
             企画詳細
           </h2>
           <div className={hstack({ flexDir: "row-reverse" })}>
-            <Button color="blue" onClick={() => router.push(`/committee/projects/${project.id}/edit`)}>
-              編集
-            </Button>
-            <Image
-              src={deleteButton}
-              alt=""
-              className={css({ cursor: "pointer" })}
-              onClick={() => {
-                window.confirm("本当に削除しますか？") &&
-                  toast.promise(deleteProject(project.id), {
-                    loading: "企画を削除しています",
-                    error: "企画の削除中にエラーが発生しました",
-                    success: () => {
-                      router.push("/committee/projects");
-                      return "企画を削除しました";
-                    },
-                  });
-              }}
-            />
+            {!isLoading &&
+              !isLoading_user &&
+              ["committee_editor", "committee_operator", "administrator"].includes(me.role) && (
+                <>
+                  <Button color="blue" onClick={() => router.push(`/committee/projects/${project.id}/edit`)}>
+                    編集
+                  </Button>
+                  {["committee_operator", "administrator"].includes(me.role) && (
+                    <Image
+                      src={deleteButton}
+                      alt=""
+                      className={css({ cursor: "pointer" })}
+                      onClick={() => {
+                        window.confirm("本当に削除しますか？") &&
+                          toast.promise(deleteProject(project.id), {
+                            loading: "企画を削除しています",
+                            error: "企画の削除中にエラーが発生しました",
+                            success: () => {
+                              router.push("/committee/projects");
+                              return "企画を削除しました";
+                            },
+                          });
+                      }}
+                    />
+                  )}
+                </>
+              )}
           </div>
         </span>
         <ProjectTableView projectData={project} />

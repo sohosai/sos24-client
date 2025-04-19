@@ -1,12 +1,10 @@
 import { flex, stack } from "@styled-system/patterns";
-import { FilterSelector, NewsFilterType, newsFilters } from "@/common_components/news/FilterSelector";
 import { NewsList } from "@/common_components/news/NewsList";
 import useSWR from "swr";
 import { assignType } from "@/lib/openapi";
-import { FC, useCallback, useState } from "react";
+import { FC } from "react";
 import { components } from "@/schema";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Route } from "next";
+import { useRouter } from "next/navigation";
 import { Button } from "@/common_components/Button";
 import { css } from "@styled-system/css";
 import Image from "next/image";
@@ -15,6 +13,10 @@ import plusIcon from "@/assets/Plus.svg?url";
 import pulldownIcon from "@/assets/Pulldown.svg?url";
 import { useAtomValue } from "jotai";
 import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
+
+export interface SortStatus {
+  status: "all" | "draft" | "scheduled" | "published";
+}
 
 // 対象の企画であるかを確認する
 const isTargetProject = (
@@ -29,38 +31,26 @@ const isTargetProject = (
 
 // 特定の企画向けのお知らせのみを抽出する
 const filterNews = (
-  filter: NewsFilterType,
   myProject: components["schemas"]["Project"],
   newsList: components["schemas"]["NewsSummary"][],
 ): components["schemas"]["NewsSummary"][] => {
-  switch (filter) {
-    case "me":
-      return newsList.filter((news) => isTargetProject(myProject, news.categories, news.attributes));
-    case "all":
-      return newsList;
-  }
+  const newsListPublished = newsList.filter((news) => news.state.includes("published"));
+  return newsListPublished.filter((news) => isTargetProject(myProject, news.categories, news.attributes));
 };
 
-export const NewsView: FC<{
+export type Props = {
   isCommittee?: boolean;
   isDashboard?: boolean;
-}> = ({ isCommittee, isDashboard = false }) => {
+};
+
+// これはコンポーネントの規模ではないのではみたいな気持ちがある
+export const NewsView: FC<Props & SortStatus> = ({ isCommittee, isDashboard = false, status }) => {
   const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
-      return params.toString();
-    },
-    [searchParams],
-  );
+
   const applicationPeriod = useAtomValue(projectApplicationPeriodAtom);
 
-  const filterParams = (searchParams.get("news_cateogry") ?? "me") as "me" | "all";
-  const defaultFilter = newsFilters.includes(filterParams) ? filterParams : "me";
-  const [filter, setFilter] = useState<NewsFilterType>(defaultFilter);
+  const { data: data_user, isLoading: isLoading_user } = useSWR("/users/me");
+  const me = assignType("/users/me", data_user);
 
   const { data: newsData, error: newsError, isLoading: isLoadingNews } = useSWR("/news");
   const { data: projectData, error: projectError, isLoading: isLoadingProject } = useSWR("/projects/me");
@@ -76,10 +66,15 @@ export const NewsView: FC<{
 
   const project = assignType("/projects/me", projectData);
   const newsList = assignType("/news", newsData);
+  const newsListSort = newsList.sort((big, small) => descTimeSort(big.updated_at, small.updated_at));
+
+  function descTimeSort(a: string, b: string) {
+    return a < b ? 1 : -1;
+  }
 
   const filteredNewsList = isCommittee
-    ? newsList
-    : filterNews(filter, project, newsList).slice(0, isDashboard ? 5 : undefined);
+    ? newsListSort
+    : filterNews(project, newsListSort).slice(0, isDashboard ? 5 : undefined);
 
   return (
     <div className={stack({ gap: 2, width: "full" })}>
@@ -90,14 +85,6 @@ export const NewsView: FC<{
         })}>
         {!isCommittee && (
           <>
-            <FilterSelector
-              filter={filter}
-              setFilter={(filter) => {
-                setFilter(filter);
-                router.push((pathname + "?" + createQueryString("news_category", filter)) as Route);
-              }}
-            />
-
             {isDashboard && !applicationPeriod.isIn && (
               <Link
                 href="/news"
@@ -128,27 +115,29 @@ export const NewsView: FC<{
             )}
           </>
         )}
-        {isCommittee && (
-          <>
-            <Button
-              color="blue"
-              onClick={() => router.push("/committee/news/new")}
-              className={flex({
-                alignItems: "center",
-                gap: 2,
-                paddingX: 6,
-              })}>
-              <Image src={plusIcon} alt="" />
-              <span
-                className={css({
-                  fontSize: "xs",
-                  fontWeight: "bold",
+        {!isLoading_user &&
+          isCommittee &&
+          ["committee_drafter", "committee_editor", "committee_operator", "administrator"].includes(me.role) && (
+            <>
+              <Button
+                color="blue"
+                onClick={() => router.push("/committee/news/new")}
+                className={flex({
+                  alignItems: "center",
+                  gap: 2,
+                  paddingX: 6,
                 })}>
-                新規作成
-              </span>
-            </Button>
-          </>
-        )}
+                <Image src={plusIcon} alt="" />
+                <span
+                  className={css({
+                    fontSize: "xs",
+                    fontWeight: "bold",
+                  })}>
+                  新規作成
+                </span>
+              </Button>
+            </>
+          )}
       </div>
       <div
         className={css({
@@ -157,7 +146,7 @@ export const NewsView: FC<{
             marginBottom: 0,
           },
         })}>
-        <NewsList newsList={filteredNewsList} isCommittee={isCommittee} />
+        <NewsList newsList={filteredNewsList} isCommittee={isCommittee} status={status} />
       </div>
     </div>
   );

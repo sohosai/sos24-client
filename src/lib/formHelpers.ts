@@ -1,13 +1,21 @@
 import dayjs from "dayjs";
 
 import { components } from "@/schema";
-import type { SubmitStatus } from "@/common_components/SubmitStatus";
+import type { SubmitStatus } from "@/common_components/SubmitStatusBadge";
 
 type Answer = components["schemas"]["FormAnswerSummary"];
 
-export type formStatus = "開始前" | "受付中" | "受付終了" | "不明";
+export type formStatus = "開始前" | "下書き" | "受付中" | "受付終了" | "不明";
 
-export const getFormStatus = (now: dayjs.Dayjs, startsAt: dayjs.Dayjs, endsAt: dayjs.Dayjs): formStatus => {
+export const getFormStatus = (
+  is_draft: boolean,
+  now: dayjs.Dayjs,
+  startsAt: dayjs.Dayjs,
+  endsAt: dayjs.Dayjs,
+): formStatus => {
+  if (is_draft) {
+    return "下書き";
+  }
   if (now.isBefore(startsAt)) {
     return "開始前";
   }
@@ -29,10 +37,10 @@ export const getSubmitStatusFromDate = (deadline: string | null | undefined, ans
     return "未提出";
   }
 
-  if (dayjs(answer).isBefore(dayjs(deadline))) {
-    return "提出済み";
-  } else {
+  if (dayjs(answer).isAfter(dayjs(deadline))) {
     return "遅延提出";
+  } else {
+    return "提出済み";
   }
 };
 

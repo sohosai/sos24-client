@@ -11,6 +11,8 @@ import { EmailVerification } from "@/common_components/auth/EmailVerification";
 import { usePathname } from "next/navigation";
 import { atomWithHash } from "jotai-location";
 import { ResetPassword } from "./resetPassword/ResetPassword";
+import { assignType } from "@/lib/openapi";
+import useSWR from "swr";
 
 export const authModeAtom = atomWithHash<"signIn" | "signUp" | "resetPassword">("authMode", "signIn");
 
@@ -19,11 +21,13 @@ export const AuthUI: FC<PropsWithChildren> = ({ children }) => {
   const authState = useAuthState();
   const [userEmail, setUserEmail] = useState<string | null>(null);
 
+  const { data: userRes, isLoading: userIsLoading } = useSWR("/users/me");
+  const userInfo = !userIsLoading ? assignType("/users/me", userRes) : undefined;
   const path = usePathname();
   if (path === "/") {
     return (
       <>
-        <Header />
+        <Header userIsLoading={userIsLoading} userInfo={userInfo} />
         {children}
       </>
     );
@@ -49,7 +53,7 @@ export const AuthUI: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <>
-      <Header />
+      <Header userIsLoading={userIsLoading} userInfo={userInfo} />
       {authState.isLoading ? (
         <div
           className={css({

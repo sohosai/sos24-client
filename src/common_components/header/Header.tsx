@@ -3,12 +3,10 @@
 import { useAuthState } from "@/lib/firebase";
 import { css } from "@styled-system/css";
 import { getAuth, signOut } from "firebase/auth";
-import { FC } from "react";
+import { FC, useState } from "react";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import logo from "@/assets/Logo.svg?url";
-import useSWR from "swr";
-import { assignType } from "@/lib/openapi";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { hstack } from "@styled-system/patterns";
@@ -81,8 +79,10 @@ const menuForRole = (role?: components["schemas"]["UserRole"]): MenuData[] => {
   switch (role) {
     case "administrator":
     case "committee_operator":
+    case "committee_editor":
       return committeeOperatorMenu;
-    case "committee":
+    case "committee_viewer":
+    case "committee_drafter":
       return committeeMenu;
     case "general":
       return generalMenu;
@@ -91,16 +91,27 @@ const menuForRole = (role?: components["schemas"]["UserRole"]): MenuData[] => {
   }
 };
 
-export const Header: FC = () => {
+type Props = {
+  userIsLoading: boolean;
+  userInfo?: components["schemas"]["User"];
+};
+
+export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
   const router = useRouter();
   const { user, isLoading } = useAuthState();
   const auth = getAuth();
-  const { data: userRes, isLoading: userIsLoading } = useSWR("/users/me");
-  const userInfo = !userIsLoading ? assignType("/users/me", userRes) : undefined;
 
   const path = usePathname();
 
   const [applicationPeriod] = useAtom(projectApplicationPeriodAtom);
+
+  const menuItemPathName =
+    path.indexOf("/", 11) === -1
+      ? path !== "/committee"
+        ? path
+        : "/committee/projects"
+      : path.substring(0, path.indexOf("/", 11));
+  const [menuPathName, setMenuPathName] = useState(menuItemPathName);
 
   const menu = isLoading
     ? []
@@ -129,7 +140,6 @@ export const Header: FC = () => {
       },
     );
   };
-
   return (
     <header
       className={css({
@@ -228,7 +238,9 @@ export const Header: FC = () => {
             />
           </a>
           {/* PCユーザーメニュー */}
-          {(userInfo?.owned_project_id || path.startsWith("/committee")) && <HeaderMenuItems menu={menu} />}
+          {(userInfo?.owned_project_id || path.startsWith("/committee")) && (
+            <HeaderMenuItems menu={menu} path={menuPathName} setPathName={setMenuPathName} />
+          )}
         </div>
         {isLoading ? (
           <></>
@@ -252,19 +264,27 @@ export const Header: FC = () => {
               })}>
               サインアウト
             </button>
-            {!userIsLoading && ["committee", "committee_operator", "administrator"].includes(userInfo?.role ?? "") && (
-              <HeaderButton
-                icon={icon_ModeSwitch}
-                clickev={() => {
-                  router.push(path.startsWith("/committee") ? "/dashboard" : "/committee");
-                  localStorage.removeItem("invitation_id");
-                }}>
-                <span className={css({ display: { base: "none", lg: "inline" } })}>
-                  {path.startsWith("/committee") ? "一般" : "実委人"}
-                </span>
-                切り替え
-              </HeaderButton>
-            )}
+            {!userIsLoading &&
+              [
+                "committee_viewer",
+                "committee_drafter",
+                "committee_editor",
+                "committee_operator",
+                "administrator",
+              ].includes(userInfo?.role ?? "") && (
+                <HeaderButton
+                  icon={icon_ModeSwitch}
+                  clickev={() => {
+                    router.push(path.startsWith("/committee") ? "/dashboard" : "/committee");
+                    localStorage.removeItem("invitation_id");
+                    setMenuPathName(path.startsWith("/committee") ? "/dashboard" : "/committee/projects");
+                  }}>
+                  <span className={css({ display: { base: "none", lg: "inline" } })}>
+                    {path.startsWith("/committee") ? "一般" : "実委人"}
+                  </span>
+                  切り替え
+                </HeaderButton>
+              )}
           </nav>
         ) : (
           <nav
@@ -289,7 +309,7 @@ export const Header: FC = () => {
           </nav>
         )}
       </div>
-      <HeaderNavigationMobile menu={menu} path={path} />
+      {userInfo && <HeaderNavigationMobile menu={menu} path={path} userInfo={userInfo} />}
     </header>
   );
 };

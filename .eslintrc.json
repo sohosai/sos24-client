@@ -1,5 +1,5 @@
 {
-  "extends": ["next/core-web-vitals", "prettier", "plugin:jsx-a11y/recommended"],
+  "extends": ["next/core-web-vitals", "prettier", "plugin:jsx-a11y/recommended", "plugin:storybook/recommended"],
   "plugins": ["unused-imports", "jsx-a11y"],
   "rules": {
     "no-unused-vars": "off",
