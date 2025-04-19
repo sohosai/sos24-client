@@ -74,7 +74,7 @@ jobs:
       - name: build (production)
         if: ${{ (github.head_ref || github.ref_name) == env.PRODUCTION_BRANCH}}
         id: build-production
-        run: npx @cloudflare/next-on-pages@1.13.7
+        run: npx @cloudflare/next-on-pages@1.13.12
         env:
           NEXT_PUBLIC_API_ENDPOINT: ${{secrets.PROD_API_ENDPOINT}}
           NEXT_PUBLIC_FIREBASE_API_KEY: ${{secrets.PROD_FIREBASE_API_KEY}}
