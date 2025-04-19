@@ -69,7 +69,7 @@ jobs:
           NEXT_PUBLIC_SENTRY_DSN: ${{vars.SENTRY_DSN}}
           NEXT_PUBLIC_SENTRY_PROJECT: ${{vars.SENTRY_PROJECT}}
       - name: build (production)
-        if: ${{ ((github.head_ref || github.ref_name) == env.PRODUCTION_BRANCH) && github.event.pull_request.merged == true }}
+        if: ${{ (github.head_ref || github.ref_name) == env.PRODUCTION_BRANCH}}
         id: build-production
         run: npx @cloudflare/next-on-pages@1.13.7
         env:
