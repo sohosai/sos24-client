@@ -68,6 +68,9 @@ jobs:
           NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{vars.DEV_FIREBASE_STORAGE_BUCKET}}
           NEXT_PUBLIC_SENTRY_DSN: ${{vars.SENTRY_DSN}}
           NEXT_PUBLIC_SENTRY_PROJECT: ${{vars.SENTRY_PROJECT}}
+      - name: wrangler config
+        if: ${{ (github.head_ref || github.ref_name) == env.PRODUCTION_BRANCH}}
+        run: echo ${{ secrets.PROD_WRANGLER_TOML }} > wrangler.toml
       - name: build (production)
         if: ${{ (github.head_ref || github.ref_name) == env.PRODUCTION_BRANCH}}
         id: build-production
