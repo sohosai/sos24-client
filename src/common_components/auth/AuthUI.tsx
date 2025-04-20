@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, PropsWithChildren, useState } from "react";
+import React, { FC, PropsWithChildren, useCallback, useState } from "react";
 import { Header } from "@/common_components/header/Header";
 import SigninPage from "@/common_components/auth/signin/page";
 import SignupPage from "@/common_components/auth/signup/page";
@@ -24,18 +24,8 @@ export const AuthUI: FC<PropsWithChildren> = ({ children }) => {
   const { data: userRes, isLoading: userIsLoading } = useSWR("/users/me");
   const userInfo = !userIsLoading ? assignType("/users/me", userRes) : undefined;
   const path = usePathname();
-  if (path === "/") {
-    return (
-      <>
-        <Header userIsLoading={userIsLoading} userInfo={userInfo} />
-        {children}
-      </>
-    );
-  } else if (path === "/how-to-use") {
-    return children;
-  }
 
-  const Component: React.FC = () => {
+  const Component = useCallback(() => {
     switch (authMode) {
       case "signIn":
         return <SigninPage />;
@@ -49,7 +39,18 @@ export const AuthUI: FC<PropsWithChildren> = ({ children }) => {
       default:
         return <></>;
     }
-  };
+  }, [authMode]);
+
+  if (path === "/") {
+    return (
+      <>
+        <Header userIsLoading={userIsLoading} userInfo={userInfo} />
+        {children}
+      </>
+    );
+  } else if (path === "/how-to-use") {
+    return children;
+  }
 
   return (
     <>
