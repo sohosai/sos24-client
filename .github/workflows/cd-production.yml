@@ -100,7 +100,7 @@ jobs:
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           command: |
             pages project list
-            pages deploy .vercel/output/static --project-name=${{ env.PROJECT_NAME }} --branch=develop
+            pages deploy .vercel/output/static --project-name=${{ env.PROJECT_NAME }} --branch=main
       - name: Sentry
         uses: getsentry/action-release@v1
         env:
