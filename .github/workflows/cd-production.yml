@@ -94,9 +94,7 @@ jobs:
           apiToken: ${{secrets.CLOUDFLARE_API_TOKEN}}
           accountId: ${{vars.CLOUDFLARE_ACCOUNT_ID}}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          command: |
-            pages project list
-            pages deploy .vercel/output/static --project-name=${{ env.PROJECT_NAME }} --branch=develop
+          command: deploy --env 'production'
       - name: Sentry
         uses: getsentry/action-release@v1
         env:
