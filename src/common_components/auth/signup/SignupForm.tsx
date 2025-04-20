@@ -129,7 +129,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ setUserEmail }) => {
         <input type="checkbox" id="agreement" className={checkboxFormStyle} {...register("agreement")} />
         <label htmlFor="agreement">
           <a
-            href="https://s3.isk01.sakurastorage.jp/sos24-prod/雙峰祭オンラインシステム利用規約.pdf"
+            href="https://s3.isk01.sakurastorage.jp/sos25-prod/雙峰祭オンラインシステム利用規約.pdf"
             className={css({ textDecoration: "underline" })}
             target="_blank"
             rel="noopener noreferrer">
