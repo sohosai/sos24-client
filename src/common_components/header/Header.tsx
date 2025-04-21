@@ -159,7 +159,6 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
           paddingY: 0,
           display: "block",
         },
-        height: "auto", // 20250421
       })}>
       <div
         className={css({
@@ -311,18 +310,6 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
         )}
       </div>
       {userInfo && <HeaderNavigationMobile menu={menu} path={path} userInfo={userInfo} />}
-      {/* 20250421 */}
-      <p
-        style={{
-          background: "#6600cc",
-          color: "white",
-          display: "inline-block",
-          margin: ".5rem 0 0",
-          padding: "1rem 2rem",
-          width: "100%",
-        }}>
-        現在の申請フォームの項目に誤りがあり、募集要項と相違がある項目がございます。申し訳ございませんが、追ってご連絡いたしますので、ご容赦ください。
-      </p>
     </header>
   );
 };

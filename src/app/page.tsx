@@ -24,7 +24,7 @@ export default function Home() {
     <div className={container()}>
       <div className={stack({ gap: 6, marginY: 8 })}>
         <div>
-          <Title>第50回筑波大学学園祭 企画募集</Title>
+          <Title>第51回筑波大学学園祭 企画募集</Title>
         </div>
         <div className={stack({ gap: 3 })}>
           <div>
@@ -32,27 +32,20 @@ export default function Home() {
             <p>企画に応募される方は、募集要項をご確認の上、企画募集期間中にご応募ください。</p>
           </div>
           <div>
-            <p>企画募集期間</p>
-            <p>4月22日(月)9:00〜5月10日(金)23:59</p>
-          </div>
-          <div>
-            <p>募集要項は以下のリンクからご確認いただけます。</p>
-            <div className={stack({ gap: 0 })}>
-              <a
-                href="https://r2-2024.sohosai.com/20240422-general-application-guidelines.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={css({ color: "tsukuba.purple", textDecoration: "underline", cursor: "pointer" })}>
-                一般企画用募集要項 (PDF)
-              </a>
-              <a
-                href="https://r2-2024.sohosai.com/20240422-stage-application-guidelines.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={css({ color: "tsukuba.purple", textDecoration: "underline", cursor: "pointer" })}>
-                ステージ企画用募集要項 (PDF)
-              </a>
-            </div>
+            <p>
+              募集要項は
+              <Link
+                href="https://sohosai.com/news/#application-2025"
+                className={css({
+                  color: "tsukuba.purple",
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                })}
+                target="_blank">
+                公式ウェブサイトのお知らせ
+              </Link>
+              をご覧ください。
+            </p>
           </div>
           <div>
             <p>応募方法</p>
@@ -77,7 +70,7 @@ export default function Home() {
                   textDecoration: "underline",
                   cursor: "pointer",
                 })}>
-                2024年度 SOS使い方動画
+                使い方動画（参考）
               </Link>
             </p>
           </div>
