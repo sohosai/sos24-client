@@ -32,7 +32,13 @@ export default function Home() {
             <p>企画に応募される方は、募集要項をご確認の上、企画募集期間中にご応募ください。</p>
           </div>
           <div>
-            <p>募集要項は<a href="https://sohosai.com/news/#application-2025" target="_blank">公式ウェブサイトのお知らせ</a>をご覧ください。</p>
+            <p>
+              募集要項は
+              <a href="https://sohosai.com/news/#application-2025" target="_blank">
+                公式ウェブサイトのお知らせ
+              </a>
+              をご覧ください。
+            </p>
           </div>
           <div>
             <p>応募方法</p>
