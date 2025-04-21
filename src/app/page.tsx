@@ -24,7 +24,7 @@ export default function Home() {
     <div className={container()}>
       <div className={stack({ gap: 6, marginY: 8 })}>
         <div>
-          <Title>筑波大学学園祭 企画募集</Title>
+          <Title>第51回 筑波大学学園祭 企画募集</Title>
         </div>
         <div className={stack({ gap: 3 })}>
           <div>
