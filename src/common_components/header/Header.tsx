@@ -310,6 +310,16 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
         )}
       </div>
       {userInfo && <HeaderNavigationMobile menu={menu} path={path} userInfo={userInfo} />}
+      <p
+        style={{
+          background: "antiquewhite",
+          display: "inline-block",
+          margin: "2rem auto 0",
+          padding: "1rem 2rem",
+          width: "100%",
+        }}>
+        技術的な問題が発生しており、誓約書のPDFをダウンロード・アップロードできません。今しばらくお待ちください。
+      </p>
     </header>
   );
 };
