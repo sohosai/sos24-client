@@ -90,8 +90,12 @@ import { basicErrorMessageStyle } from "@/common_components/formFields/styles";
 export const FormEditor: FC<{
   defaultValues?: CreateFormInput;
   onSubmit: HandleFormEditorSubmit;
-  editable?: boolean;
-}> = ({ onSubmit, defaultValues, editable }) => {
+  // editable?: boolean;
+}> = ({ onSubmit, defaultValues
+  // , editable 
+}) => {
+  const editable = true;
+
   const attachmentsData =
     defaultValues?.attachments.map((uuid) => ({
       name: null,
