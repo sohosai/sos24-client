@@ -24,7 +24,7 @@ export default function Home() {
     <div className={container()}>
       <div className={stack({ gap: 6, marginY: 8 })}>
         <div>
-          <Title>第50回筑波大学学園祭 企画募集</Title>
+          <Title>筑波大学学園祭 企画募集</Title>
         </div>
         <div className={stack({ gap: 3 })}>
           <div>
@@ -34,9 +34,16 @@ export default function Home() {
           <div>
             <p>
               募集要項は
-              <a href="https://sohosai.com/news/#application-2025" target="_blank">
+              <Link
+                href="https://sohosai.com/news/#application-2025"
+                className={css({
+                  color: "tsukuba.purple",
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                })}
+                target="_blank">
                 公式ウェブサイトのお知らせ
-              </a>
+              </Link>
               をご覧ください。
             </p>
           </div>
