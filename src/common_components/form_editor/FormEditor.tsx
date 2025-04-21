@@ -123,7 +123,7 @@ export const FormEditor: FC<{
 
   const { data: data_user, isLoading: isLoading_user } = useSWR("/users/me");
   const me = assignType("/users/me", data_user);
-  if (["committee_operator", "administrator"].includes(me.role)) {
+  if (["administrator"].includes(me.role)) {
     editable = true;
   }
 
