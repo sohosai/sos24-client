@@ -318,7 +318,7 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
           padding: "1rem 2rem",
           width: "100%",
         }}>
-        現在、技術的な問題が発生しており、企画登録や申請ができない場合がございます。今しばらくお待ちください。
+        技術的な問題が発生しており、誓約書のPDFをダウンロード・アップロードできません。今しばらくお待ちください。
       </p>
     </header>
   );
