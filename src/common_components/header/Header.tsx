@@ -159,7 +159,7 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
           paddingY: 0,
           display: "block",
         },
-        height: "auto" // 20250421
+        height: "auto", // 20250421
       })}>
       <div
         className={css({
