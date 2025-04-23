@@ -102,7 +102,7 @@ jobs:
             pages project list
             pages deploy .vercel/output/static --project-name=${{ env.PROJECT_NAME }} --branch=main
       - name: Sentry
-        uses: getsentry/action-release@v1
+        uses: getsentry/action-release@v3
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
