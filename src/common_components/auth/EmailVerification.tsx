@@ -107,7 +107,7 @@ export const EmailVerification: React.FC<EmailVerificationProps> = ({ userEmail 
           {isSent && (
             <p className={css({ color: "gray.700", fontSize: "sm" })}>
               確認メールを再送しました
-              <br /> 受け取れない場合はproject50th@sohosai.comまでご連絡ください。
+              <br /> 受け取れない場合はproject51th@sohosai.comまでご連絡ください。
             </p>
           )}
         </div>
