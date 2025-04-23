@@ -1,5 +1,5 @@
 import type { Dispatch, DragEvent, SetStateAction } from "react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { css, cva } from "@styled-system/css";
 import { basicFieldProps } from "./_components/types";
@@ -141,6 +141,11 @@ export const FilesField = (props: Props) => {
       : undefined;
 
   const files = filesDOM.current?.files;
+
+  useEffect(() => {
+    validateFiles();
+  });
+
   return (
     <div>
       <span className={basicFormLabelStyle}>
