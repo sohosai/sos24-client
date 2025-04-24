@@ -22,8 +22,9 @@ export const ApplicationPeriodProject: React.FC<Props> = ({ projectData, mutatio
     <>
       <div className={vstack({})}>
         <div className={css({ textAlign: "center" })}>
-          <p>締切は {endsAt?.format("M月D日 HH:mm")} となっております</p>
-          <p>締切日までにすべてのステップを完了済みにしてください。</p>
+          {/* <p>締切は {endsAt?.format("M月D日 HH:mm")} となっております</p> */}
+          <p>企画応募は 2025年5月9日(金) 23:59 まで行うことができます。</p>
+          <p>応募には、締切日までにすべてのステップを完了済みにする必要がございます。</p>
         </div>
         <RegistrationProgress step={step} />
       </div>
