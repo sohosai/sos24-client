@@ -5,8 +5,8 @@ import { Button } from "@/common_components/Button";
 import { ProjectTableView } from "@/common_components/project/ProjectView";
 import { RegistrationProgress } from "@/common_components/RegistrationProgress";
 import { components } from "@/schema";
-import { useAtomValue } from "jotai";
-import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
+// import { useAtomValue } from "jotai";
+// import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
 
 interface Props {
   projectData: components["schemas"]["Project"];
@@ -16,7 +16,7 @@ interface Props {
 
 export const ApplicationPeriodProject: React.FC<Props> = ({ projectData, mutation, step }) => {
   const [editable, setEditable] = useState(false);
-  const { endsAt } = useAtomValue(projectApplicationPeriodAtom);
+  // const { endsAt } = useAtomValue(projectApplicationPeriodAtom);
 
   return (
     <>
