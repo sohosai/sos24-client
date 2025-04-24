@@ -22,7 +22,7 @@ export const ApplicationPeriodProject: React.FC<Props> = ({ projectData, mutatio
     <>
       <div className={vstack({})}>
         <div className={css({ textAlign: "center" })}>
-          <p>締切は{endsAt?.format("M月D日")}となっております</p>
+          <p>締切は {endsAt?.format("M月D日 HH:mm")} となっております</p>
           <p>締切日までにすべてのステップを完了済みにしてください。</p>
         </div>
         <RegistrationProgress step={step} />
