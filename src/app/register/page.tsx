@@ -53,11 +53,16 @@ const RegisterPage = () => {
               <p>副責任者が代理で行うことができません。</p>
             </div>
             <div
-              className={container({
+              className={css({
                 maxWidth: "4xl",
+                mx: 'auto',                
+                display: 'flex',           
+                flexDir: 'column',
+                alignItems: 'center',
+                gap: '8',                    
               })}>
               <RegisterForm />
-              <RegistrationProgress step={1} />
+              <RegistrationProgress step={1}  />
             </div>
           </>
         ) : (
