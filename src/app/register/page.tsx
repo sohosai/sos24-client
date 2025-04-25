@@ -2,7 +2,7 @@
 
 import { css } from "@styled-system/css";
 import { Title } from "@/common_components/Title";
-import { container, stack } from "@styled-system/patterns";
+import { stack } from "@styled-system/patterns";
 import { RegistrationProgress } from "@/common_components/RegistrationProgress";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
@@ -55,14 +55,14 @@ const RegisterPage = () => {
             <div
               className={css({
                 maxWidth: "4xl",
-                mx: 'auto',                
-                display: 'flex',           
-                flexDir: 'column',
-                alignItems: 'center',
-                gap: '8',                    
+                mx: "auto",
+                display: "flex",
+                flexDir: "column",
+                alignItems: "center",
+                gap: "8",
               })}>
               <RegisterForm />
-              <RegistrationProgress step={1}  />
+              <RegistrationProgress step={1} />
             </div>
           </>
         ) : (
