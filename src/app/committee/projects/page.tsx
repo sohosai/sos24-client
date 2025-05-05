@@ -43,10 +43,9 @@ const ProjectsPage: NextPage = () => {
       .filter(
         (e) =>
           (projectType.food.includes("食品なし") &&
-            (e.category.includes("general") ||
-              !e.category.includes("foods_with_kitchen") ||
-              !e.category.includes("foods_without_kitchen") ||
-              !e.category.includes("foods_without_cooking"))) ||
+            !e.category.includes("foods_with_kitchen") &&
+            !e.category.includes("foods_without_kitchen") &&
+            !e.category.includes("foods_without_cooking")) ||
           (projectType.food.includes("仕込み場必要") && e.category.includes("foods_with_kitchen")) ||
           (projectType.food.includes("仕込み場不要") && e.category.includes("foods_without_kitchen")) ||
           (projectType.food.includes("既製食品販売") && e.category.includes("foods_without_cooking")),
