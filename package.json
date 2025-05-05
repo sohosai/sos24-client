@@ -35,7 +35,7 @@
     "react-hot-toast": "^2.4.1",
     "sharp": "^0.33.3",
     "swr": "^2.2.5",
-    "valibot": "^0.30.0"
+    "valibot": "^0.42.0"
   },
   "devDependencies": {
     "@pandacss/dev": "^0.35.0",
