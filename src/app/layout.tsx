@@ -8,7 +8,7 @@ import { Toaster } from "react-hot-toast";
 import { GoogleTagManager } from "@next/third-parties/google";
 
 export const metadata: Metadata = {
-  title: "雙峰祭オンラインシステム",
+  title: "2024年度 雙峰祭オンラインシステム（アーカイブ）",
   description: "",
 };
 

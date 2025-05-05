@@ -196,7 +196,7 @@ export const Header: FC = () => {
                 color: "black",
                 fontSize: { base: "lg", lg: "2xl" },
               })}>
-              雙峰祭オンラインシステム
+              2024年度 雙峰祭オンラインシステム（アーカイブ）
             </h1>
           </Link>
           <a
