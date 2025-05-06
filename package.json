@@ -22,7 +22,7 @@
     "@radix-ui/themes": "^2.0.3",
     "@sentry/nextjs": "^7.111.0",
     "dayjs": "^1.11.10",
-    "firebase": "^10.9.0",
+    "firebase": "^11.0.0",
     "graphemer": "^1.4.0",
     "jotai": "^2.7.1",
     "jotai-location": "^0.5.4",
