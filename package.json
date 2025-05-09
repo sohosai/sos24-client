@@ -20,7 +20,7 @@
     "@hookform/resolvers": "^3.3.4",
     "@next/third-parties": "^14.2.3",
     "@radix-ui/themes": "^2.0.3",
-    "@sentry/nextjs": "^7.111.0",
+    "@sentry/nextjs": "^9.0.0",
     "dayjs": "^1.11.10",
     "firebase": "^10.9.0",
     "graphemer": "^1.4.0",
