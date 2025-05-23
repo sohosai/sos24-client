@@ -26,10 +26,9 @@ const isTargetProject = (
 ): boolean => {
   const doesCategoryMatch = targetCategories.includes(myProject.category);
   // stage には inside/outsite をつけないので、attribute ではフィルタしない
-  const doesAttributeMatch =
-    ["stage_united", "stage_1a", "stage_university_hall"].includes(myProject.category)
-      ? true
-      : targetAttributes.some((targetAttribute) => myProject.attributes.includes(targetAttribute));
+  const doesAttributeMatch = ["stage_united", "stage_1a", "stage_university_hall"].includes(myProject.category)
+    ? true
+    : targetAttributes.some((targetAttribute) => myProject.attributes.includes(targetAttribute));
   return doesCategoryMatch && doesAttributeMatch;
 };
 
