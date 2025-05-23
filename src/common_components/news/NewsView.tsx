@@ -25,8 +25,9 @@ const isTargetProject = (
   targetAttributes: components["schemas"]["ProjectAttribute"][],
 ): boolean => {
   const doesCategoryMatch = targetCategories.includes(myProject.category);
+  // stage には inside/outsite をつけないので、attribute ではフィルタしない
   const doesAttributeMatch =
-    myProject.attributes.length === 0
+    ["stage_united", "stage_1a", "stage_university_hall"].includes(myProject.category)
       ? true
       : targetAttributes.some((targetAttribute) => myProject.attributes.includes(targetAttribute));
   return doesCategoryMatch && doesAttributeMatch;
