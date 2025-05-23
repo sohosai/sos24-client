@@ -25,7 +25,10 @@ const isTargetProject = (
   targetAttributes: components["schemas"]["ProjectAttribute"][],
 ): boolean => {
   const doesCategoryMatch = targetCategories.includes(myProject.category);
-  const doesAttributeMatch = targetAttributes.some((targetAttribute) => myProject.attributes.includes(targetAttribute));
+  const doesAttributeMatch =
+    myProject.attributes.length === 0
+      ? true
+      : targetAttributes.some((targetAttribute) => myProject.attributes.includes(targetAttribute));
   return doesCategoryMatch && doesAttributeMatch;
 };
 
