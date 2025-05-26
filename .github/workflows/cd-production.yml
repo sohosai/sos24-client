@@ -3,8 +3,6 @@ run-name: CD(Production) - ${{ github.event_name }}
 
 on:
   push:
-    tags:
-      - v*
   workflow_dispatch:
 
 env:
