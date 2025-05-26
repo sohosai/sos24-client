@@ -1,15 +1,17 @@
 name: CD(Production)
 run-name: CD(Production) - ${{ github.event_name }}
 
-on:
-  push:
-    tags:
-      - v*
-  workflow_dispatch:
-
 env:
   PROJECT_NAME: ${{ vars.PROD_CLOUDFLARE_PROJECT_NAME }}
   PRODUCTION_BRANCH: main
+
+on:
+  pull_request:
+    branches:
+      - ${{ env.PRODUCTION_BRANCH }}
+    types:
+      - closed
+  workflow_dispatch:
 
 jobs:
   build_and_deploy:
