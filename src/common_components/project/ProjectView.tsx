@@ -165,7 +165,9 @@ export const ProjectTableView: React.FC<{
           <UserWithAddress name={projectData.owner_name} email={projectData.owner_email} />
         </TableRow>
         {/*企画応募画面で誓約書提出を副責任者登録より前にやってもらうため*/}
-        {hideSubOwner ? null : (
+        {!isLoading_user &&
+        ["committee_editor", "committee_operator", "administrator"].includes(me.role) &&
+        hideSubOwner ? null : (
           <TableRow
             label={
               <span
@@ -188,10 +190,7 @@ export const ProjectTableView: React.FC<{
                 副企画責任者
               </span>
             }>
-            {!isLoading_user &&
-            ["committee_editor", "committee_operator", "administrator"].includes(me.role) &&
-            projectData.sub_owner_name &&
-            projectData.sub_owner_email ? (
+            {projectData.sub_owner_name && projectData.sub_owner_email ? (
               <UserWithAddress name={projectData.sub_owner_name} email={projectData.sub_owner_email} />
             ) : (
               <button
