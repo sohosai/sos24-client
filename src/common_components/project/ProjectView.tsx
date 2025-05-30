@@ -188,7 +188,8 @@ export const ProjectTableView: React.FC<{
                 副企画責任者
               </span>
             }>
-            {["committee_editor", "committee_operator", "administrator"].includes(me.role) &&
+            {!isLoading_user &&
+            ["committee_editor", "committee_operator", "administrator"].includes(me.role) &&
             projectData.sub_owner_name &&
             projectData.sub_owner_email ? (
               <UserWithAddress name={projectData.sub_owner_name} email={projectData.sub_owner_email} />
