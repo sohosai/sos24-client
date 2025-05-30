@@ -1,5 +1,5 @@
 import { basicErrorMessageStyle, basicFormStyle } from "@/common_components/formFields/styles";
-import { client } from "@/lib/openapi";
+import { assignType, client } from "@/lib/openapi";
 import { useForm } from "react-hook-form";
 import { UpdateProjectSchema, UpdateProjectSchemaType } from "@/lib/valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
@@ -13,6 +13,7 @@ import { components } from "@/schema";
 import { TableRow } from "@/app/dashboard/TableRow";
 import { UserWithAddress } from "./UserWithAddress";
 import { ProjectAttributesBadge } from "./ProjectAttributesBadge";
+import useSWR from "swr";
 
 export const shareURL = async (url: string) => {
   navigator.clipboard.writeText(url).catch(() => {
@@ -84,6 +85,8 @@ export const ProjectTableView: React.FC<{
       },
     );
   };
+  const { data: data_user, isLoading: isLoading_user } = useSWR("/users/me");
+  const me = assignType("/users/me", data_user);
   return (
     <form className={vstack({ width: "full" })} onSubmit={handleSubmit(submitForm)}>
       <div>
@@ -162,7 +165,9 @@ export const ProjectTableView: React.FC<{
           <UserWithAddress name={projectData.owner_name} email={projectData.owner_email} />
         </TableRow>
         {/*企画応募画面で誓約書提出を副責任者登録より前にやってもらうため*/}
-        {hideSubOwner ? null : (
+        {!isLoading_user &&
+        ["committee_editor", "committee_operator", "administrator"].includes(me.role) &&
+        hideSubOwner ? null : (
           <TableRow
             label={
               <span
