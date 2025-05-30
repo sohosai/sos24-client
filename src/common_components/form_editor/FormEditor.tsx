@@ -533,13 +533,10 @@ export const FormEditor: FC<{
             <Button
               visual="solid"
               color="purple"
-              className={
-                (hstack({
-                  alignSelf: "center",
-                  margin: 3,
-                }),
-                defaultValues && css({ letterSpacing: "Tight", margin: 3 }))
-              }
+              className={hstack({
+                alignSelf: "center",
+                margin: 3,
+              })}
               disabled={isSubmitting || isSubmitSuccessful}>
               {defaultValues ? "更新して公開" : "作成"}
             </Button>
