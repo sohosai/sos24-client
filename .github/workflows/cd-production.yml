@@ -24,16 +24,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
-      - name: Check tagged branch
-        run: |
-          BRANCHS=$(git branch --contains ${{ github.ref_name }})
-          set -- $BRANCHS
-          for BRANCH in $BRANCHS ; do
-            if [[ "$BRANCH" == "main" ]]; then
-              exit 0
-            fi
-          done
-          exit 1
       - name: Symlink
         run: |
           mkdir -p /home/runner/work/${{ github.event.repository.name }}/
