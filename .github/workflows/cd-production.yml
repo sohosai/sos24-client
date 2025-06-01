@@ -2,9 +2,11 @@ name: CD(Production)
 run-name: CD(Production) - ${{ github.event_name }}
 
 on:
-  push:
+  pull_request:
     branches:
       - main
+    types:
+      - closed
   workflow_dispatch:
 
 env:
