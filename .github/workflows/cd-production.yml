@@ -6,11 +6,9 @@ env:
   PRODUCTION_BRANCH: main
 
 on:
-  pull_request:
+  push:
     branches:
       - ${{ env.PRODUCTION_BRANCH }}
-    types:
-      - closed
   workflow_dispatch:
 
 jobs:
