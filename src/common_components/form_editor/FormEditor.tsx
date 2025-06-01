@@ -526,7 +526,7 @@ export const FormEditor: FC<{
               })}
               disabled={isSubmitting || isSubmitSuccessful}
               onClick={onClickHandler}>
-              下書き保存
+              下書きとして保存
             </Button>
           )}
           {(editable !== false || (!isLoading_user && ["administrator"].includes(me.role) === true)) && (
@@ -538,7 +538,7 @@ export const FormEditor: FC<{
                 margin: 3,
               })}
               disabled={isSubmitting || isSubmitSuccessful}>
-              {defaultValues ? "更新" : "作成"}
+              {defaultValues ? "更新して公開" : "作成"}
             </Button>
           )}
         </div>
