@@ -165,8 +165,8 @@ export const ProjectTableView: React.FC<{
           <UserWithAddress name={projectData.owner_name} email={projectData.owner_email} />
         </TableRow>
         {/*企画応募画面で誓約書提出を副責任者登録より前にやってもらうため*/}
-        {!isLoading_user &&
-        ["committee_editor", "committee_operator", "administrator"].includes(me.role) &&
+        {isLoading_user ||
+        !["committee_editor", "committee_operator", "administrator"].includes(me.role) ||
         hideSubOwner ? null : (
           <TableRow
             label={
