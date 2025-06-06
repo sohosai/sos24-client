@@ -1,20 +1,23 @@
 name: CD(Production)
 run-name: CD(Production) - ${{ github.event_name }}
 
-env:
-  PROJECT_NAME: ${{ vars.PROD_CLOUDFLARE_PROJECT_NAME }}
-  PRODUCTION_BRANCH: main
-
 on:
   pull_request:
     branches:
-      - ${{ env.PRODUCTION_BRANCH }}
+      - main
     types:
       - closed
   workflow_dispatch:
 
+env:
+  PROJECT_NAME: ${{ vars.PROD_CLOUDFLARE_PROJECT_NAME }}
+  PRODUCTION_BRANCH: main
+
 jobs:
   build_and_deploy:
+    if: |
+      github.event.pull_request.merged == true ||
+      github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -24,16 +27,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
-      - name: Check tagged branch
-        run: |
-          BRANCHS=$(git branch --contains ${{ github.ref_name }})
-          set -- $BRANCHS
-          for BRANCH in $BRANCHS ; do
-            if [[ "$BRANCH" == "main" ]]; then
-              exit 0
-            fi
-          done
-          exit 1
       - name: Symlink
         run: |
           mkdir -p /home/runner/work/${{ github.event.repository.name }}/
