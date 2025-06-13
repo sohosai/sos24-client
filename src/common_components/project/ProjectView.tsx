@@ -165,9 +165,7 @@ export const ProjectTableView: React.FC<{
           <UserWithAddress name={projectData.owner_name} email={projectData.owner_email} />
         </TableRow>
         {/*企画応募画面で誓約書提出を副責任者登録より前にやってもらうため*/}
-        {isLoading_user ||
-        !["committee_editor", "committee_operator", "administrator"].includes(me.role) ||
-        hideSubOwner ? null : (
+        {hideSubOwner ? null : (
           <TableRow
             label={
               <span
@@ -193,18 +191,21 @@ export const ProjectTableView: React.FC<{
             {projectData.sub_owner_name && projectData.sub_owner_email ? (
               <UserWithAddress name={projectData.sub_owner_name} email={projectData.sub_owner_email} />
             ) : (
-              <button
-                className={css({ color: "tsukuba.purple", textDecoration: "underline", cursor: "pointer" })}
-                onClick={() =>
-                  toast.promise(handleShareInviteLink(projectData.id, "sub_owner"), {
-                    loading: "招待リンクをコピーしています",
-                    success: "招待リンクをコピーしました",
-                    error: "招待リンクをコピーできませんでした",
-                  })
-                }
-                type="button">
-                招待リンクを共有
-              </button>
+              !isLoading_user &&
+              ["committee_editor", "administrator"].includes(me.role) && (
+                <button
+                  className={css({ color: "tsukuba.purple", textDecoration: "underline", cursor: "pointer" })}
+                  onClick={() =>
+                    toast.promise(handleShareInviteLink(projectData.id, "sub_owner"), {
+                      loading: "招待リンクをコピーしています",
+                      success: "招待リンクをコピーしました",
+                      error: "招待リンクをコピーできませんでした",
+                    })
+                  }
+                  type="button">
+                  招待リンクを共有
+                </button>
+              )
             )}
           </TableRow>
         )}
