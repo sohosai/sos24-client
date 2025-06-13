@@ -192,7 +192,7 @@ export const ProjectTableView: React.FC<{
               <UserWithAddress name={projectData.sub_owner_name} email={projectData.sub_owner_email} />
             ) : (
               !isLoading_user &&
-              ["committee_editor", "administrator"].includes(me.role) && (
+              ["committee_editor", "committee_operator", "administrator"].includes(me.role) && (
                 <button
                   className={css({ color: "tsukuba.purple", textDecoration: "underline", cursor: "pointer" })}
                   onClick={() =>
