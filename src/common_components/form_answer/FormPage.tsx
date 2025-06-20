@@ -48,7 +48,7 @@ export const FormPage = ({ answer, answerError, answerLoading, form, formError, 
         )
       : undefined;
 
-  const status: SubmitStatus = getSubmitStatusFromDate(form?.ends_at, form?.answered_at);
+  const status: SubmitStatus = getSubmitStatusFromDate(form?.ends_at, answer?.created_at);
 
   const { data, isLoading } = useSWR("/users/me");
   const me = assignType("/users/me", data);
