@@ -210,7 +210,7 @@ export const ProjectTableView: React.FC<{
           {<ProjectAttributesBadge attributes={projectData.attributes} />}
         </TableRow>
         <TableRow label="企画実施場所番号" formId="attributes">
-          {projectData?.location_id ?? "未定"}
+          {!projectData?.location_id ? "未定" : projectData?.location_id}
         </TableRow>
       </div>
       {isEditMode && (
