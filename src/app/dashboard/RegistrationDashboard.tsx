@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 
 const SortStatus: "all" | "draft" | "scheduled" | "published" = "all";
 export const RegistrationDashboard: React.FC = () => {
-  let step: 1 | 2 | 3 | 4 | 5 = 2;
+  let step: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 = 2;
   const {
     data: rawProjectData,
     error: projectErr,
@@ -41,31 +41,41 @@ export const RegistrationDashboard: React.FC = () => {
   }
 
   if (!formIsLoading && formData) {
-    let hasAnsweredEveryForm = true;
     let hasAnsweredOathForm = false;
+    let hasAnsweredApplicationForm = false;
+    let hasSubOwner = false;
+
     for (const data of formData) {
       if (data.title === "誓約書提出フォーム") {
         hasAnsweredOathForm = data.answer_id !== null;
-      } else if (data.answer_id === null) {
-        hasAnsweredEveryForm = false;
+      } else if (data.answer_id !== null) {
+        hasAnsweredApplicationForm = true;
       }
     }
 
-    if (hasAnsweredEveryForm) {
-      if (hasAnsweredOathForm) {
-        step = projectData.sub_owner_id !== null ? 5 : 4;
-      } else {
-        step = 3;
-      }
-    } else {
-      step = 2;
+    hasSubOwner = projectData.sub_owner_id !== null;
+
+    if (hasAnsweredOathForm && !hasAnsweredApplicationForm && !hasSubOwner) {
+      step = 3;
+    } else if (!hasAnsweredOathForm && hasAnsweredApplicationForm && !hasSubOwner) {
+      step = 4;
+    } else if (hasAnsweredOathForm && hasAnsweredApplicationForm && !hasSubOwner) {
+      step = 5;
+    } else if (!hasAnsweredOathForm && !hasAnsweredApplicationForm && hasSubOwner) {
+      step = 6;
+    } else if (hasAnsweredOathForm && !hasAnsweredApplicationForm && hasSubOwner) {
+      step = 7;
+    } else if (!hasAnsweredOathForm && hasAnsweredApplicationForm && hasSubOwner) {
+      step = 8;
+    } else if (hasAnsweredOathForm && hasAnsweredApplicationForm && hasSubOwner) {
+      step = 9;
     }
   }
 
   return (
     <>
       {!formIsLoading &&
-        (step !== 5 ? (
+        (step !== 9 ? (
           <div
             className={css({
               color: "white",
