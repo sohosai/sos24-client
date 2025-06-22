@@ -98,7 +98,7 @@ export const FormList = ({ forms, showHiddenToggle }: Props) => {
           },
         })}>
         {forms.map((form) => {
-          if(!form.is_draft){
+          if (!form.is_draft) {
             const startsAt = dayjs(form.starts_at);
             const endsAt = dayjs(form.ends_at);
             const status = getSubmitStatusFromDate(form.ends_at, form.answered_at);
