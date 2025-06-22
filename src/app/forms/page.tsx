@@ -65,9 +65,12 @@ const DashboardPage: NextPage = () => {
       </p>
     );
   }
-  const notifications = forms.filter(
-    (form) => !answers.map((answer) => answer.form_id).includes(form.id) && !hiddenFormIds.includes(form.id),
-  ).length;
+  const notifications = forms.filter((form) => {
+    const isAnswerInclude = !answers.map((answer) => answer.form_id).includes(form.id); 
+    const isHiddenInclude = !hiddenFormIds.includes(form.id);
+    
+    isAnswerInclude && isHiddenInclude && !form.is_draft;
+  }).length;  
   const toggleFilter = () => setIsSubmittedShown((prev) => !prev);
 
   return (
