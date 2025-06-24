@@ -262,7 +262,7 @@ export const FilesField = (props: Props) => {
               return <File key={fileIds[i]} file={file} />;
             })
           ) : (
-            <NoResultNotice message="ファイルの添付がありません" />
+            <NoResultNotice message="ファイルが添付されていません" />
           )
         ) : (
           files &&
