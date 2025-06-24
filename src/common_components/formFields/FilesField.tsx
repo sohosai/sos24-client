@@ -13,7 +13,7 @@ import driveIcon from "@/assets/Drive.svg?url";
 import { FileErrorsType, FilesFormType } from "@/common_components/form_answer/FormItems";
 import { File } from "./_components/File";
 import { sosFileType } from "@/lib/file";
-import { NoResultNotice } from "../NoResultNotice";
+import { NoResultNotice } from "@/common_components/NoResultNotice";
 
 interface Props extends basicFieldProps {
   disabled?: boolean;
