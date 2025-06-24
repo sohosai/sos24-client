@@ -252,14 +252,32 @@ export const FilesField = (props: Props) => {
           rowGap: 2,
         })}>
         {props.disabled
-          ? [...Array(props.files?.get(props.id)?.length)].map((_, i) => {
+          // ? [...Array(props.files?.get(props.id)?.length)].map((_, i) => {
+            //     console.log(props.files?.get(props.id)?.length);
+            //     console.log(props.files?.size);
+            //     const files = props.files?.get(props.id);
+            //     const file = files && files[i];
+            //     if (!file) {
+            //       return <div>ファイルの添付がありません</div>;
+            //     }
+
+            //     return(
+            //       <>
+            //         <div>ファイルです↓</div>
+            //         <File key={fileIds[i]} file={file} />
+            //       </>
+            //     );
+            //   })
+           ? [...Array(props.files?.size)].map((_, i) => {
               const files = props.files?.get(props.id);
               const file = files && files[i];
               if (!file) {
-                return;
+                return <div key={`nofile-${i}`}>ファイルの添付がありません</div>;
               }
 
-              return <File key={fileIds[i]} file={file} />;
+              return (
+                <File key={fileIds[i]} file={file} />
+              );
             })
           : files &&
             [...Array(files.length)].map((_, i) => {
