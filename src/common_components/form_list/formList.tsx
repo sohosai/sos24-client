@@ -98,104 +98,103 @@ export const FormList = ({ forms, showHiddenToggle }: Props) => {
           },
         })}>
         {forms.map((form) => {
-          if (!form.is_draft) {
-            const startsAt = dayjs(form.starts_at);
-            const endsAt = dayjs(form.ends_at);
-            const status = getSubmitStatusFromDate(form.ends_at, form.answered_at);
-            return (
-              <div key={form.id}>
-                {showHiddenToggle && (
-                  <button
-                    onClick={() => {
-                      setHiddenFormIds((prev) => {
-                        if (prev.includes(form.id)) {
-                          toast.success("申請を再度表示するようにしました");
-                          return prev.filter((i) => i != form.id);
-                        } else {
-                          toast.success("申請を非表示にしました");
-                          return [...prev, form.id];
-                        }
-                      });
-                    }}
-                    className={css({
+        
+          const startsAt = dayjs(form.starts_at);
+          const endsAt = dayjs(form.ends_at);
+          const status = getSubmitStatusFromDate(form.ends_at, form.answered_at);
+          return (
+            <div key={form.id}>
+              {showHiddenToggle && (
+                <button
+                  onClick={() => {
+                    setHiddenFormIds((prev) => {
+                      if (prev.includes(form.id)) {
+                        toast.success("申請を再度表示するようにしました");
+                        return prev.filter((i) => i != form.id);
+                      } else {
+                        toast.success("申請を非表示にしました");
+                        return [...prev, form.id];
+                      }
+                    });
+                  }}
+                  className={css({
+                    display: "none",
+                    md: { cursor: "pointer", width: "100%", display: "flex", justifyContent: "center" },
+                  })}>
+                  {hiddenFormIds.includes(form.id) ? (
+                    <Image src={EyesClosedIcon} alt="非表示" />
+                  ) : (
+                    <Image src={EyesOpenIcon} alt="表示" />
+                  )}
+                </button>
+              )}
+              <Link href={`/forms/${form.id}`} className={css({ display: "contents" })}>
+                <div
+                  className={css({
+                    md: { display: "none" },
+                    base: {},
+                  })}>
+                  <h4 className={css({ display: "flex", gap: 2 })}>
+                    <Image src={Triangle} alt="" /> {form.title}
+                  </h4>
+                  <div className={hstack()}>
+                    <time dateTime={startsAt.toISOString()}>{startsAt.format("YYYY/MM/DD")}</time>→
+                    <time dateTime={endsAt.toISOString()}>{endsAt.format("YYYY/MM/DD")}</time>
+                    <SubmitStatusBadge status={status} />
+                  </div>
+                </div>
+                {/* Desktop */}
+                <div
+                  className={css({
+                    base: {
                       display: "none",
-                      md: { cursor: "pointer", width: "100%", display: "flex", justifyContent: "center" },
-                    })}>
-                    {hiddenFormIds.includes(form.id) ? (
-                      <Image src={EyesClosedIcon} alt="非表示" />
-                    ) : (
-                      <Image src={EyesOpenIcon} alt="表示" />
-                    )}
-                  </button>
-                )}
-                <Link href={`/forms/${form.id}`} className={css({ display: "contents" })}>
-                  <div
-                    className={css({
-                      md: { display: "none" },
-                      base: {},
-                    })}>
-                    <h4 className={css({ display: "flex", gap: 2 })}>
-                      <Image src={Triangle} alt="" /> {form.title}
-                    </h4>
-                    <div className={hstack()}>
-                      <time dateTime={startsAt.toISOString()}>{startsAt.format("YYYY/MM/DD")}</time>→
-                      <time dateTime={endsAt.toISOString()}>{endsAt.format("YYYY/MM/DD")}</time>
-                      <SubmitStatusBadge status={status} />
-                    </div>
-                  </div>
-                  {/* Desktop */}
-                  <div
-                    className={css({
-                      base: {
-                        display: "none",
 
-                        "& > div": {
-                          paddingInline: 3,
-                        },
+                      "& > div": {
+                        paddingInline: 3,
                       },
-                      md: { display: "contents" },
-                    })}>
-                    <div className={css({ paddingBlock: 2, paddingInline: 2 })}>
-                      <SubmitStatusBadge status={status} />
-                    </div>
-                    <div>{startsAt.format("YYYY/MM/DD")}</div>
-                    <div>{endsAt.format("YYYY/MM/DD")}</div>
-                    <div>{form.title}</div>
-                    <div>{getTimeLeftText(dayjs(), endsAt, status)}</div>
+                    },
+                    md: { display: "contents" },
+                  })}>
+                  <div className={css({ paddingBlock: 2, paddingInline: 2 })}>
+                    <SubmitStatusBadge status={status} />
                   </div>
-                </Link>
-                {/* SP */}
-                {showHiddenToggle && (
-                  <button
-                    onClick={() => {
-                      setHiddenFormIds((prev) => {
-                        if (prev.includes(form.id)) {
-                          toast.success("申請を再度表示するようにしました");
-                          return prev.filter((i) => i != form.id);
-                        } else {
-                          toast.success("申請を非表示にしました");
-                          return [...prev, form.id];
-                        }
-                      });
-                    }}
-                    className={css({
-                      cursor: "pointer",
-                      display: "flex",
-                      justifyContent: "center",
-                      paddingInline: 2,
-                      md: { display: "none" },
-                      flexShrink: 0,
-                    })}>
-                    {hiddenFormIds.includes(form.id) ? (
-                      <Image src={EyesClosedIcon} alt="非表示" />
-                    ) : (
-                      <Image src={EyesOpenIcon} alt="表示" />
-                    )}
-                  </button>
-                )}
-              </div>
-            );
-          }
+                  <div>{startsAt.format("YYYY/MM/DD")}</div>
+                  <div>{endsAt.format("YYYY/MM/DD")}</div>
+                  <div>{form.title}</div>
+                  <div>{getTimeLeftText(dayjs(), endsAt, status)}</div>
+                </div>
+              </Link>
+              {/* SP */}
+              {showHiddenToggle && (
+                <button
+                  onClick={() => {
+                    setHiddenFormIds((prev) => {
+                      if (prev.includes(form.id)) {
+                        toast.success("申請を再度表示するようにしました");
+                        return prev.filter((i) => i != form.id);
+                      } else {
+                        toast.success("申請を非表示にしました");
+                        return [...prev, form.id];
+                      }
+                    });
+                  }}
+                  className={css({
+                    cursor: "pointer",
+                    display: "flex",
+                    justifyContent: "center",
+                    paddingInline: 2,
+                    md: { display: "none" },
+                    flexShrink: 0,
+                  })}>
+                  {hiddenFormIds.includes(form.id) ? (
+                    <Image src={EyesClosedIcon} alt="非表示" />
+                  ) : (
+                    <Image src={EyesOpenIcon} alt="表示" />
+                  )}
+                </button>
+              )}
+            </div>
+          );
         })}
       </div>
     </div>

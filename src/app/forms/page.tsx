@@ -128,6 +128,10 @@ const filterForm = (forms: form[], showSubmitted: boolean, hiddenFormIds: string
     if (showSubmitted) {
       if (status !== "未提出") return false;
     }
+
+    if (form.is_draft) {
+      return false;
+    }
     return true;
   });
 };
