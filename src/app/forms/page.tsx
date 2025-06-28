@@ -125,11 +125,10 @@ const filterForm = (forms: form[], showSubmitted: boolean, hiddenFormIds: string
     }
 
     const status = getSubmitStatusFromDate(form.ends_at, form.answered_at);
-    if (showSubmitted) {
-      if (status !== "未提出") return false;
-    }
-
-    if (form.is_draft) {
+  
+    if (showSubmitted && status !== "未提出") {
+      return false;
+    } else if (form.is_draft) {
       return false;
     }
     return true;
