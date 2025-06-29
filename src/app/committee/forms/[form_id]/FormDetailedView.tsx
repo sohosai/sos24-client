@@ -136,6 +136,8 @@ export const FormDetailedView: React.FC<{ form: components["schemas"]["Form"] }>
       </div>
       <div className={hstack({ justifyContent: "space-between", width: "full" })}>
         <h1 className={css({ fontSize: "3xl", fontWeight: "bold", wordBreak: "break-all" })}>{form.title}</h1>
+      </div>
+      <div className={hstack({ justifyContent: "space-between", width: "full" })}>
         <div className={hstack({ flexWrap: "wrap", justifyContent: "flex-end", flexShrink: 0 })}>
           {/* 同じカテゴリが複数入ることはないと信じている */}
           {form.categories.length == projectCategories.length ? (

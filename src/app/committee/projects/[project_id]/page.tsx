@@ -76,7 +76,7 @@ const ProjectDetailsPage = ({ params }: { params: { project_id: string } }) => {
   if (isLoading || formAnswersIsLoading) {
     return;
   }
-  if (error || formAnswersError) {
+  if (error) {
     switch (error.name) {
       case "project/not-found":
       case "project/invalid-uuid":
@@ -87,7 +87,7 @@ const ProjectDetailsPage = ({ params }: { params: { project_id: string } }) => {
   }
 
   const project = assignType("/projects/{project_id}", data);
-  const answers = assignType("/form-answers", formAnswers);
+  const answers = formAnswersError ? null : assignType("/form-answers", formAnswers);
 
   return (
     <div className={container({ maxWidth: "4xl" })}>
@@ -144,21 +144,25 @@ const ProjectDetailsPage = ({ params }: { params: { project_id: string } }) => {
           </div>
         </span>
         <ProjectTableView projectData={project} />
-        <>
-          <h2 className={css({ fontSize: "lg", fontWeight: "bold" })}>回答一覧</h2>
-          {answers.length == 0 ? (
-            <NoResultNotice message="回答はまだありません" />
-          ) : (
-            <div
-              className={css({
-                width: "full",
-              })}>
-              {answers.map((answer) => (
-                <FormAnswerItem answer={answer} key={answer.id} />
-              ))}
-            </div>
-          )}
-        </>
+        {answers === null ? (
+          <NoResultNotice message="技術的な問題により回答を読み込めませんでした" />
+        ) : (
+          <>
+            <h2 className={css({ fontSize: "lg", fontWeight: "bold" })}>回答一覧</h2>
+            {answers.length == 0 ? (
+              <NoResultNotice message="回答はまだありません" />
+            ) : (
+              <div
+                className={css({
+                  width: "full",
+                })}>
+                {answers.map((answer) => (
+                  <FormAnswerItem answer={answer} key={answer.id} />
+                ))}
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

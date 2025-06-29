@@ -65,9 +65,12 @@ const DashboardPage: NextPage = () => {
       </p>
     );
   }
-  const notifications = forms.filter(
-    (form) => !answers.map((answer) => answer.form_id).includes(form.id) && !hiddenFormIds.includes(form.id),
-  ).length;
+  const notifications = forms.filter((form) => {
+    const isAnswerInclude = answers.map((answer) => answer.form_id).includes(form.id);
+    const isHiddenInclude = hiddenFormIds.includes(form.id);
+
+    return !isAnswerInclude && !isHiddenInclude && !form.is_draft;
+  }).length;
   const toggleFilter = () => setIsSubmittedShown((prev) => !prev);
 
   return (
@@ -122,8 +125,11 @@ const filterForm = (forms: form[], showSubmitted: boolean, hiddenFormIds: string
     }
 
     const status = getSubmitStatusFromDate(form.ends_at, form.answered_at);
-    if (showSubmitted) {
-      if (status !== "未提出") return false;
+
+    if (showSubmitted && status !== "未提出") {
+      return false;
+    } else if (form.is_draft) {
+      return false;
     }
     return true;
   });
