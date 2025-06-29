@@ -143,7 +143,7 @@ const ProjectDetailsPage = ({ params }: { params: { project_id: string } }) => {
               )}
           </div>
         </span>
-        <ProjectTableView projectData={project} />
+        <ProjectTableView projectData={project} isCommittee={true} />
         {answers === null ? (
           <NoResultNotice message="技術的な問題により回答を読み込めませんでした" />
         ) : (

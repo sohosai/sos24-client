@@ -46,10 +46,11 @@ export const handleShareInviteLink = async (project_id: string, position: "owner
 
 export const ProjectTableView: React.FC<{
   isEditMode?: boolean;
+  isCommittee?: boolean;
   onSubmit?: () => unknown;
   hideSubOwner?: boolean;
   projectData: components["schemas"]["Project"];
-}> = ({ isEditMode = false, onSubmit = () => {}, hideSubOwner = false, projectData }) => {
+}> = ({ isEditMode = false, isCommittee = false, onSubmit = () => {}, hideSubOwner = false, projectData }) => {
   const {
     register,
     formState: { errors },
@@ -191,8 +192,8 @@ export const ProjectTableView: React.FC<{
             {projectData.sub_owner_name && projectData.sub_owner_email ? (
               <UserWithAddress name={projectData.sub_owner_name} email={projectData.sub_owner_email} />
             ) : (
-              !isLoading_user &&
-              ["committee_editor", "committee_operator", "administrator"].includes(me.role) && (
+              (!isCommittee ||
+                (!isLoading_user && ["committee_editor", "committee_operator", "administrator"].includes(me.role))) && (
                 <button
                   className={css({ color: "tsukuba.purple", textDecoration: "underline", cursor: "pointer" })}
                   onClick={() =>
