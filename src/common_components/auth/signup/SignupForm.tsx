@@ -32,8 +32,9 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ setUserEmail }) => {
   });
 
   const onSubmit = async (data: SignUpSchemaType) => {
-    toast.promise(
-      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/users`, {
+    var err = "不明な";
+    const promise = async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -45,24 +46,28 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ setUserEmail }) => {
           email: data.email,
           password: data.password,
         }),
-      }).then((res) => {
-        if (res.status === 201) {
+      });
+      if (res.status === 201) {
+        try {
           const auth = getAuth();
-          signInWithEmailAndPassword(auth, data.email, data.password).then(() => {
+          await signInWithEmailAndPassword(auth, data.email, data.password).then(() => {
             setUserEmail(data.email);
             sendEmailVerification(auth.currentUser!);
           });
-        } else {
-          setError("root", { message: "ユーザ登録に失敗しました" });
-          throw new Error("ユーザ登録に失敗しました");
+        } catch {
+          err = "メール送信時に";
+          setError("root", { message: "メールの送信に失敗しました" });
         }
-      }),
-      {
-        loading: "登録中...",
-        success: "登録に成功しました",
-        error: "ユーザー登録に失敗しました",
-      },
-    );
+      } else {
+        err = "ユーザ登録時に";
+        setError("root", { message: "ユーザ登録に失敗しました" });
+      }
+    };
+    toast.promise(promise(), {
+      loading: "登録中...",
+      success: "登録に成功しました",
+      error: `${err}エラーが発生しました`,
+    });
   };
 
   return (
