@@ -2,7 +2,7 @@
 
 import { css } from "@styled-system/css";
 import { Title } from "@/common_components/Title";
-import { container, stack } from "@styled-system/patterns";
+import { stack } from "@styled-system/patterns";
 import { RegistrationProgress } from "@/common_components/RegistrationProgress";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
@@ -53,8 +53,13 @@ const RegisterPage = () => {
               <p>副責任者が代理で行うことができません。</p>
             </div>
             <div
-              className={container({
+              className={css({
                 maxWidth: "4xl",
+                mx: "auto",
+                display: "flex",
+                flexDir: "column",
+                alignItems: "center",
+                gap: "8",
               })}>
               <RegisterForm />
               <RegistrationProgress step={1} />
