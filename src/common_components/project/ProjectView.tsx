@@ -1,5 +1,5 @@
 import { basicErrorMessageStyle, basicFormStyle } from "@/common_components/formFields/styles";
-import { client } from "@/lib/openapi";
+import { assignType, client } from "@/lib/openapi";
 import { useForm } from "react-hook-form";
 import { UpdateProjectSchema, UpdateProjectSchemaType } from "@/lib/valibot";
 import { valibotResolver } from "@hookform/resolvers/valibot";
@@ -13,6 +13,7 @@ import { components } from "@/schema";
 import { TableRow } from "@/app/dashboard/TableRow";
 import { UserWithAddress } from "./UserWithAddress";
 import { ProjectAttributesBadge } from "./ProjectAttributesBadge";
+import useSWR from "swr";
 
 export const shareURL = async (url: string) => {
   navigator.clipboard.writeText(url).catch(() => {
@@ -45,10 +46,11 @@ export const handleShareInviteLink = async (project_id: string, position: "owner
 
 export const ProjectTableView: React.FC<{
   isEditMode?: boolean;
+  isCommittee?: boolean;
   onSubmit?: () => unknown;
   hideSubOwner?: boolean;
   projectData: components["schemas"]["Project"];
-}> = ({ isEditMode = false, onSubmit = () => {}, hideSubOwner = false, projectData }) => {
+}> = ({ isEditMode = false, isCommittee = false, onSubmit = () => {}, hideSubOwner = false, projectData }) => {
   const {
     register,
     formState: { errors },
@@ -84,6 +86,8 @@ export const ProjectTableView: React.FC<{
       },
     );
   };
+  const { data: data_user, isLoading: isLoading_user } = useSWR("/users/me");
+  const me = assignType("/users/me", data_user);
   return (
     <form className={vstack({ width: "full" })} onSubmit={handleSubmit(submitForm)}>
       <div>
@@ -188,18 +192,21 @@ export const ProjectTableView: React.FC<{
             {projectData.sub_owner_name && projectData.sub_owner_email ? (
               <UserWithAddress name={projectData.sub_owner_name} email={projectData.sub_owner_email} />
             ) : (
-              <button
-                className={css({ color: "tsukuba.purple", textDecoration: "underline", cursor: "pointer" })}
-                onClick={() =>
-                  toast.promise(handleShareInviteLink(projectData.id, "sub_owner"), {
-                    loading: "招待リンクをコピーしています",
-                    success: "招待リンクをコピーしました",
-                    error: "招待リンクをコピーできませんでした",
-                  })
-                }
-                type="button">
-                招待リンクを共有
-              </button>
+              (!isCommittee ||
+                (!isLoading_user && ["committee_editor", "committee_operator", "administrator"].includes(me.role))) && (
+                <button
+                  className={css({ color: "tsukuba.purple", textDecoration: "underline", cursor: "pointer" })}
+                  onClick={() =>
+                    toast.promise(handleShareInviteLink(projectData.id, "sub_owner"), {
+                      loading: "招待リンクをコピーしています",
+                      success: "招待リンクをコピーしました",
+                      error: "招待リンクをコピーできませんでした",
+                    })
+                  }
+                  type="button">
+                  招待リンクを共有
+                </button>
+              )
             )}
           </TableRow>
         )}
