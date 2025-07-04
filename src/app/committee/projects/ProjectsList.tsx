@@ -57,7 +57,7 @@ const ProjectRow: React.FC<{ data: components["schemas"]["ProjectSummary"] }> = 
           fontWeight: "bold",
         })}>
         <Image src={LocationIcon} alt="" />
-        {data.location_id ?? "未定"}
+        {!data.location_id ? "未定" : data.location_id}
       </div>
       <div className={vstack({ alignItems: "end" })}>
         <div

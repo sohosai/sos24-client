@@ -13,6 +13,7 @@ import driveIcon from "@/assets/Drive.svg?url";
 import { FileErrorsType, FilesFormType } from "@/common_components/form_answer/FormItems";
 import { File } from "./_components/File";
 import { sosFileType } from "@/lib/file";
+import { NoResultNotice } from "@/common_components/NoResultNotice";
 
 interface Props extends basicFieldProps {
   disabled?: boolean;
@@ -251,43 +252,47 @@ export const FilesField = (props: Props) => {
           flexDirection: "column",
           rowGap: 2,
         })}>
-        {props.disabled
-          ? [...Array(props.files?.get(props.id)?.length)].map((_, i) => {
+        {props.disabled ? (
+          (props.files?.get(props.id)?.length ?? 0) > 0 ? (
+            [...Array(props.files?.get(props.id)!.length)].map((_, i) => {
               const files = props.files?.get(props.id);
               const file = files && files[i];
-              if (!file) {
-                return;
-              }
 
+              if (!file) return;
               return <File key={fileIds[i]} file={file} />;
             })
-          : files &&
-            [...Array(files.length)].map((_, i) => {
-              const file = files && files[i];
-              if (!file) {
-                return;
-              }
+          ) : (
+            <NoResultNotice message="ファイルが添付されていません" />
+          )
+        ) : (
+          files &&
+          [...Array(files.length)].map((_, i) => {
+            const file = files && files[i];
+            if (!file) {
+              return;
+            }
 
-              const error = extensionsRegex && file.type !== sosFileType ? !extensionsRegex.test(file.name) : false;
-              return (
-                <File
-                  key={fileIds[i]}
-                  deleteFileFunc={() => {
-                    if (!files) {
-                      return;
-                    }
-                    if (filesDOM.current) {
-                      const newFiles = deleteFile(files, i);
-                      filesDOM.current.files = newFiles;
-                      setFiles((prev) => prev.set(props.id, newFiles));
-                    }
-                    validateFiles();
-                  }}
-                  file={file}
-                  error={error}
-                />
-              );
-            })}
+            const error = extensionsRegex && file.type !== sosFileType ? !extensionsRegex.test(file.name) : false;
+            return (
+              <File
+                key={fileIds[i]}
+                deleteFileFunc={() => {
+                  if (!files) {
+                    return;
+                  }
+                  if (filesDOM.current) {
+                    const newFiles = deleteFile(files, i);
+                    filesDOM.current.files = newFiles;
+                    setFiles((prev) => prev.set(props.id, newFiles));
+                  }
+                  validateFiles();
+                }}
+                file={file}
+                error={error}
+              />
+            );
+          })
+        )}
       </div>
     </div>
   );

@@ -61,7 +61,7 @@ const FormListForDashboard: React.FC<{ projectId: string }> = ({ projectId }) =>
 
       const isHidden = hiddenFormIds.includes(form.id);
 
-      if (status !== "未提出" || isHidden) {
+      if (status !== "未提出" || isHidden || form.is_draft) {
         return false;
       }
 
