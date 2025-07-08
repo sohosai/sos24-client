@@ -17,6 +17,7 @@ import { HeaderNavigationMobile } from "./HeaderNavigationMobile";
 import { components } from "@/schema";
 import { useAtom } from "jotai";
 import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
+import { getYearDisplayString } from "@/lib/yearUtils";
 
 import icon_ModeSwitch from "@/assets/SwitchMode.svg?url";
 import icon_Signout from "@/assets/Signout.svg?url";
@@ -201,13 +202,25 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
           })}>
           <Link className={hstack()} href="/">
             <Image src={logo} alt="" className={css({ width: { lg: 10, base: 8 } })} />
-            <h1
-              className={css({
-                color: "black",
-                fontSize: { base: "lg", lg: "2xl" },
-              })}>
-              雙峰祭オンラインシステム
-            </h1>
+            <div className={css({ display: "flex", flexDirection: "column", alignItems: "flex-start" })}>
+              <h1
+                className={css({
+                  color: "black",
+                  fontSize: { base: "lg", lg: "2xl" },
+                  lineHeight: "1.2",
+                })}>
+                雙峰祭オンラインシステム
+              </h1>
+              <div
+                className={css({
+                  color: "gray.600",
+                  fontSize: { base: "xs", lg: "sm" },
+                  fontWeight: "normal",
+                  marginTop: { base: "1px", lg: "2px" },
+                })}>
+                {getYearDisplayString()}
+              </div>
+            </div>
           </Link>
           <a
             href="https://www.sakura.ad.jp/"

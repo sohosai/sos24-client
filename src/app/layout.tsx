@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { AuthProvider } from "@/lib/auth";
+import { DynamicTitle } from "@/common_components/DynamicTitle";
 
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
+        <DynamicTitle />
         <Toaster />
         <AuthProvider>{children}</AuthProvider>
         {process.env.NEXT_PUBLIC_GTMID && <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTMID} />}
