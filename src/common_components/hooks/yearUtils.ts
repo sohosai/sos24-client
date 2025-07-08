@@ -24,7 +24,7 @@ export const useCurrentYear = () => {
     const determineYear = () => {
       const hostname = window.location.hostname;
 
-      const domainYearMatch = hostname.match(/sos(\d{2})\./);
+      const domainYearMatch = hostname.match(/^sos(\d{2})\./);
       if (domainYearMatch) {
         const shortYear = parseInt(domainYearMatch[1], 10);
         return YEAR_BASE + shortYear;
