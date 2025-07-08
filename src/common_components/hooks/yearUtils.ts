@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
  */
 
 const YEAR_BASE = 2000; // サブドメインから年度を計算するための基準年
-const DEFAULT_YEAR = 2024; // 不明時のデフォルト年度
 const DEVELOP_DISPLAY = "Develop";
 
 // 開発環境のホスト名パターン
@@ -42,7 +41,7 @@ export const useCurrentYear = () => {
         return parseInt(process.env.NEXT_PUBLIC_YEAR, 10);
       }
 
-      return DEFAULT_YEAR;
+      return DEVELOP_DISPLAY;
     };
 
     const currentYear = determineYear();
