@@ -17,7 +17,7 @@ import { HeaderNavigationMobile } from "./HeaderNavigationMobile";
 import { components } from "@/schema";
 import { useAtom } from "jotai";
 import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
-import { getYearDisplayString } from "@/lib/yearUtils";
+import { useYearDisplayString } from "@/common_components/hooks/yearUtils";
 
 import icon_ModeSwitch from "@/assets/SwitchMode.svg?url";
 import icon_Signout from "@/assets/Signout.svg?url";
@@ -101,6 +101,7 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
   const router = useRouter();
   const { user, isLoading } = useAuthState();
   const auth = getAuth();
+  const { displayString: yearDisplayString, isLoading: yearIsLoading } = useYearDisplayString();
 
   const path = usePathname();
 
@@ -218,7 +219,7 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
                   fontWeight: "normal",
                   marginTop: { base: "1px", lg: "2px" },
                 })}>
-                {getYearDisplayString()}
+                {yearIsLoading ? "読み込み中..." : yearDisplayString}
               </div>
             </div>
           </Link>

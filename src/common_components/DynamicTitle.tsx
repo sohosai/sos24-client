@@ -1,15 +1,16 @@
 "use client";
 
 import { useEffect } from "react";
-import { getTitleWithYear } from "@/lib/yearUtils";
+import { useTitleWithYear } from "@/common_components/hooks/yearUtils";
 
-/**
- * Client component to update document title dynamically based on year
- */
 export const DynamicTitle = () => {
+  const { title, isLoading } = useTitleWithYear();
+
   useEffect(() => {
-    document.title = getTitleWithYear();
-  }, []);
+    if (!isLoading && title) {
+      document.title = title;
+    }
+  }, [title, isLoading]);
 
   return null;
 };
