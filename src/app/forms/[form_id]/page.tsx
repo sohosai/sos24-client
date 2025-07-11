@@ -39,6 +39,7 @@ const FormDetailPage = ({ params }: { params: { form_id: string } }) => {
       form={form}
       formError={formError}
       formLoading={formLoading}
+      isCommittee={false}
     />
   );
 };
