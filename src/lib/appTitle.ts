@@ -2,19 +2,21 @@
  * Utility functions for generating app titles based on environment variables
  */
 
+// Base title constant to avoid duplication
+const BASE_TITLE = "雙峰祭オンラインシステム";
+
 /**
  * Get the app title with environment-based suffix
  * @returns The complete app title with suffix if applicable
  */
 export function getAppTitle(): string {
-  const baseTitle = "雙峰祭オンラインシステム";
   const suffix = process.env.NEXT_PUBLIC_APP_TITLE_SUFFIX;
   
   if (suffix) {
-    return `${baseTitle}${suffix}`;
+    return `${BASE_TITLE}${suffix}`;
   }
   
-  return baseTitle;
+  return BASE_TITLE;
 }
 
 /**
@@ -30,5 +32,5 @@ export function getAppYear(): string | undefined {
  * @returns The base title "雙峰祭オンラインシステム"
  */
 export function getBaseTitle(): string {
-  return "雙峰祭オンラインシステム";
+  return BASE_TITLE;
 }
