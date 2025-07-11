@@ -15,6 +15,7 @@ import { Separator } from "@/common_components/Separator";
 import { buttonStyle } from "@/recipes/button";
 import { Form } from "@/common_components/form_answer/Form";
 import { paths } from "@/schema";
+import { TableRow } from "@/app/dashboard/TableRow";
 
 export const runtime = "edge";
 
@@ -25,9 +26,10 @@ interface Props {
   form: paths["/forms/{form_id}"]["get"]["responses"]["200"]["content"]["application/json"] | undefined;
   formError: any;
   formLoading: any;
+  isCommittee: boolean;
 }
 
-export const FormPage = ({ answer, answerError, answerLoading, form, formError, formLoading }: Props) => {
+export const FormPage = ({ answer, answerError, answerLoading, form, formError, formLoading, isCommittee }: Props) => {
   const answerItems: FormFieldsType | undefined =
     !answerLoading && answer
       ? Object.fromEntries(
@@ -54,6 +56,9 @@ export const FormPage = ({ answer, answerError, answerLoading, form, formError, 
   const me = assignType("/users/me", data);
 
   const [editable, setEdiatable] = useState(false);
+
+  const { data: projectRes } = useSWR(answer?.project_id ? `/projects/${answer.project_id}` : null);
+  const project = projectRes ? assignType("/projects/{project_id}", projectRes) : undefined;
 
   if (isLoading) return;
 
@@ -105,6 +110,14 @@ export const FormPage = ({ answer, answerError, answerLoading, form, formError, 
                   )}
               </div>
               <h2 className={css({ fontSize: "2xl", fontWeight: "bold" })}>{form?.title}</h2>
+              {project && isCommittee && (
+                <div>
+                  <TableRow label="企画番号">{`00${project.index}`.slice(-3)}</TableRow>
+                  <TableRow label="企画名" formId="title">
+                    {project.title}
+                  </TableRow>
+                </div>
+              )}
               <p
                 className={css({
                   marginBlock: 4,
