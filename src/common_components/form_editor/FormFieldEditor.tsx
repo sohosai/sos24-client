@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { UseFormRegister } from "react-hook-form";
-import { checkboxFormStyle } from "@/common_components/formFields/styles";
+import { UseFormRegister, FieldError } from "react-hook-form";
+import { checkboxFormStyle, basicErrorMessageStyle } from "@/common_components/formFields/styles";
 import { css } from "@styled-system/css";
 import { textInputStyle } from "./styles";
 import { hstack, stack } from "@styled-system/patterns";
@@ -30,11 +30,24 @@ export const FormFieldEditor: FC<{
   field: FormField;
   index: number;
   register: UseFormRegister<CreateFormInput>;
+  errors?: {
+    name?: FieldError;
+    description?: FieldError;
+    options?: FieldError;
+    limit?: FieldError;
+    extensions?: FieldError;
+    min?: FieldError;
+    max?: FieldError;
+    min_length?: FieldError;
+    max_length?: FieldError;
+    min_selection?: FieldError;
+    max_selection?: FieldError;
+  };
   remove: () => void;
   moveDown?: () => void;
   moveUp?: () => void;
   disabled?: boolean;
-}> = ({ field, index, register, remove, moveDown, moveUp, disabled = false }) => {
+}> = ({ field, index, register, errors, remove, moveDown, moveUp, disabled = false }) => {
   const disabled_prop: true | undefined = disabled !== false ? undefined : true;
   return (
     <div
@@ -128,10 +141,13 @@ export const FormFieldEditor: FC<{
       <div>
         <label htmlFor={`items.${index}.name`}>質問</label>
         <input
-          {...register(`items.${index}.name`, { required: true })}
+          {...register(`items.${index}.name`, { required: { value: true, message: "質問を入力してください" } })}
           className={textInputStyle}
           disabled={disabled_prop}
         />
+        <div className={css({ marginBlock: 1 })}>
+          {errors?.name && <span className={basicErrorMessageStyle}>{errors.name.message}</span>}
+        </div>
       </div>
 
       <div>
@@ -199,10 +215,15 @@ export const FormFieldEditor: FC<{
                 <div>
                   <label htmlFor={`items.${index}.options`}>選択肢(改行区切り)</label>
                   <textarea
-                    {...register(`items.${index}.options`, { required: true })}
+                    {...register(`items.${index}.options`, {
+                      required: { value: true, message: "選択肢を入力してください" },
+                    })}
                     className={textInputStyle}
                     disabled={disabled_prop}
                   />
+                  <div className={css({ marginBlock: 1 })}>
+                    {errors?.options && <span className={basicErrorMessageStyle}>{errors.options.message}</span>}
+                  </div>
                 </div>
               </>
             );
@@ -212,10 +233,15 @@ export const FormFieldEditor: FC<{
                 <div>
                   <label htmlFor={`items.${index}.options`}>選択肢(改行区切り)</label>
                   <textarea
-                    {...register(`items.${index}.options`, { required: true })}
+                    {...register(`items.${index}.options`, {
+                      required: { value: true, message: "選択肢を入力してください" },
+                    })}
                     className={textInputStyle}
                     disabled={disabled_prop}
                   />
+                  <div className={css({ marginBlock: 1 })}>
+                    {errors?.options && <span className={basicErrorMessageStyle}>{errors.options.message}</span>}
+                  </div>
                 </div>
 
                 <div className={hstack({ gap: 3 })}>
@@ -248,18 +274,29 @@ export const FormFieldEditor: FC<{
                   <label htmlFor={`items.${index}.limit`}>ファイル数上限</label>
                   <input
                     type="number"
-                    {...register(`items.${index}.limit`, { required: true, valueAsNumber: true })}
+                    {...register(`items.${index}.limit`, {
+                      required: { value: true, message: "ファイル数上限を入力してください" },
+                      valueAsNumber: true,
+                    })}
                     className={textInputStyle}
                     disabled={disabled_prop}
                   />
+                  <div className={css({ marginBlock: 1 })}>
+                    {errors?.limit && <span className={basicErrorMessageStyle}>{errors.limit.message}</span>}
+                  </div>
                 </div>
                 <div>
                   <label htmlFor={`items.${index}.extensions`}>拡張子(改行区切り)</label>
                   <textarea
-                    {...register(`items.${index}.extensions`, { required: true })}
+                    {...register(`items.${index}.extensions`, {
+                      required: { value: true, message: "拡張子を入力してください" },
+                    })}
                     className={textInputStyle}
                     disabled={disabled_prop}
                   />
+                  <div className={css({ marginBlock: 1 })}>
+                    {errors?.extensions && <span className={basicErrorMessageStyle}>{errors.extensions.message}</span>}
+                  </div>
                 </div>
               </>
             );
