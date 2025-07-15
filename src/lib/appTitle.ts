@@ -11,11 +11,11 @@ const BASE_TITLE = "雙峰祭オンラインシステム";
  */
 export function getAppTitle(): string {
   const suffix = process.env.NEXT_PUBLIC_APP_TITLE_SUFFIX;
-  
+
   if (suffix) {
     return `${BASE_TITLE}${suffix}`;
   }
-  
+
   return BASE_TITLE;
 }
 
