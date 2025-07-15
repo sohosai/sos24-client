@@ -215,7 +215,9 @@ export const FormFieldEditor: FC<{
                 <div>
                   <label htmlFor={`items.${index}.options`}>選択肢(改行区切り)</label>
                   <textarea
-                    {...register(`items.${index}.options`, { required: { value: true, message: "選択肢を入力してください" } })}
+                    {...register(`items.${index}.options`, {
+                      required: { value: true, message: "選択肢を入力してください" },
+                    })}
                     className={textInputStyle}
                     disabled={disabled_prop}
                   />
@@ -231,7 +233,9 @@ export const FormFieldEditor: FC<{
                 <div>
                   <label htmlFor={`items.${index}.options`}>選択肢(改行区切り)</label>
                   <textarea
-                    {...register(`items.${index}.options`, { required: { value: true, message: "選択肢を入力してください" } })}
+                    {...register(`items.${index}.options`, {
+                      required: { value: true, message: "選択肢を入力してください" },
+                    })}
                     className={textInputStyle}
                     disabled={disabled_prop}
                   />
@@ -270,7 +274,10 @@ export const FormFieldEditor: FC<{
                   <label htmlFor={`items.${index}.limit`}>ファイル数上限</label>
                   <input
                     type="number"
-                    {...register(`items.${index}.limit`, { required: { value: true, message: "ファイル数上限を入力してください" }, valueAsNumber: true })}
+                    {...register(`items.${index}.limit`, {
+                      required: { value: true, message: "ファイル数上限を入力してください" },
+                      valueAsNumber: true,
+                    })}
                     className={textInputStyle}
                     disabled={disabled_prop}
                   />
@@ -281,7 +288,9 @@ export const FormFieldEditor: FC<{
                 <div>
                   <label htmlFor={`items.${index}.extensions`}>拡張子(改行区切り)</label>
                   <textarea
-                    {...register(`items.${index}.extensions`, { required: { value: true, message: "拡張子を入力してください" } })}
+                    {...register(`items.${index}.extensions`, {
+                      required: { value: true, message: "拡張子を入力してください" },
+                    })}
                     className={textInputStyle}
                     disabled={disabled_prop}
                   />
