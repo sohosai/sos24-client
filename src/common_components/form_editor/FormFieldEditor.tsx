@@ -276,6 +276,7 @@ export const FormFieldEditor: FC<{
                     type="number"
                     {...register(`items.${index}.limit`, {
                       required: { value: true, message: "ファイル数上限を入力してください" },
+                      min: { value: 1, message: "この設定では何も提出できません" },
                       valueAsNumber: true,
                     })}
                     className={textInputStyle}
