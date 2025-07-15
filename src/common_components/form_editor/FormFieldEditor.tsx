@@ -276,7 +276,6 @@ export const FormFieldEditor: FC<{
                     type="number"
                     {...register(`items.${index}.limit`, {
                       required: { value: true, message: "ファイル数上限を入力してください" },
-                      min: { value: 1, message: "この設定では何も提出できません" },
                       valueAsNumber: true,
                     })}
                     className={textInputStyle}
@@ -284,6 +283,11 @@ export const FormFieldEditor: FC<{
                   />
                   <div className={css({ marginBlock: 1 })}>
                     {errors?.limit && <span className={basicErrorMessageStyle}>{errors.limit.message}</span>}
+                    {field.type === "file" && field.limit === 0 && (
+                      <span className={css({ color: "orange.500", fontSize: "sm" })}>
+                        この設定では何も提出できません
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div>
