@@ -478,7 +478,7 @@ export const FormEditor: FC<{
                       type: "file",
                       required: false,
                       extensions: "",
-                      limit: 0,
+                      limit: 1,
                     });
                   }}>
                   ファイル項目
