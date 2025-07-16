@@ -1,6 +1,10 @@
 import { FC } from "react";
-import { UseFormRegister, FieldError } from "react-hook-form";
-import { checkboxFormStyle, basicErrorMessageStyle } from "@/common_components/formFields/styles";
+import { UseFormRegister, FieldError, UseFormWatch } from "react-hook-form";
+import {
+  checkboxFormStyle,
+  basicErrorMessageStyle,
+  basicHintMessageStyle,
+} from "@/common_components/formFields/styles";
 import { css } from "@styled-system/css";
 import { textInputStyle } from "./styles";
 import { hstack, stack } from "@styled-system/patterns";
@@ -30,6 +34,7 @@ export const FormFieldEditor: FC<{
   field: FormField;
   index: number;
   register: UseFormRegister<CreateFormInput>;
+  watch: UseFormWatch<CreateFormInput>;
   errors?: {
     name?: FieldError;
     description?: FieldError;
@@ -47,8 +52,11 @@ export const FormFieldEditor: FC<{
   moveDown?: () => void;
   moveUp?: () => void;
   disabled?: boolean;
-}> = ({ field, index, register, errors, remove, moveDown, moveUp, disabled = false }) => {
+}> = ({ field, index, register, watch, errors, remove, moveDown, moveUp, disabled = false }) => {
   const disabled_prop: true | undefined = disabled !== false ? undefined : true;
+
+  const limitValue = watch(`items.${index}.limit`);
+
   return (
     <div
       className={stack({
@@ -283,6 +291,11 @@ export const FormFieldEditor: FC<{
                   />
                   <div className={css({ marginBlock: 1 })}>
                     {errors?.limit && <span className={basicErrorMessageStyle}>{errors.limit.message}</span>}
+                    {limitValue === 0 && (
+                      <span className={basicHintMessageStyle}>
+                        ファイル数上限が0に設定されているため、ユーザーはファイルをアップロードできません。意図した設定かどうかお確かめください。
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div>

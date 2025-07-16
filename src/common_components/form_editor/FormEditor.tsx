@@ -109,6 +109,7 @@ export const FormEditor: FC<{
     register,
     control,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<CreateFormInput>({
     defaultValues: defaultValues ?? {
@@ -367,6 +368,7 @@ export const FormEditor: FC<{
                 field={field}
                 index={index}
                 register={register}
+                watch={watch}
                 errors={errors.items?.[index]}
                 moveDown={index + 1 !== fields.length ? () => move(index, index + 1) : undefined}
                 moveUp={index !== 0 ? () => move(index, index - 1) : undefined}
@@ -478,7 +480,7 @@ export const FormEditor: FC<{
                       type: "file",
                       required: false,
                       extensions: "",
-                      limit: 0,
+                      limit: 1,
                     });
                   }}>
                   ファイル項目
