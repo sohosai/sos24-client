@@ -15,7 +15,6 @@ import { Separator } from "@/common_components/Separator";
 import { buttonStyle } from "@/recipes/button";
 import { Form } from "@/common_components/form_answer/Form";
 import { paths } from "@/schema";
-import { TableRow } from "@/app/dashboard/TableRow";
 
 export const runtime = "edge";
 
