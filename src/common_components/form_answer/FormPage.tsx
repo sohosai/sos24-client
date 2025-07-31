@@ -111,11 +111,14 @@ export const FormPage = ({ answer, answerError, answerLoading, form, formError, 
               </div>
               <h2 className={css({ fontSize: "2xl", fontWeight: "bold" })}>{form?.title}</h2>
               {project && isCommittee && (
-                <div>
-                  <TableRow label="企画番号">{`00${project.index}`.slice(-3)}</TableRow>
-                  <TableRow label="企画名" formId="title">
-                    {project.title}
-                  </TableRow>
+                <div
+                  className={css({
+                    marginBlock: 2,
+                  })}>
+                  <span className={css({ fontWeight: "bold", marginRight: 2 })}>企画番号</span>
+                  <span className={css({ marginRight: 6 })}>{`00${project.index}`.slice(-3)}</span>
+                  <span className={css({ fontWeight: "bold", marginRight: 2 })}>企画名</span>
+                  <span>{project.title}</span>
                 </div>
               )}
               <p
