@@ -43,6 +43,11 @@ export const basicErrorMessageStyle = css({
   fontSize: "sm",
 });
 
+export const basicHintMessageStyle = css({
+  color: "tsukuba.purple",
+  fontSize: "sm",
+});
+
 export const checkboxFormStyle = css({
   appearance: "none",
   width: 7,
