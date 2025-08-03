@@ -14,6 +14,7 @@ import { FileErrorsType, FilesFormType } from "@/common_components/form_answer/F
 import { File } from "./_components/File";
 import { sosFileType } from "@/lib/file";
 import { NoResultNotice } from "@/common_components/NoResultNotice";
+import { createSafeExtensionRegex, hasRegexSpecialCharacters } from "@/lib/textUtils";
 
 interface Props extends basicFieldProps {
   disabled?: boolean;
@@ -138,8 +139,11 @@ export const FilesField = (props: Props) => {
 
   const extensionsRegex =
     props.extensions && props.extensions.length >= 1
-      ? new RegExp(`(${props.extensions.map((e) => e.replaceAll(".", "\\.")).join("|")})$`, "i")
+      ? createSafeExtensionRegex(props.extensions)
       : undefined;
+
+  // 正規表現に影響する文字が含まれているかチェック
+  const hasSpecialChars = props.extensions?.some(ext => hasRegexSpecialCharacters(ext)) ?? false;
 
   const files = filesDOM.current?.files;
 
@@ -156,6 +160,21 @@ export const FilesField = (props: Props) => {
         )}
       </span>
       <p className={basicDescriptionStyle}>{props.description}</p>
+      {hasSpecialChars && (
+        <p className={css({ 
+          color: "orange.600", 
+          fontSize: "sm", 
+          marginBlock: 2,
+          padding: 2,
+          backgroundColor: "orange.50",
+          borderRadius: "md",
+          border: "1px solid",
+          borderColor: "orange.200"
+        })}>
+          ⚠️ 拡張子に特殊文字（*, +, ?, ^, $, {}, [], |, \）が含まれています。
+          通常、これらの文字は拡張子に含める必要がありません。
+        </p>
+      )}
       <div
         role="form"
         onDragOver={(e) => {
