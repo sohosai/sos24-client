@@ -57,11 +57,11 @@ export const FormFieldEditor: FC<{
   const disabled_prop: true | undefined = disabled !== false ? undefined : true;
 
   const limitValue = watch(`items.${index}.limit`);
-  
+
   // ファイル拡張子の特殊文字チェック
   const extensionsValue = watch(`items.${index}.extensions`);
-  const extensionsList = extensionsValue ? extensionsValue.split('\n').filter(ext => ext.trim()) : [];
-  const hasSpecialChars = extensionsList.some(ext => hasRegexSpecialCharacters(ext.trim()));
+  const extensionsList = extensionsValue ? extensionsValue.split("\n").filter((ext) => ext.trim()) : [];
+  const hasSpecialChars = extensionsList.some((ext) => hasRegexSpecialCharacters(ext.trim()));
 
   return (
     <div
@@ -316,19 +316,8 @@ export const FormFieldEditor: FC<{
                   <div className={css({ marginBlock: 1 })}>
                     {errors?.extensions && <span className={basicErrorMessageStyle}>{errors.extensions.message}</span>}
                     {hasSpecialChars && (
-                      <span className={css({ 
-                        color: "orange.600", 
-                        fontSize: "sm", 
-                        display: "block",
-                        marginTop: 1,
-                        padding: 2,
-                        backgroundColor: "orange.50",
-                        borderRadius: "md",
-                        border: "1px solid",
-                        borderColor: "orange.200"
-                      })}>
-                        ⚠️ 拡張子に特殊文字（*, +, ?, ^, $, {}, [], |, \）が含まれています。
-                        通常、これらの文字は拡張子に含める必要がありません。
+                      <span className={basicHintMessageStyle}>
+                        正規表現の特殊文字が含まれています。よくわからない場合は使用しないでください。
                       </span>
                     )}
                   </div>

@@ -14,7 +14,6 @@ import { FileErrorsType, FilesFormType } from "@/common_components/form_answer/F
 import { File } from "./_components/File";
 import { sosFileType } from "@/lib/file";
 import { NoResultNotice } from "@/common_components/NoResultNotice";
-import { createSafeExtensionRegex } from "@/lib/textUtils";
 
 interface Props extends basicFieldProps {
   disabled?: boolean;
@@ -139,10 +138,8 @@ export const FilesField = (props: Props) => {
 
   const extensionsRegex =
     props.extensions && props.extensions.length >= 1
-      ? createSafeExtensionRegex(props.extensions)
+      ? new RegExp(`(${props.extensions.map((e) => e.replaceAll(".", "\\.")).join("|")})$`, "i")
       : undefined;
-
-
 
   const files = filesDOM.current?.files;
 
