@@ -59,6 +59,8 @@ jobs:
           NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{vars.DEV_FIREBASE_STORAGE_BUCKET}}
           NEXT_PUBLIC_SENTRY_DSN: ${{vars.SENTRY_DSN}}
           NEXT_PUBLIC_SENTRY_PROJECT: ${{vars.SENTRY_PROJECT}}
+          NEXT_PUBLIC_APP_YEAR: "Preview ${{github.head_ref || github.ref_name}}"
+          NEXT_PUBLIC_APP_TITLE_SUFFIX: " - Preview ${{github.head_ref || github.ref_name}}"
       - name: build (production)
         if: ${{ ((github.head_ref || github.ref_name) == env.PRODUCTION_BRANCH) && github.event.pull_request.merged == true }}
         id: build-production
@@ -74,6 +76,8 @@ jobs:
           NEXT_PUBLIC_SENTRY_DSN: ${{vars.SENTRY_DSN}}
           NEXT_PUBLIC_SENTRY_PROJECT: ${{vars.SENTRY_PROJECT}}
           NEXT_PUBLIC_GTMID: ${{vars.GTMID}}
+          NEXT_PUBLIC_APP_YEAR: "2025年版"
+          NEXT_PUBLIC_APP_TITLE_SUFFIX: " - 2025年版"
       - name: deploy
         id: deploy
         uses: whatacotton/pages-action@v1
