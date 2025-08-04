@@ -25,9 +25,10 @@ interface Props {
   form: paths["/forms/{form_id}"]["get"]["responses"]["200"]["content"]["application/json"] | undefined;
   formError: any;
   formLoading: any;
+  isCommittee: boolean;
 }
 
-export const FormPage = ({ answer, answerError, answerLoading, form, formError, formLoading }: Props) => {
+export const FormPage = ({ answer, answerError, answerLoading, form, formError, formLoading, isCommittee }: Props) => {
   const answerItems: FormFieldsType | undefined =
     !answerLoading && answer
       ? Object.fromEntries(
@@ -54,6 +55,9 @@ export const FormPage = ({ answer, answerError, answerLoading, form, formError, 
   const me = assignType("/users/me", data);
 
   const [editable, setEdiatable] = useState(false);
+
+  const { data: projectRes } = useSWR(answer?.project_id ? `/projects/${answer.project_id}` : null);
+  const project = projectRes ? assignType("/projects/{project_id}", projectRes) : undefined;
 
   if (isLoading) return;
 
@@ -105,6 +109,17 @@ export const FormPage = ({ answer, answerError, answerLoading, form, formError, 
                   )}
               </div>
               <h2 className={css({ fontSize: "2xl", fontWeight: "bold" })}>{form?.title}</h2>
+              {project && isCommittee && (
+                <div
+                  className={css({
+                    marginBlock: 2,
+                  })}>
+                  <span className={css({ fontWeight: "bold", marginRight: 2 })}>企画番号</span>
+                  <span className={css({ marginRight: 6 })}>{`00${project.index}`.slice(-3)}</span>
+                  <span className={css({ fontWeight: "bold", marginRight: 2 })}>企画名</span>
+                  <span>{project.title}</span>
+                </div>
+              )}
               <p
                 className={css({
                   marginBlock: 4,

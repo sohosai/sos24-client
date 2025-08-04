@@ -9,7 +9,7 @@ import Image from "next/image";
 import logo from "@/assets/Logo.svg?url";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { hstack } from "@styled-system/patterns";
+import { hstack, vstack } from "@styled-system/patterns";
 import { Route } from "next";
 import { HeaderButton } from "./HeaderButton";
 import { HeaderMenuItems } from "./HeaderMenuItems";
@@ -17,6 +17,7 @@ import { HeaderNavigationMobile } from "./HeaderNavigationMobile";
 import { components } from "@/schema";
 import { useAtom } from "jotai";
 import { projectApplicationPeriodAtom } from "@/lib/projectApplicationPeriod";
+import { getBaseTitle, getAppYear } from "@/lib/appTitle";
 
 import icon_ModeSwitch from "@/assets/SwitchMode.svg?url";
 import icon_Signout from "@/assets/Signout.svg?url";
@@ -201,13 +202,25 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
           })}>
           <Link className={hstack()} href="/">
             <Image src={logo} alt="" className={css({ width: { lg: 10, base: 8 } })} />
-            <h1
-              className={css({
-                color: "black",
-                fontSize: { base: "lg", lg: "2xl" },
-              })}>
-              雙峰祭オンラインシステム
-            </h1>
+            <div className={vstack({ gap: 0, alignItems: "flex-start" })}>
+              <h1
+                className={css({
+                  color: "black",
+                  fontSize: { base: "lg", lg: "2xl" },
+                })}>
+                {getBaseTitle()}
+              </h1>
+              {getAppYear() && (
+                <span
+                  className={css({
+                    color: "gray.600",
+                    fontSize: { base: "xs", lg: "sm" },
+                    fontWeight: "normal",
+                  })}>
+                  {getAppYear()}
+                </span>
+              )}
+            </div>
           </Link>
           <a
             href="https://www.sakura.ad.jp/"
