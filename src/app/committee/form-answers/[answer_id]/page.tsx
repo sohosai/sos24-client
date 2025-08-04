@@ -28,6 +28,7 @@ const FormAnswerPage: NextPage<{ params: { answer_id: string } }> = ({ params })
       form={form}
       formError={formError}
       formLoading={formLoading}
+      isCommittee={true}
     />
   );
 };
