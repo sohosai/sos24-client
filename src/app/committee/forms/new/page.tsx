@@ -9,27 +9,25 @@ import toast from "react-hot-toast";
 import { FormEditor, HandleFormEditorSubmit } from "@/common_components/form_editor/FormEditor";
 import { deleteMultipleUploadedFiles } from "@/lib/postFile";
 import Link from "next/link";
+import { components } from "@/schema";
 
 const CreateFormPage: NextPage = () => {
   const router = useRouter();
 
   const onSubmit: HandleFormEditorSubmit = async (body) => {
     await toast.promise(
-      client
-        .POST("/forms", {
-          body,
-        })
-        .then(({ error }) => {
-          if (error) throw error;
-        }),
+      client.POST("/forms", {
+        body,
+      }),
       {
         loading: "申請を作成しています",
         error: () => {
           deleteMultipleUploadedFiles(body.attachments);
           return "申請を作成できませんでした";
         },
-        success: () => {
-          router.push("/committee/forms");
+        success: (res: any) => {
+          let id = (res.data as components["schemas"]["CreatedForm"]).id;
+          router.push(`/committee/forms/${id}`);
           return "申請を作成しました";
         },
       },
