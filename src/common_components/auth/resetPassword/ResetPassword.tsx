@@ -15,6 +15,7 @@ const ResetPasswordForm: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm<{ email: string }>();
   const [isSent, setIsSent] = useState(false);
   const onSubmit = (data: { email: string }) => {
@@ -62,7 +63,31 @@ const ResetPasswordForm: React.FC = () => {
         )}>
         送信
       </button>
-      {isSent && <p className={css({ textAlign: "center" })}>メールを送信しました。受信トレイをご確認ください</p>}
+      {isSent && (
+        <div className={css({ display: "flex", flexDir: "column", gap: 2 })}>
+          <p className={css({ textAlign: "center" })}>メールを送信しました。受信トレイをご確認ください</p>
+          <a
+            href={`https://outlook.office.com/mail/${getValues("email")}/inbox/`}
+            target="_blank"
+            rel="noreferrer noopener"
+            className={cx(
+              buttonStyle({ visual: "outline", color: "purple" }),
+              css({
+                alignSelf: "center",
+                display: "flex!",
+                alignItems: "flex-end",
+                gap: 2,
+                _disabled: {
+                  opacity: 0.5,
+                  cursor: "default",
+                  "&:hover": { opacity: 0.5 },
+                },
+              }),
+            )}>
+            Outlook を開く（外部）
+          </a>
+        </div>
+      )}
     </form>
   );
 };
