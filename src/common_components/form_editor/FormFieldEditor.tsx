@@ -12,6 +12,7 @@ import { hstack, stack } from "@styled-system/patterns";
 import PulldownMenu from "@/assets/pulldownMenu.svg";
 import TrashOutline from "@/assets/TrashOutline.svg";
 import { FormFieldType, FormField, CreateFormInput } from "./FormEditor";
+import { hasRegexSpecialCharacters } from "@/lib/textUtils";
 
 const getFieldTypeText = (type: FormFieldType): string => {
   switch (type) {
@@ -56,6 +57,11 @@ export const FormFieldEditor: FC<{
   const disabled_prop: true | undefined = disabled !== false ? undefined : true;
 
   const limitValue = watch(`items.${index}.limit`);
+
+  // ファイル拡張子の特殊文字チェック
+  const extensionsValue = watch(`items.${index}.extensions`);
+  const extensionsList = extensionsValue ? extensionsValue.split("\n").filter((ext) => ext.trim()) : [];
+  const hasSpecialChars = extensionsList.some((ext) => hasRegexSpecialCharacters(ext.trim()));
 
   return (
     <div
@@ -309,6 +315,11 @@ export const FormFieldEditor: FC<{
                   />
                   <div className={css({ marginBlock: 1 })}>
                     {errors?.extensions && <span className={basicErrorMessageStyle}>{errors.extensions.message}</span>}
+                    {hasSpecialChars && (
+                      <span className={basicHintMessageStyle}>
+                        正規表現の特殊文字が含まれています。よくわからない場合は使用しないでください。
+                      </span>
+                    )}
                   </div>
                 </div>
               </>

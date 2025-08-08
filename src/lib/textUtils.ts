@@ -33,3 +33,13 @@ export const getProjectAttributeText = (attribute: ProjectAttribute) => {
       return "屋外企画";
   }
 };
+
+/**
+ * ファイル拡張子に正規表現に影響する文字が含まれているかチェック
+ * @param extension ファイル拡張子
+ * @returns 正規表現に影響する文字が含まれている場合はtrue
+ */
+export const hasRegexSpecialCharacters = (extension: string): boolean => {
+  // 正規表現特殊文字をチェック
+  return /[.*+?^${}()|[\]\\]/.test(extension);
+};
