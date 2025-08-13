@@ -51,17 +51,17 @@ export const getDetailedTimeLeft = (now: dayjs.Dayjs, deadline: dayjs.Dayjs) => 
   const days = Math.floor(diffInMinutes / (24 * 60));
   const hours = Math.floor((diffInMinutes % (24 * 60)) / 60);
   const minutes = diffInMinutes % 60;
-  
+
   return { days, hours, minutes, totalMinutes: diffInMinutes };
 };
 
 export const formatTimeLeft = (timeLeft: { days: number; hours: number; minutes: number }) => {
   const { days, hours, minutes } = timeLeft;
-  
+
   if (days > 0) {
     return `残り${days}日`;
   }
-  
+
   if (hours > 0 && minutes > 0) {
     return `残り約${hours}時間${minutes}分`;
   } else if (hours > 0) {
@@ -75,21 +75,21 @@ export const formatTimeLeft = (timeLeft: { days: number; hours: number; minutes:
 
 export const getTimeLeftText = (now: dayjs.Dayjs, deadline: dayjs.Dayjs, status: SubmitStatus): string => {
   const timeLeft = getDetailedTimeLeft(now, deadline);
-  
+
   if (timeLeft.totalMinutes < 0) {
     return status === "未提出" ? "締切を過ぎています" : "";
   }
-  
+
   return formatTimeLeft(timeLeft);
 };
 
 export const getCommitteeTimeLeftText = (now: dayjs.Dayjs, deadline: dayjs.Dayjs) => {
   const timeLeft = getDetailedTimeLeft(now, deadline);
-  
+
   if (timeLeft.totalMinutes < 0) {
     return "締切を過ぎています";
   }
-  
+
   return formatTimeLeft(timeLeft);
 };
 
