@@ -190,6 +190,13 @@ describe("getTimeLeftText", () => {
     expect(getTimeLeftText(now, deadline, status)).toBe("残り約1時間");
   });
 
+  it('残り時間が0分の場合、0分で表示すべき', () => {
+    const now = dayjs("2023-10-01T15:00:00");
+    const deadline = dayjs("2023-10-01T15:00:00");
+    const status: SubmitStatus = "未提出";
+    expect(getTimeLeftText(now, deadline, status)).toBe("残り約0分");
+  });
+
   it('残り日数が負で、statusが"未提出"の場合、"締切を過ぎています"のテキストを返すべき', () => {
     const now = dayjs("2023-10-02");
     const deadline = dayjs("2023-10-01");
@@ -241,6 +248,12 @@ describe("getCommitteeTimeLeftText", () => {
     const now = dayjs("2023-10-01T14:00:00");
     const deadline = dayjs("2023-10-01T15:00:00");
     expect(getCommitteeTimeLeftText(now, deadline)).toBe("残り約1時間");
+  });
+
+  it('残り時間が0分の場合、0分で表示すべき', () => {
+    const now = dayjs("2023-10-01T15:00:00");
+    const deadline = dayjs("2023-10-01T15:00:00");
+    expect(getCommitteeTimeLeftText(now, deadline)).toBe("残り約0分");
   });
 
   it('残り日数が負の場合、"締切を過ぎています"のテキストを返すべき', () => {
