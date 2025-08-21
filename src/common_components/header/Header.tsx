@@ -274,6 +274,10 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
                 height: "100%",
                 borderX: "solid 1px token(colors.gray.200)",
                 display: { base: "none", lg: "block" },
+                transition: "all 0.2s",
+                _hover: {
+                  backgroundColor: "gray.100",
+                },
               })}>
               サインアウト
             </button>
@@ -316,6 +320,10 @@ export const Header: FC<Props> = ({ userInfo, userIsLoading }) => {
                 height: "100%",
                 borderX: "solid 1px token(colors.gray.200)",
                 display: { base: "none", lg: "block" },
+                transition: "all 0.2s",
+                _hover: {
+                  backgroundColor: "gray.100",
+                },
               })}>
               サインイン/新規登録
             </button>

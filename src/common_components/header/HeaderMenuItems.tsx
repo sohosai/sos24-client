@@ -13,12 +13,20 @@ const HeaderMenuTargetItemLinkStyle = css({
   whiteSpace: "nowrap",
   color: "tsukuba.purple",
   borderBottom: "2px solid ",
+  transition: "all 0.2s",
+  _hover: {
+    backgroundColor: "gray.100",
+  },
 });
 const HeaderMenuItemLinkStyle = css({
   display: "block",
   paddingX: 5,
   lineHeight: 5,
   whiteSpace: "nowrap",
+  transition: "all 0.2s",
+  _hover: {
+    backgroundColor: "gray.100",
+  },
 });
 export const HeaderMenuItems: FC<{
   menu: MenuData[];
