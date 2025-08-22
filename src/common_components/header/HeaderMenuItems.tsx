@@ -19,6 +19,11 @@ const HeaderMenuItemLinkStyle = css({
   paddingX: 5,
   lineHeight: 5,
   whiteSpace: "nowrap",
+  transitionProperty: "background-color",
+  transitionDuration: "0.3s",
+  _hover: {
+    backgroundColor: "tsukuba.purple/10%",
+  },
 });
 export const HeaderMenuItems: FC<{
   menu: MenuData[];
