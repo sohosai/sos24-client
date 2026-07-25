@@ -17,7 +17,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.3.4",
+    "@hookform/resolvers": "^5.0.0",
     "@next/third-parties": "^14.2.3",
     "@radix-ui/themes": "^2.0.3",
     "@sentry/nextjs": "^7.111.0",
